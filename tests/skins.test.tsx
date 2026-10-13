@@ -98,6 +98,8 @@ const RING: BarInput = {
   glyphs: 'nerd',
   isWorking: false,
   frame: 0,
+  hidden: [],
+  effort: null,
 }
 
 describe('powerline bar', () => {
@@ -249,6 +251,7 @@ describe('engine', () => {
       return <Box />
     })
 
+    await runSkin($, 'show skinName')
     const before = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
     expect(await before.find({ type: 'Text', text: /MIDNIGHT/ })).toBeDefined()
     await before.unmount()
@@ -263,6 +266,7 @@ describe('engine', () => {
 describe('glyphs', () => {
   test('/skin glyphs plain drops the powerline characters', async ($, on) => {
     mock.store(on)
+    await runSkin($, 'show skinName')
     expect((await runSkin($, 'glyphs plain')).text).toContain('plain')
     const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
     expect(await band.find({ type: 'Text', text: /✻ MIDNIGHT/ })).toBeDefined()
@@ -283,6 +287,7 @@ describe('turns', () => {
     on('turn.start', ($, e) => ({ turnId: e.turnId }))
     on('turn.complete', () => ({ text: '' }))
 
+    await runSkin($, 'show skinName')
     await $.turn.start({ text: 'count to 5', turnId: 't1' })
     await clock.advance(150)
     const working = { ...bandProps(140), isWorking: true }
@@ -628,6 +633,7 @@ describe('preview', () => {
     on('ui.close', () => ({ value: undefined }))
     on('ui.toast', () => ({ value: undefined }))
 
+    await runSkin($, 'show skinName')
     await focusRow($, 'lava')
     const picker = await $.ui.mount({
       plugin: 'cc-skins',
@@ -655,6 +661,7 @@ describe('preview', () => {
     mock.store(on)
     on('ui.focus', () => ({}))
 
+    await runSkin($, 'show skinName')
     await focusRow($, 'ocean')
     await focusRow($, 'not-a-skin')
     const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
@@ -723,5 +730,187 @@ describe('dark skins', () => {
         expect(luminance(block.bg)).toBeLessThan(0.2)
       }
     }
+  })
+})
+
+const MODEL_ROW = {
+  key: 'model',
+  label: 'Model',
+  kind: 'choice' as const,
+  value: 'opus',
+  options: ['default', 'sonnet', 'opus', 'opus[1m]'],
+  provider: { plugin: 'engine', tier: 'core' as const },
+  isLocked: false,
+}
+
+describe('bar contents', () => {
+  test('the skin name is off by default: the skin block is its icon alone', () => {
+    const pills = barPills({ ...RING, hidden: ['skinName'] }, 0)
+    expect(pills[0]?.text).toBe('\uf255')
+    expect(pills[0]?.press).toBe('skin')
+  })
+
+  test('hidden items leave the bar; the effort rides on the model', () => {
+    const keys = barPills({ ...RING, hidden: ['cost', 'branch', 'sevenDay'] }, 0).map(p => p.key)
+    expect(keys).toEqual(['skin', 'model', 'context', 'limit-five_hour'])
+
+    const model = barPills({ ...RING, effort: 'xhigh' }, 0).find(p => p.key === 'model')
+    expect(model?.text).toBe('\uf2db Opus 5.5 · xhigh')
+    expect(model?.press).toBe('model')
+
+    const effortAlone = barPills({ ...RING, effort: 'high', hidden: ['model'] }, 0).find(p => p.key === 'model')
+    expect(effortAlone?.text).toBe('\uf2db high')
+    expect(barPills({ ...RING, hidden: ['model', 'effort'] }, 0).some(p => p.key === 'model')).toBe(false)
+  })
+
+  test('/skin hide and show change the bar and say so', async ($, on) => {
+    mock.store(on)
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    await $.session.measure({
+      context: { window: 200_000, tokens: 68_000, percent: 34 },
+      rateLimits: USAGE.rateLimits,
+      cost: { usd: 1.237 },
+      changed: ['context', 'rateLimits', 'cost'],
+    })
+
+    expect((await runSkin($, 'hide cost')).text).toBe('Hiding cost in the bar.')
+    expect((await runSkin($, 'hide Model')).text).toBe('Hiding model in the bar.')
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await band.find({ type: 'Text', text: /\$1\.24/ })).toBeUndefined()
+    expect(await band.find({ type: 'Text', text: /Opus 5\.5/ })).toBeUndefined()
+    expect(await band.find({ type: 'Text', text: /34%/ })).toBeDefined()
+    await band.unmount()
+    expect((await runSkin($, 'hide nonsense')).text).toContain('Usage: /skin hide')
+  })
+})
+
+describe('model and effort', () => {
+  test('a press on the model opens the model picker; a pick sets the model, saved as /config does', async ($, on) => {
+    mock.store(on)
+    const opened: string[] = []
+    const set: unknown[] = []
+    const toasts: string[] = []
+    on('ui.open', ($, e) => {
+      opened.push(e.id)
+
+      return { value: { isPlaced: true as const } }
+    })
+    on('config.list', () => ({ value: [MODEL_ROW] }))
+    on('config.set', ($, e) => {
+      set.push(e.value)
+
+      return { value: e.value }
+    })
+    on('session.model', () => ({ value: 'claude-sonnet-5-5' }))
+    on('ui.toast', ($, e) => {
+      toasts.push(e.text)
+
+      return { value: undefined }
+    })
+
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    await band.press({ key: 'skin-button' })
+    expect(opened).toEqual(['skin-picker'])
+    await band.unmount()
+
+    expect(await runSkin($, 'model')).toEqual({})
+    expect(opened).toEqual(['skin-picker', 'model-picker'])
+
+    const picker = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'model-picker',
+      props: { ...PANE_PROPS, title: 'Model and effort' },
+    })
+    expect(await picker.find({ type: 'Button', text: /Opus · 1M context/ })).toBeDefined()
+    expect(await picker.findAll({ type: 'Button' })).toHaveLength(MODEL_ROW.options.length + 6)
+    await picker.press({ key: 'model-sonnet' })
+    await picker.unmount()
+
+    expect(set).toEqual(['sonnet'])
+    expect(toasts.at(-1)).toBe('Model → Sonnet')
+  })
+
+  test('an effort pick runs /effort and shows on the model', async ($, on) => {
+    mock.store(on)
+    const ran: string[] = []
+    on('command.run', { command: 'effort' }, ($, e) => {
+      ran.push(e.args)
+
+      return { text: '' }
+    })
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    await $.session.measure({ context: { window: 200_000 }, rateLimits: [], changed: ['context'] })
+
+    const picker = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'model-picker',
+      props: { ...PANE_PROPS, title: 'Model and effort' },
+    })
+    await picker.press({ key: 'effort-high' })
+    await picker.unmount()
+    expect(ran).toEqual(['high'])
+
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await band.find({ type: 'Text', text: /Opus 5\.5 · high/ })).toBeDefined()
+    await band.unmount()
+  })
+})
+
+describe('bar settings', () => {
+  test('the ⚙ opens the settings; a press there turns an item off and the style over', async ($, on) => {
+    mock.store(on)
+    const opened: string[] = []
+    on('ui.open', ($, e) => {
+      opened.push(e.id)
+
+      return { value: { isPlaced: true as const } }
+    })
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    await $.session.measure({ context: { window: 200_000 }, rateLimits: [], cost: { usd: 1.237 }, changed: ['cost'] })
+
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    await band.press({ key: 'settings-button' })
+    await band.unmount()
+    expect(opened).toEqual(['bar-settings'])
+
+    const settings = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'bar-settings',
+      props: { ...PANE_PROPS, title: 'Bar settings' },
+    })
+    expect(await settings.find({ type: 'Text', text: /\[ \] / })).toBeDefined()
+    await settings.press({ key: 'item-cost' })
+    await settings.press({ key: 'style-header' })
+    await settings.unmount()
+
+    const after = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await after.find({ type: 'Text', text: /\$1\.24/ })).toBeUndefined()
+    expect(await after.find({ type: 'Text', text: /CLAUDE/ })).toBeDefined()
+    await after.unmount()
+  })
+
+  test('with the ⚙ turned off, /skin bar still opens the settings', async ($, on) => {
+    mock.store(on)
+    const opened: string[] = []
+    on('ui.open', ($, e) => {
+      opened.push(e.id)
+
+      return { value: { isPlaced: true as const } }
+    })
+    await runSkin($, 'hide gear')
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await band.find({ key: 'settings-button' })).toBeUndefined()
+    await band.unmount()
+    expect(await runSkin($, 'bar')).toEqual({})
+    expect(opened).toEqual(['bar-settings'])
   })
 })

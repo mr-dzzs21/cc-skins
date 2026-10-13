@@ -1,7 +1,7 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register, SessionUsage, Timer } from 'claude-code'
 
-import type { BarStyle, Glyphs, SentPrompt, SkinId, Usage } from '../types'
+import type { BarItem, BarStyle, Glyphs, ModelChoice, SentPrompt, SkinId, Usage } from '../types'
 import {
   IDLE_HINT,
   drawAssistantBlock,
@@ -14,6 +14,20 @@ import {
 } from './chat'
 import { prettyModel } from './format'
 import { drawBar, drawPowerline, turnPills } from './hud'
+import type { BarPress } from './hud'
+import {
+  DEFAULT_HIDDEN,
+  MODEL_PANE,
+  SETTINGS_PANE,
+  SETTINGS_ROWS,
+  barItemNamed,
+  drawModelPicker,
+  drawSettings,
+  isBarItem,
+  modelLabel,
+  modelPaneRows,
+} from './panels'
+import type { EffortChoice } from './panels'
 import { PICKER, PICKER_COLUMNS, PICKER_ROWS, drawPicker } from './picker'
 import { DEFAULT_SKIN, SKIN_IDS, SKINS, isSkinId, pick, themeName } from './skins'
 
@@ -38,6 +52,12 @@ const promptsAtom = atom({ plugin: 'cc-skins', key: 'prompts' } as const, NO_PRO
 const branchAtom = atom({ plugin: 'cc-skins', key: 'branch' } as const, null as string | null)
 const usageAtom = atom({ plugin: 'cc-skins', key: 'usage' } as const, EMPTY_USAGE)
 const isHudHiddenAtom = atom({ plugin: 'cc-skins', key: 'isHudHidden' } as const, false)
+/** What the person turned off in the bar. */
+const hiddenAtom = atom({ plugin: 'cc-skins', key: 'hidden' } as const, [...DEFAULT_HIDDEN] as BarItem[])
+/** The main thread's effort, as its last request asked it. */
+const effortAtom = atom({ plugin: 'cc-skins', key: 'effort' } as const, null as string | null)
+/** The Model row, as the model picker shows it. */
+const modelChoiceAtom = atom({ plugin: 'cc-skins', key: 'modelChoice' } as const, { value: '', options: [] } as ModelChoice)
 /** The clock the HUD's reset countdowns read; ticked once a minute. */
 const nowAtom = atom({ plugin: 'cc-skins', key: 'now' } as const, 0)
 /** The bar's animation frame, advanced while a turn runs. */
@@ -50,6 +70,7 @@ const STORE = {
   barStyle: 'barStyle',
   isChatStyled: 'isChatStyled',
   isHudHidden: 'isHudHidden',
+  hidden: 'barHidden',
   hasWelcomed: 'hasWelcomed',
 } as const
 
@@ -153,6 +174,89 @@ const chooseSkin = async ($: EngineInterface, id: SkinId) => {
   $.ui.toast(`Skin → ${SKINS[id].label} · matching colors: /theme → "${themeName(id)}"`)
 }
 
+/** Keeps the bar's style, its icons, the chat cards: in this session's state and for the next. */
+const applyBarStyle = async ($: EngineInterface, style: BarStyle) => {
+  await update($, barStyleAtom, () => style)
+  await $.store.set(STORE.barStyle, style)
+}
+
+const applyGlyphs = async ($: EngineInterface, glyphs: Glyphs) => {
+  await update($, glyphsAtom, () => glyphs)
+  await $.store.set(STORE.glyphs, glyphs)
+}
+
+const applyChat = async ($: EngineInterface, isOn: boolean) => {
+  await update($, isChatStyledAtom, () => isOn)
+  await $.store.set(STORE.isChatStyled, isOn)
+}
+
+/** Shows or hides one thing in the bar, and keeps the choice. */
+const showItem = async ($: EngineInterface, item: BarItem, isShown: boolean) => {
+  const hidden = (await read($, hiddenAtom)).filter(one => one !== item)
+  const next = isShown ? hidden : [...hidden, item]
+  await update($, hiddenAtom, () => next)
+  await $.store.set(STORE.hidden, next)
+}
+
+const toggleItem = async ($: EngineInterface, item: BarItem) =>
+  showItem($, item, (await read($, hiddenAtom)).includes(item))
+
+/** The Model row: the aliases it offers and the one set. */
+const readModelChoice = async ($: EngineInterface): Promise<ModelChoice> => {
+  const row = (await $.config.list()).find(one => one.key === 'model')
+
+  return { value: typeof row?.value === 'string' ? row.value : '', options: [...(row?.options ?? [])] }
+}
+
+/** Opens the model and effort picker on the Model row as it stands. */
+const openModelPicker = async ($: EngineInterface) => {
+  const choice = await readModelChoice($)
+  await update($, modelChoiceAtom, () => choice)
+
+  return $.ui.open({
+    id: MODEL_PANE,
+    title: 'Model and effort',
+    focus: true,
+    closeOnEscape: true,
+    rows: modelPaneRows(choice),
+  })
+}
+
+/** Sets the model as the Model row does (saved as the default); the effort shows again with the next request. */
+const pickModel = async ($: EngineInterface, value: string) => {
+  const { deny } = await $.config.set({ key: 'model', value })
+  if (deny !== undefined) {
+    $.ui.toast(`Model stays: ${deny}`)
+
+    return
+  }
+  await update($, modelChoiceAtom, choice => ({ ...choice, value }))
+  const model = await readModel($)
+  await update($, usageAtom, usage => ({ ...usage, model }))
+  await update($, effortAtom, () => null)
+  $.ui.toast(`Model → ${modelLabel(value)}`)
+}
+
+/** Sets this session's effort through `/effort`, which says so in the transcript. */
+const pickEffort = async ($: EngineInterface, level: EffortChoice) => {
+  try {
+    await $.command.run({ command: 'effort', args: level })
+  } catch {
+    $.ui.toast(`Effort stays: /effort ${level} can't run right now`)
+
+    return
+  }
+  await update($, effortAtom, () => (level === 'auto' ? null : level))
+}
+
+const openSettings = ($: EngineInterface) =>
+  $.ui.open({ id: SETTINGS_PANE, title: 'Bar settings', focus: true, closeOnEscape: true, rows: SETTINGS_ROWS })
+
+/** What a press on the bar opens. */
+const openFromBar = ($: EngineInterface, press: BarPress) => {
+  void (press === 'skin' ? openPicker($) : press === 'model' ? openModelPicker($) : openSettings($))
+}
+
 /** The list's name column: as wide as the longest skin id. */
 const NAME_WIDTH = Math.max(...SKIN_IDS.map(id => id.length))
 
@@ -162,6 +266,7 @@ const listSkins = (current: SkinId): string =>
     ...SKIN_IDS.map(id => `${id === current ? '▸' : ' '} ${id.padEnd(NAME_WIDTH)} ${SKINS[id].description}`),
     '',
     `/${COMMAND} opens the picker (or click the bar's first block) · /${COMMAND} <name> · /${COMMAND} next · colors live in /theme`,
+    `/${COMMAND} model (or click the model) · /${COMMAND} bar (or click ⚙) · /${COMMAND} show|hide <item>`,
     `/${COMMAND} bar powerline|header · /${COMMAND} chat on|off · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|plain`,
   ].join('\n')
 
@@ -193,11 +298,14 @@ const setUp = async ($: EngineInterface) => {
   const storedBarStyle = await $.store.get(STORE.barStyle)
   const isChatStyled = (await $.store.get(STORE.isChatStyled)) !== false
   const isHudHidden = (await $.store.get(STORE.isHudHidden)) === true
+  const storedHidden = await $.store.get(STORE.hidden)
+  const hidden = Array.isArray(storedHidden) ? storedHidden.filter(isBarItem) : [...DEFAULT_HIDDEN]
   await update($, skinAtom, () => (isSkinId(storedSkin) ? storedSkin : DEFAULT_SKIN))
   await update($, glyphsAtom, () => (isGlyphs(storedGlyphs) ? storedGlyphs : 'nerd'))
   await update($, barStyleAtom, () => (isBarStyle(storedBarStyle) ? storedBarStyle : 'powerline'))
   await update($, isChatStyledAtom, () => isChatStyled)
   await update($, isHudHiddenAtom, () => isHudHidden)
+  await update($, hiddenAtom, () => hidden)
   await update($, previewAtom, () => null)
   await tick($)
 
@@ -279,6 +387,19 @@ export const register: Register = on => {
     return next(e)
   })
 
+  on('turn.step', async function* ($, e, next) {
+    try {
+      const effort = e.agentId === undefined && typeof e.effort === 'string' ? e.effort : undefined
+      if (effort !== undefined && (await read($, effortAtom)) !== effort) {
+        await update($, effortAtom, () => effort)
+      }
+    } catch {
+      // The bar shows the effort the next request asks for.
+    }
+
+    return yield* next(e)
+  })
+
   on('turn.complete', async ($, e, next) => {
     if (e.agentId !== undefined) {
       return next(e)
@@ -330,12 +451,30 @@ export const register: Register = on => {
 
       return { text: isHidden ? 'Usage HUD hidden.' : 'Usage HUD shown.' }
     }
+    if (first === 'model') {
+      const opened = await openModelPicker($)
+
+      return opened.isPlaced ? {} : { text: 'The model picker needs a wider terminal: /model and /effort do the same.' }
+    }
+    if ((first === 'bar' && second === '') || first === 'settings') {
+      const opened = await openSettings($)
+
+      return opened.isPlaced ? {} : { text: `The settings need a wider terminal: /${COMMAND} show|hide <item> does the same.` }
+    }
+    if (first === 'show' || first === 'hide') {
+      const item = barItemNamed(second)
+      if (item === undefined) {
+        return { text: `Usage: /${COMMAND} ${first} skinName|model|effort|branch|context|fiveHour|sevenDay|cost|meters|resets|gear` }
+      }
+      await showItem($, item, first === 'show')
+
+      return { text: `${first === 'show' ? 'Showing' : 'Hiding'} ${item} in the bar.` }
+    }
     if (first === 'bar') {
       if (!isBarStyle(second)) {
-        return { text: `Usage: /${COMMAND} bar powerline|header` }
+        return { text: `Usage: /${COMMAND} bar (settings) or /${COMMAND} bar powerline|header` }
       }
-      await update($, barStyleAtom, () => second)
-      await $.store.set(STORE.barStyle, second)
+      await applyBarStyle($, second)
 
       return {
         text: second === 'powerline' ? 'Bar → powerline: colored blocks.' : 'Bar → header: a quiet line with session, context, cost and limits.',
@@ -346,8 +485,7 @@ export const register: Register = on => {
         return { text: `Usage: /${COMMAND} chat on|off` }
       }
       const isStyled = second === 'on'
-      await update($, isChatStyledAtom, () => isStyled)
-      await $.store.set(STORE.isChatStyled, isStyled)
+      await applyChat($, isStyled)
 
       return { text: isStyled ? 'Chat cards on.' : 'Chat cards off: the chat draws as Claude Code does.' }
     }
@@ -355,8 +493,7 @@ export const register: Register = on => {
       if (!isGlyphs(second)) {
         return { text: `Usage: /${COMMAND} glyphs nerd|plain (nerd needs a Nerd Font, plain works in any font)` }
       }
-      await update($, glyphsAtom, () => second)
-      await $.store.set(STORE.glyphs, second)
+      await applyGlyphs($, second)
 
       return {
         text: second === 'nerd' ? 'Glyphs → nerd: powerline arrows and icons.' : 'Glyphs → plain: no special characters.',
@@ -387,10 +524,41 @@ export const register: Register = on => {
       glyphs: await read($, glyphsAtom),
       isWorking: e.props.isWorking,
       frame: await read($, frameAtom),
+      hidden: await read($, hiddenAtom),
+      effort: await read($, effortAtom),
     }
 
-    return drawBar($.ui.resolve(e), input, await read($, barStyleAtom), e.props.bodyColumns, () => void openPicker($))
+    return drawBar($.ui.resolve(e), input, await read($, barStyleAtom), e.props.bodyColumns, press => openFromBar($, press))
   })
+
+  on('ui.render', { component: 'Pane', requestId: MODEL_PANE }, async ($, e) =>
+    drawModelPicker(
+      $.ui.resolve(e),
+      SKINS[await read($, skinAtom)],
+      { choice: await read($, modelChoiceAtom), effort: await read($, effortAtom) },
+      value => void pickModel($, value),
+      level => void pickEffort($, level),
+    ),
+  )
+
+  on('ui.render', { component: 'Pane', requestId: SETTINGS_PANE }, async ($, e) =>
+    drawSettings(
+      $.ui.resolve(e),
+      SKINS[await read($, skinAtom)],
+      {
+        hidden: await read($, hiddenAtom),
+        barStyle: await read($, barStyleAtom),
+        glyphs: await read($, glyphsAtom),
+        isChatStyled: await read($, isChatStyledAtom),
+      },
+      {
+        toggle: item => void toggleItem($, item),
+        style: style => void applyBarStyle($, style),
+        glyphs: glyphs => void applyGlyphs($, glyphs),
+        chat: isOn => void applyChat($, isOn),
+      },
+    ),
+  )
 
   on('ui.render', { component: 'Pane', requestId: PICKER }, async ($, e) => {
     const current = await read($, skinAtom)
@@ -408,6 +576,8 @@ export const register: Register = on => {
           glyphs: await read($, glyphsAtom),
           isWorking: false,
           frame: 0,
+          hidden: await read($, hiddenAtom),
+          effort: await read($, effortAtom),
         },
         barStyle: await read($, barStyleAtom),
         columns: e.props.bodyColumns,

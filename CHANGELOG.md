@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0
+
+- The bar is yours to arrange: the ⚙ at its end (or `/skin bar`) opens settings where each piece turns on or off (skin name, model, effort, branch, context, 5-hour and 7-day limits, cost, meters, reset countdowns, the ⚙ itself), with the style, icons and chat cards beside them. `/skin show|hide <item>` does the same from the prompt.
+- The skin's name is off by default; its icon stays and still opens the skin picker.
+- The model block shows the effort (`Opus 5.5 · xhigh`) and opens a model and effort picker: a model pick goes through the Model row (saved as your default, as `/model` does), an effort pick runs `/effort` for the session.
+
 ## 0.7.0
 
 - Eight new dark skins: obsidian, vampire, abyss, emerald, noir, ember, nebula and aurora. Each bar opens on one deep jewel-tone block and darkens from there, with light text on every block (contrast of at least 4.5) and quiet text kept readable on the terminal's background. Each comes with a `/theme` theme and Ghostty and iTerm2 schemes.

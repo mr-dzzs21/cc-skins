@@ -26,6 +26,23 @@ export type Glyphs = 'nerd' | 'plain'
 /** The band above the prompt: colored powerline blocks, or a quiet header line. */
 export type BarStyle = 'powerline' | 'header'
 
+/** What the bar can show; each is the person's to turn off in the bar's settings. */
+export type BarItem =
+  | 'skinName'
+  | 'model'
+  | 'effort'
+  | 'branch'
+  | 'context'
+  | 'fiveHour'
+  | 'sevenDay'
+  | 'cost'
+  | 'meters'
+  | 'resets'
+  | 'gear'
+
+/** The model choices the `/config` Model row offers, and the one set. */
+export type ModelChoice = { value: string; options: string[] }
+
 export type RateLimit = { kind: string; percentUsed: number; resetsAt?: string }
 
 export type Usage = {
@@ -55,6 +72,12 @@ declare module 'claude-code' {
       branch: string | null
       prompts: SentPrompt[]
       isHudHidden: boolean
+      /** What the person turned off in the bar. */
+      hidden: BarItem[]
+      /** The main thread's effort as its last request asked it; null until one did. */
+      effort: string | null
+      /** The Model row, read as the model picker opens and after a pick. */
+      modelChoice: ModelChoice
       now: number
       frame: number
     }

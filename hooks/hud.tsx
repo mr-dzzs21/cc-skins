@@ -1,6 +1,6 @@
-import type { BoxProps, ButtonProps, ElementConstructor, TextProps } from 'claude-code'
+import type { BoxProps, ButtonProps, ElementConstructor, RenderElement, TextProps } from 'claude-code'
 
-import type { BarStyle, Glyphs, Usage } from '../types'
+import type { BarItem, BarStyle, Glyphs, Usage } from '../types'
 import { bar, formatCost, formatDuration, formatElapsed, formatPercent, formatReset, formatTokens, prettyModel } from './format'
 import type { Paint, Skin } from './skins'
 
@@ -15,7 +15,23 @@ const ICONS = {
   five_hour: '\uf252',
   seven_day: '\uf073',
   spend_limit: '\uf155',
+  gear: '\uf013',
 } as const
+
+/** What a press on the bar opens: the skin picker, the model and effort picker, the bar's settings. */
+export type BarPress = 'skin' | 'model' | 'settings'
+
+const PRESS_LABELS: Record<BarPress, string> = {
+  skin: 'Pick a skin',
+  model: 'Model and effort',
+  settings: 'Bar settings',
+}
+
+/** The ⚙ after the bar, with the space before it. */
+const GEAR_CELLS = 2
+
+/** The bar items a rate-limit window answers to; a window with none always shows. */
+const LIMIT_ITEMS: Record<string, BarItem | undefined> = { five_hour: 'fiveHour', seven_day: 'sevenDay' }
 
 const FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
 const METER_WIDTH = 5
@@ -23,7 +39,7 @@ const METER_WIDTH = 5
 /** How many times coarser the bar can get; the richest that fits is drawn. */
 export const MAX_LEVEL = 7
 
-export type Pill = { key: string; text: string; paint: Paint; isBold?: boolean }
+export type Pill = { key: string; text: string; paint: Paint; isBold?: boolean; press?: BarPress }
 
 export type BarInput = {
   skin: Skin
@@ -35,6 +51,10 @@ export type BarInput = {
   isWorking: boolean
   /** Advances while a turn runs: the spinner frame and the pulse read it. */
   frame: number
+  /** What the person turned off. */
+  hidden: readonly BarItem[]
+  /** The main thread's effort; null until a request has said. */
+  effort: string | null
 }
 
 const LIMIT_LABELS: Record<string, string> = { five_hour: '5h', seven_day: '7d', spend_limit: 'spend' }
@@ -45,7 +65,7 @@ const alertFor = (percent: number): Alert | undefined =>
   percent >= 85 ? 'danger' : percent >= 60 ? 'warn' : undefined
 
 /** A block before its color: the bar paints by place in the gradient, an alert over it. */
-type Block = { key: string; text: string; isBold?: boolean; alert?: Alert }
+type Block = { key: string; text: string; isBold?: boolean; alert?: Alert; press?: BarPress }
 
 /** The gradient's step for a block's place; past its end, the last step. */
 const gradientAt = (skin: Skin, index: number): Paint => {
@@ -55,19 +75,22 @@ const gradientAt = (skin: Skin, index: number): Paint => {
 }
 
 /**
- * The bar's blocks at one level of detail: 0 is everything, and each level up
- * drops one thing, in this order: meters, reset countdowns, cost, the 7-day
- * window, the branch, the skin's name, the 5-hour window.
+ * The bar's blocks at one level of detail: 0 is everything the person kept,
+ * and each level up drops one thing, in this order: meters, reset countdowns,
+ * cost, the 7-day window, the branch, the skin's name and the effort, the
+ * 5-hour window. The skin's block always stays: it opens the skin picker.
  */
 export const barPills = (input: BarInput, level: number): Pill[] => {
-  const { skin, usage, branch, now, glyphs, isWorking, frame } = input
+  const { skin, usage, branch, now, glyphs, isWorking, frame, hidden, effort } = input
   const isNerd = glyphs === 'nerd'
-  const hasMeters = level < 1
-  const hasResets = level < 2
-  const hasCost = level < 3
+  const shows = (item: BarItem) => !hidden.includes(item)
+  const hasMeters = level < 1 && shows('meters')
+  const hasResets = level < 2 && shows('resets')
+  const hasCost = level < 3 && shows('cost')
   const hasSevenDay = level < 4
-  const hasBranch = level < 5
-  const hasSkinName = level < 6
+  const hasBranch = level < 5 && shows('branch')
+  const hasSkinName = level < 6 && shows('skinName')
+  const hasEffort = level < 6 && shows('effort') && effort !== null
   const hasLimits = level < 7
   const pills: Block[] = []
 
@@ -76,11 +99,13 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     hasSkinName ? skin.label.toUpperCase() : undefined,
     isWorking ? FRAMES[frame % FRAMES.length] : undefined,
   ]
-  pills.push({ key: 'skin', text: skinText.filter(part => part !== undefined).join(' '), isBold: true })
+  pills.push({ key: 'skin', text: skinText.filter(part => part !== undefined).join(' '), isBold: true, press: 'skin' })
 
-  if (usage.model !== null) {
-    const name = prettyModel(usage.model)
-    pills.push({ key: 'model', text: isNerd ? `${ICONS.model} ${name}` : name, isBold: true })
+  const modelName = usage.model !== null && shows('model') ? prettyModel(usage.model) : undefined
+  const modelParts = [modelName, hasEffort ? effort : undefined].filter(part => part !== undefined)
+  if (modelParts.length > 0) {
+    const text = modelParts.join(' · ')
+    pills.push({ key: 'model', text: isNerd ? `${ICONS.model} ${text}` : text, isBold: true, press: 'model' })
   }
   if (branch !== null && hasBranch) {
     pills.push({ key: 'branch', text: `${isNerd ? ICONS.branch : '⎇'} ${branch}` })
@@ -90,15 +115,18 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     hasMeters ? `${bar(percent, METER_WIDTH, skin.meter.fill, skin.meter.empty)} ` : ''
 
   const context = usage.contextPercent
-  pills.push({
-    key: 'context',
-    text: `${isNerd ? ICONS.context : 'ctx'} ${context === null ? '–' : meter(context) + formatPercent(context)}`,
-    alert: context === null ? undefined : alertFor(context),
-  })
+  if (shows('context')) {
+    pills.push({
+      key: 'context',
+      text: `${isNerd ? ICONS.context : 'ctx'} ${context === null ? '–' : meter(context) + formatPercent(context)}`,
+      alert: context === null ? undefined : alertFor(context),
+    })
+  }
 
   usage.rateLimits.forEach(limit => {
     const isFiveHour = limit.kind === 'five_hour'
-    if (!hasLimits || (!isFiveHour && !hasSevenDay)) {
+    const item = LIMIT_ITEMS[limit.kind]
+    if (!hasLimits || (!isFiveHour && !hasSevenDay) || (item !== undefined && !shows(item))) {
       return
     }
     const icon = ICONS[limit.kind as keyof typeof ICONS]
@@ -128,7 +156,7 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
 
 const cells = (text: string) => [...text].length
 
-/** Cells the bar takes: each block padded by a space a side, plus the caps and arrows. */
+/** Cells the bar takes: each block padded by a space a side, plus the caps and arrows (the ⚙ not counted). */
 export const barWidth = (pills: Pill[], glyphs: Glyphs): number =>
   pills.reduce((sum, pill) => sum + cells(pill.text) + 2, 0) +
   (glyphs === 'nerd' && pills.length > 0 ? pills.length + 1 : 0)
@@ -152,18 +180,47 @@ type Elements = {
   Button?: ElementConstructor<ButtonProps>
 }
 
+/** A bar piece as a button when it opens something and the surface draws buttons. */
+const pressable = (
+  Button: Elements['Button'],
+  press: BarPress | undefined,
+  onPress: ((press: BarPress) => void) | undefined,
+  child: RenderElement,
+): RenderElement =>
+  press !== undefined && onPress !== undefined && Button !== undefined ? (
+    <Button key={`${press}-button`} label={PRESS_LABELS[press]} plain onPress={() => onPress(press)}>
+      {child}
+    </Button>
+  ) : (
+    child
+  )
+
+/** The ⚙ after the bar that opens its settings, drawn in `color`. */
+const drawGear = ({ Text, Button }: Elements, glyphs: Glyphs, color: string, onPress: (press: BarPress) => void) =>
+  pressable(
+    Button,
+    'settings',
+    onPress,
+    <Text key="gear" color={color}>
+      {` ${glyphs === 'nerd' ? ICONS.gear : '≡'}`}
+    </Text>,
+  )
+
 /**
  * Draws blocks as a powerline: a round cap, each block on its own background,
  * an arrow in the left block's color over the right one's, a round cap to end.
- * Plain glyphs draw the blocks side by side. With `onSkinPress`, the first
- * block is a button: a click, or Enter while the band holds the focus.
+ * Plain glyphs draw the blocks side by side. With `onPress`, a block that
+ * opens something is a button (a click, or Enter while the band holds the
+ * focus), and with `gear` a ⚙ in that color closes the bar.
  */
 export const drawPowerline = (
-  { Box, Text, Button }: Elements,
+  elements: Elements,
   pills: Pill[],
   glyphs: Glyphs,
-  onSkinPress?: () => void,
+  onPress?: (press: BarPress) => void,
+  gear?: string,
 ) => {
+  const { Box, Text, Button } = elements
   const isNerd = glyphs === 'nerd'
   const first = pills[0]
 
@@ -176,30 +233,26 @@ export const drawPowerline = (
       )}
       {pills.flatMap((pill, index) => {
         const following = pills[index + 1]
-        const block = (
+        const block = pressable(
+          Button,
+          pill.press,
+          onPress,
           <Text key={pill.key} backgroundColor={pill.paint.bg} color={pill.paint.fg} bold={pill.isBold}>
             {` ${pill.text} `}
-          </Text>
+          </Text>,
         )
-        const pressable =
-          index === 0 && onSkinPress !== undefined && Button !== undefined ? (
-            <Button key="skin-button" label="Pick a skin" plain onPress={onSkinPress}>
-              {block}
-            </Button>
-          ) : (
-            block
-          )
         if (!isNerd) {
-          return [pressable]
+          return [block]
         }
 
         return [
-          pressable,
+          block,
           <Text key={`${pill.key}-edge`} color={pill.paint.bg} backgroundColor={following?.paint.bg}>
             {following === undefined ? POWERLINE.close : POWERLINE.arrow}
           </Text>,
         ]
       })}
+      {gear !== undefined && onPress !== undefined && drawGear(elements, glyphs, gear, onPress)}
     </Box>
   )
 }
@@ -216,7 +269,7 @@ export const turnPills = (skin: Skin, word: string, durationMs: number, glyphs: 
 ]
 
 /** One piece of the header line: its text and its color. */
-export type HeaderItem = { key: string; text: string; color: string; isBold?: boolean }
+export type HeaderItem = { key: string; text: string; color: string; isBold?: boolean; press?: BarPress }
 
 export type Header = { brand: HeaderItem[]; stats: HeaderItem[]; badges: HeaderItem[] }
 
@@ -234,24 +287,29 @@ const headerWidth = ({ brand, stats, badges }: Header): number =>
  * and the right until it fits.
  */
 export const headerFor = (input: BarInput, columns: number): Header => {
-  const { skin, usage, branch, now, glyphs, isWorking, frame } = input
+  const { skin, usage, branch, now, glyphs, isWorking, frame, hidden, effort } = input
   const isNerd = glyphs === 'nerd'
+  const shows = (item: BarItem) => !hidden.includes(item)
   const { chat } = skin
   const brand: HeaderItem[] = [
-    { key: 'brand', text: `${isNerd ? skin.icon : skin.glyph} CLAUDE`, color: chat.assistant, isBold: true },
+    { key: 'brand', text: `${isNerd ? skin.icon : skin.glyph} CLAUDE`, color: chat.assistant, isBold: true, press: 'skin' },
   ]
-  if (usage.model !== null) {
-    brand.push({ key: 'model', text: prettyModel(usage.model), color: chat.muted })
+  const modelParts = [
+    usage.model !== null && shows('model') ? prettyModel(usage.model) : undefined,
+    effort !== null && shows('effort') ? effort : undefined,
+  ].filter(part => part !== undefined)
+  if (modelParts.length > 0) {
+    brand.push({ key: 'model', text: modelParts.join(' · '), color: chat.muted, press: 'model' })
   }
 
   const stats: HeaderItem[] = []
   if (usage.startedAt !== null) {
     stats.push({ key: 'session', text: `● Session ${formatElapsed(usage.startedAt, now)}`, color: chat.user })
   }
-  if (branch !== null) {
+  if (branch !== null && shows('branch')) {
     stats.push({ key: 'branch', text: `${isNerd ? ICONS.branch : '⎇'} ${branch}`, color: chat.user })
   }
-  if (usage.contextPercent !== null) {
+  if (usage.contextPercent !== null && shows('context')) {
     const tokens = usage.contextTokens === null ? '' : ` · ${formatTokens(usage.contextTokens)}`
     stats.push({
       key: 'context',
@@ -259,15 +317,21 @@ export const headerFor = (input: BarInput, columns: number): Header => {
       color: alertColor(skin, usage.contextPercent) ?? chat.user,
     })
   }
-  if (usage.costUsd !== null) {
+  if (usage.costUsd !== null && shows('cost')) {
     stats.push({ key: 'cost', text: formatCost(usage.costUsd), color: chat.user })
   }
 
-  const badges: HeaderItem[] = usage.rateLimits.map(limit => ({
-    key: `limit-${limit.kind}`,
-    text: `● ${LIMIT_LABELS[limit.kind] ?? limit.kind} ${formatPercent(limit.percentUsed)}`,
-    color: alertColor(skin, limit.percentUsed) ?? chat.muted,
-  }))
+  const badges: HeaderItem[] = usage.rateLimits
+    .filter(limit => {
+      const item = LIMIT_ITEMS[limit.kind]
+
+      return item === undefined || shows(item)
+    })
+    .map(limit => ({
+      key: `limit-${limit.kind}`,
+      text: `● ${LIMIT_LABELS[limit.kind] ?? limit.kind} ${formatPercent(limit.percentUsed)}`,
+      color: alertColor(skin, limit.percentUsed) ?? chat.muted,
+    }))
   if (isWorking) {
     badges.unshift({ key: 'working', text: `${FRAMES[frame % FRAMES.length]} working`, color: chat.assistant })
   }
@@ -306,31 +370,31 @@ const alertColor = (skin: Skin, percent: number): string | undefined => {
   return alert === undefined ? undefined : skin.colors[alert].bg
 }
 
-/** Draws the header line; with `onBrandPress`, its brand is a button, as the powerline's first block is. */
+/** Draws the header line; with `onPress`, its brand and model are buttons, as the powerline's blocks are. */
 export const drawHeader = (
-  { Box, Text, Button }: Elements,
+  elements: Elements,
   header: Header,
   skin: Skin,
   columns: number,
-  onBrandPress?: () => void,
-) => (
+  glyphs: Glyphs,
+  onPress?: (press: BarPress) => void,
+  gear?: string,
+) => {
+  const { Box, Text, Button } = elements
+
+  return (
   <Box flexDirection="row" justifyContent="space-between" width={columns} overflow="hidden">
     <Box flexDirection="row">
-      {header.brand.map((item, index) => {
-        const text = (
+      {header.brand.map((item, index) =>
+        pressable(
+          Button,
+          item.press,
+          onPress,
           <Text key={item.key} color={item.color} bold={item.isBold}>
             {index > 0 ? `  ${item.text}` : item.text}
-          </Text>
-        )
-
-        return index === 0 && onBrandPress !== undefined && Button !== undefined ? (
-          <Button key="skin-button" label="Pick a skin" plain onPress={onBrandPress}>
-            {text}
-          </Button>
-        ) : (
-          text
-        )
-      })}
+          </Text>,
+        ),
+      )}
     </Box>
     <Box flexDirection="row">
       {header.stats.map((item, index) => (
@@ -346,18 +410,28 @@ export const drawHeader = (
           {item.text}
         </Text>
       ))}
+      {gear !== undefined && onPress !== undefined && drawGear(elements, glyphs, gear, onPress)}
     </Box>
   </Box>
-)
+  )
+}
 
-/** The bar in the chosen style, sized to `columns`; `onSkinPress` makes its first piece open the picker. */
+/**
+ * The bar in the chosen style, sized to `columns`. With `onPress`, its skin
+ * and model pieces open their pickers, and a ⚙ (unless turned off) opens its
+ * settings.
+ */
 export const drawBar = (
   elements: Elements,
   input: BarInput,
   style: BarStyle,
   columns: number,
-  onSkinPress?: () => void,
-) =>
-  style === 'header'
-    ? drawHeader(elements, headerFor(input, columns), input.skin, columns, onSkinPress)
-    : drawPowerline(elements, fitPills(input, columns), input.glyphs, onSkinPress)
+  onPress?: (press: BarPress) => void,
+) => {
+  const gear = onPress !== undefined && !input.hidden.includes('gear') ? input.skin.chat.muted : undefined
+  const room = columns - (gear === undefined ? 0 : GEAR_CELLS)
+
+  return style === 'header'
+    ? drawHeader(elements, headerFor(input, room), input.skin, columns, input.glyphs, onPress, gear)
+    : drawPowerline(elements, fitPills(input, room), input.glyphs, onPress, gear)
+}

@@ -17,7 +17,7 @@ Each skin changes:
 - **Colors**: a full Claude Code color theme (accents, prompt border, diffs, plan/auto modes, message backgrounds).
 - **Spinner**: its own words while Claude works (`Jabbing…`, `Hacking ⟡`, `Compiling▌`).
 - **Turn line**: its own closing line (`◆ KO in 12s`, `⟡ Jacked in for 3s`).
-- **Usage bar**: model, git branch, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 %. While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block.
+- **Usage bar**: model and effort, git branch, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 %. While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block. Click the skin's icon to switch skins, the model to switch model or effort, the ⚙ to choose what the bar shows (the skin's name is off by default).
 
 | Skin | Look | Spinner | Turn line |
 |---|---|---|---|
@@ -60,6 +60,9 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 |---|---|
 | `/skin` | Opens the skin picker: ↑↓ previews, Enter or 1–9, 0, a–j picks, Esc closes. A click on the bar's first block opens it too |
 | `/skin list` | Lists the skins as text, marks the current one |
+| `/skin model` | Opens the model and effort picker (or click the model in the bar). A model pick is saved as your default, as `/model` does; effort holds for the session, as `/effort` does |
+| `/skin bar` | Opens the bar settings (or click the ⚙ at the bar's end): turn each piece on or off, pick the style, the icons, the chat cards |
+| `/skin show <item>` / `/skin hide <item>` | Shows or hides one piece: `skinName`, `model`, `effort`, `branch`, `context`, `fiveHour`, `sevenDay`, `cost`, `meters`, `resets`, `gear` |
 | `/skin <name>` | Switches the spinner, turn line and HUD, and names the matching color theme |
 | `/skin next` | Cycles to the next skin |
 | `/skin bar powerline` / `/skin bar header` | Colored powerline blocks, or a quiet header line (session time, context, cost, limit badges) |
