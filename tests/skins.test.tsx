@@ -661,3 +661,45 @@ describe('preview', () => {
     await band.unmount()
   })
 })
+
+describe('session switches', () => {
+  test('after a resume, the plugin sets itself up again in the next session', async ($, on) => {
+    mock.store(on, { skin: 'lava' })
+    const clock = mock.clock(on, { now: 0 })
+    let sessionId = 'old'
+    const registered: string[] = []
+    on('session.id', () => ({ value: sessionId }))
+    on('command.register', ($, e) => {
+      registered.push(e.name)
+
+      return { value: { command: e.name } }
+    })
+    on('session.end', ($, e) => ({ sessionId: e.sessionId }))
+
+    await $.session.end({ reason: 'resume', sessionId: 'old', resume: { id: 'old' } })
+    await clock.advance(200)
+    expect(registered).toEqual([])
+
+    sessionId = 'new'
+    await clock.advance(200)
+    expect(registered).toEqual(['skin'])
+    expect((await runSkin($, 'list')).text).toContain('current: lava')
+  })
+
+  test('an exit sets nothing up again', async ($, on) => {
+    mock.store(on)
+    const clock = mock.clock(on, { now: 0 })
+    const registered: string[] = []
+    on('session.id', () => ({ value: 'other' }))
+    on('command.register', ($, e) => {
+      registered.push(e.name)
+
+      return { value: { command: e.name } }
+    })
+    on('session.end', ($, e) => ({ sessionId: e.sessionId }))
+
+    await $.session.end({ reason: 'prompt_input_exit', sessionId: 'old', resume: { id: 'old' } })
+    await clock.advance(1_000)
+    expect(registered).toEqual([])
+  })
+})

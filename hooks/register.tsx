@@ -165,36 +165,88 @@ const listSkins = (current: SkinId): string =>
     `/${COMMAND} bar powerline|header · /${COMMAND} chat on|off · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|plain`,
   ].join('\n')
 
+/** Ticks the HUD's clock once a minute; one at a time, across set-ups. */
+let ticker: Timer | undefined
+/** The session the plugin last set itself up for. */
+let setUpFor: string | undefined
+
+/**
+ * Sets the plugin up for the session the process runs now: `/skin`, the
+ * person's choices read back from the store, the HUD's figures and clock.
+ *
+ * `session.start` fires once per process, but a resume, a /clear or a fork
+ * moves the process to another session, which keeps none of this: so it
+ * runs again then, once `session.end` sees the next session start, and the
+ * next prompt or measurement checks too. (`classic.SessionStart` would say
+ * so directly, but it never reaches a plugin of the user tier.)
+ */
+const setUp = async ($: EngineInterface) => {
+  setUpFor = await $.session.id()
+  await $.command.register({
+    name: 'skin',
+    description: 'Pick a cc-skins skin, or switch its bar, chat cards and glyphs',
+    argumentHint: '[list|<skin>|next|bar powerline|header|chat on|off|hud on|off|glyphs nerd|plain]',
+  })
+
+  const storedSkin = await $.store.get(STORE.skin)
+  const storedGlyphs = await $.store.get(STORE.glyphs)
+  const storedBarStyle = await $.store.get(STORE.barStyle)
+  const isChatStyled = (await $.store.get(STORE.isChatStyled)) !== false
+  const isHudHidden = (await $.store.get(STORE.isHudHidden)) === true
+  await update($, skinAtom, () => (isSkinId(storedSkin) ? storedSkin : DEFAULT_SKIN))
+  await update($, glyphsAtom, () => (isGlyphs(storedGlyphs) ? storedGlyphs : 'nerd'))
+  await update($, barStyleAtom, () => (isBarStyle(storedBarStyle) ? storedBarStyle : 'powerline'))
+  await update($, isChatStyledAtom, () => isChatStyled)
+  await update($, isHudHiddenAtom, () => isHudHidden)
+  await update($, previewAtom, () => null)
+  await tick($)
+
+  const usage = await $.session.usage()
+  const model = await readModel($)
+  await update($, usageAtom, previous => toUsage(model, usage, previous))
+  await refreshBranch($)
+
+  ticker?.cancel()
+  ticker = $.clock.every(TICK_MS, () => void tick($))
+}
+
+/** How often, and how many times, to look for the next session after one ends. */
+const SWITCH_POLL_MS = 200
+const SWITCH_TRIES = 50
+
+/**
+ * After a session ends with the process going on (a resume, a /clear), waits
+ * until the process runs another session, then sets the plugin up there.
+ */
+const setUpAfterSwitch = ($: EngineInterface, ended: string, triesLeft: number) => {
+  $.clock.after(SWITCH_POLL_MS, () => {
+    void $.session
+      .id()
+      .then(id => (id !== ended ? setUp($) : triesLeft > 1 ? setUpAfterSwitch($, ended, triesLeft - 1) : undefined))
+      .catch(() => undefined)
+  })
+}
+
+/**
+ * Sets up again where the process has moved to a session this plugin hasn't
+ * set up. A check that fails changes nothing: it never holds up what called it.
+ */
+const setUpIfMoved = async ($: EngineInterface) => {
+  try {
+    if ((await $.session.id()) !== setUpFor) {
+      await setUp($)
+    }
+  } catch {
+    // The next prompt or measurement checks again.
+  }
+}
+
 export const register: Register = on => {
   /** Runs the bar's animation while a turn does. */
   let animation: Timer | undefined
 
   on('session.start', async ($, e, next) => {
-    await $.command.register({
-      name: 'skin',
-      description: 'Pick a cc-skins skin, or switch its bar, chat cards and glyphs',
-      argumentHint: '[list|<skin>|next|bar powerline|header|chat on|off|hud on|off|glyphs nerd|plain]',
-    })
-
-    const storedSkin = await $.store.get(STORE.skin)
-    const storedGlyphs = await $.store.get(STORE.glyphs)
-    const storedBarStyle = await $.store.get(STORE.barStyle)
-    const isChatStyled = (await $.store.get(STORE.isChatStyled)) !== false
-    const isHudHidden = (await $.store.get(STORE.isHudHidden)) === true
-    await update($, skinAtom, () => (isSkinId(storedSkin) ? storedSkin : DEFAULT_SKIN))
-    await update($, glyphsAtom, () => (isGlyphs(storedGlyphs) ? storedGlyphs : 'nerd'))
-    await update($, barStyleAtom, () => (isBarStyle(storedBarStyle) ? storedBarStyle : 'powerline'))
-    await update($, isChatStyledAtom, () => isChatStyled)
-    await update($, isHudHiddenAtom, () => isHudHidden)
-    await update($, previewAtom, () => null)
-    await tick($)
-
-    const usage = await $.session.usage()
-    const model = await readModel($)
-    await update($, usageAtom, previous => toUsage(model, usage, previous))
-    await refreshBranch($)
-
-    $.clock.every(TICK_MS, () => void tick($))
+    await setUp($)
 
     if ((await $.store.get(STORE.hasWelcomed)) !== true) {
       await $.store.set(STORE.hasWelcomed, true)
@@ -204,12 +256,21 @@ export const register: Register = on => {
     return next(e)
   })
 
+  on('session.end', async ($, e, next) => {
+    if (e.reason === 'resume' || e.reason === 'clear') {
+      setUpAfterSwitch($, e.sessionId, SWITCH_TRIES)
+    }
+
+    return next(e)
+  })
+
   on('prompt.submit', async ($, e, next) => {
+    await setUpIfMoved($)
     const at = await $.clock.now()
     await update($, promptsAtom, prompts => [...prompts, { text: e.text, at }].slice(-MAX_PROMPTS))
 
     return next(e)
-  })
+  }).catch(($, e, next) => next(e))
 
   on('turn.start', async ($, e, next) => {
     animation?.cancel()
@@ -230,6 +291,7 @@ export const register: Register = on => {
   })
 
   on('session.measure', async ($, e, next) => {
+    await setUpIfMoved($)
     const model = await readModel($)
     await update($, usageAtom, previous => toUsage(model, e, previous))
     await refreshBranch($)

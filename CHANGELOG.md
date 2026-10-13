@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+- Fix: after resuming another chat (or a /clear), cc-skins sets itself up again in the new session, so `/skin`, your skin and the bar stay. Before, they were gone until Claude Code restarted.
+
 ## 0.6.0
 
 - Seven new skins: synthwave, ocean, sakura, forest, arctic, lava and candy, each with its bar colors, chat colors, spinner and turn words, a `/theme` theme, and Ghostty and iTerm2 color schemes. Every bar block keeps a text contrast of at least 4.5.
