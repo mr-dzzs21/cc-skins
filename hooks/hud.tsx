@@ -1,4 +1,4 @@
-import type { BoxProps, ElementConstructor, TextProps } from 'claude-code'
+import type { BoxProps, ButtonProps, ElementConstructor, TextProps } from 'claude-code'
 
 import type { Glyphs, Usage } from '../types'
 import { bar, formatCost, formatDuration, formatElapsed, formatPercent, formatReset, formatTokens, prettyModel } from './format'
@@ -145,15 +145,25 @@ export const fitPills = (input: BarInput, columns: number): Pill[] => {
   return barPills(input, MAX_LEVEL)
 }
 
-/** The two elements every surface's table carries. */
-type Elements = { Box: ElementConstructor<BoxProps>; Text: ElementConstructor<TextProps> }
+/** The elements every surface's table carries; `Button` where a block is pressable. */
+type Elements = {
+  Box: ElementConstructor<BoxProps>
+  Text: ElementConstructor<TextProps>
+  Button?: ElementConstructor<ButtonProps>
+}
 
 /**
  * Draws blocks as a powerline: a round cap, each block on its own background,
  * an arrow in the left block's color over the right one's, a round cap to end.
- * Plain glyphs draw the blocks side by side.
+ * Plain glyphs draw the blocks side by side. With `onSkinPress`, the first
+ * block is a button: a click, or Enter while the band holds the focus.
  */
-export const drawPowerline = ({ Box, Text }: Elements, pills: Pill[], glyphs: Glyphs) => {
+export const drawPowerline = (
+  { Box, Text, Button }: Elements,
+  pills: Pill[],
+  glyphs: Glyphs,
+  onSkinPress?: () => void,
+) => {
   const isNerd = glyphs === 'nerd'
   const first = pills[0]
 
@@ -164,21 +174,31 @@ export const drawPowerline = ({ Box, Text }: Elements, pills: Pill[], glyphs: Gl
           {POWERLINE.open}
         </Text>
       )}
-      {pills.map((pill, index) => {
+      {pills.flatMap((pill, index) => {
         const following = pills[index + 1]
-
-        return (
-          <Text key={pill.key} wrap="truncate-end">
-            <Text backgroundColor={pill.paint.bg} color={pill.paint.fg} bold={pill.isBold}>
-              {` ${pill.text} `}
-            </Text>
-            {isNerd && (
-              <Text color={pill.paint.bg} backgroundColor={following?.paint.bg}>
-                {following === undefined ? POWERLINE.close : POWERLINE.arrow}
-              </Text>
-            )}
+        const block = (
+          <Text key={pill.key} backgroundColor={pill.paint.bg} color={pill.paint.fg} bold={pill.isBold}>
+            {` ${pill.text} `}
           </Text>
         )
+        const pressable =
+          index === 0 && onSkinPress !== undefined && Button !== undefined ? (
+            <Button key="skin-button" label="Pick a skin" plain onPress={onSkinPress}>
+              {block}
+            </Button>
+          ) : (
+            block
+          )
+        if (!isNerd) {
+          return [pressable]
+        }
+
+        return [
+          pressable,
+          <Text key={`${pill.key}-edge`} color={pill.paint.bg} backgroundColor={following?.paint.bg}>
+            {following === undefined ? POWERLINE.close : POWERLINE.arrow}
+          </Text>,
+        ]
       })}
     </Box>
   )
@@ -286,14 +306,31 @@ const alertColor = (skin: Skin, percent: number): string | undefined => {
   return alert === undefined ? undefined : skin.colors[alert].bg
 }
 
-export const drawHeader = ({ Box, Text }: Elements, header: Header, skin: Skin, columns: number) => (
+/** Draws the header line; with `onBrandPress`, its brand is a button, as the powerline's first block is. */
+export const drawHeader = (
+  { Box, Text, Button }: Elements,
+  header: Header,
+  skin: Skin,
+  columns: number,
+  onBrandPress?: () => void,
+) => (
   <Box flexDirection="row" justifyContent="space-between" width={columns} overflow="hidden">
     <Box flexDirection="row">
-      {header.brand.map((item, index) => (
-        <Text key={item.key} color={item.color} bold={item.isBold}>
-          {index > 0 ? `  ${item.text}` : item.text}
-        </Text>
-      ))}
+      {header.brand.map((item, index) => {
+        const text = (
+          <Text key={item.key} color={item.color} bold={item.isBold}>
+            {index > 0 ? `  ${item.text}` : item.text}
+          </Text>
+        )
+
+        return index === 0 && onBrandPress !== undefined && Button !== undefined ? (
+          <Button key="skin-button" label="Pick a skin" plain onPress={onBrandPress}>
+            {text}
+          </Button>
+        ) : (
+          text
+        )
+      })}
     </Box>
     <Box flexDirection="row">
       {header.stats.map((item, index) => (

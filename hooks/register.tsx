@@ -14,6 +14,7 @@ import {
 } from './chat'
 import { prettyModel } from './format'
 import { drawHeader, drawPowerline, fitPills, headerFor, turnPills } from './hud'
+import { PICKER, drawPicker } from './picker'
 import { DEFAULT_SKIN, SKIN_IDS, SKINS, isSkinId, pick, themeName } from './skins'
 
 const EMPTY_USAGE: Usage = {
@@ -131,12 +132,23 @@ const applySkin = async ($: EngineInterface, id: SkinId): Promise<string> => {
   ].join('\n')
 }
 
+/** Opens the skin picker with the keyboard in it: ↑↓ Enter or a digit picks, Escape closes. */
+const openPicker = ($: EngineInterface) =>
+  $.ui.open({ id: PICKER, title: 'Pick a skin', focus: true, closeOnEscape: true, rows: SKIN_IDS.length + 1 })
+
+/** A pick in the picker: switch, close it, and say so in a toast, since no command line shows it. */
+const chooseSkin = async ($: EngineInterface, id: SkinId) => {
+  await applySkin($, id)
+  await $.ui.close({ id: PICKER })
+  $.ui.toast(`Skin → ${SKINS[id].label} · matching colors: /theme → "${themeName(id)}"`)
+}
+
 const listSkins = (current: SkinId): string =>
   [
     `${SKIN_IDS.length} skins · current: ${current}`,
     ...SKIN_IDS.map(id => `${id === current ? '▸' : ' '} ${id.padEnd(8)} ${SKINS[id].description}`),
     '',
-    `/${COMMAND} <name> switches · /${COMMAND} next · colors live in /theme`,
+    `/${COMMAND} opens the picker (or click the bar's first block) · /${COMMAND} <name> · /${COMMAND} next · colors live in /theme`,
     `/${COMMAND} bar powerline|header · /${COMMAND} chat on|off · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|plain`,
   ].join('\n')
 
@@ -147,8 +159,8 @@ export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await $.command.register({
       name: 'skin',
-      description: 'Switch the cc-skins skin, its bar, chat cards and glyphs',
-      argumentHint: '[midnight|ring|neon|retro|minimal|next|bar powerline|header|chat on|off|hud on|off|glyphs nerd|plain]',
+      description: 'Pick a cc-skins skin, or switch its bar, chat cards and glyphs',
+      argumentHint: '[list|midnight|ring|neon|retro|minimal|next|bar powerline|header|chat on|off|hud on|off|glyphs nerd|plain]',
     })
 
     const storedSkin = await $.store.get(STORE.skin)
@@ -172,7 +184,7 @@ export const register: Register = on => {
 
     if ((await $.store.get(STORE.hasWelcomed)) !== true) {
       await $.store.set(STORE.hasWelcomed, true)
-      $.ui.toast(`cc-skins is on · try /${COMMAND} next or /${COMMAND} bar header`)
+      $.ui.toast(`cc-skins is on · /${COMMAND} or a click on the bar picks a skin`)
     }
 
     return next(e)
@@ -224,7 +236,12 @@ export const register: Register = on => {
     const [first = '', second = ''] = e.args.trim().toLowerCase().split(/\s+/)
     const current = await read($, skinAtom)
 
-    if (first === '' || first === 'list') {
+    if (first === '') {
+      const opened = await openPicker($)
+
+      return opened.isPlaced ? {} : { text: listSkins(current) }
+    }
+    if (first === 'list') {
       return { text: listSkins(current) }
     }
     if (first === 'hud') {
@@ -298,11 +315,16 @@ export const register: Register = on => {
     }
     const elements = $.ui.resolve(e)
     const columns = e.props.bodyColumns
+    const openSkinPicker = () => void openPicker($)
 
     return (await read($, barStyleAtom)) === 'header'
-      ? drawHeader(elements, headerFor(input, columns), skin, columns)
-      : drawPowerline(elements, fitPills(input, columns), glyphs)
+      ? drawHeader(elements, headerFor(input, columns), skin, columns, openSkinPicker)
+      : drawPowerline(elements, fitPills(input, columns), glyphs, openSkinPicker)
   })
+
+  on('ui.render', { component: 'Pane', requestId: PICKER }, async ($, e) =>
+    drawPicker($.ui.resolve(e), await read($, skinAtom), id => void chooseSkin($, id)),
+  )
 
   on('ui.render', { component: 'UserMessage' }, async ($, e, next) => {
     if (!(await read($, isChatStyledAtom)) || e.props.origin.kind === 'task-notification') {

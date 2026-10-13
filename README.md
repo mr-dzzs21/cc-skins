@@ -35,12 +35,7 @@ In Claude Code, type:
 /plugin install cc-skins --marketplace mr-dzzs21/cc-skins
 ```
 
-Answer `y` to add the marketplace and pick the user scope. Then:
-
-```
-/skin midnight
-/theme          # pick "cc-skins · Midnight" for the matching colors
-```
+Answer `y` to add the marketplace and pick the user scope. Then type `/skin` (or click the first block of the bar) and pick a skin with ↑↓ and Enter, or its number. For the matching colors everywhere else, open `/theme` and pick `cc-skins · <skin>`.
 
 Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes). The navy background comes from your terminal: [`extras/terminal`](extras/terminal) has a matching color scheme for each skin.
 
@@ -48,7 +43,8 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 
 | Command | Does |
 |---|---|
-| `/skin` | Lists the skins, marks the current one |
+| `/skin` | Opens the skin picker: ↑↓ Enter or 1–5, Esc closes. A click on the bar's first block opens it too |
+| `/skin list` | Lists the skins as text, marks the current one |
 | `/skin <name>` | Switches the spinner, turn line and HUD, and names the matching color theme |
 | `/skin next` | Cycles to the next skin |
 | `/skin bar powerline` / `/skin bar header` | Colored powerline blocks, or a quiet header line (session time, context, cost, limit badges) |

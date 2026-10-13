@@ -494,3 +494,84 @@ describe('chat cards', () => {
     await card.unmount()
   })
 })
+
+const PANE_PROPS = {
+  title: 'Pick a skin',
+  isFocused: true,
+  bodyColumns: 80,
+  placement: 'inline' as const,
+  scroll: SCROLL,
+  view: {},
+}
+
+describe('skin picker', () => {
+  test('/skin opens the picker with the keyboard in it', async ($, on) => {
+    mock.store(on)
+    const opened: { id: string; focus?: true }[] = []
+    on('ui.open', ($, e) => {
+      opened.push({ id: e.id, focus: e.focus })
+
+      return { value: { isPlaced: true as const } }
+    })
+
+    const result = await runSkin($, '')
+    expect(result.text).toBeUndefined()
+    expect(opened).toEqual([{ id: 'skin-picker', focus: true }])
+  })
+
+  test('/skin falls back to the list where no pane can show', async ($, on) => {
+    mock.store(on)
+    on('ui.open', () => ({ value: { isPlaced: false as const, reason: 'narrow' as const } }))
+
+    expect((await runSkin($, '')).text).toContain('5 skins · current:')
+  })
+
+  test('a pick switches the skin, closes the picker and says so', async ($, on) => {
+    mock.store(on)
+    const closed: string[] = []
+    const toasts: string[] = []
+    on('ui.close', ($, e) => {
+      closed.push(e.id)
+
+      return { value: undefined }
+    })
+    on('ui.toast', ($, e) => {
+      toasts.push(e.text)
+
+      return { value: undefined }
+    })
+
+    const picker = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'skin-picker',
+      props: PANE_PROPS,
+    })
+    expect(await picker.findAll({ type: 'Button' })).toHaveLength(5)
+    await picker.press({ key: 'retro' })
+    await picker.unmount()
+
+    expect(closed).toEqual(['skin-picker'])
+    expect(toasts.at(-1)).toContain('Skin → Retro')
+    expect((await runSkin($, 'list')).text).toContain('current: retro')
+  })
+
+  test('a click on the bar opens the picker', async ($, on) => {
+    mock.store(on)
+    const opened: string[] = []
+    on('ui.open', ($, e) => {
+      opened.push(e.id)
+
+      return { value: { isPlaced: true as const } }
+    })
+
+    for (const style of ['powerline', 'header'] as const) {
+      await runSkin($, `bar ${style}`)
+      const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+      await band.press({ key: 'skin-button' })
+      await band.unmount()
+    }
+    expect(opened).toEqual(['skin-picker', 'skin-picker'])
+  })
+})

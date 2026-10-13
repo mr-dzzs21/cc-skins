@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+
+- Skin picker: `/skin` opens a list of the skins, each with a strip of its colors; ↑↓ Enter or a digit picks, Esc closes. A click on the bar's first block (or the header's brand) opens it too. `/skin list` keeps the text list.
+
 ## 0.4.0
 
 - Claude's replies sit in cards too, opened by a head with an icon badge (` ✻  CLAUDE  Opus 5.5`); your cards get the same badge (` ❯  You  14:23`).
