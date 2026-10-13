@@ -14,6 +14,8 @@ import { DEFAULT_PREFS, readPrefs } from '../hooks/prefs'
 import { findTurnStat, turnStatText } from '../hooks/turns'
 import { finishedText, soundFor } from '../hooks/sounds'
 import { sparkline, turnTotals } from '../hooks/dashboard'
+import { ACCENTS, buildSkin, parseRecipe, slugFor } from '../hooks/custom'
+import { contrast } from '../hooks/color'
 
 const MINUTE = 60_000
 const at = (ms: number) => new Date(ms).toISOString()
@@ -1233,5 +1235,109 @@ describe('usage dashboard', () => {
     expect(await dashboard.find({ type: 'Text', text: /Deferred/ })).toBeUndefined()
     expect(await dashboard.find({ key: 'dashboard-refresh' })).toBeDefined()
     await dashboard.unmount()
+  })
+})
+
+describe('your own skins', () => {
+  const recipe = { id: 'night-owl', label: 'Night Owl', base: 'ring' as const, accent: '#4361ee', style: 'dark' as const }
+
+  test('every swatch, in either style, makes a skin whose every text reads', () => {
+    for (const accent of [...ACCENTS, '#000000', '#ffffff', '#777777']) {
+      for (const style of ['dark', 'vivid'] as const) {
+        const skin = buildSkin({ ...recipe, accent, style })
+        for (const paint of [...skin.colors.blocks, skin.colors.warn, skin.colors.danger]) {
+          expect(contrast(paint.bg, paint.fg)).toBeGreaterThanOrEqual(4.5)
+        }
+        for (const color of [skin.chat.user, skin.chat.assistant, skin.chat.muted]) {
+          expect(contrast(color, '#111116')).toBeGreaterThanOrEqual(4.5)
+        }
+      }
+    }
+  })
+
+  test('a built skin keeps the words and sound of its base', () => {
+    const skin = buildSkin(recipe)
+    expect(skin.label).toBe('Night Owl')
+    expect(skin.spinner.words).toEqual(SKINS.ring.spinner.words)
+    expect(skin.sound).toBe('bell')
+    expect(skin.isDark).toBe(true)
+  })
+
+  test('names make ids that never clash', () => {
+    expect(slugFor('Night Owl!', [])).toBe('night-owl')
+    expect(slugFor('Night Owl', ['night-owl'])).toBe('night-owl-2')
+    expect(slugFor('Ring', [])).toBe('ring-2')
+    expect(slugFor('  ', [])).toBe('my-skin')
+  })
+
+  test('a recipe is kept only when whole', () => {
+    expect(parseRecipe(recipe)).toEqual(recipe)
+    expect(parseRecipe({ ...recipe, accent: 'blue' })).toBeUndefined()
+    expect(parseRecipe({ ...recipe, base: 'nope' })).toBeUndefined()
+    expect(parseRecipe({ ...recipe, style: 'loud' })).toBeUndefined()
+    expect(parseRecipe('x')).toBeUndefined()
+  })
+
+  test('/skin create builds one in the builder, saves it, wears it, and lists it under Yours', async ($, on) => {
+    mock.store(on)
+    const opened: string[] = []
+    on('ui.open', ($, e) => {
+      opened.push(e.id)
+
+      return { value: { isPlaced: true as const } }
+    })
+    on('ui.close', () => ({ value: undefined }))
+    on('ui.toast', () => ({ value: undefined }))
+
+    expect(await runSkin($, 'create Night Owl')).toEqual({})
+    expect(opened).toEqual(['skin-builder'])
+    const builder = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'skin-builder',
+      props: { ...PANE_PROPS, title: 'Build a skin', bodyColumns: 64, placement: 'dock' as const },
+    })
+    expect(await builder.find({ type: 'Text', text: /Preview · Night Owl/ })).toBeDefined()
+    await builder.press({ key: 'accent-4361ee' })
+    await builder.press({ key: 'base-ring' })
+    await builder.press({ key: 'build-style-vivid' })
+    await builder.press({ key: 'builder-save' })
+    await builder.unmount()
+
+    const list = (await runSkin($, 'list')).text ?? ''
+    expect(list).toContain('current: night-owl')
+    expect(list).toContain('Yours · #4361ee · vivid, from Ring')
+
+    const picker = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'skin-picker',
+      props: pickerProps('dock'),
+    })
+    expect(await picker.find({ type: 'Text', text: /── Yours ──/ })).toBeDefined()
+    expect(await picker.find({ key: 'night-owl' })).toBeDefined()
+    await picker.unmount()
+  })
+
+  test('a skin exports as one line, imports under a free id, and deletes', async ($, on) => {
+    mock.store(on, { customSkins: [recipe] })
+    on('ui.copy', () => ({ value: undefined }) as never)
+    on('session.end', ($, e) => ({ sessionId: e.sessionId }))
+    on('session.id', () => ({ value: 'new' }))
+    on('command.register', ($, e) => ({ value: { command: e.name } }))
+    const clock = mock.clock(on, { now: 0 })
+    await $.session.end({ reason: 'resume', sessionId: 'old', resume: { id: 'old' } })
+    await clock.advance(200)
+
+    const exported = (await runSkin($, 'export night-owl')).text ?? ''
+    const line = exported.split('\n')[0] ?? ''
+    expect(JSON.parse(line)).toEqual(recipe)
+    expect((await runSkin($, `import ${line}`)).text).toContain('Skin → Night Owl')
+    expect((await runSkin($, 'list')).text).toContain('current: night-owl-2')
+    expect((await runSkin($, 'delete night-owl-2')).text).toBe('Deleted night-owl-2.')
+    expect((await runSkin($, 'list')).text).toContain('current: midnight')
+    expect((await runSkin($, 'export ring')).text).toContain('Export takes one of your own skins')
   })
 })

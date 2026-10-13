@@ -85,6 +85,19 @@ export type ContextRow = { name: string; tokens: number; color: string }
 
 export type ContextBreakdown = { rows: ContextRow[]; totalTokens: number; maxTokens: number }
 
+/**
+ * A skin the person built: a name, a built-in skin it starts from (its words,
+ * icon and sound), an accent color and a style. The rest is computed from
+ * these, so a recipe is all that is kept and shared.
+ */
+export type CustomSkin = {
+  id: string
+  label: string
+  base: SkinId
+  accent: string
+  style: 'dark' | 'vivid'
+}
+
 /** The settings pane's tabs. */
 export type SettingsTab = 'bar' | 'look' | 'alerts' | 'turn' | 'sound'
 
@@ -112,11 +125,12 @@ export type SentPrompt = { text: string; at: number }
 declare module 'claude-code' {
   interface PluginState {
     'cc-skins': {
-      skin: SkinId
+      /** A built-in skin's id or one the person built. */
+      skin: string
       glyphs: Glyphs
       barStyle: BarStyle
       /** The skin under the picker's focus ring, drawn in place of `skin` while the picker is open. */
-      preview: SkinId | null
+      preview: string | null
       isChatStyled: boolean
       usage: Usage
       /** The checked-out branch of the session's repository; null outside one. */
@@ -134,6 +148,10 @@ declare module 'claude-code' {
       turnStats: TurnStat[]
       /** The session's measurements, oldest first, for the dashboard. */
       history: UsagePoint[]
+      /** The skins the person built, in the order they were made. */
+      customSkins: CustomSkin[]
+      /** The skin the builder holds while it is open. */
+      draft: CustomSkin | null
       /** Whether a main-thread turn runs now. */
       isBusy: boolean
       /** The context's breakdown as the dashboard last read it; null until then. */

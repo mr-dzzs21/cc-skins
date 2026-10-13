@@ -641,8 +641,6 @@ export const DEFAULT_SKIN: SkinId = 'midnight'
 export const isSkinId = (value: unknown): value is SkinId =>
   typeof value === 'string' && value in SKINS
 
-/** The name `/theme` lists a skin's color theme under (themes/<id>.json). */
-export const themeName = (id: SkinId) => `cc-skins · ${SKINS[id].label}`
 
 /**
  * Picks from `words` by a stable hash of `seed`, so a redraw keeps the word

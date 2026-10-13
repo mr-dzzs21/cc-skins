@@ -65,6 +65,9 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 | `/skin model` | Opens the model and effort picker (or click the model in the bar). A model pick is saved as your default, as `/model` does; effort holds for the session, as `/effort` does |
 | `/skin bar` | Opens the settings (or click the ⚙ at the bar's end), in tabs: **Bar** (each piece on or off), **Look** (style, icons, chat cards), **Alerts** (when to warn, the compact button), **Turn line** (cost, tokens, tool calls), **Sound** (sound, loudness, notification) |
 | `/skin alerts` | Opens the settings on the Alerts tab |
+| `/skin create [name]` | Opens the skin builder: a name, the skin it starts from (words, icon, sound), an accent (a swatch or any `#rrggbb`), dark or vivid, with a live preview. The rest of the colors follow from the accent, every text kept readable. Your skins list under **Yours** in the picker |
+| `/skin edit <skin>` / `/skin delete <skin>` | Changes or deletes one of your own skins |
+| `/skin export [skin]` / `/skin import <json>` | Shares a skin as one line of JSON (copied to the clipboard); anyone with cc-skins wears it after importing |
 | `/skin usage` | Opens the usage dashboard: the context with its trend and a /context-style breakdown, the limit windows, the cost overall and per turn, the session's totals, with Refresh and Compact buttons |
 | `/skin show <item>` / `/skin hide <item>` | Shows or hides one piece: `skinName`, `model`, `effort`, `branch`, `context`, `fiveHour`, `sevenDay`, `cost`, `meters`, `resets`, `gear` |
 | `/skin <name>` | Switches the spinner, turn line and HUD, and names the matching color theme |

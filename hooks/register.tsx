@@ -10,6 +10,7 @@ import type {
   Prefs,
   SentPrompt,
   SettingsTab,
+  CustomSkin,
   SkinId,
   SoundName,
   TurnStat,
@@ -46,8 +47,10 @@ import { SETTINGS_ROWS, drawSettings, isSettingsTab } from './settings'
 import { MAX_TURN_STATS, findTurnStat, turnStatText } from './turns'
 import { finishedText, isSoundName, soundAsset, soundFor } from './sounds'
 import { DASHBOARD, DASHBOARD_COLUMNS, DASHBOARD_ROWS, MAX_HISTORY, drawDashboard } from './dashboard'
-import { PICKER, PICKER_COLUMNS, PICKER_ROWS, drawPicker } from './picker'
-import { DEFAULT_SKIN, SKIN_IDS, SKINS, isSkinId, pick, themeName } from './skins'
+import { PICKER, PICKER_COLUMNS, drawPicker, pickerRows } from './picker'
+import { BUILDER, BUILDER_COLUMNS, BUILDER_ROWS, drawBuilder } from './builder'
+import { isKnownSkin, parseRecipe, resolveSkin, skinEntries, slugFor, themeName } from './custom'
+import { DEFAULT_SKIN, SKINS, isSkinId, pick } from './skins'
 
 const EMPTY_USAGE: Usage = {
   model: null,
@@ -59,11 +62,14 @@ const EMPTY_USAGE: Usage = {
 }
 const NO_PROMPTS: SentPrompt[] = []
 
-const skinAtom = atom({ plugin: 'cc-skins', key: 'skin' } as const, DEFAULT_SKIN)
+const skinAtom = atom({ plugin: 'cc-skins', key: 'skin' } as const, DEFAULT_SKIN as string)
+/** The skins the person built, and the one the builder holds while open. */
+const customSkinsAtom = atom({ plugin: 'cc-skins', key: 'customSkins' } as const, [] as CustomSkin[])
+const draftAtom = atom({ plugin: 'cc-skins', key: 'draft' } as const, null as CustomSkin | null)
 const glyphsAtom = atom({ plugin: 'cc-skins', key: 'glyphs' } as const, 'nerd' as Glyphs)
 const barStyleAtom = atom({ plugin: 'cc-skins', key: 'barStyle' } as const, 'powerline' as BarStyle)
 /** The skin the picker's focus rests on; the bar draws it until the picker closes. */
-const previewAtom = atom({ plugin: 'cc-skins', key: 'preview' } as const, null as SkinId | null)
+const previewAtom = atom({ plugin: 'cc-skins', key: 'preview' } as const, null as string | null)
 const isChatStyledAtom = atom({ plugin: 'cc-skins', key: 'isChatStyled' } as const, true)
 /** The prompts sent this session, newest last, so a card can say when. */
 const promptsAtom = atom({ plugin: 'cc-skins', key: 'prompts' } as const, NO_PROMPTS)
@@ -102,6 +108,7 @@ const STORE = {
   hidden: 'barHidden',
   models: 'aliasModels',
   prefs: 'prefs',
+  customSkins: 'customSkins',
   hasWelcomed: 'hasWelcomed',
 } as const
 
@@ -175,34 +182,135 @@ const tick = async ($: EngineInterface) => {
  * person's to pick: the theme row takes only presets from a plugin, so /theme
  * is named instead.
  */
-const applySkin = async ($: EngineInterface, id: SkinId): Promise<string> => {
+const applySkin = async ($: EngineInterface, id: string): Promise<string> => {
   await update($, skinAtom, () => id)
   await $.store.set(STORE.skin, id)
-  const skin = SKINS[id]
+  const skin = resolveSkin(id, await read($, customSkinsAtom))
+  const theme = themeName(id)
 
   return [
     `Skin → ${skin.label}: ${skin.description}.`,
-    `Colors: run /theme and pick "${themeName(id)}".`,
+    theme === undefined ? 'Your own skin draws the bar and the chat; /theme keeps its theme.' : `Colors: run /theme and pick "${theme}".`,
   ].join('\n')
 }
 
+/** The skin in use, built-in or the person's own. */
+const currentSkin = async ($: EngineInterface) => resolveSkin(await read($, skinAtom), await read($, customSkinsAtom))
+
 /** Opens the skin picker with the keyboard in it: ↑↓ previews, Enter or a hotkey picks, Escape closes. */
-const openPicker = ($: EngineInterface) =>
+const openPicker = async ($: EngineInterface) =>
   $.ui.open({
     id: PICKER,
     title: 'Pick a skin',
     focus: true,
     closeOnEscape: true,
-    rows: PICKER_ROWS,
+    rows: pickerRows(skinEntries(await read($, customSkinsAtom))),
     columns: PICKER_COLUMNS,
   })
 
 /** A pick in the picker: switch, close it, and say so in a toast, since no command line shows it. */
-const chooseSkin = async ($: EngineInterface, id: SkinId) => {
+const chooseSkin = async ($: EngineInterface, id: string) => {
   await applySkin($, id)
   await update($, previewAtom, () => null)
   await $.ui.close({ id: PICKER })
-  $.ui.toast(`Skin → ${SKINS[id].label} · matching colors: /theme → "${themeName(id)}"`)
+  const theme = themeName(id)
+  const label = resolveSkin(id, await read($, customSkinsAtom)).label
+  $.ui.toast(theme === undefined ? `Skin → ${label}` : `Skin → ${label} · matching colors: /theme → "${theme}"`)
+}
+
+/** What a preview draws besides its skin: this session's bar, sized for the pane. */
+const readSample = async ($: EngineInterface, columns: number, isRoomy: boolean) => {
+  const now = await read($, nowAtom)
+
+  return {
+    bar: {
+      usage: await read($, usageAtom),
+      branch: await read($, branchAtom),
+      now,
+      glyphs: await read($, glyphsAtom),
+      isWorking: false,
+      frame: 0,
+      hidden: await read($, hiddenAtom),
+      effort: await read($, effortAtom),
+      compactAt: null,
+    },
+    barStyle: await read($, barStyleAtom),
+    columns,
+    isRoomy,
+    now,
+  }
+}
+
+/** Keeps the person's own skins. */
+const saveCustoms = async ($: EngineInterface, customs: CustomSkin[]) => {
+  await update($, customSkinsAtom, () => customs)
+  await $.store.set(STORE.customSkins, customs)
+}
+
+/** Opens the builder on a skin: a new one from the current, or one of the person's own. */
+const openBuilder = async ($: EngineInterface, draft: CustomSkin) => {
+  await update($, draftAtom, () => draft)
+
+  return $.ui.open({
+    id: BUILDER,
+    title: draft.id === '' ? 'Build a skin' : `Edit ${draft.label}`,
+    focus: true,
+    closeOnEscape: true,
+    rows: BUILDER_ROWS,
+    columns: BUILDER_COLUMNS,
+  })
+}
+
+/** A new draft from the skin in use: its base, its first color, dark. */
+const newDraft = async ($: EngineInterface, label: string): Promise<CustomSkin> => {
+  const id = await read($, skinAtom)
+  const custom = (await read($, customSkinsAtom)).find(one => one.id === id)
+  const base: SkinId = custom?.base ?? (isSkinId(id) ? id : DEFAULT_SKIN)
+
+  return {
+    id: '',
+    label: label === '' ? 'My skin' : label.slice(0, 32),
+    base,
+    accent: custom?.accent ?? SKINS[base].colors.blocks[0]?.bg ?? '#7aa2f7',
+    style: custom?.style ?? 'dark',
+  }
+}
+
+const editDraft = async ($: EngineInterface, patch: Partial<CustomSkin>) =>
+  update($, draftAtom, draft => (draft === null ? draft : { ...draft, ...patch }))
+
+/** Saves the builder's skin among the person's own (a new one gets an id from its name), and wears it. */
+const saveDraft = async ($: EngineInterface) => {
+  const draft = await read($, draftAtom)
+  if (draft === null) {
+    return
+  }
+  const customs = await read($, customSkinsAtom)
+  const isExisting = customs.some(one => one.id === draft.id)
+  const recipe: CustomSkin = {
+    ...draft,
+    label: draft.label.trim() === '' ? 'My skin' : draft.label.trim(),
+    id: isExisting ? draft.id : slugFor(draft.label, customs.map(one => one.id)),
+  }
+  await saveCustoms($, isExisting ? customs.map(one => (one.id === recipe.id ? recipe : one)) : [...customs, recipe])
+  await applySkin($, recipe.id)
+  await update($, draftAtom, () => null)
+  await $.ui.close({ id: BUILDER })
+  $.ui.toast(`Saved ${recipe.label} · /skin ${recipe.id} wears it, /skin export ${recipe.id} shares it`)
+}
+
+/** Deletes one of the person's skins; wearing it, they go back to the default. */
+const deleteCustom = async ($: EngineInterface, id: string) => {
+  const customs = await read($, customSkinsAtom)
+  if (!customs.some(one => one.id === id)) {
+    return false
+  }
+  await saveCustoms($, customs.filter(one => one.id !== id))
+  if ((await read($, skinAtom)) === id) {
+    await applySkin($, DEFAULT_SKIN)
+  }
+
+  return true
 }
 
 /** Keeps the bar's style, its icons, the chat cards: in this session's state and for the next. */
@@ -333,7 +441,7 @@ const compactNow = async ($: EngineInterface) => {
 
 /** Plays a sound, or the skin's own; a sound that can't play stays quiet. */
 const playSound = async ($: EngineInterface, name: SoundName | 'skin', gain: number) => {
-  const sound = isSoundName(name) ? name : SKINS[await read($, skinAtom)].sound
+  const sound = isSoundName(name) ? name : (await currentSkin($)).sound
   void $.audio.play({ asset: soundAsset(sound) }, { gain }).catch(() => undefined)
 }
 
@@ -343,7 +451,7 @@ const announceTurn = async ($: EngineInterface, durationMs: number, answer: stri
   if ((!prefs.sound && !prefs.notify) || durationMs < prefs.notifyAfterSec * 1000) {
     return
   }
-  const skin = SKINS[await read($, skinAtom)]
+  const skin = (await currentSkin($))
   if (prefs.sound) {
     void $.audio.play({ asset: soundAsset(soundFor(skin, prefs)) }, { gain: prefs.soundGain }).catch(() => undefined)
   }
@@ -434,18 +542,20 @@ const openFromBar = ($: EngineInterface, press: BarPress) => {
         : openSettings($))
 }
 
-/** The list's name column: as wide as the longest skin id. */
-const NAME_WIDTH = Math.max(...SKIN_IDS.map(id => id.length))
+const listSkins = (current: string, customs: readonly CustomSkin[]): string => {
+  const entries = skinEntries(customs)
+  const width = Math.max(...entries.map(entry => entry.id.length))
 
-const listSkins = (current: SkinId): string =>
-  [
-    `${SKIN_IDS.length} skins · current: ${current}`,
-    ...SKIN_IDS.map(id => `${id === current ? '▸' : ' '} ${id.padEnd(NAME_WIDTH)} ${SKINS[id].description}`),
+  return [
+    `${entries.length} skins · current: ${current}`,
+    ...entries.map(({ id, skin }) => `${id === current ? '▸' : ' '} ${id.padEnd(width)} ${skin.description}`),
     '',
     `/${COMMAND} opens the picker (or click the bar's first block) · /${COMMAND} <name> · /${COMMAND} next · colors live in /theme`,
     `/${COMMAND} model (or click the model) · /${COMMAND} bar (or click ⚙) · /${COMMAND} usage · /${COMMAND} show|hide <item>`,
     `/${COMMAND} bar powerline|header · /${COMMAND} chat on|off · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|plain`,
+    `/${COMMAND} create [name] · /${COMMAND} edit|delete|export <skin> · /${COMMAND} import <json>`,
   ].join('\n')
+}
 
 /** The main thread's running turn: its tool calls so far, and the session's cost as it started. */
 let toolsThisTurn = 0
@@ -475,6 +585,10 @@ const setUp = async ($: EngineInterface) => {
   })
 
   const storedSkin = await $.store.get(STORE.skin)
+  const storedCustoms = await $.store.get(STORE.customSkins)
+  const customs = Array.isArray(storedCustoms)
+    ? storedCustoms.map(parseRecipe).filter((recipe): recipe is CustomSkin => recipe !== undefined)
+    : []
   const storedGlyphs = await $.store.get(STORE.glyphs)
   const storedBarStyle = await $.store.get(STORE.barStyle)
   const isChatStyled = (await $.store.get(STORE.isChatStyled)) !== false
@@ -482,7 +596,8 @@ const setUp = async ($: EngineInterface) => {
   const storedHidden = await $.store.get(STORE.hidden)
   const storedPrefs = await $.store.get(STORE.prefs)
   const hidden = Array.isArray(storedHidden) ? storedHidden.filter(isBarItem) : [...DEFAULT_HIDDEN]
-  await update($, skinAtom, () => (isSkinId(storedSkin) ? storedSkin : DEFAULT_SKIN))
+  await update($, customSkinsAtom, () => customs)
+  await update($, skinAtom, () => (isKnownSkin(storedSkin, customs) ? storedSkin : DEFAULT_SKIN))
   await update($, glyphsAtom, () => (isGlyphs(storedGlyphs) ? storedGlyphs : 'nerd'))
   await update($, barStyleAtom, () => (isBarStyle(storedBarStyle) ? storedBarStyle : 'powerline'))
   await update($, isChatStyledAtom, () => isChatStyled)
@@ -650,15 +765,60 @@ export const register: Register = on => {
 
   on('command.run', { command: 'skin' }, async ($, e) => {
     const [first = '', second = ''] = e.args.trim().toLowerCase().split(/\s+/)
+    const rest = e.args.trim().replace(/^\S+\s*/, '')
     const current = await read($, skinAtom)
+    const customs = await read($, customSkinsAtom)
 
     if (first === '') {
       const opened = await openPicker($)
 
-      return opened.isPlaced ? {} : { text: listSkins(current) }
+      return opened.isPlaced ? {} : { text: listSkins(current, customs) }
     }
     if (first === 'list') {
-      return { text: listSkins(current) }
+      return { text: listSkins(current, customs) }
+    }
+    if (first === 'create' || first === 'new') {
+      const opened = await openBuilder($, await newDraft($, rest))
+
+      return opened.isPlaced ? {} : { text: 'The skin builder needs a wider terminal.' }
+    }
+    if (first === 'edit') {
+      const recipe = customs.find(one => one.id === (second || current))
+      if (recipe === undefined) {
+        return { text: `Only your own skins can be edited: /${COMMAND} create builds one, from the one you wear.` }
+      }
+      const opened = await openBuilder($, recipe)
+
+      return opened.isPlaced ? {} : { text: 'The skin builder needs a wider terminal.' }
+    }
+    if (first === 'delete') {
+      return { text: (await deleteCustom($, second)) ? `Deleted ${second}.` : `No skin of yours is called "${second}".` }
+    }
+    if (first === 'export') {
+      const recipe = customs.find(one => one.id === (second || current))
+      if (recipe === undefined) {
+        return { text: `Export takes one of your own skins: ${customs.map(one => one.id).join(', ') || 'none yet, /skin create builds one'}.` }
+      }
+      const json = JSON.stringify(recipe)
+      await $.ui.copy({ text: json }).catch(() => undefined)
+
+      return { text: `${json}\n\nCopied. Anyone with cc-skins wears it after /${COMMAND} import <that line>.` }
+    }
+    if (first === 'import') {
+      let parsed: unknown
+      try {
+        parsed = JSON.parse(rest)
+      } catch {
+        parsed = undefined
+      }
+      const recipe = parseRecipe(parsed)
+      if (recipe === undefined) {
+        return { text: `Usage: /${COMMAND} import {"id":…,"label":…,"base":…,"accent":"#rrggbb","style":"dark"|"vivid"}` }
+      }
+      const imported = { ...recipe, id: slugFor(recipe.label, customs.map(one => one.id)) }
+      await saveCustoms($, [...customs, imported])
+
+      return { text: await applySkin($, imported.id) }
     }
     if (first === 'hud') {
       if (second !== 'on' && second !== 'off') {
@@ -728,15 +888,16 @@ export const register: Register = on => {
       }
     }
     if (first === 'next') {
-      const following = SKIN_IDS[(SKIN_IDS.indexOf(current) + 1) % SKIN_IDS.length] ?? DEFAULT_SKIN
+      const ids = skinEntries(customs).map(entry => entry.id)
+      const following = ids[(ids.indexOf(current) + 1) % ids.length] ?? DEFAULT_SKIN
 
       return { text: await applySkin($, following) }
     }
-    if (isSkinId(first)) {
+    if (isKnownSkin(first, customs)) {
       return { text: await applySkin($, first) }
     }
 
-    return { text: `No skin "${first}".\n\n${listSkins(current)}` }
+    return { text: `No skin "${first}".\n\n${listSkins(current, customs)}` }
   })
 
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
@@ -745,7 +906,7 @@ export const register: Register = on => {
     }
     const shown = (await read($, previewAtom)) ?? (await read($, skinAtom))
     const input = {
-      skin: SKINS[shown],
+      skin: resolveSkin(shown, await read($, customSkinsAtom)),
       usage: await read($, usageAtom),
       branch: await read($, branchAtom),
       now: await read($, nowAtom),
@@ -763,7 +924,7 @@ export const register: Register = on => {
   on('ui.render', { component: 'Pane', requestId: MODEL_PANE }, async ($, e) =>
     drawModelPicker(
       $.ui.resolve(e),
-      SKINS[await read($, skinAtom)],
+      (await currentSkin($)),
       { choice: await read($, modelChoiceAtom), effort: await read($, effortAtom) },
       value => void pickModel($, value),
       level => void pickEffort($, level),
@@ -773,7 +934,7 @@ export const register: Register = on => {
   on('ui.render', { component: 'Pane', requestId: DASHBOARD }, async ($, e) =>
     drawDashboard(
       $.ui.resolve(e),
-      SKINS[await read($, skinAtom)],
+      (await currentSkin($)),
       {
         usage: await read($, usageAtom),
         effort: await read($, effortAtom),
@@ -793,7 +954,7 @@ export const register: Register = on => {
   on('ui.render', { component: 'Pane', requestId: SETTINGS_PANE }, async ($, e) =>
     drawSettings(
       $.ui.resolve(e),
-      SKINS[await read($, skinAtom)],
+      (await currentSkin($)),
       {
         tab: await read($, settingsTabAtom),
         hidden: await read($, hiddenAtom),
@@ -816,36 +977,54 @@ export const register: Register = on => {
 
   on('ui.render', { component: 'Pane', requestId: PICKER }, async ($, e) => {
     const current = await read($, skinAtom)
-    const now = await read($, nowAtom)
 
     return drawPicker(
       $.ui.resolve(e),
       {
+        ...(await readSample($, e.props.bodyColumns, e.props.placement === 'dock')),
+        entries: skinEntries(await read($, customSkinsAtom)),
         current,
         previewed: (await read($, previewAtom)) ?? current,
-        bar: {
-          usage: await read($, usageAtom),
-          branch: await read($, branchAtom),
-          now,
-          glyphs: await read($, glyphsAtom),
-          isWorking: false,
-          frame: 0,
-          hidden: await read($, hiddenAtom),
-          effort: await read($, effortAtom),
-          compactAt: null,
-        },
-        barStyle: await read($, barStyleAtom),
-        columns: e.props.bodyColumns,
-        isRoomy: e.props.placement === 'dock',
-        now,
       },
       id => void chooseSkin($, id),
     )
   })
 
+  on('ui.render', { component: 'Pane', requestId: BUILDER }, async ($, e) => {
+    const draft = await read($, draftAtom)
+    const elements = $.ui.resolve(e)
+    const { Text } = elements
+    if (draft === null) {
+      return <Text>{`/${COMMAND} create builds a skin.`}</Text>
+    }
+    const isExisting = (await read($, customSkinsAtom)).some(one => one.id === draft.id)
+
+    return drawBuilder(
+      elements,
+      await currentSkin($),
+      draft,
+      await readSample($, e.props.bodyColumns, e.props.placement === 'dock'),
+      {
+        label: label => void editDraft($, { label: label.slice(0, 32) }),
+        base: base => void editDraft($, { base }),
+        accent: accent => void editDraft($, { accent }),
+        style: style => void editDraft($, { style }),
+        save: () => void saveDraft($),
+        cancel: () => void $.ui.close({ id: BUILDER }),
+        remove: isExisting
+          ? () =>
+              void deleteCustom($, draft.id).then(() => {
+                void $.ui.close({ id: BUILDER })
+                $.ui.toast(`Deleted ${draft.label}`)
+              })
+          : undefined,
+      },
+    )
+  })
+
   on('ui.focus', { requestId: PICKER }, async ($, e, next) => {
     const element = e.element
-    if (isSkinId(element)) {
+    if (isKnownSkin(element, await read($, customSkinsAtom))) {
       await update($, previewAtom, () => element)
     }
 
@@ -865,7 +1044,7 @@ export const register: Register = on => {
     }
     const at = sentAt(await read($, promptsAtom), e.props.text)
 
-    return drawUserCard($.ui.resolve(e), SKINS[await read($, skinAtom)], {
+    return drawUserCard($.ui.resolve(e), (await currentSkin($)), {
       text: e.props.text,
       author: e.props.from?.name ?? 'You',
       at,
@@ -878,7 +1057,7 @@ export const register: Register = on => {
     }
     const { model } = await read($, usageAtom)
 
-    return drawAssistantBlock($.ui.resolve(e), SKINS[await read($, skinAtom)], {
+    return drawAssistantBlock($.ui.resolve(e), (await currentSkin($)), {
       text: e.props.text,
       isFirst: e.props.isFirstOfReply,
       model: model === null ? undefined : prettyModel(model),
@@ -889,7 +1068,7 @@ export const register: Register = on => {
     if (!(await read($, isChatStyledAtom))) {
       return next(e)
     }
-    const skin = SKINS[await read($, skinAtom)]
+    const skin = (await currentSkin($))
     const todos = e.props.tool === 'TodoWrite' ? todosOf(e.props.input) : undefined
     if (todos !== undefined && todos.length > 0) {
       return drawPlanCard($.ui.resolve(e), skin, todos)
@@ -903,7 +1082,7 @@ export const register: Register = on => {
       return next(e)
     }
 
-    return drawCard($.ui.resolve(e), SKINS[await read($, skinAtom)], await next(e))
+    return drawCard($.ui.resolve(e), (await currentSkin($)), await next(e))
   })
 
   on('ui.render', { component: 'ToolGroup' }, async ($, e, next) => {
@@ -911,7 +1090,7 @@ export const register: Register = on => {
       return next(e)
     }
 
-    return drawCard($.ui.resolve(e), SKINS[await read($, skinAtom)], await next(e))
+    return drawCard($.ui.resolve(e), (await currentSkin($)), await next(e))
   })
 
   on('ui.render', { component: 'PromptHint' }, async ($, e, next) => {
@@ -928,11 +1107,11 @@ export const register: Register = on => {
       return next(e)
     }
 
-    return drawModeBadges($.ui.resolve(e), SKINS[await read($, skinAtom)], e.props.modes)
+    return drawModeBadges($.ui.resolve(e), (await currentSkin($)), e.props.modes)
   })
 
   on('ui.render', { component: 'Spinner' }, async ($, e, next) => {
-    const { spinner } = SKINS[await read($, skinAtom)]
+    const { spinner } = (await currentSkin($))
     const word = spinner.byMode?.[e.props.mode] ?? pick(spinner.words, e.props.word)
 
     return next({
@@ -942,7 +1121,7 @@ export const register: Register = on => {
   })
 
   on('ui.render', { component: 'TurnDuration' }, async ($, e) => {
-    const skin = SKINS[await read($, skinAtom)]
+    const skin = (await currentSkin($))
     const glyphs = await read($, glyphsAtom)
     const word = pick(skin.turn.words, `${e.props.word}:${e.props.durationMs}`)
     const stats = turnStatText(findTurnStat(await read($, turnStatsAtom), e.props.durationMs), await read($, prefsAtom))

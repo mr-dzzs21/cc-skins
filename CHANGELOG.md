@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.13.0
+
+- Build your own skins: `/skin create` opens a builder with a name, the built-in skin to start from (its words, icon and sound), an accent (16 swatches or any `#rrggbb`) and a style (dark: the accent fading into black; vivid: the accent across nearby hues), previewed live. Every color follows from the accent with every text kept readable (contrast of at least 4.5, checked for every swatch in both styles).
+- Your skins list under Yours in the picker and work everywhere a skin does (`/skin <id>`, `/skin next`). `/skin edit`, `/skin delete`, and `/skin export` / `/skin import` to share one as a line of JSON.
+
 ## 0.12.0
 
 - Usage dashboard (`/skin usage`): the context as a meter with its trend over the session and its largest parts as /context counts them, the limit windows with their resets, the cost overall and per turn (trend, average, priciest), and the session's time, turns, tool calls and tokens. Refresh and Compact buttons.
