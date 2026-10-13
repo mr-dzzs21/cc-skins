@@ -29,6 +29,8 @@ declare module 'claude-code' {
       barStyle: BarStyle
       isChatStyled: boolean
       usage: Usage
+      /** The checked-out branch of the session's repository; null outside one. */
+      branch: string | null
       prompts: SentPrompt[]
       isHudHidden: boolean
       now: number

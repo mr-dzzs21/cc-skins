@@ -36,8 +36,8 @@ export type Skin = {
   }
   /** The line that closes a turn: `<word> <joiner> 3s`. */
   turn: { words: readonly string[]; joiner: string }
-  /** The chat's cards: their frame, your header, Claude's header and accent line, quiet text. */
-  chat: { border: string; user: string; assistant: string; muted: string }
+  /** The chat's cards: their frame (and the icon badges' ground), your color, Claude's, quiet text, done. */
+  chat: { border: string; user: string; assistant: string; muted: string; success: string }
 }
 
 export const SKINS: Record<SkinId, Skin> = {
@@ -66,14 +66,14 @@ export const SKINS: Record<SkinId, Skin> = {
       byMode: { thinking: 'Pondering', 'tool-use': 'Working' },
     },
     turn: { words: ['Done', 'Finished', 'Wrapped up'], joiner: 'in' },
-    chat: { border: '#24324d', user: '#6ea8fe', assistant: '#f0883e', muted: '#8b949e' },
+    chat: { border: '#24324d', user: '#6ea8fe', assistant: '#f0883e', muted: '#8b949e', success: '#3fb950' },
   },
   retro: {
     id: 'retro',
     label: 'Retro',
     description: 'Phosphor green and amber, CRT vibes',
     glyph: '▌',
-    icon: '',
+    icon: '\uf11b',
     meter: { fill: '█', empty: '░' },
     colors: {
       blocks: [
@@ -94,14 +94,14 @@ export const SKINS: Record<SkinId, Skin> = {
       suffix: '▌',
     },
     turn: { words: ['Done', 'Halted', 'Exited 0'], joiner: 'in' },
-    chat: { border: '#16823a', user: '#ffb000', assistant: '#39ff14', muted: '#5a8a66' },
+    chat: { border: '#16823a', user: '#ffb000', assistant: '#39ff14', muted: '#5a8a66', success: '#39ff14' },
   },
   neon: {
     id: 'neon',
     label: 'Neon',
     description: 'Magenta and cyan, cyberpunk',
     glyph: '⟡',
-    icon: '',
+    icon: '\uf0e7',
     meter: { fill: '▰', empty: '▱' },
     colors: {
       blocks: [
@@ -122,14 +122,14 @@ export const SKINS: Record<SkinId, Skin> = {
       suffix: ' ⟡',
     },
     turn: { words: ['Jacked in', 'Uplinked', 'Synced'], joiner: 'for' },
-    chat: { border: '#3f37c9', user: '#4cc9f0', assistant: '#f72585', muted: '#7d70a3' },
+    chat: { border: '#3f37c9', user: '#4cc9f0', assistant: '#f72585', muted: '#7d70a3', success: '#39ff14' },
   },
   minimal: {
     id: 'minimal',
     label: 'Minimal',
     description: 'Muted grey with one calm accent, no gimmicks',
     glyph: '·',
-    icon: '',
+    icon: '\uf10c',
     meter: { fill: '━', empty: '─' },
     colors: {
       blocks: [
@@ -155,14 +155,14 @@ export const SKINS: Record<SkinId, Skin> = {
       },
     },
     turn: { words: ['Done'], joiner: 'in' },
-    chat: { border: '#394260', user: '#a3aed2', assistant: '#769ff0', muted: '#565f89' },
+    chat: { border: '#394260', user: '#a3aed2', assistant: '#769ff0', muted: '#565f89', success: '#9ece6a' },
   },
   ring: {
     id: 'ring',
     label: 'Ring',
     description: 'Red and gold, boxing ring',
     glyph: '◆',
-    icon: '',
+    icon: '\uf255',
     meter: { fill: '■', empty: '□' },
     colors: {
       blocks: [
@@ -182,7 +182,7 @@ export const SKINS: Record<SkinId, Skin> = {
       byMode: { thinking: 'Reading the opponent' },
     },
     turn: { words: ['KO', 'TKO', 'Split decision'], joiner: 'in' },
-    chat: { border: '#7a1f2b', user: '#ffd166', assistant: '#e5604d', muted: '#8a7f6e' },
+    chat: { border: '#7a1f2b', user: '#ffd166', assistant: '#e5604d', muted: '#8a7f6e', success: '#52b788' },
   },
 }
 

@@ -35,46 +35,105 @@ export const sentAt = (prompts: readonly SentPrompt[], text: string): number | u
   return undefined
 }
 
-/** Your message as a card: a framed box headed by who sent it and when. */
-export const drawUserCard = (
+/** A card's head: an icon on a badge, a bold name, and a quiet note after it. */
+const drawCardHead = (
   { Box, Text }: Elements,
   skin: Skin,
-  message: { text: string; author: string; at?: number },
+  head: { icon: string; name: string; color: string; note?: string },
 ) => (
-  <Box flexDirection="column" borderStyle="round" borderColor={skin.chat.border} paddingX={1}>
-    <Box flexDirection="row">
-      <Text color={skin.chat.user} bold>
-        {`❯ ${message.author}`}
-      </Text>
-      {message.at !== undefined && <Text color={skin.chat.muted}>{`  ${formatClock(message.at)}`}</Text>}
-    </Box>
-    <Text>{message.text}</Text>
+  <Box flexDirection="row">
+    <Text backgroundColor={skin.chat.border} color={head.color} bold>
+      {` ${head.icon} `}
+    </Text>
+    <Text color={head.color} bold>{` ${head.name}`}</Text>
+    {head.note !== undefined && <Text color={skin.chat.muted}>{`  ${head.note}`}</Text>}
   </Box>
 )
 
+/** Your message as a card: a framed box headed by who sent it and when. */
+export const drawUserCard = (
+  elements: Elements,
+  skin: Skin,
+  message: { text: string; author: string; at?: number },
+) => (
+  <elements.Box flexDirection="column" borderStyle="round" borderColor={skin.chat.border} paddingX={1}>
+    {drawCardHead(elements, skin, {
+      icon: '❯',
+      name: message.author,
+      color: skin.chat.user,
+      note: message.at === undefined ? undefined : formatClock(message.at),
+    })}
+    <elements.Box paddingLeft={4}>
+      <elements.Text>{message.text}</elements.Text>
+    </elements.Box>
+  </elements.Box>
+)
+
 /**
- * One block of Claude's reply: the reply's first block opens with a header,
- * and every block hangs off an accent line in Claude's color.
+ * One block of Claude's reply as a card: the reply's first block opens with
+ * Claude's head, and the text hangs off an accent line in Claude's color.
  */
 export const drawAssistantBlock = (
-  { Box, Text, Markdown }: Elements,
+  elements: Elements,
   skin: Skin,
   block: { text: string; isFirst: boolean; model?: string },
 ) => (
-  <Box flexDirection="column" marginTop={block.isFirst ? 1 : 0}>
-    {block.isFirst && (
-      <Box flexDirection="row">
-        <Text color={skin.chat.assistant} bold>
-          {`${skin.glyph} CLAUDE`}
-        </Text>
-        {block.model !== undefined && <Text color={skin.chat.muted}>{`  ${block.model}`}</Text>}
-      </Box>
-    )}
-    <Box borderStyle="quote" borderColor={skin.chat.assistant} paddingLeft={1}>
-      <Markdown text={block.text} />
-    </Box>
-  </Box>
+  <elements.Box flexDirection="column" borderStyle="round" borderColor={skin.chat.border} paddingX={1}>
+    {block.isFirst && drawCardHead(elements, skin, { icon: skin.glyph, name: 'CLAUDE', color: skin.chat.assistant, note: block.model })}
+    <elements.Box borderStyle="quote" borderColor={skin.chat.assistant} paddingLeft={1} marginLeft={1}>
+      <elements.Markdown text={block.text} />
+    </elements.Box>
+  </elements.Box>
 )
+
+export type Todo = { content: string; status: 'pending' | 'in_progress' | 'completed'; activeForm?: string }
+
+/** The todos a `TodoWrite` call carries, or undefined when its input holds none. */
+export const todosOf = (input: unknown): Todo[] | undefined => {
+  const todos = (input as { todos?: unknown } | null)?.todos
+  if (!Array.isArray(todos)) {
+    return undefined
+  }
+
+  return todos.filter(
+    (todo): todo is Todo =>
+      typeof todo === 'object' &&
+      todo !== null &&
+      typeof (todo as Todo).content === 'string' &&
+      ['pending', 'in_progress', 'completed'].includes((todo as Todo).status),
+  )
+}
+
+/** A todo list as a plan card: done ticked in green, the running one in Claude's color, the rest open. */
+export const drawPlanCard = (elements: Elements, skin: Skin, todos: readonly Todo[]) => {
+  const { Box, Text } = elements
+  const done = todos.filter(todo => todo.status === 'completed').length
+  const mark = {
+    completed: { icon: '✓', color: skin.chat.success },
+    in_progress: { icon: '◐', color: skin.chat.assistant },
+    pending: { icon: '○', color: skin.chat.muted },
+  } as const
+
+  return (
+    <Box flexDirection="column" borderStyle="round" borderColor={skin.chat.border} paddingX={1}>
+      {drawCardHead(elements, skin, { icon: '☰', name: 'Plan', color: skin.chat.user, note: `${done}/${todos.length} done` })}
+      <Box flexDirection="column" paddingLeft={1} marginTop={1}>
+        {todos.map((todo, index) => (
+          <Text key={`todo-${index}`}>
+            <Text color={mark[todo.status].color} bold>{`${mark[todo.status].icon}  `}</Text>
+            <Text
+              color={todo.status === 'in_progress' ? skin.chat.assistant : undefined}
+              dimColor={todo.status === 'completed'}
+              bold={todo.status === 'in_progress'}
+            >
+              {todo.status === 'in_progress' ? (todo.activeForm ?? todo.content) : todo.content}
+            </Text>
+          </Text>
+        ))}
+      </Box>
+    </Box>
+  )
+}
 
 /** The engine's own drawing of a tool call or a command's output, framed as a card. */
 export const drawCard = ({ Box }: Elements, skin: Skin, inner: RenderElement) => (

@@ -13,11 +13,11 @@ Every block has its own color: in a Nerd Font they join with powerline arrows, p
 
 Each skin changes:
 
-- **Chat**: your messages become framed cards with your name and the time you sent them; Claude's replies open with a header and hang off an accent line; tool calls and command output sit in cards; the prompt's hint and mode labels get a cleaner look.
+- **Chat**: your messages and Claude's replies become framed cards with icon badges, names and send times; Claude's text hangs off an accent line; todo lists become a plan card with green ticks; tool calls and command output sit in cards; the prompt's hint and mode labels get a cleaner look.
 - **Colors**: a full Claude Code color theme (accents, prompt border, diffs, plan/auto modes, message backgrounds).
 - **Spinner**: its own words while Claude works (`Jabbing…`, `Hacking ⟡`, `Compiling▌`).
 - **Turn line**: its own closing line (`◆ KO in 12s`, `⟡ Jacked in for 3s`).
-- **Usage bar**: model, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 %. While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block.
+- **Usage bar**: model, git branch, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 %. While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block.
 
 | Skin | Look | Spinner | Turn line |
 |---|---|---|---|

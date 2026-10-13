@@ -89,12 +89,21 @@ describe('format', () => {
   })
 })
 
-const RING: BarInput = { skin: SKINS.ring, usage: USAGE, now: 0, glyphs: 'nerd', isWorking: false, frame: 0 }
+const RING: BarInput = {
+  skin: SKINS.ring,
+  usage: USAGE,
+  branch: 'main',
+  now: 0,
+  glyphs: 'nerd',
+  isWorking: false,
+  frame: 0,
+}
 
 describe('powerline bar', () => {
   test('wide shows every block, meters and countdowns', () => {
     const pills = fitPills(RING, 200)
-    expect(pills.map(p => p.key)).toEqual(['skin', 'model', 'context', 'limit-five_hour', 'limit-seven_day', 'cost'])
+    expect(pills.map(p => p.key)).toEqual(['skin', 'model', 'branch', 'context', 'limit-five_hour', 'limit-seven_day', 'cost'])
+    expect(pills.find(p => p.key === 'branch')?.text).toBe('\ue0a0 main')
     expect(pills.find(p => p.key === 'skin')?.text).toBe('\uf255 RING')
     expect(pills.find(p => p.key === 'context')?.text).toBe('\uf1c0 ■■□□□ 34%')
     expect(pills.find(p => p.key === 'limit-five_hour')?.text).toContain('↻2h13m')
@@ -107,6 +116,7 @@ describe('powerline bar', () => {
       blocks[0],
       blocks[1],
       blocks[2],
+      blocks[3],
       null,
       null,
       blocks[5],
@@ -170,7 +180,7 @@ describe('powerline bar', () => {
       costUsd: null,
       startedAt: null,
     }
-    expect(fitPills({ ...RING, usage: empty }, 200).map(p => p.text)).toEqual(['\uf255 RING', '\uf1c0 –'])
+    expect(fitPills({ ...RING, usage: empty, branch: null }, 200).map(p => p.text)).toEqual(['\uf255 RING', '\uf1c0 –'])
   })
 })
 
@@ -307,7 +317,7 @@ describe('header bar', () => {
   test('wide shows who, the session figures and the limit badges', () => {
     const header = headerFor(MIDNIGHT, 200)
     expect(header.brand.map(i => i.text)).toEqual(['\uf186 CLAUDE', 'Opus 5.5'])
-    expect(header.stats.map(i => i.text)).toEqual(['● Session 12m', '\uf1c0 34% · 68k', '$1.24'])
+    expect(header.stats.map(i => i.text)).toEqual(['● Session 12m', '\ue0a0 main', '\uf1c0 34% · 68k', '$1.24'])
     expect(header.badges.map(i => i.text)).toEqual(['● 5h 72%', '● 7d 91%'])
     expect(header.badges[1]?.color).toBe(SKINS.midnight.colors.danger.bg)
   })
@@ -356,7 +366,8 @@ describe('chat cards', () => {
       component: 'UserMessage',
       props: { text: 'zähl bis 5', origin: { kind: 'composer' }, isExpanded: false },
     })
-    expect(await card.find({ type: 'Text', text: '❯ You' })).toBeDefined()
+    expect(await card.find({ type: 'Text', text: ' ❯ ' })).toBeDefined()
+    expect(await card.find({ type: 'Text', text: ' You' })).toBeDefined()
     expect(await card.find({ type: 'Text', text: /^ {2}\d\d:\d\d$/ })).toBeDefined()
     expect(await card.find({ type: 'Text', text: 'zähl bis 5' })).toBeDefined()
     expect(await card.drawn()).toMatchObject({ props: { borderStyle: 'round' } })
@@ -371,8 +382,10 @@ describe('chat cards', () => {
       component: 'AssistantMessage',
       props: { text: '1… 2… 3', isFirstOfReply: true },
     })
-    expect(await block.find({ type: 'Text', text: '✻ CLAUDE' })).toBeDefined()
+    expect(await block.find({ type: 'Text', text: ' CLAUDE' })).toBeDefined()
+    expect(await block.find({ type: 'Text', text: ' ✻ ' })).toBeDefined()
     expect(await block.find({ type: 'Markdown' })).toBeDefined()
+    expect(await block.drawn()).toMatchObject({ props: { borderStyle: 'round' } })
     await block.unmount()
   })
 
@@ -399,6 +412,35 @@ describe('chat cards', () => {
     expect(await row.drawn()).toMatchObject({ props: { borderStyle: 'round' } })
     expect(await row.find({ type: 'Text', text: 'Bash ls' })).toBeDefined()
     await row.unmount()
+  })
+
+  test('a todo list becomes a plan card with ticks', async ($, on) => {
+    mock.store(on)
+    const plan = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'ToolUse',
+      props: {
+        tool_use_id: 'toolu_2',
+        tool: 'TodoWrite',
+        input: {
+          todos: [
+            { content: 'Theme-Konzept erstellen', status: 'completed', activeForm: 'Erstelle Theme-Konzept' },
+            { content: 'Header bauen', status: 'in_progress', activeForm: 'Baue Header' },
+            { content: 'Testen', status: 'pending', activeForm: 'Teste' },
+          ],
+        },
+        isRunning: false,
+        isErrored: false,
+        isInterrupted: false,
+      },
+    })
+    expect(await plan.find({ type: 'Text', text: ' Plan' })).toBeDefined()
+    expect(await plan.find({ type: 'Text', text: '  1/3 done' })).toBeDefined()
+    expect(await plan.find({ type: 'Text', text: '✓  ' })).toBeDefined()
+    expect(await plan.find({ type: 'Text', text: 'Baue Header' })).toBeDefined()
+    expect(await plan.find({ type: 'Text', text: 'Testen' })).toBeDefined()
+    await plan.unmount()
   })
 
   test('the idle hint names what the prompt takes; others stay', async ($, on) => {

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+- Claude's replies sit in cards too, opened by a head with an icon badge (` ✻  CLAUDE  Opus 5.5`); your cards get the same badge (` ❯  You  14:23`).
+- Todo lists become a plan card: `☰ Plan  1/3 done`, done items ticked in green, the running one in Claude's color.
+- The git branch shows in both bar styles.
+
 ## 0.3.0
 
 - Chat cards: your messages are framed cards with your name and send time; Claude's replies open with a header (`✻ CLAUDE  Opus 5.5`) and an accent line; tool calls and command output sit in cards around Claude Code's own drawing. `/skin chat off` turns them off.

@@ -5,28 +5,31 @@ import { bar, formatCost, formatDuration, formatElapsed, formatPercent, formatRe
 import type { Paint, Skin } from './skins'
 
 /** Powerline separators (Nerd Fonts and Powerline-patched fonts). */
-const POWERLINE = { open: '', arrow: '', close: '' }
+const POWERLINE = { open: '\ue0b6', arrow: '\ue0b0', close: '\ue0b4' }
 
 /** Font Awesome icons, at the same code points in every Nerd Font. */
 const ICONS = {
-  model: '',
-  context: '',
-  five_hour: '',
-  seven_day: '',
-  spend_limit: '',
+  branch: '\ue0a0',
+  model: '\uf2db',
+  context: '\uf1c0',
+  five_hour: '\uf252',
+  seven_day: '\uf073',
+  spend_limit: '\uf155',
 } as const
 
 const FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
 const METER_WIDTH = 5
 
 /** How many times coarser the bar can get; the richest that fits is drawn. */
-export const MAX_LEVEL = 6
+export const MAX_LEVEL = 7
 
 export type Pill = { key: string; text: string; paint: Paint; isBold?: boolean }
 
 export type BarInput = {
   skin: Skin
   usage: Usage
+  /** The repository's checked-out branch; null outside one. */
+  branch: string | null
   now: number
   glyphs: Glyphs
   isWorking: boolean
@@ -54,17 +57,18 @@ const gradientAt = (skin: Skin, index: number): Paint => {
 /**
  * The bar's blocks at one level of detail: 0 is everything, and each level up
  * drops one thing, in this order: meters, reset countdowns, cost, the 7-day
- * window, the skin's name, the 5-hour window.
+ * window, the branch, the skin's name, the 5-hour window.
  */
 export const barPills = (input: BarInput, level: number): Pill[] => {
-  const { skin, usage, now, glyphs, isWorking, frame } = input
+  const { skin, usage, branch, now, glyphs, isWorking, frame } = input
   const isNerd = glyphs === 'nerd'
   const hasMeters = level < 1
   const hasResets = level < 2
   const hasCost = level < 3
   const hasSevenDay = level < 4
-  const hasSkinName = level < 5
-  const hasLimits = level < 6
+  const hasBranch = level < 5
+  const hasSkinName = level < 6
+  const hasLimits = level < 7
   const pills: Block[] = []
 
   const skinText = [
@@ -77,6 +81,9 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
   if (usage.model !== null) {
     const name = prettyModel(usage.model)
     pills.push({ key: 'model', text: isNerd ? `${ICONS.model} ${name}` : name, isBold: true })
+  }
+  if (branch !== null && hasBranch) {
+    pills.push({ key: 'branch', text: `${isNerd ? ICONS.branch : '⎇'} ${branch}` })
   }
 
   const meter = (percent: number) =>
@@ -207,7 +214,7 @@ const headerWidth = ({ brand, stats, badges }: Header): number =>
  * and the right until it fits.
  */
 export const headerFor = (input: BarInput, columns: number): Header => {
-  const { skin, usage, now, glyphs, isWorking, frame } = input
+  const { skin, usage, branch, now, glyphs, isWorking, frame } = input
   const isNerd = glyphs === 'nerd'
   const { chat } = skin
   const brand: HeaderItem[] = [
@@ -220,6 +227,9 @@ export const headerFor = (input: BarInput, columns: number): Header => {
   const stats: HeaderItem[] = []
   if (usage.startedAt !== null) {
     stats.push({ key: 'session', text: `● Session ${formatElapsed(usage.startedAt, now)}`, color: chat.user })
+  }
+  if (branch !== null) {
+    stats.push({ key: 'branch', text: `${isNerd ? ICONS.branch : '⎇'} ${branch}`, color: chat.user })
   }
   if (usage.contextPercent !== null) {
     const tokens = usage.contextTokens === null ? '' : ` · ${formatTokens(usage.contextTokens)}`
@@ -247,6 +257,7 @@ export const headerFor = (input: BarInput, columns: number): Header => {
     () => removeKey(stats, 'cost'),
     () => removeKey(badges, 'limit-seven_day'),
     () => removeKey(stats, 'session'),
+    () => removeKey(stats, 'branch'),
     () => brand.splice(1),
     () => stats.splice(0),
     () => badges.splice(0),

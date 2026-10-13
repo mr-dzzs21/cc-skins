@@ -2,7 +2,16 @@ import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register, SessionUsage, Timer } from 'claude-code'
 
 import type { BarStyle, Glyphs, SentPrompt, SkinId, Usage } from '../types'
-import { IDLE_HINT, drawAssistantBlock, drawCard, drawModeBadges, drawUserCard, sentAt } from './chat'
+import {
+  IDLE_HINT,
+  drawAssistantBlock,
+  drawCard,
+  drawModeBadges,
+  drawPlanCard,
+  drawUserCard,
+  sentAt,
+  todosOf,
+} from './chat'
 import { prettyModel } from './format'
 import { drawHeader, drawPowerline, fitPills, headerFor, turnPills } from './hud'
 import { DEFAULT_SKIN, SKIN_IDS, SKINS, isSkinId, pick, themeName } from './skins'
@@ -23,6 +32,7 @@ const barStyleAtom = atom({ plugin: 'cc-skins', key: 'barStyle' } as const, 'pow
 const isChatStyledAtom = atom({ plugin: 'cc-skins', key: 'isChatStyled' } as const, true)
 /** The prompts sent this session, newest last, so a card can say when. */
 const promptsAtom = atom({ plugin: 'cc-skins', key: 'prompts' } as const, NO_PROMPTS)
+const branchAtom = atom({ plugin: 'cc-skins', key: 'branch' } as const, null as string | null)
 const usageAtom = atom({ plugin: 'cc-skins', key: 'usage' } as const, EMPTY_USAGE)
 const isHudHiddenAtom = atom({ plugin: 'cc-skins', key: 'isHudHidden' } as const, false)
 /** The clock the HUD's reset countdowns read; ticked once a minute. */
@@ -68,6 +78,35 @@ const readModel = async ($: EngineInterface): Promise<string | null> => {
   } catch {
     return null
   }
+}
+
+const HEAD_REF = 'ref: refs/heads/'
+
+/**
+ * The checked-out branch, read from the repository's HEAD (a worktree's `.git`
+ * file points at its own); a detached HEAD reads as its short hash.
+ */
+const readBranch = async ($: EngineInterface): Promise<string | null> => {
+  try {
+    const repo = await $.session.repo()
+    if (repo === null) {
+      return null
+    }
+    let gitDir = `${repo.root}/.git`
+    if ((await $.fs.stat(gitDir)).kind === 'file') {
+      gitDir = (await $.fs.read(gitDir)).replace(/^gitdir: /, '').trim()
+    }
+    const head = (await $.fs.read(`${gitDir}/HEAD`)).trim()
+
+    return head.startsWith(HEAD_REF) ? head.slice(HEAD_REF.length) : head.slice(0, 7)
+  } catch {
+    return null
+  }
+}
+
+const refreshBranch = async ($: EngineInterface) => {
+  const branch = await readBranch($)
+  await update($, branchAtom, () => branch)
 }
 
 /** Moves the HUD's clock to now, so its reset countdowns redraw. */
@@ -127,6 +166,7 @@ export const register: Register = on => {
     const usage = await $.session.usage()
     const model = await readModel($)
     await update($, usageAtom, previous => toUsage(model, usage, previous))
+    await refreshBranch($)
 
     $.clock.every(TICK_MS, () => void tick($))
 
@@ -166,6 +206,7 @@ export const register: Register = on => {
   on('session.measure', async ($, e, next) => {
     const model = await readModel($)
     await update($, usageAtom, previous => toUsage(model, e, previous))
+    await refreshBranch($)
     await tick($)
 
     return next(e)
@@ -249,6 +290,7 @@ export const register: Register = on => {
     const input = {
       skin,
       usage: await read($, usageAtom),
+      branch: await read($, branchAtom),
       now: await read($, nowAtom),
       glyphs,
       isWorking: e.props.isWorking,
@@ -288,7 +330,20 @@ export const register: Register = on => {
     })
   })
 
-  on('ui.render', { component: ['ToolUse', 'CommandOutput'] }, async ($, e, next) => {
+  on('ui.render', { component: 'ToolUse' }, async ($, e, next) => {
+    if (!(await read($, isChatStyledAtom))) {
+      return next(e)
+    }
+    const skin = SKINS[await read($, skinAtom)]
+    const todos = e.props.tool === 'TodoWrite' ? todosOf(e.props.input) : undefined
+    if (todos !== undefined && todos.length > 0) {
+      return drawPlanCard($.ui.resolve(e), skin, todos)
+    }
+
+    return drawCard($.ui.resolve(e), skin, await next(e))
+  })
+
+  on('ui.render', { component: 'CommandOutput' }, async ($, e, next) => {
     if (!(await read($, isChatStyledAtom))) {
       return next(e)
     }
