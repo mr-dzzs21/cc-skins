@@ -58,6 +58,18 @@ export type Prefs = {
   notifyAfterSec: number
 }
 
+/** One finished main-thread turn: what the line closing it may add. */
+export type TurnStat = {
+  durationMs: number
+  /** Every token its requests read and wrote, the cache's included. */
+  tokens: number | null
+  tools: number
+  /** What it cost: the session's cost after it less before it; null until measured. */
+  costUsd: number | null
+  /** The session's cost as it started, to measure from. */
+  costAtStart: number | null
+}
+
 /** The settings pane's tabs. */
 export type SettingsTab = 'bar' | 'look' | 'alerts' | 'turn' | 'sound'
 
@@ -103,6 +115,8 @@ declare module 'claude-code' {
       /** The Model row, read as the model picker opens and after a pick. */
       modelChoice: ModelChoice
       prefs: Prefs
+      /** The session's finished turns, newest last. */
+      turnStats: TurnStat[]
       settingsTab: SettingsTab
       /** The level each unit (context, a limit window) was last alerted at; 0 once it drops back. */
       alerted: Record<string, number>

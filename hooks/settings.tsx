@@ -9,6 +9,7 @@ export const SETTINGS_TABS: readonly { tab: SettingsTab; label: string }[] = [
   { tab: 'bar', label: 'Bar' },
   { tab: 'look', label: 'Look' },
   { tab: 'alerts', label: 'Alerts' },
+  { tab: 'turn', label: 'Turn line' },
 ]
 
 export const isSettingsTab = (value: unknown): value is SettingsTab => SETTINGS_TABS.some(({ tab }) => tab === value)
@@ -129,11 +130,21 @@ const drawAlertsTab = (elements: Elements, skin: Skin, view: SettingsView, act: 
   drawOnOff(elements, 'compact', view.prefs.compactButton, compactButton => act.pref({ compactButton })),
 ]
 
+/** The turn-line tab: what the line closing each turn adds after its duration. */
+const drawTurnTab = (elements: Elements, skin: Skin, view: SettingsView, act: SettingsActions) => [
+  drawHeading(elements, skin, 'turn-cost-heading', 'Cost', 'what the turn cost'),
+  drawOnOff(elements, 'turn-cost', view.prefs.turnCost, turnCost => act.pref({ turnCost })),
+  drawHeading(elements, skin, 'turn-tokens-heading', 'Tokens', 'read and written, the cache included'),
+  drawOnOff(elements, 'turn-tokens', view.prefs.turnTokens, turnTokens => act.pref({ turnTokens })),
+  drawHeading(elements, skin, 'turn-tools-heading', 'Tool calls'),
+  drawOnOff(elements, 'turn-tools', view.prefs.turnTools, turnTools => act.pref({ turnTools })),
+]
+
 const TAB_DRAWERS: Record<SettingsTab, typeof drawBarTab> = {
   bar: drawBarTab,
   look: drawLookTab,
   alerts: drawAlertsTab,
-  turn: drawBarTab,
+  turn: drawTurnTab,
   sound: drawBarTab,
 }
 

@@ -11,6 +11,7 @@ import { hotkeyFor, hotkeyRange } from '../hooks/picker'
 import { modelLabel } from '../hooks/panels'
 import { alertsFor } from '../hooks/alerts'
 import { DEFAULT_PREFS, readPrefs } from '../hooks/prefs'
+import { findTurnStat, turnStatText } from '../hooks/turns'
 
 const MINUTE = 60_000
 const at = (ms: number) => new Date(ms).toISOString()
@@ -1014,5 +1015,63 @@ describe('alerts', () => {
     const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
     expect(await band.find({ key: 'compact-button' })).toBeUndefined()
     await band.unmount()
+  })
+})
+
+describe('turn stats', () => {
+  const stat = (durationMs: number, costUsd: number | null = 0.04) => ({
+    durationMs,
+    tokens: 12_400,
+    tools: 3,
+    costUsd,
+    costAtStart: 1,
+  })
+
+  test('a closing line finds its turn by duration, exactly or the nearest within two seconds', () => {
+    const stats = [stat(4_000), stat(64_000), stat(12_000)]
+    expect(findTurnStat(stats, 64_000)).toBe(stats[1])
+    expect(findTurnStat(stats, 12_900)).toBe(stats[2])
+    expect(findTurnStat(stats, 30_000)).toBeUndefined()
+  })
+
+  test('the text holds what the person chose', () => {
+    expect(turnStatText(stat(1), DEFAULT_PREFS)).toBe('$0.04 · 3 tools')
+    expect(turnStatText(stat(1), { ...DEFAULT_PREFS, turnTokens: true })).toBe('$0.04 · 12k tok · 3 tools')
+    expect(turnStatText(stat(1, null), DEFAULT_PREFS)).toBe('3 tools')
+    expect(turnStatText(stat(1), { ...DEFAULT_PREFS, turnCost: false, turnTools: false })).toBe('')
+  })
+
+  test('a turn counts its own tool calls, and its cost once measured', async ($, on) => {
+    mock.store(on)
+    mock.clock(on, { now: 0 })
+    on('turn.start', ($, e) => ({ turnId: e.turnId }))
+    on('tool.call', () => ({ result: 'done' }) as never)
+    on('turn.complete', () => ({ text: '' }))
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+
+    await $.session.measure({ context: { window: 200_000 }, rateLimits: [], cost: { usd: 1 }, changed: ['cost'] })
+    await $.turn.start({ text: 'go', turnId: 't1' })
+    await $.tool.call({ tool: 'Bash', command: 'true', description: 'one' } as never)
+    await $.tool.call({ tool: 'Bash', command: 'true', description: 'two' } as never)
+    await $.tool.call({ tool: 'Bash', command: 'true', description: 'a subagent', agentId: 'sub' } as never)
+    await $.turn.complete({
+      turnId: 't1',
+      reason: 'answer',
+      answer: 'done',
+      durationMs: 64_000,
+      isAborted: false,
+      usage: { input_tokens: 400, cache_read_input_tokens: 10_000, cache_creation_input_tokens: 0, output_tokens: 2_000, model: 'claude-opus-5-5' },
+    })
+    await $.session.measure({ context: { window: 200_000 }, rateLimits: [], cost: { usd: 1.25 }, changed: ['cost'] })
+
+    const line = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'TurnDuration',
+      props: { word: 'Baked', durationMs: 64_000 },
+    })
+    expect(await line.find({ type: 'Text', text: /\$0\.25 · 2 tools/ })).toBeDefined()
+    await line.unmount()
   })
 })

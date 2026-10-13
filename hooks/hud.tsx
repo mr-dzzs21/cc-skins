@@ -274,8 +274,8 @@ export const drawPowerline = (
   )
 }
 
-/** The line that closes a turn, as two blocks: `KO` and `4s`. */
-export const turnPills = (skin: Skin, word: string, durationMs: number, glyphs: Glyphs): Pill[] => [
+/** The line that closes a turn, as blocks: `KO`, `in 4s`, and what it cost where there is any. */
+export const turnPills = (skin: Skin, word: string, durationMs: number, glyphs: Glyphs, stats = ''): Pill[] => [
   {
     key: 'word',
     text: `${glyphs === 'nerd' ? skin.icon : skin.glyph} ${word}`,
@@ -283,6 +283,7 @@ export const turnPills = (skin: Skin, word: string, durationMs: number, glyphs: 
     isBold: true,
   },
   { key: 'duration', text: `${skin.turn.joiner} ${formatDuration(durationMs)}`, paint: gradientAt(skin, 2) },
+  ...(stats === '' ? [] : [{ key: 'stats', text: stats, paint: gradientAt(skin, 4) }]),
 ]
 
 /** One piece of the header line: its text and its color. */

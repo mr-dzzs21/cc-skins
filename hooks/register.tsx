@@ -1,7 +1,7 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register, SessionUsage, Timer } from 'claude-code'
 
-import type { BarItem, BarStyle, Glyphs, ModelChoice, Prefs, SentPrompt, SettingsTab, SkinId, Usage } from '../types'
+import type { BarItem, BarStyle, Glyphs, ModelChoice, Prefs, SentPrompt, SettingsTab, SkinId, TurnStat, Usage } from '../types'
 import {
   IDLE_HINT,
   drawAssistantBlock,
@@ -29,6 +29,7 @@ import type { EffortChoice } from './panels'
 import { alertsFor, compactAt } from './alerts'
 import { DEFAULT_PREFS, readPrefs } from './prefs'
 import { SETTINGS_ROWS, drawSettings, isSettingsTab } from './settings'
+import { MAX_TURN_STATS, findTurnStat, turnStatText } from './turns'
 import { PICKER, PICKER_COLUMNS, PICKER_ROWS, drawPicker } from './picker'
 import { DEFAULT_SKIN, SKIN_IDS, SKINS, isSkinId, pick, themeName } from './skins'
 
@@ -61,6 +62,7 @@ const effortAtom = atom({ plugin: 'cc-skins', key: 'effort' } as const, null as 
 const prefsAtom = atom({ plugin: 'cc-skins', key: 'prefs' } as const, DEFAULT_PREFS)
 const settingsTabAtom = atom({ plugin: 'cc-skins', key: 'settingsTab' } as const, 'bar' as SettingsTab)
 const alertedAtom = atom({ plugin: 'cc-skins', key: 'alerted' } as const, {} as Record<string, number>)
+const turnStatsAtom = atom({ plugin: 'cc-skins', key: 'turnStats' } as const, [] as TurnStat[])
 /** The Model row, as the model picker shows it. */
 const modelChoiceAtom = atom(
   { plugin: 'cc-skins', key: 'modelChoice' } as const,
@@ -310,6 +312,20 @@ const compactNow = async ($: EngineInterface) => {
   }
 }
 
+/** Gives the newest finished turn its cost, once the session's cost after it is measured. */
+const settleTurnCost = async ($: EngineInterface) => {
+  const { costUsd } = await read($, usageAtom)
+  const stats = await read($, turnStatsAtom)
+  const last = stats.at(-1)
+  if (costUsd === null || last === undefined || last.costUsd !== null) {
+    return
+  }
+  const cost = Math.max(0, costUsd - (last.costAtStart ?? 0))
+  await update($, turnStatsAtom, current =>
+    current.map((stat, index) => (index === current.length - 1 && stat.costUsd === null ? { ...stat, costUsd: cost } : stat)),
+  )
+}
+
 /** Raises the alerts a measurement calls for, once per crossing. */
 const raiseAlerts = async ($: EngineInterface) => {
   const { alerts, alerted } = alertsFor(
@@ -347,6 +363,10 @@ const listSkins = (current: SkinId): string =>
     `/${COMMAND} model (or click the model) · /${COMMAND} bar (or click ⚙) · /${COMMAND} show|hide <item>`,
     `/${COMMAND} bar powerline|header · /${COMMAND} chat on|off · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|plain`,
   ].join('\n')
+
+/** The main thread's running turn: its tool calls so far, and the session's cost as it started. */
+let toolsThisTurn = 0
+let costAtTurnStart: number | null = null
 
 /** Ticks the HUD's clock once a minute; one at a time, across set-ups. */
 let ticker: Timer | undefined
@@ -461,6 +481,8 @@ export const register: Register = on => {
   }).catch(($, e, next) => next(e))
 
   on('turn.start', async ($, e, next) => {
+    toolsThisTurn = 0
+    costAtTurnStart = (await read($, usageAtom)).costUsd
     animation?.cancel()
     animation = $.clock.every(FRAME_MS, () => void update($, frameAtom, frame => frame + 1))
 
@@ -486,10 +508,30 @@ export const register: Register = on => {
     return yield* next(e)
   })
 
+  on('tool.call', async ($, e, next) => {
+    if (e.agentId === undefined) {
+      toolsThisTurn += 1
+    }
+
+    return next(e)
+  }).catch(($, e, next) => next(e))
+
   on('turn.complete', async ($, e, next) => {
     if (e.agentId !== undefined) {
       return next(e)
     }
+    const usage = e.usage
+    const stat: TurnStat = {
+      durationMs: e.durationMs,
+      tokens:
+        usage === undefined
+          ? null
+          : usage.input_tokens + usage.cache_read_input_tokens + usage.cache_creation_input_tokens + usage.output_tokens,
+      tools: toolsThisTurn,
+      costUsd: null,
+      costAtStart: costAtTurnStart,
+    }
+    await update($, turnStatsAtom, stats => [...stats, stat].slice(-MAX_TURN_STATS))
     animation?.cancel()
     animation = undefined
     await update($, frameAtom, () => 0)
@@ -501,6 +543,7 @@ export const register: Register = on => {
     await setUpIfMoved($)
     const model = await readModel($)
     await update($, usageAtom, previous => toUsage(model, e, previous))
+    await settleTurnCost($)
     await refreshBranch($)
     await tick($)
     await raiseAlerts($)
@@ -787,7 +830,8 @@ export const register: Register = on => {
     const skin = SKINS[await read($, skinAtom)]
     const glyphs = await read($, glyphsAtom)
     const word = pick(skin.turn.words, `${e.props.word}:${e.props.durationMs}`)
+    const stats = turnStatText(findTurnStat(await read($, turnStatsAtom), e.props.durationMs), await read($, prefsAtom))
 
-    return drawPowerline($.ui.resolve(e), turnPills(skin, word, e.props.durationMs, glyphs), glyphs)
+    return drawPowerline($.ui.resolve(e), turnPills(skin, word, e.props.durationMs, glyphs, stats), glyphs)
   })
 }

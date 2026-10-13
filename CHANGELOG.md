@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.0
+
+- The line closing a turn tells what the turn cost: `KO in 1m 4s · $0.25 · 2 tools`. Cost (the session's cost after the turn less before it), tokens (read and written, the cache included; off by default) and tool calls of the main thread each turn on or off in the new Turn line tab.
+
 ## 0.9.0
 
 - Alerts: a toast as the context or a limit window reaches the threshold (80 % by default; 70, 90 or off), once more at 95 %, and again only after it drops back.
