@@ -1,5 +1,3 @@
-import type { RateLimit } from '../types'
-
 /** `claude-opus-5-5[1m]` → `Opus 5.5`; anything else as given. */
 export const prettyModel = (model: string): string => {
   const match = /claude-([a-z]+)-(\d+)(?:-(\d{1,2}))?(?!\d)/i.exec(model)
@@ -56,15 +54,3 @@ export const bar = (percent: number, width: number, fill: string, empty: string)
 
   return fill.repeat(filled) + empty.repeat(width - filled)
 }
-
-/** The theme key a fill level is drawn in. */
-export const levelColor = (percent: number): 'success' | 'warning' | 'error' =>
-  percent < 60 ? 'success' : percent < 85 ? 'warning' : 'error'
-
-const LIMIT_LABELS: Record<string, string> = {
-  five_hour: '5h',
-  seven_day: '7d',
-  spend_limit: 'spend',
-}
-
-export const limitLabel = (limit: RateLimit): string => LIMIT_LABELS[limit.kind] ?? limit.kind

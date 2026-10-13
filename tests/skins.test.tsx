@@ -2,8 +2,9 @@ import { describe, expect, mock, test } from 'claude-code/testing'
 import type { Engine } from 'claude-code/testing'
 
 import type { Usage } from '../types'
-import { bar, formatDuration, formatReset, levelColor, prettyModel } from '../hooks/format'
-import { hudSegments, layoutFor } from '../hooks/hud'
+import { bar, formatDuration, formatReset, prettyModel } from '../hooks/format'
+import { MAX_LEVEL, barPills, barWidth, fitPills } from '../hooks/hud'
+import type { BarInput } from '../hooks/hud'
 import { SKINS, pick } from '../hooks/skins'
 
 const MINUTE = 60_000
@@ -61,14 +62,11 @@ describe('format', () => {
     expect(formatReset(undefined, 0)).toBe('')
   })
 
-  test('meters fill and color by level', () => {
+  test('meters fill', () => {
     expect(bar(0, 8, '█', '░')).toBe('░░░░░░░░')
     expect(bar(1, 8, '█', '░')).toBe('█░░░░░░░')
     expect(bar(50, 8, '█', '░')).toBe('████░░░░')
     expect(bar(140, 8, '█', '░')).toBe('████████')
-    expect(levelColor(10)).toBe('success')
-    expect(levelColor(72)).toBe('warning')
-    expect(levelColor(91)).toBe('error')
   })
 
   test('a word holds for one seed', () => {
@@ -78,22 +76,51 @@ describe('format', () => {
   })
 })
 
-describe('hud layout', () => {
-  test('wide shows meters, the skin and the cost', () => {
-    const keys = hudSegments(SKINS.ring, USAGE, 0, layoutFor(140)).map(s => s.key)
-    expect(keys).toEqual(['skin', 'model', 'context', 'limit-five_hour', 'limit-seven_day', 'cost'])
-    const context = hudSegments(SKINS.ring, USAGE, 0, 'full').find(s => s.key === 'context')
-    expect(context?.meter?.text).toBe('■■■□□□□□')
+const RING: BarInput = { skin: SKINS.ring, usage: USAGE, now: 0, glyphs: 'nerd', isWorking: false, frame: 0 }
+
+describe('powerline bar', () => {
+  test('wide shows every block, meters and countdowns', () => {
+    const pills = fitPills(RING, 200)
+    expect(pills.map(p => p.key)).toEqual(['skin', 'model', 'context', 'limit-five_hour', 'limit-seven_day', 'cost'])
+    expect(pills.find(p => p.key === 'skin')?.text).toBe('\uf255 RING')
+    expect(pills.find(p => p.key === 'context')?.text).toBe('\uf1c0 ■■□□□ 34%')
+    expect(pills.find(p => p.key === 'limit-five_hour')?.text).toContain('↻2h13m')
   })
 
-  test('narrow keeps the model, the context and the 5h window', () => {
-    const keys = hudSegments(SKINS.ring, USAGE, 0, layoutFor(50)).map(s => s.key)
-    expect(keys).toEqual(['model', 'context', 'limit-five_hour'])
+  test('blocks turn warn and danger colors as they fill', () => {
+    const pills = fitPills(RING, 200)
+    expect(pills.find(p => p.key === 'context')?.paint).toEqual(SKINS.ring.colors.meterA)
+    expect(pills.find(p => p.key === 'limit-five_hour')?.paint).toEqual(SKINS.ring.colors.warn)
+    expect(pills.find(p => p.key === 'limit-seven_day')?.paint).toEqual(SKINS.ring.colors.danger)
+  })
+
+  test('the bar sheds detail until it fits', () => {
+    for (const columns of [120, 90, 70, 50, 30]) {
+      const pills = fitPills(RING, columns)
+      const coarsest = barPills(RING, MAX_LEVEL)
+      expect(barWidth(pills, 'nerd') <= columns || pills.length === coarsest.length).toBe(true)
+    }
+    expect(fitPills(RING, 30).map(p => p.key)).toEqual(['skin', 'model', 'context'])
+  })
+
+  test('plain glyphs use words and no powerline characters', () => {
+    const pills = fitPills({ ...RING, glyphs: 'plain' }, 200)
+    expect(pills.find(p => p.key === 'skin')?.text).toBe('◆ RING')
+    expect(pills.find(p => p.key === 'context')?.text).toBe('ctx ■■□□□ 34%')
+    expect(pills.every(p => !/[\ue000-\uf8ff]/.test(p.text))).toBe(true)
+  })
+
+  test('working animates the skin block', () => {
+    const still = barPills({ ...RING, isWorking: true, frame: 0 }, 0)[0]
+    const later = barPills({ ...RING, isWorking: true, frame: 5 }, 0)[0]
+    expect(still?.text).toBe('\uf255 RING ⠋')
+    expect(later?.text).toBe('\uf255 RING ⠴')
+    expect(later?.paint.bg).toBe(SKINS.ring.colors.pulse)
   })
 
   test('no readings yet still draws', () => {
     const empty: Usage = { model: null, contextPercent: null, rateLimits: [], costUsd: null }
-    expect(hudSegments(SKINS.minimal, empty, 0, 'compact').map(s => s.value)).toEqual(['–'])
+    expect(fitPills({ ...RING, usage: empty }, 200).map(p => p.text)).toEqual(['\uf255 RING', '\uf1c0 –'])
   })
 })
 
@@ -145,10 +172,10 @@ describe('engine', () => {
 
     for (const surface of ['terminal', 'desktop'] as const) {
       const band = await $.ui.mount({ plugin: 'cc-skins', surface, component: 'AbovePrompt', props: bandProps(140) })
-      expect(await band.find({ type: 'Text', text: 'Opus 5.5' })).toBeDefined()
-      expect(await band.find({ type: 'Text', text: '34%' })).toBeDefined()
-      expect(await band.find({ type: 'Text', text: '↻2h13m' })).toBeDefined()
-      expect(await band.find({ type: 'Text', text: '$1.24' })).toBeDefined()
+      expect(await band.find({ type: 'Text', text: /Opus 5\.5/ })).toBeDefined()
+      expect(await band.find({ type: 'Text', text: /34%/ })).toBeDefined()
+      expect(await band.find({ type: 'Text', text: /↻2h13m/ })).toBeDefined()
+      expect(await band.find({ type: 'Text', text: /\$1\.24/ })).toBeDefined()
       await band.unmount()
     }
   })
@@ -162,12 +189,63 @@ describe('engine', () => {
     })
 
     const before = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
-    expect(await before.find({ type: 'Text', text: 'ctx ' })).toBeDefined()
+    expect(await before.find({ type: 'Text', text: /RING/ })).toBeDefined()
     await before.unmount()
 
     expect((await runSkin($, 'hud off')).text).toBe('Usage HUD hidden.')
     const after = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
-    expect(await after.find({ type: 'Text', text: 'ctx ' })).toBeUndefined()
+    expect(await after.find({ type: 'Text', text: /RING/ })).toBeUndefined()
     await after.unmount()
+  })
+})
+
+describe('glyphs', () => {
+  test('/skin glyphs plain drops the powerline characters', async ($, on) => {
+    mock.store(on)
+    expect((await runSkin($, 'glyphs plain')).text).toContain('plain')
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await band.find({ type: 'Text', text: /◆ RING/ })).toBeDefined()
+    expect(await band.find({ type: 'Text', text: /\ue0b0|\ue0b4|\ue0b6/ })).toBeUndefined()
+    await band.unmount()
+  })
+
+  test('/skin glyphs with no choice explains itself', async ($, on) => {
+    mock.store(on)
+    expect((await runSkin($, 'glyphs')).text).toContain('nerd|plain')
+  })
+})
+
+describe('turns', () => {
+  test('a running turn animates the bar, and its end stops it', async ($, on) => {
+    mock.store(on)
+    const clock = mock.clock(on, { now: 0 })
+    on('turn.start', ($, e) => ({ turnId: e.turnId }))
+    on('turn.complete', () => ({ text: '' }))
+
+    await $.turn.start({ text: 'count to 5', turnId: 't1' })
+    await clock.advance(150)
+    const working = { ...bandProps(140), isWorking: true }
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: working })
+    expect(await band.find({ type: 'Text', text: /RING ⠙/ })).toBeDefined()
+    await band.unmount()
+
+    await $.turn.complete({ turnId: 't1', reason: 'answer', answer: '', durationMs: 1_000, isAborted: false })
+    await clock.advance(600)
+    const idle = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: working })
+    expect(await idle.find({ type: 'Text', text: /RING ⠋/ })).toBeDefined()
+    await idle.unmount()
+  })
+
+  test('the turn line is a ring pill', async ($, on) => {
+    mock.store(on)
+    const line = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'TurnDuration',
+      props: { word: 'Baked', durationMs: 64_000 },
+    })
+    expect(await line.find({ type: 'Text', text: /(KO|TKO|Split decision)/ })).toBeDefined()
+    expect(await line.find({ type: 'Text', text: /in 1m 4s/ })).toBeDefined()
+    await line.unmount()
   })
 })

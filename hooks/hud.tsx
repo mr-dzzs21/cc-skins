@@ -1,102 +1,180 @@
-import type { BoxProps, Color, ElementConstructor, TextProps } from 'claude-code'
+import type { BoxProps, ElementConstructor, TextProps } from 'claude-code'
 
-import type { Usage } from '../types'
-import {
-  bar,
-  formatCost,
-  formatPercent,
-  formatReset,
-  levelColor,
-  limitLabel,
-  prettyModel,
-} from './format'
-import type { Skin } from './skins'
+import type { Glyphs, Usage } from '../types'
+import { bar, formatCost, formatDuration, formatPercent, formatReset, prettyModel } from './format'
+import type { Paint, Skin } from './skins'
 
-/** Below this many columns the meters go and only the figures stay. */
-export const FULL_COLUMNS = 104
-/** Below this many columns only the model, context and 5h window stay. */
-export const COMPACT_COLUMNS = 60
+/** Powerline separators (Nerd Fonts and Powerline-patched fonts). */
+const POWERLINE = { open: '', arrow: '', close: '' }
 
-const BAR_WIDTH = 8
+/** Font Awesome icons, at the same code points in every Nerd Font. */
+const ICONS = {
+  model: '',
+  context: '',
+  five_hour: '',
+  seven_day: '',
+  spend_limit: '',
+} as const
 
-export type Segment = {
-  key: string
-  label?: string
-  meter?: { text: string; color: Color }
-  value: string
-  color?: Color
-  note?: string
-  isBold?: boolean
+const FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+const METER_WIDTH = 5
+
+/** How many times coarser the bar can get; the richest that fits is drawn. */
+export const MAX_LEVEL = 6
+
+export type Pill = { key: string; text: string; paint: Paint; isBold?: boolean }
+
+export type BarInput = {
+  skin: Skin
+  usage: Usage
+  now: number
+  glyphs: Glyphs
+  isWorking: boolean
+  /** Advances while a turn runs: the spinner frame and the pulse read it. */
+  frame: number
 }
 
-type Layout = 'full' | 'compact' | 'tiny'
+const LIMIT_LABELS: Record<string, string> = { five_hour: '5h', seven_day: '7d', spend_limit: 'spend' }
 
-export const layoutFor = (columns: number): Layout =>
-  columns >= FULL_COLUMNS ? 'full' : columns >= COMPACT_COLUMNS ? 'compact' : 'tiny'
+const levelPaint = (skin: Skin, percent: number, calm: Paint): Paint =>
+  percent >= 85 ? skin.colors.danger : percent >= 60 ? skin.colors.warn : calm
 
-/** What the HUD shows, in order: plain data, so the layout is testable apart from drawing. */
-export const hudSegments = (skin: Skin, usage: Usage, now: number, layout: Layout): Segment[] => {
-  const segments: Segment[] = []
-  const meter = (percent: number) =>
-    layout === 'full'
-      ? { text: bar(percent, BAR_WIDTH, skin.bar.fill, skin.bar.empty), color: levelColor(percent) }
-      : undefined
+/**
+ * The bar's blocks at one level of detail: 0 is everything, and each level up
+ * drops one thing, in this order: meters, reset countdowns, cost, the 7-day
+ * window, the skin's name, the 5-hour window.
+ */
+export const barPills = (input: BarInput, level: number): Pill[] => {
+  const { skin, usage, now, glyphs, isWorking, frame } = input
+  const isNerd = glyphs === 'nerd'
+  const hasMeters = level < 1
+  const hasResets = level < 2
+  const hasCost = level < 3
+  const hasSevenDay = level < 4
+  const hasSkinName = level < 5
+  const hasLimits = level < 6
+  const pills: Pill[] = []
 
-  if (layout === 'full') {
-    segments.push({ key: 'skin', value: skin.id, color: 'claude' })
-  }
+  const skinText = [
+    isNerd ? skin.icon : skin.glyph,
+    hasSkinName ? skin.label.toUpperCase() : undefined,
+    isWorking ? FRAMES[frame % FRAMES.length] : undefined,
+  ]
+  const isPulsing = isWorking && Math.floor(frame / 4) % 2 === 1
+  pills.push({
+    key: 'skin',
+    text: skinText.filter(part => part !== undefined).join(' '),
+    paint: isPulsing ? { ...skin.colors.accent, bg: skin.colors.pulse } : skin.colors.accent,
+    isBold: true,
+  })
+
   if (usage.model !== null) {
-    segments.push({ key: 'model', value: prettyModel(usage.model), color: 'claude', isBold: true })
-  }
-  segments.push(
-    usage.contextPercent === null
-      ? { key: 'context', label: 'ctx', value: '–', color: 'inactive' }
-      : {
-          key: 'context',
-          label: 'ctx',
-          meter: meter(usage.contextPercent),
-          value: formatPercent(usage.contextPercent),
-          color: levelColor(usage.contextPercent),
-        },
-  )
-  for (const limit of usage.rateLimits) {
-    if (layout === 'tiny' && limit.kind !== 'five_hour') {
-      continue
-    }
-    const reset = layout === 'tiny' ? '' : formatReset(limit.resetsAt, now)
-    segments.push({
-      key: `limit-${limit.kind}`,
-      label: limitLabel(limit),
-      meter: meter(limit.percentUsed),
-      value: formatPercent(limit.percentUsed),
-      color: levelColor(limit.percentUsed),
-      note: reset === '' ? undefined : `↻${reset}`,
+    const name = prettyModel(usage.model)
+    pills.push({
+      key: 'model',
+      text: isNerd ? `${ICONS.model} ${name}` : name,
+      paint: skin.colors.model,
+      isBold: true,
     })
   }
-  if (usage.costUsd !== null && layout !== 'tiny') {
-    segments.push({ key: 'cost', value: formatCost(usage.costUsd), color: 'subtle' })
+
+  const meter = (percent: number) =>
+    hasMeters ? `${bar(percent, METER_WIDTH, skin.meter.fill, skin.meter.empty)} ` : ''
+
+  const context = usage.contextPercent
+  pills.push({
+    key: 'context',
+    text: `${isNerd ? ICONS.context : 'ctx'} ${context === null ? '–' : meter(context) + formatPercent(context)}`,
+    paint: context === null ? skin.colors.meterA : levelPaint(skin, context, skin.colors.meterA),
+  })
+
+  usage.rateLimits.forEach((limit, index) => {
+    const isFiveHour = limit.kind === 'five_hour'
+    if (!hasLimits || (!isFiveHour && !hasSevenDay)) {
+      return
+    }
+    const icon = ICONS[limit.kind as keyof typeof ICONS]
+    const label = isNerd && icon !== undefined ? icon : LIMIT_LABELS[limit.kind] ?? limit.kind
+    const reset = hasResets ? formatReset(limit.resetsAt, now) : ''
+    pills.push({
+      key: `limit-${limit.kind}`,
+      text: `${label} ${meter(limit.percentUsed)}${formatPercent(limit.percentUsed)}${reset === '' ? '' : ` ↻${reset}`}`,
+      paint: levelPaint(skin, limit.percentUsed, index % 2 === 0 ? skin.colors.meterB : skin.colors.meterA),
+    })
+  })
+
+  if (usage.costUsd !== null && hasCost) {
+    pills.push({ key: 'cost', text: formatCost(usage.costUsd), paint: skin.colors.cost, isBold: true })
   }
 
-  return segments
+  return pills
+}
+
+const cells = (text: string) => [...text].length
+
+/** Cells the bar takes: each block padded by a space a side, plus the caps and arrows. */
+export const barWidth = (pills: Pill[], glyphs: Glyphs): number =>
+  pills.reduce((sum, pill) => sum + cells(pill.text) + 2, 0) +
+  (glyphs === 'nerd' && pills.length > 0 ? pills.length + 1 : 0)
+
+/** The richest blocks that fit in `columns`; the coarsest when none does. */
+export const fitPills = (input: BarInput, columns: number): Pill[] => {
+  for (let level = 0; level < MAX_LEVEL; level++) {
+    const pills = barPills(input, level)
+    if (barWidth(pills, input.glyphs) <= columns) {
+      return pills
+    }
+  }
+
+  return barPills(input, MAX_LEVEL)
 }
 
 /** The two elements every surface's table carries. */
 type Elements = { Box: ElementConstructor<BoxProps>; Text: ElementConstructor<TextProps> }
 
-/** Draws the segments as one row, the skin's glyph first and its separator between. */
-export const drawHud = ({ Box, Text }: Elements, skin: Skin, segments: Segment[]) => (
-  <Box flexDirection="row" flexWrap="nowrap" overflow="hidden">
-    <Text color="claude">{skin.glyph} </Text>
-    {segments.map((segment, index) => (
-      <Text key={segment.key} wrap="truncate-end">
-        {index > 0 && <Text dimColor>{skin.separator}</Text>}
-        {segment.label !== undefined && <Text dimColor>{segment.label} </Text>}
-        {segment.meter !== undefined && <Text color={segment.meter.color}>{segment.meter.text} </Text>}
-        <Text color={segment.color} bold={segment.isBold}>
-          {segment.value}
+/**
+ * Draws blocks as a powerline: a round cap, each block on its own background,
+ * an arrow in the left block's color over the right one's, a round cap to end.
+ * Plain glyphs draw the blocks side by side.
+ */
+export const drawPowerline = ({ Box, Text }: Elements, pills: Pill[], glyphs: Glyphs) => {
+  const isNerd = glyphs === 'nerd'
+  const first = pills[0]
+
+  return (
+    <Box flexDirection="row" flexWrap="nowrap" overflow="hidden">
+      {isNerd && first !== undefined && (
+        <Text key="open" color={first.paint.bg}>
+          {POWERLINE.open}
         </Text>
-        {segment.note !== undefined && <Text dimColor> {segment.note}</Text>}
-      </Text>
-    ))}
-  </Box>
-)
+      )}
+      {pills.map((pill, index) => {
+        const following = pills[index + 1]
+
+        return (
+          <Text key={pill.key} wrap="truncate-end">
+            <Text backgroundColor={pill.paint.bg} color={pill.paint.fg} bold={pill.isBold}>
+              {` ${pill.text} `}
+            </Text>
+            {isNerd && (
+              <Text color={pill.paint.bg} backgroundColor={following?.paint.bg}>
+                {following === undefined ? POWERLINE.close : POWERLINE.arrow}
+              </Text>
+            )}
+          </Text>
+        )
+      })}
+    </Box>
+  )
+}
+
+/** The line that closes a turn, as two blocks: `KO` and `4s`. */
+export const turnPills = (skin: Skin, word: string, durationMs: number, glyphs: Glyphs): Pill[] => [
+  {
+    key: 'word',
+    text: `${glyphs === 'nerd' ? skin.icon : skin.glyph} ${word}`,
+    paint: skin.colors.accent,
+    isBold: true,
+  },
+  { key: 'duration', text: `${skin.turn.joiner} ${formatDuration(durationMs)}`, paint: skin.colors.meterA },
+]
