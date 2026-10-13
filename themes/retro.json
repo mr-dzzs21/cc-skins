@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Retro",
+  "base": "dark",
+  "overrides": {
+    "claude": "#33ff66",
+    "claudeShimmer": "#a6ffbf",
+    "text": "#c4f5cf",
+    "inactive": "#5a8a66",
+    "subtle": "#2f4d38",
+    "suggestion": "#ffb000",
+    "permission": "#ffb000",
+    "permissionShimmer": "#ffd36b",
+    "promptBorder": "#ffb000",
+    "promptBorderShimmer": "#ffd36b",
+    "planMode": "#5fd7ff",
+    "autoAccept": "#ffb000",
+    "bashBorder": "#ff5f5f",
+    "success": "#33ff66",
+    "error": "#ff4d4d",
+    "warning": "#ffb000",
+    "diffAdded": "#0f3d1c",
+    "diffRemoved": "#4a1414",
+    "diffAddedDimmed": "#0b2914",
+    "diffRemovedDimmed": "#2e0d0d",
+    "diffAddedWord": "#1f7a38",
+    "diffRemovedWord": "#8c2626",
+    "userMessageBackground": "#0f1f14",
+    "userMessageBackgroundHover": "#163020",
+    "selectionBg": "#1f5c33",
+    "rate_limit_fill": "#33ff66",
+    "rate_limit_empty": "#2f4d38"
+  }
+}

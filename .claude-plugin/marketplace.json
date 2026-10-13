@@ -1,0 +1,15 @@
+{
+  "name": "cc-skins",
+  "description": "Skins for Claude Code in the terminal.",
+  "owner": {
+    "name": "mr-dzzs21",
+    "url": "https://github.com/mr-dzzs21"
+  },
+  "plugins": [
+    {
+      "name": "cc-skins",
+      "source": "./",
+      "description": "Switchable skins for Claude Code in the terminal: color themes, themed spinner and turn lines, and a live usage HUD."
+    }
+  ]
+}

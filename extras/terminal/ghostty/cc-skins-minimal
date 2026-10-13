@@ -1,0 +1,22 @@
+# cc-skins · Minimal — Ghostty theme
+background = #1c1c1c
+foreground = #d4d4d4
+cursor-color = #7aa2f7
+selection-background = #3a4a6b
+selection-foreground = #d4d4d4
+palette = 0=#1c1c1c
+palette = 1=#e06c75
+palette = 2=#9ece6a
+palette = 3=#d4b26a
+palette = 4=#7aa2f7
+palette = 5=#bb9af7
+palette = 6=#7dcfff
+palette = 7=#d4d4d4
+palette = 8=#4d4d4d
+palette = 9=#f08c94
+palette = 10=#b5e08a
+palette = 11=#e6c98a
+palette = 12=#9bb8fa
+palette = 13=#cdb4fa
+palette = 14=#a3defc
+palette = 15=#f5f5f5

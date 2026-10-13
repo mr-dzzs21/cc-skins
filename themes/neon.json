@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Neon",
+  "base": "dark",
+  "overrides": {
+    "claude": "#ff2bd6",
+    "claudeShimmer": "#ff9cf0",
+    "text": "#e6e6ff",
+    "inactive": "#7d70a3",
+    "subtle": "#3b3157",
+    "suggestion": "#00e5ff",
+    "permission": "#b388ff",
+    "permissionShimmer": "#dac6ff",
+    "promptBorder": "#00e5ff",
+    "promptBorderShimmer": "#8cf5ff",
+    "planMode": "#00e5ff",
+    "autoAccept": "#ff2bd6",
+    "bashBorder": "#ffea00",
+    "success": "#39ff14",
+    "error": "#ff3860",
+    "warning": "#ffea00",
+    "diffAdded": "#0d3b2e",
+    "diffRemoved": "#4a0f2b",
+    "diffAddedDimmed": "#09261e",
+    "diffRemovedDimmed": "#2e0a1b",
+    "diffAddedWord": "#14805f",
+    "diffRemovedWord": "#a01d5a",
+    "userMessageBackground": "#1a1033",
+    "userMessageBackgroundHover": "#24164a",
+    "selectionBg": "#4a1f7a",
+    "rate_limit_fill": "#ff2bd6",
+    "rate_limit_empty": "#3b3157"
+  }
+}

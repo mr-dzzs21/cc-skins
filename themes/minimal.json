@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Minimal",
+  "base": "dark",
+  "overrides": {
+    "claude": "#7aa2f7",
+    "claudeShimmer": "#aec5fa",
+    "text": "#d4d4d4",
+    "inactive": "#707070",
+    "subtle": "#3c3c3c",
+    "suggestion": "#7aa2f7",
+    "permission": "#7aa2f7",
+    "permissionShimmer": "#aec5fa",
+    "promptBorder": "#4d4d4d",
+    "promptBorderShimmer": "#6e6e6e",
+    "planMode": "#7aa2f7",
+    "autoAccept": "#9ece6a",
+    "bashBorder": "#c0a36e",
+    "success": "#9ece6a",
+    "error": "#e06c75",
+    "warning": "#d4b26a",
+    "diffAdded": "#1e3323",
+    "diffRemoved": "#3d1f22",
+    "diffAddedDimmed": "#16241a",
+    "diffRemovedDimmed": "#2a1618",
+    "diffAddedWord": "#2f5a38",
+    "diffRemovedWord": "#6b2e33",
+    "userMessageBackground": "#262626",
+    "userMessageBackgroundHover": "#303030",
+    "selectionBg": "#3a4a6b",
+    "rate_limit_fill": "#7aa2f7",
+    "rate_limit_empty": "#3c3c3c"
+  }
+}

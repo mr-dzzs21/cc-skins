@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Ring",
+  "base": "dark",
+  "overrides": {
+    "claude": "#e63946",
+    "claudeShimmer": "#ff8a93",
+    "text": "#f1e9da",
+    "inactive": "#8a7f6e",
+    "subtle": "#3d3428",
+    "suggestion": "#f2c94c",
+    "permission": "#d4a017",
+    "permissionShimmer": "#f2c94c",
+    "promptBorder": "#d4a017",
+    "promptBorderShimmer": "#f2c94c",
+    "planMode": "#4ea8de",
+    "autoAccept": "#f2c94c",
+    "bashBorder": "#e63946",
+    "success": "#52b788",
+    "error": "#e63946",
+    "warning": "#f2c94c",
+    "diffAdded": "#163b2a",
+    "diffRemoved": "#4d1419",
+    "diffAddedDimmed": "#0f281d",
+    "diffRemovedDimmed": "#330d10",
+    "diffAddedWord": "#2d6a4f",
+    "diffRemovedWord": "#9d0208",
+    "userMessageBackground": "#2a1a1c",
+    "userMessageBackgroundHover": "#3a2326",
+    "selectionBg": "#6a1e25",
+    "rate_limit_fill": "#d4a017",
+    "rate_limit_empty": "#3d3428"
+  }
+}

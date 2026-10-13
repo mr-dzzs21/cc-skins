@@ -1,0 +1,5 @@
+# Laid by Claude Code when it loads the plugin from a working folder
+.claude-plugin/types/
+tsconfig.json
+.DS_Store
+node_modules/

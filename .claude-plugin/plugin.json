@@ -1,0 +1,9 @@
+{
+  "name": "cc-skins",
+  "version": "0.1.0",
+  "description": "Switchable skins for Claude Code in the terminal: color themes, themed spinner and turn lines, and a live usage HUD (model, context, 5h/7d limits, cost).",
+  "author": { "name": "mr-dzzs21", "url": "https://github.com/mr-dzzs21" },
+  "license": "MIT",
+  "keywords": ["theme", "skin", "statusline", "hud", "usage", "terminal"],
+  "types": "./types/index.d.ts"
+}

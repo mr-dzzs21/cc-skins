@@ -1,0 +1,22 @@
+# cc-skins · Neon — Ghostty theme
+background = #0d0221
+foreground = #e6e6ff
+cursor-color = #ff2bd6
+selection-background = #4a1f7a
+selection-foreground = #e6e6ff
+palette = 0=#0d0221
+palette = 1=#ff3860
+palette = 2=#39ff14
+palette = 3=#ffea00
+palette = 4=#00a8ff
+palette = 5=#ff2bd6
+palette = 6=#00e5ff
+palette = 7=#e6e6ff
+palette = 8=#3b3157
+palette = 9=#ff6b8b
+palette = 10=#7dff5c
+palette = 11=#fff35c
+palette = 12=#5cc8ff
+palette = 13=#ff9cf0
+palette = 14=#8cf5ff
+palette = 15=#ffffff

@@ -1,0 +1,22 @@
+# cc-skins · Ring — Ghostty theme
+background = #1a1213
+foreground = #f1e9da
+cursor-color = #e63946
+selection-background = #6a1e25
+selection-foreground = #f1e9da
+palette = 0=#1a1213
+palette = 1=#e63946
+palette = 2=#52b788
+palette = 3=#f2c94c
+palette = 4=#4ea8de
+palette = 5=#c77dff
+palette = 6=#48cae4
+palette = 7=#f1e9da
+palette = 8=#3d3428
+palette = 9=#ff6b75
+palette = 10=#74c69d
+palette = 11=#ffd97a
+palette = 12=#7cc0ea
+palette = 13=#d9a4ff
+palette = 14=#7fdcef
+palette = 15=#ffffff
