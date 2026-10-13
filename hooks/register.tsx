@@ -57,7 +57,10 @@ const hiddenAtom = atom({ plugin: 'cc-skins', key: 'hidden' } as const, [...DEFA
 /** The main thread's effort, as its last request asked it. */
 const effortAtom = atom({ plugin: 'cc-skins', key: 'effort' } as const, null as string | null)
 /** The Model row, as the model picker shows it. */
-const modelChoiceAtom = atom({ plugin: 'cc-skins', key: 'modelChoice' } as const, { value: '', options: [] } as ModelChoice)
+const modelChoiceAtom = atom(
+  { plugin: 'cc-skins', key: 'modelChoice' } as const,
+  { value: '', options: [], resolved: {} } as ModelChoice,
+)
 /** The clock the HUD's reset countdowns read; ticked once a minute. */
 const nowAtom = atom({ plugin: 'cc-skins', key: 'now' } as const, 0)
 /** The bar's animation frame, advanced while a turn runs. */
@@ -71,6 +74,7 @@ const STORE = {
   isChatStyled: 'isChatStyled',
   isHudHidden: 'isHudHidden',
   hidden: 'barHidden',
+  models: 'aliasModels',
   hasWelcomed: 'hasWelcomed',
 } as const
 
@@ -201,11 +205,29 @@ const showItem = async ($: EngineInterface, item: BarItem, isShown: boolean) => 
 const toggleItem = async ($: EngineInterface, item: BarItem) =>
   showItem($, item, (await read($, hiddenAtom)).includes(item))
 
-/** The Model row: the aliases it offers and the one set. */
+/** The models picks have shown aliases to name, kept across sessions. */
+const readLearnedModels = async ($: EngineInterface): Promise<Record<string, string>> => {
+  const stored = await $.store.get(STORE.models)
+  if (typeof stored !== 'object' || stored === null || Array.isArray(stored)) {
+    return {}
+  }
+
+  return Object.fromEntries(
+    Object.entries(stored).filter((entry): entry is [string, string] => typeof entry[1] === 'string'),
+  )
+}
+
+/** The Model row: the aliases it offers, the one set, and the model each is known to name. */
 const readModelChoice = async ($: EngineInterface): Promise<ModelChoice> => {
   const row = (await $.config.list()).find(one => one.key === 'model')
+  const value = typeof row?.value === 'string' ? row.value : ''
+  const running = await readModel($)
 
-  return { value: typeof row?.value === 'string' ? row.value : '', options: [...(row?.options ?? [])] }
+  return {
+    value,
+    options: [...(row?.options ?? [])],
+    resolved: { ...(await readLearnedModels($)), ...(running !== null && value !== '' ? { [value]: running } : {}) },
+  }
 }
 
 /** Opens the model and effort picker on the Model row as it stands. */
@@ -230,11 +252,18 @@ const pickModel = async ($: EngineInterface, value: string) => {
 
     return
   }
-  await update($, modelChoiceAtom, choice => ({ ...choice, value }))
   const model = await readModel($)
+  if (model !== null) {
+    await $.store.set(STORE.models, { ...(await readLearnedModels($)), [value]: model })
+  }
+  await update($, modelChoiceAtom, choice => ({
+    ...choice,
+    value,
+    resolved: model === null ? choice.resolved : { ...choice.resolved, [value]: model },
+  }))
   await update($, usageAtom, usage => ({ ...usage, model }))
   await update($, effortAtom, () => null)
-  $.ui.toast(`Model → ${modelLabel(value)}`)
+  $.ui.toast(`Model → ${modelLabel(value, model ?? undefined)}`)
 }
 
 /** Sets this session's effort through `/effort`, which says so in the transcript. */
@@ -389,9 +418,15 @@ export const register: Register = on => {
 
   on('turn.step', async function* ($, e, next) {
     try {
-      const effort = e.agentId === undefined && typeof e.effort === 'string' ? e.effort : undefined
-      if (effort !== undefined && (await read($, effortAtom)) !== effort) {
-        await update($, effortAtom, () => effort)
+      if (e.agentId === undefined) {
+        const effort = typeof e.effort === 'string' ? e.effort : undefined
+        if (effort !== undefined && (await read($, effortAtom)) !== effort) {
+          await update($, effortAtom, () => effort)
+        }
+        const model = e.model
+        if ((await read($, usageAtom)).model !== model) {
+          await update($, usageAtom, usage => ({ ...usage, model }))
+        }
       }
     } catch {
       // The bar shows the effort the next request asks for.

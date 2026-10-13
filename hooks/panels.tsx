@@ -1,6 +1,7 @@
 import type { BoxProps, ButtonProps, ElementConstructor, TextProps } from 'claude-code'
 
 import type { BarItem, BarStyle, Glyphs, ModelChoice } from '../types'
+import { prettyModel } from './format'
 import type { Skin } from './skins'
 
 /** The pane a press on the bar's model opens, and the one its ⚙ opens. */
@@ -38,22 +39,25 @@ export const isBarItem = (value: unknown): value is BarItem => BAR_ITEMS.some(({
 export const barItemNamed = (name: string): BarItem | undefined =>
   BAR_ITEMS.find(({ item }) => item.toLowerCase() === name.toLowerCase())?.item
 
-const MODEL_LABELS: Record<string, string> = {
-  default: 'Default',
-  best: 'Best available',
-  opusplan: 'Opus plan mode',
-}
-
-/** `opus[1m]` → `Opus · 1M context`; the Model row's other aliases as words. */
-export const modelLabel = (alias: string): string => {
-  const named = MODEL_LABELS[alias]
-  if (named !== undefined) {
-    return named
-  }
+/**
+ * An alias of the Model row as the model it names, with its version:
+ * `opus` → `Opus 5.5`, `opus[1m]` → `Opus 5.5 · 1M context`, `opusplan` →
+ * `Opus 5.5 plan mode`; `default` and `best` name theirs where it is known.
+ * `resolved` is the model the alias is known to name, where it is.
+ */
+export const modelLabel = (alias: string, resolved?: string): string => {
   const base = alias.replace(/\[1m\]$/i, '')
-  const word = base.charAt(0).toUpperCase() + base.slice(1)
+  const name = prettyModel(resolved ?? base)
+  if (alias === 'default' || alias === 'best') {
+    const word = alias === 'default' ? 'Default' : 'Best available'
 
-  return alias === base ? word : `${word} · 1M context`
+    return resolved === undefined ? word : `${word} · ${name}`
+  }
+  if (alias === 'opusplan') {
+    return `${prettyModel(resolved ?? 'opus')} plan mode`
+  }
+
+  return alias === base ? name : `${name} · 1M context`
 }
 
 const HOTKEYS = '1234567890'
@@ -95,7 +99,7 @@ export const drawModelPicker = (
       {drawHeading(elements, skin, 'model-heading', 'Model', 'saved as your default, as /model does')}
       {view.choice.options.map((value, index) => {
         const isCurrent = value === view.choice.value
-        const label = modelLabel(value)
+        const label = modelLabel(value, view.choice.resolved[value])
 
         return (
           <Button
@@ -107,7 +111,7 @@ export const drawModelPicker = (
             onPress={() => pickModel(value)}
           >
             <Text color={isCurrent ? skin.chat.assistant : undefined} bold={isCurrent}>
-              {label.padEnd(22)}
+              {label.padEnd(24)}
             </Text>
             <Text color={skin.chat.muted}>{value}</Text>
             {isCurrent && <Text color={skin.chat.success}> ✓</Text>}

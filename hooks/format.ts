@@ -1,8 +1,21 @@
-/** `claude-opus-5-5[1m]` → `Opus 5.5`; anything else as given. */
+/**
+ * The models this build's aliases name. The running session's model, and any
+ * model a pick has shown an alias to name, take their place where they differ.
+ */
+export const ALIAS_MODELS: Record<string, string> = {
+  opus: 'claude-opus-5-5',
+  sonnet: 'claude-sonnet-5-5',
+  haiku: 'claude-haiku-5-5',
+  fable: 'claude-fable-5-1',
+}
+
+/** `claude-opus-5-5[1m]` → `Opus 5.5`; a bare alias (`opus`) as the model it names; anything else as given. */
 export const prettyModel = (model: string): string => {
   const match = /claude-([a-z]+)-(\d+)(?:-(\d{1,2}))?(?!\d)/i.exec(model)
   if (!match) {
-    return model
+    const named = ALIAS_MODELS[model.replace(/\[1m\]$/i, '').toLowerCase()]
+
+    return named === undefined ? model : prettyModel(named)
   }
   const [, family = '', major, minor] = match
   const name = family.charAt(0).toUpperCase() + family.slice(1).toLowerCase()

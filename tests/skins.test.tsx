@@ -8,6 +8,7 @@ import { MAX_LEVEL, barPills, barWidth, fitPills, headerFor } from '../hooks/hud
 import type { BarInput } from '../hooks/hud'
 import { SKIN_IDS, SKINS, pick } from '../hooks/skins'
 import { hotkeyFor, hotkeyRange } from '../hooks/picker'
+import { modelLabel } from '../hooks/panels'
 
 const MINUTE = 60_000
 const at = (ms: number) => new Date(ms).toISOString()
@@ -49,7 +50,9 @@ describe('format', () => {
     expect(prettyModel('claude-opus-5-5')).toBe('Opus 5.5')
     expect(prettyModel('claude-sonnet-5-5[1m]')).toBe('Sonnet 5.5')
     expect(prettyModel('claude-sonnet-4-20250514')).toBe('Sonnet 4')
-    expect(prettyModel('opus')).toBe('opus')
+    expect(prettyModel('opus')).toBe('Opus 5.5')
+    expect(prettyModel('fable[1m]')).toBe('Fable 5.1')
+    expect(prettyModel('gpt-x')).toBe('gpt-x')
   })
 
   test('durations match the engine', () => {
@@ -824,13 +827,14 @@ describe('model and effort', () => {
       requestId: 'model-picker',
       props: { ...PANE_PROPS, title: 'Model and effort' },
     })
-    expect(await picker.find({ type: 'Button', text: /Opus · 1M context/ })).toBeDefined()
+    expect(await picker.find({ type: 'Button', text: /Opus 5\.5 · 1M context/ })).toBeDefined()
+    expect(await picker.find({ type: 'Button', text: /Sonnet 5\.5/ })).toBeDefined()
     expect(await picker.findAll({ type: 'Button' })).toHaveLength(MODEL_ROW.options.length + 6)
     await picker.press({ key: 'model-sonnet' })
     await picker.unmount()
 
     expect(set).toEqual(['sonnet'])
-    expect(toasts.at(-1)).toBe('Model → Sonnet')
+    expect(toasts.at(-1)).toBe('Model → Sonnet 5.5')
   })
 
   test('an effort pick runs /effort and shows on the model', async ($, on) => {
@@ -912,5 +916,16 @@ describe('bar settings', () => {
     await band.unmount()
     expect(await runSkin($, 'bar')).toEqual({})
     expect(opened).toEqual(['bar-settings'])
+  })
+})
+
+describe('model names', () => {
+  test('every alias reads with its version', () => {
+    expect(modelLabel('opus')).toBe('Opus 5.5')
+    expect(modelLabel('opus[1m]')).toBe('Opus 5.5 · 1M context')
+    expect(modelLabel('opusplan')).toBe('Opus 5.5 plan mode')
+    expect(modelLabel('default')).toBe('Default')
+    expect(modelLabel('default', 'claude-opus-5-5')).toBe('Default · Opus 5.5')
+    expect(modelLabel('sonnet', 'claude-sonnet-5-6')).toBe('Sonnet 5.6')
   })
 })

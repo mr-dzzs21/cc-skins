@@ -40,8 +40,11 @@ export type BarItem =
   | 'resets'
   | 'gear'
 
-/** The model choices the `/config` Model row offers, and the one set. */
-export type ModelChoice = { value: string; options: string[] }
+/**
+ * The model choices the `/config` Model row offers, the one set, and the
+ * model each alias is known to name (the running one, and those picks showed).
+ */
+export type ModelChoice = { value: string; options: string[]; resolved: Record<string, string> }
 
 export type RateLimit = { kind: string; percentUsed: number; resetsAt?: string }
 

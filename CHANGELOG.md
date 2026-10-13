@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.1
+
+- Models read with their version everywhere: the model picker lists `Opus 5.5`, `Opus 5.5 · 1M context`, `Sonnet 5.5`, `Opus 5.5 plan mode` instead of bare aliases. The running model, and every model a pick has shown an alias to name, take precedence over this build's defaults.
+- The bar follows a model switched outside it (`/model`), from the next request on.
+
 ## 0.8.0
 
 - The bar is yours to arrange: the ⚙ at its end (or `/skin bar`) opens settings where each piece turns on or off (skin name, model, effort, branch, context, 5-hour and 7-day limits, cost, meters, reset countdowns, the ⚙ itself), with the style, icons and chat cards beside them. `/skin show|hide <item>` does the same from the prompt.
