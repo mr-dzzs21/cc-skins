@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Emerald",
+  "base": "dark",
+  "overrides": {
+    "claude": "#34d399",
+    "claudeShimmer": "#7be2bd",
+    "text": "#d8f3e6",
+    "inactive": "#698277",
+    "subtle": "#0c3326",
+    "suggestion": "#fbbf24",
+    "permission": "#fbbf24",
+    "permissionShimmer": "#fdd97c",
+    "promptBorder": "#294b40",
+    "promptBorderShimmer": "#557067",
+    "planMode": "#fbbf24",
+    "autoAccept": "#34d399",
+    "bashBorder": "#a16207",
+    "success": "#34d399",
+    "error": "#b91c1c",
+    "warning": "#a16207",
+    "diffAdded": "#113b1c",
+    "diffRemoved": "#4d241e",
+    "diffAddedDimmed": "#0a2613",
+    "diffRemovedDimmed": "#291a14",
+    "diffAddedWord": "#1b5f2a",
+    "diffRemovedWord": "#8a342d",
+    "userMessageBackground": "#09251b",
+    "userMessageBackgroundHover": "#0b3023",
+    "selectionBg": "#15543d",
+    "rate_limit_fill": "#34d399",
+    "rate_limit_empty": "#0c3326"
+  }
+}

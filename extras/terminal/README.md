@@ -18,6 +18,14 @@ whole window fits, not just Claude Code's parts.
 | arctic | `ghostty/cc-skins-arctic` | `iterm2/cc-skins-arctic.itermcolors` | JetBrains Mono or Geist Mono |
 | lava | `ghostty/cc-skins-lava` | `iterm2/cc-skins-lava.itermcolors` | Iosevka or Fira Code |
 | candy | `ghostty/cc-skins-candy` | `iterm2/cc-skins-candy.itermcolors` | Comic Mono or Recursive Mono |
+| obsidian | `ghostty/cc-skins-obsidian` | `iterm2/cc-skins-obsidian.itermcolors` | JetBrains Mono or Geist Mono |
+| vampire | `ghostty/cc-skins-vampire` | `iterm2/cc-skins-vampire.itermcolors` | Victor Mono or IBM Plex Mono |
+| abyss | `ghostty/cc-skins-abyss` | `iterm2/cc-skins-abyss.itermcolors` | JetBrains Mono or Fira Code |
+| emerald | `ghostty/cc-skins-emerald` | `iterm2/cc-skins-emerald.itermcolors` | IBM Plex Mono or Iosevka |
+| noir | `ghostty/cc-skins-noir` | `iterm2/cc-skins-noir.itermcolors` | Courier Prime or IBM Plex Mono |
+| ember | `ghostty/cc-skins-ember` | `iterm2/cc-skins-ember.itermcolors` | Iosevka or Fira Code |
+| nebula | `ghostty/cc-skins-nebula` | `iterm2/cc-skins-nebula.itermcolors` | Space Mono or Monaspace Radon |
+| aurora | `ghostty/cc-skins-aurora` | `iterm2/cc-skins-aurora.itermcolors` | JetBrains Mono or Recursive Mono |
 
 With `/skin glyphs plain`, cc-skins draws only standard Unicode characters,
 so any monospace font works. The default powerline look needs a

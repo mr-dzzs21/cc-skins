@@ -1,0 +1,22 @@
+# cc-skins · Noir — Ghostty theme
+background = #0a0a0a
+foreground = #e5e5e5
+cursor-color = #ffffff
+selection-background = #606060
+selection-foreground = #e5e5e5
+palette = 0=#0a0a0a
+palette = 1=#e06c75
+palette = 2=#a3e635
+palette = 3=#c9a227
+palette = 4=#9ca3af
+palette = 5=#ffffff
+palette = 6=#d1d5db
+palette = 7=#e5e5e5
+palette = 8=#606060
+palette = 9=#e9989e
+palette = 10=#bfee72
+palette = 11=#d9be68
+palette = 12=#babfc7
+palette = 13=#ffffff
+palette = 14=#dfe2e6
+palette = 15=#ffffff

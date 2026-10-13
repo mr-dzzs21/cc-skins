@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Noir",
+  "base": "dark",
+  "overrides": {
+    "claude": "#ffffff",
+    "claudeShimmer": "#ffffff",
+    "text": "#e5e5e5",
+    "inactive": "#7a7a7a",
+    "subtle": "#2b2b2b",
+    "suggestion": "#a3a3a3",
+    "permission": "#a3a3a3",
+    "permissionShimmer": "#c8c8c8",
+    "promptBorder": "#444444",
+    "promptBorderShimmer": "#6b6b6b",
+    "planMode": "#a3a3a3",
+    "autoAccept": "#a3e635",
+    "bashBorder": "#c9a227",
+    "success": "#a3e635",
+    "error": "#c0392b",
+    "warning": "#c9a227",
+    "diffAdded": "#15371b",
+    "diffRemoved": "#511f1d",
+    "diffAddedDimmed": "#0f2013",
+    "diffRemovedDimmed": "#2e1513",
+    "diffAddedWord": "#1e5c29",
+    "diffRemovedWord": "#8d312d",
+    "userMessageBackground": "#1e1e1e",
+    "userMessageBackgroundHover": "#282828",
+    "selectionBg": "#606060",
+    "rate_limit_fill": "#ffffff",
+    "rate_limit_empty": "#2b2b2b"
+  }
+}

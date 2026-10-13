@@ -1,0 +1,22 @@
+# cc-skins · Aurora — Ghostty theme
+background = #070d14
+foreground = #dbeafe
+cursor-color = #6ee7b7
+selection-background = #2b594d
+selection-foreground = #dbeafe
+palette = 0=#070d14
+palette = 1=#fb7185
+palette = 2=#6ee7b7
+palette = 3=#a16207
+palette = 4=#818cf8
+palette = 5=#6ee7b7
+palette = 6=#5eead4
+palette = 7=#dbeafe
+palette = 8=#50637a
+palette = 9=#fc9caa
+palette = 10=#9aeecd
+palette = 11=#bd9151
+palette = 12=#a7aefa
+palette = 13=#9aeecd
+palette = 14=#8ef0e1
+palette = 15=#ffffff

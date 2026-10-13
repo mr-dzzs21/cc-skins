@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.0
+
+- Eight new dark skins: obsidian, vampire, abyss, emerald, noir, ember, nebula and aurora. Each bar opens on one deep jewel-tone block and darkens from there, with light text on every block (contrast of at least 4.5) and quiet text kept readable on the terminal's background. Each comes with a `/theme` theme and Ghostty and iTerm2 schemes.
+- The picker lists them together under a Dark heading.
+
 ## 0.6.1
 
 - Fix: after resuming another chat (or a /clear), cc-skins sets itself up again in the new session, so `/skin`, your skin and the bar stay. Before, they were gone until Claude Code restarted.

@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Abyss",
+  "base": "dark",
+  "overrides": {
+    "claude": "#2ec4b6",
+    "claudeShimmer": "#77d9d0",
+    "text": "#d4f1f7",
+    "inactive": "#617d86",
+    "subtle": "#072835",
+    "suggestion": "#7aa2f7",
+    "permission": "#7aa2f7",
+    "permissionShimmer": "#afc7fa",
+    "promptBorder": "#25424d",
+    "promptBorderShimmer": "#516872",
+    "planMode": "#7aa2f7",
+    "autoAccept": "#4ade80",
+    "bashBorder": "#a16207",
+    "success": "#4ade80",
+    "error": "#b91c1c",
+    "warning": "#a16207",
+    "diffAdded": "#0f381f",
+    "diffRemoved": "#4c2021",
+    "diffAddedDimmed": "#092118",
+    "diffRemovedDimmed": "#271619",
+    "diffAddedWord": "#1a5d2c",
+    "diffRemovedWord": "#89322f",
+    "userMessageBackground": "#051c26",
+    "userMessageBackgroundHover": "#062531",
+    "selectionBg": "#114c4a",
+    "rate_limit_fill": "#2ec4b6",
+    "rate_limit_empty": "#072835"
+  }
+}

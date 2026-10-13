@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Ember",
+  "base": "dark",
+  "overrides": {
+    "claude": "#ff7b2e",
+    "claudeShimmer": "#ffa977",
+    "text": "#f3e2d4",
+    "inactive": "#877466",
+    "subtle": "#33190c",
+    "suggestion": "#ffd166",
+    "permission": "#ffd166",
+    "permissionShimmer": "#ffe3a3",
+    "promptBorder": "#4b3529",
+    "promptBorderShimmer": "#705e55",
+    "planMode": "#ffd166",
+    "autoAccept": "#84cc16",
+    "bashBorder": "#ca8a04",
+    "success": "#84cc16",
+    "error": "#b91c1c",
+    "warning": "#ca8a04",
+    "diffAdded": "#163517",
+    "diffRemoved": "#531d19",
+    "diffAddedDimmed": "#111e0d",
+    "diffRemovedDimmed": "#2f120e",
+    "diffAddedWord": "#1f5b27",
+    "diffRemovedWord": "#8e302a",
+    "userMessageBackground": "#231209",
+    "userMessageBackgroundHover": "#2f170b",
+    "selectionBg": "#613013",
+    "rate_limit_fill": "#ff7b2e",
+    "rate_limit_empty": "#33190c"
+  }
+}

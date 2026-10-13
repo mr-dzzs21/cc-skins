@@ -1,0 +1,22 @@
+# cc-skins · Nebula — Ghostty theme
+background = #08050f
+foreground = #ece2ff
+cursor-color = #c084fc
+selection-background = #483162
+selection-foreground = #ece2ff
+palette = 0=#08050f
+palette = 1=#fb7185
+palette = 2=#4ade80
+palette = 3=#a16207
+palette = 4=#818cf8
+palette = 5=#c084fc
+palette = 6=#67e8f9
+palette = 7=#ece2ff
+palette = 8=#5c5070
+palette = 9=#fc9caa
+palette = 10=#80e8a6
+palette = 11=#bd9151
+palette = 12=#a7aefa
+palette = 13=#d3a9fd
+palette = 14=#95effb
+palette = 15=#ffffff

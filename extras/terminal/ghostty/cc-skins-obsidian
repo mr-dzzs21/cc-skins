@@ -1,0 +1,22 @@
+# cc-skins · Obsidian — Ghostty theme
+background = #0e0b16
+foreground = #e4dcf7
+cursor-color = #b388ff
+selection-background = #483768
+selection-foreground = #e4dcf7
+palette = 0=#0e0b16
+palette = 1=#f87171
+palette = 2=#4ade80
+palette = 3=#a16207
+palette = 4=#7aa2f7
+palette = 5=#b388ff
+palette = 6=#67e8f9
+palette = 7=#e4dcf7
+palette = 8=#635a75
+palette = 9=#fa9c9c
+palette = 10=#80e8a6
+palette = 11=#bd9151
+palette = 12=#a2bef9
+palette = 13=#caacff
+palette = 14=#95effb
+palette = 15=#ffffff

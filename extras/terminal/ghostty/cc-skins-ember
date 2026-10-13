@@ -1,0 +1,22 @@
+# cc-skins · Ember — Ghostty theme
+background = #0c0704
+foreground = #f3e2d4
+cursor-color = #ff7b2e
+selection-background = #613013
+selection-foreground = #f3e2d4
+palette = 0=#0c0704
+palette = 1=#ef4444
+palette = 2=#84cc16
+palette = 3=#ca8a04
+palette = 4=#7c9cf5
+palette = 5=#ff7b2e
+palette = 6=#5fc4b4
+palette = 7=#f3e2d4
+palette = 8=#665249
+palette = 9=#f47c7c
+palette = 10=#a9db5c
+palette = 11=#daad4f
+palette = 12=#a3baf8
+palette = 13=#ffa36d
+palette = 14=#8fd6ca
+palette = 15=#ffffff

@@ -1,0 +1,22 @@
+# cc-skins · Abyss — Ghostty theme
+background = #020b10
+foreground = #d4f1f7
+cursor-color = #2ec4b6
+selection-background = #114c4a
+selection-foreground = #d4f1f7
+palette = 0=#020b10
+palette = 1=#f87171
+palette = 2=#4ade80
+palette = 3=#a16207
+palette = 4=#5b9cf5
+palette = 5=#2ec4b6
+palette = 6=#2ec4b6
+palette = 7=#d4f1f7
+palette = 8=#455e68
+palette = 9=#fa9c9c
+palette = 10=#80e8a6
+palette = 11=#bd9151
+palette = 12=#8cbaf8
+palette = 13=#6dd6cc
+palette = 14=#6dd6cc
+palette = 15=#ffffff

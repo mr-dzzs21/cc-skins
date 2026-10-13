@@ -1,6 +1,6 @@
 # cc-skins
 
-Skins for [Claude Code](https://code.claude.com) in the terminal. One plugin, twelve looks: chat messages as cards, and a usage bar above the prompt that's always in view.
+Skins for [Claude Code](https://code.claude.com) in the terminal. One plugin, twenty looks, eight of them dark: chat messages as cards, and a usage bar above the prompt that's always in view.
 
 ```
  RING   Opus 5.5   ■■□□□ 34%   ■■■■□ 72% ↻2h13m   ■■■■■ 91% ↻3d4h  $1.24 
@@ -33,6 +33,14 @@ Each skin changes:
 | `arctic` | Ice blue and frost | `Crystallizing ❄`, `Gliding ❄` | `❄ Frozen in 3s` |
 | `lava` | Molten orange on black rock | `Erupting ▲`, `Forging ▲` | `▲ Erupted in 3s` |
 | `candy` | Pastel rainbow, sweet and playful | `Sprinkling ✿`, `Fizzing ✿` | `✿ Sweet in 3s` |
+| `obsidian` | Volcanic glass with a violet glint | `Carving ◈`, `Sharpening ◈` | `◈ Cut in 3s` |
+| `vampire` | Blood red on midnight black | `Lurking †`, `Gliding †` | `† Risen in 3s` |
+| `abyss` | Pitch-black deep sea, bioluminescent teal | `Sinking…`, `Sounding…` | `◉ Resurfaced in 3s` |
+| `emerald` | Dark jade with a gold spark | `Mining ❖`, `Refracting ❖` | `❖ Mined in 3s` |
+| `noir` | Black and white, film noir | `Investigating…`, `Shadowing…` | `▪ Case closed in 3s` |
+| `ember` | Charcoal with glowing orange embers | `Smoldering ✦`, `Crackling ✦` | `✦ Stoked in 3s` |
+| `nebula` | Deep space violet with a pink star | `Orbiting ✧`, `Coalescing ✧` | `✧ Landed in 3s` |
+| `aurora` | Northern lights over a night sky | `Shimmering ✺`, `Unfurling ✺` | `✺ Faded in 3s` |
 
 ## Install
 
@@ -50,7 +58,7 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 
 | Command | Does |
 |---|---|
-| `/skin` | Opens the skin picker: ↑↓ previews, Enter or 1–9, 0, a–b picks, Esc closes. A click on the bar's first block opens it too |
+| `/skin` | Opens the skin picker: ↑↓ previews, Enter or 1–9, 0, a–j picks, Esc closes. A click on the bar's first block opens it too |
 | `/skin list` | Lists the skins as text, marks the current one |
 | `/skin <name>` | Switches the spinner, turn line and HUD, and names the matching color theme |
 | `/skin next` | Cycles to the next skin |

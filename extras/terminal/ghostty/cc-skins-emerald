@@ -1,0 +1,22 @@
+# cc-skins · Emerald — Ghostty theme
+background = #04100b
+foreground = #d8f3e6
+cursor-color = #34d399
+selection-background = #15543d
+selection-foreground = #d8f3e6
+palette = 0=#04100b
+palette = 1=#f87171
+palette = 2=#34d399
+palette = 3=#a16207
+palette = 4=#60a5fa
+palette = 5=#34d399
+palette = 6=#5eead4
+palette = 7=#d8f3e6
+palette = 8=#49665c
+palette = 9=#fa9c9c
+palette = 10=#71e0b8
+palette = 11=#bd9151
+palette = 12=#90c0fc
+palette = 13=#71e0b8
+palette = 14=#8ef0e1
+palette = 15=#ffffff

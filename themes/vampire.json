@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Vampire",
+  "base": "dark",
+  "overrides": {
+    "claude": "#ff4d6d",
+    "claudeShimmer": "#ff8ba0",
+    "text": "#f2dfe2",
+    "inactive": "#8a7177",
+    "subtle": "#3a0710",
+    "suggestion": "#e0aaff",
+    "permission": "#e0aaff",
+    "permissionShimmer": "#ecccff",
+    "promptBorder": "#52252d",
+    "promptBorderShimmer": "#755158",
+    "planMode": "#e0aaff",
+    "autoAccept": "#6ee7b7",
+    "bashBorder": "#a16207",
+    "success": "#6ee7b7",
+    "error": "#ff4d6d",
+    "warning": "#a16207",
+    "diffAdded": "#173419",
+    "diffRemoved": "#541c1b",
+    "diffAddedDimmed": "#121c10",
+    "diffRemovedDimmed": "#301011",
+    "diffAddedWord": "#1f5a28",
+    "diffRemovedWord": "#8e2f2b",
+    "userMessageBackground": "#28060c",
+    "userMessageBackgroundHover": "#36070f",
+    "selectionBg": "#621e2b",
+    "rate_limit_fill": "#ff4d6d",
+    "rate_limit_empty": "#3a0710"
+  }
+}

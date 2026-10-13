@@ -11,6 +11,14 @@ export type SkinId =
   | 'arctic'
   | 'lava'
   | 'candy'
+  | 'obsidian'
+  | 'vampire'
+  | 'abyss'
+  | 'emerald'
+  | 'noir'
+  | 'ember'
+  | 'nebula'
+  | 'aurora'
 
 /** `nerd`: powerline arrows and icons (Nerd Font); `plain`: any monospace font. */
 export type Glyphs = 'nerd' | 'plain'

@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Aurora",
+  "base": "dark",
+  "overrides": {
+    "claude": "#6ee7b7",
+    "claudeShimmer": "#a1efd0",
+    "text": "#dbeafe",
+    "inactive": "#707d8f",
+    "subtle": "#152f4d",
+    "suggestion": "#c4b5fd",
+    "permission": "#c4b5fd",
+    "permissionShimmer": "#dcd3fe",
+    "promptBorder": "#314862",
+    "promptBorderShimmer": "#5b6d82",
+    "planMode": "#c4b5fd",
+    "autoAccept": "#6ee7b7",
+    "bashBorder": "#a16207",
+    "success": "#6ee7b7",
+    "error": "#be123c",
+    "warning": "#a16207",
+    "diffAdded": "#133922",
+    "diffRemoved": "#4f2124",
+    "diffAddedDimmed": "#0d231b",
+    "diffRemovedDimmed": "#2b171c",
+    "diffAddedWord": "#1c5e2e",
+    "diffRemovedWord": "#8c3231",
+    "userMessageBackground": "#0f2136",
+    "userMessageBackgroundHover": "#142c47",
+    "selectionBg": "#2b594d",
+    "rate_limit_fill": "#6ee7b7",
+    "rate_limit_empty": "#152f4d"
+  }
+}

@@ -604,6 +604,7 @@ describe('preview', () => {
     expect(await picker.find({ type: 'Text', text: /Preview · Midnight/ })).toBeDefined()
     expect(await picker.find({ type: 'Text', text: /count slowly to 5/ })).toBeDefined()
     expect(await picker.find({ type: 'Text', text: /CLAUDE/ })).toBeDefined()
+    expect(await picker.find({ type: 'Text', text: /── Dark ──/ })).toBeDefined()
     await picker.unmount()
   })
 
@@ -701,5 +702,26 @@ describe('session switches', () => {
     await $.session.end({ reason: 'prompt_input_exit', sessionId: 'old', resume: { id: 'old' } })
     await clock.advance(1_000)
     expect(registered).toEqual([])
+  })
+})
+
+describe('dark skins', () => {
+  test('dark skins keep their bar dark: no block brighter than a mid tone', () => {
+    const luminance = (hex: string) => {
+      const [r = 0, g = 0, b = 0] = [1, 3, 5].map(i => {
+        const c = parseInt(hex.slice(i, i + 2), 16) / 255
+
+        return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
+      })
+
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b
+    }
+    const dark = SKIN_IDS.filter(id => SKINS[id].isDark === true)
+    expect(dark.length).toBeGreaterThanOrEqual(8)
+    for (const id of dark) {
+      for (const block of SKINS[id].colors.blocks) {
+        expect(luminance(block.bg)).toBeLessThan(0.2)
+      }
+    }
   })
 })

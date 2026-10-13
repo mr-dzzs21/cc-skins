@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Obsidian",
+  "base": "dark",
+  "overrides": {
+    "claude": "#b388ff",
+    "claudeShimmer": "#ceb2ff",
+    "text": "#e4dcf7",
+    "inactive": "#7c7992",
+    "subtle": "#2f2347",
+    "suggestion": "#7aa2f7",
+    "permission": "#7aa2f7",
+    "permissionShimmer": "#afc7fa",
+    "promptBorder": "#483d5d",
+    "promptBorderShimmer": "#6d657e",
+    "planMode": "#7aa2f7",
+    "autoAccept": "#4ade80",
+    "bashBorder": "#a16207",
+    "success": "#4ade80",
+    "error": "#b91c1c",
+    "warning": "#a16207",
+    "diffAdded": "#183824",
+    "diffRemoved": "#542025",
+    "diffAddedDimmed": "#13211d",
+    "diffRemovedDimmed": "#31161e",
+    "diffAddedWord": "#205d2f",
+    "diffRemovedWord": "#8f3232",
+    "userMessageBackground": "#221933",
+    "userMessageBackgroundHover": "#2c2142",
+    "selectionBg": "#483768",
+    "rate_limit_fill": "#b388ff",
+    "rate_limit_empty": "#2f2347"
+  }
+}

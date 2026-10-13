@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Nebula",
+  "base": "dark",
+  "overrides": {
+    "claude": "#c084fc",
+    "claudeShimmer": "#d6affd",
+    "text": "#ece2ff",
+    "inactive": "#7d7391",
+    "subtle": "#251640",
+    "suggestion": "#67e8f9",
+    "permission": "#67e8f9",
+    "permissionShimmer": "#a4f1fb",
+    "promptBorder": "#3f3257",
+    "promptBorderShimmer": "#665c79",
+    "planMode": "#67e8f9",
+    "autoAccept": "#4ade80",
+    "bashBorder": "#a16207",
+    "success": "#4ade80",
+    "error": "#be123c",
+    "warning": "#a16207",
+    "diffAdded": "#13341f",
+    "diffRemoved": "#501c20",
+    "diffAddedDimmed": "#0e1c17",
+    "diffRemovedDimmed": "#2c1018",
+    "diffAddedWord": "#1d5a2c",
+    "diffRemovedWord": "#8c2f2f",
+    "userMessageBackground": "#190f2c",
+    "userMessageBackgroundHover": "#22143b",
+    "selectionBg": "#483162",
+    "rate_limit_fill": "#c084fc",
+    "rate_limit_empty": "#251640"
+  }
+}

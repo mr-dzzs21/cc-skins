@@ -19,8 +19,11 @@ const SWATCH = 4
 /** The preview's sample exchange. */
 const SAMPLE = { prompt: 'count slowly to 5', reply: '1… 2… 3… 4… 5.', durationMs: 4_000 }
 
-/** Rows the picker asks for inline: the list, its hint, and the short preview (title, bar, spinner). */
-export const PICKER_ROWS = SKIN_IDS.length + 1 + 4
+/** Where the dark skins begin: the picker heads them with Dark. */
+const FIRST_DARK = SKIN_IDS.findIndex(id => SKINS[id].isDark === true)
+
+/** Rows the picker asks for inline: the list and its Dark heading, its hint, and the short preview (title, bar, spinner). */
+export const PICKER_ROWS = SKIN_IDS.length + (FIRST_DARK >= 0 ? 1 : 0) + 1 + 4
 
 /** Columns it asks for docked beside the transcript, so the preview's cards have room. */
 export const PICKER_COLUMNS = 64
@@ -98,11 +101,20 @@ export const drawPicker = (elements: Elements, view: PickerView, choose: (id: Sk
 
   return (
     <Box flexDirection="column">
-      {SKIN_IDS.map((id, index) => {
+      {SKIN_IDS.flatMap((id, index) => {
         const skin = SKINS[id]
         const isCurrent = id === view.current
+        const heading =
+          index === FIRST_DARK && index > 0
+            ? [
+                <Text key="dark-heading" dimColor bold>
+                  {'── Dark ──'}
+                </Text>,
+              ]
+            : []
 
-        return (
+        return [
+          ...heading,
           <Button
             key={id}
             label={skin.label}
@@ -121,8 +133,8 @@ export const drawPicker = (elements: Elements, view: PickerView, choose: (id: Sk
             </Text>
             <Text dimColor>{skin.description}</Text>
             {isCurrent && <Text color={skin.chat.success}> ✓</Text>}
-          </Button>
-        )
+          </Button>,
+        ]
       })}
       <Text key="hint" dimColor wrap="truncate-end">
         {`↑↓ preview · Enter or ${hotkeyRange(SKIN_IDS.length)} picks · Esc closes · colors: /theme`}
