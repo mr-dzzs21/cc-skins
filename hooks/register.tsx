@@ -1,14 +1,28 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register, SessionUsage, Timer } from 'claude-code'
 
-import type { Glyphs, SkinId, Usage } from '../types'
-import { drawPowerline, fitPills, turnPills } from './hud'
+import type { BarStyle, Glyphs, SentPrompt, SkinId, Usage } from '../types'
+import { IDLE_HINT, drawAssistantBlock, drawCard, drawModeBadges, drawUserCard, sentAt } from './chat'
+import { prettyModel } from './format'
+import { drawHeader, drawPowerline, fitPills, headerFor, turnPills } from './hud'
 import { DEFAULT_SKIN, SKIN_IDS, SKINS, isSkinId, pick, themeName } from './skins'
 
-const EMPTY_USAGE: Usage = { model: null, contextPercent: null, rateLimits: [], costUsd: null }
+const EMPTY_USAGE: Usage = {
+  model: null,
+  contextPercent: null,
+  contextTokens: null,
+  rateLimits: [],
+  costUsd: null,
+  startedAt: null,
+}
+const NO_PROMPTS: SentPrompt[] = []
 
 const skinAtom = atom({ plugin: 'cc-skins', key: 'skin' } as const, DEFAULT_SKIN)
 const glyphsAtom = atom({ plugin: 'cc-skins', key: 'glyphs' } as const, 'nerd' as Glyphs)
+const barStyleAtom = atom({ plugin: 'cc-skins', key: 'barStyle' } as const, 'powerline' as BarStyle)
+const isChatStyledAtom = atom({ plugin: 'cc-skins', key: 'isChatStyled' } as const, true)
+/** The prompts sent this session, newest last, so a card can say when. */
+const promptsAtom = atom({ plugin: 'cc-skins', key: 'prompts' } as const, NO_PROMPTS)
 const usageAtom = atom({ plugin: 'cc-skins', key: 'usage' } as const, EMPTY_USAGE)
 const isHudHiddenAtom = atom({ plugin: 'cc-skins', key: 'isHudHidden' } as const, false)
 /** The clock the HUD's reset countdowns read; ticked once a minute. */
@@ -17,19 +31,35 @@ const nowAtom = atom({ plugin: 'cc-skins', key: 'now' } as const, 0)
 const frameAtom = atom({ plugin: 'cc-skins', key: 'frame' } as const, 0)
 
 /** `$.store` keys: what outlives the session. */
-const STORE = { skin: 'skin', glyphs: 'glyphs', isHudHidden: 'isHudHidden', hasWelcomed: 'hasWelcomed' } as const
+const STORE = {
+  skin: 'skin',
+  glyphs: 'glyphs',
+  barStyle: 'barStyle',
+  isChatStyled: 'isChatStyled',
+  isHudHidden: 'isHudHidden',
+  hasWelcomed: 'hasWelcomed',
+} as const
 
 const COMMAND = 'skin'
 const TICK_MS = 60_000
 const FRAME_MS = 150
+const MAX_PROMPTS = 200
 
 const isGlyphs = (value: unknown): value is Glyphs => value === 'nerd' || value === 'plain'
+const isBarStyle = (value: unknown): value is BarStyle => value === 'powerline' || value === 'header'
 
-const toUsage = (model: string | null, usage: Omit<SessionUsage, 'startedAt'>): Usage => ({
+/** The figures a measurement carries; `startedAt` only `$.session.usage()` has, so it stays otherwise. */
+const toUsage = (
+  model: string | null,
+  usage: Omit<SessionUsage, 'startedAt'> & { startedAt?: number },
+  previous: Usage,
+): Usage => ({
   model,
   contextPercent: usage.context.percent ?? null,
+  contextTokens: usage.context.tokens ?? null,
   rateLimits: usage.rateLimits.map(({ kind, percentUsed, resetsAt }) => ({ kind, percentUsed, resetsAt })),
   costUsd: usage.cost?.usd ?? null,
+  startedAt: usage.startedAt ?? previous.startedAt,
 })
 
 const readModel = async ($: EngineInterface): Promise<string | null> => {
@@ -67,7 +97,8 @@ const listSkins = (current: SkinId): string =>
     `${SKIN_IDS.length} skins · current: ${current}`,
     ...SKIN_IDS.map(id => `${id === current ? '▸' : ' '} ${id.padEnd(8)} ${SKINS[id].description}`),
     '',
-    `/${COMMAND} <name> switches · /${COMMAND} next · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|plain · colors live in /theme`,
+    `/${COMMAND} <name> switches · /${COMMAND} next · colors live in /theme`,
+    `/${COMMAND} bar powerline|header · /${COMMAND} chat on|off · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|plain`,
   ].join('\n')
 
 export const register: Register = on => {
@@ -77,28 +108,39 @@ export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await $.command.register({
       name: 'skin',
-      description: 'Switch the cc-skins skin, its glyphs, or show or hide its usage bar',
-      argumentHint: '[retro|neon|minimal|ring|next|hud on|off|glyphs nerd|plain]',
+      description: 'Switch the cc-skins skin, its bar, chat cards and glyphs',
+      argumentHint: '[midnight|ring|neon|retro|minimal|next|bar powerline|header|chat on|off|hud on|off|glyphs nerd|plain]',
     })
 
     const storedSkin = await $.store.get(STORE.skin)
     const storedGlyphs = await $.store.get(STORE.glyphs)
+    const storedBarStyle = await $.store.get(STORE.barStyle)
+    const isChatStyled = (await $.store.get(STORE.isChatStyled)) !== false
     const isHudHidden = (await $.store.get(STORE.isHudHidden)) === true
     await update($, skinAtom, () => (isSkinId(storedSkin) ? storedSkin : DEFAULT_SKIN))
     await update($, glyphsAtom, () => (isGlyphs(storedGlyphs) ? storedGlyphs : 'nerd'))
+    await update($, barStyleAtom, () => (isBarStyle(storedBarStyle) ? storedBarStyle : 'powerline'))
+    await update($, isChatStyledAtom, () => isChatStyled)
     await update($, isHudHiddenAtom, () => isHudHidden)
     await tick($)
 
     const usage = await $.session.usage()
     const model = await readModel($)
-    await update($, usageAtom, () => toUsage(model, usage))
+    await update($, usageAtom, previous => toUsage(model, usage, previous))
 
     $.clock.every(TICK_MS, () => void tick($))
 
     if ((await $.store.get(STORE.hasWelcomed)) !== true) {
       await $.store.set(STORE.hasWelcomed, true)
-      $.ui.toast(`cc-skins is on · try /${COMMAND} ring or /${COMMAND} neon`)
+      $.ui.toast(`cc-skins is on · try /${COMMAND} next or /${COMMAND} bar header`)
     }
+
+    return next(e)
+  })
+
+  on('prompt.submit', async ($, e, next) => {
+    const at = await $.clock.now()
+    await update($, promptsAtom, prompts => [...prompts, { text: e.text, at }].slice(-MAX_PROMPTS))
 
     return next(e)
   })
@@ -123,7 +165,7 @@ export const register: Register = on => {
 
   on('session.measure', async ($, e, next) => {
     const model = await readModel($)
-    await update($, usageAtom, () => toUsage(model, e))
+    await update($, usageAtom, previous => toUsage(model, e, previous))
     await tick($)
 
     return next(e)
@@ -154,6 +196,27 @@ export const register: Register = on => {
 
       return { text: isHidden ? 'Usage HUD hidden.' : 'Usage HUD shown.' }
     }
+    if (first === 'bar') {
+      if (!isBarStyle(second)) {
+        return { text: `Usage: /${COMMAND} bar powerline|header` }
+      }
+      await update($, barStyleAtom, () => second)
+      await $.store.set(STORE.barStyle, second)
+
+      return {
+        text: second === 'powerline' ? 'Bar → powerline: colored blocks.' : 'Bar → header: a quiet line with session, context, cost and limits.',
+      }
+    }
+    if (first === 'chat') {
+      if (second !== 'on' && second !== 'off') {
+        return { text: `Usage: /${COMMAND} chat on|off` }
+      }
+      const isStyled = second === 'on'
+      await update($, isChatStyledAtom, () => isStyled)
+      await $.store.set(STORE.isChatStyled, isStyled)
+
+      return { text: isStyled ? 'Chat cards on.' : 'Chat cards off: the chat draws as Claude Code does.' }
+    }
     if (first === 'glyphs') {
       if (!isGlyphs(second)) {
         return { text: `Usage: /${COMMAND} glyphs nerd|plain (nerd needs a Nerd Font, plain works in any font)` }
@@ -181,20 +244,81 @@ export const register: Register = on => {
     if (e.props.hasSurvey || (await read($, isHudHiddenAtom))) {
       return next(e)
     }
+    const skin = SKINS[await read($, skinAtom)]
     const glyphs = await read($, glyphsAtom)
-    const pills = fitPills(
-      {
-        skin: SKINS[await read($, skinAtom)],
-        usage: await read($, usageAtom),
-        now: await read($, nowAtom),
-        glyphs,
-        isWorking: e.props.isWorking,
-        frame: await read($, frameAtom),
-      },
-      e.props.bodyColumns,
-    )
+    const input = {
+      skin,
+      usage: await read($, usageAtom),
+      now: await read($, nowAtom),
+      glyphs,
+      isWorking: e.props.isWorking,
+      frame: await read($, frameAtom),
+    }
+    const elements = $.ui.resolve(e)
+    const columns = e.props.bodyColumns
 
-    return drawPowerline($.ui.resolve(e), pills, glyphs)
+    return (await read($, barStyleAtom)) === 'header'
+      ? drawHeader(elements, headerFor(input, columns), skin, columns)
+      : drawPowerline(elements, fitPills(input, columns), glyphs)
+  })
+
+  on('ui.render', { component: 'UserMessage' }, async ($, e, next) => {
+    if (!(await read($, isChatStyledAtom)) || e.props.origin.kind === 'task-notification') {
+      return next(e)
+    }
+    const at = sentAt(await read($, promptsAtom), e.props.text)
+
+    return drawUserCard($.ui.resolve(e), SKINS[await read($, skinAtom)], {
+      text: e.props.text,
+      author: e.props.from?.name ?? 'You',
+      at,
+    })
+  })
+
+  on('ui.render', { component: 'AssistantMessage' }, async ($, e, next) => {
+    if (!(await read($, isChatStyledAtom)) || e.props.isSummary === true) {
+      return next(e)
+    }
+    const { model } = await read($, usageAtom)
+
+    return drawAssistantBlock($.ui.resolve(e), SKINS[await read($, skinAtom)], {
+      text: e.props.text,
+      isFirst: e.props.isFirstOfReply,
+      model: model === null ? undefined : prettyModel(model),
+    })
+  })
+
+  on('ui.render', { component: ['ToolUse', 'CommandOutput'] }, async ($, e, next) => {
+    if (!(await read($, isChatStyledAtom))) {
+      return next(e)
+    }
+
+    return drawCard($.ui.resolve(e), SKINS[await read($, skinAtom)], await next(e))
+  })
+
+  on('ui.render', { component: 'ToolGroup' }, async ($, e, next) => {
+    if (!(await read($, isChatStyledAtom)) || e.props.isExpanded) {
+      return next(e)
+    }
+
+    return drawCard($.ui.resolve(e), SKINS[await read($, skinAtom)], await next(e))
+  })
+
+  on('ui.render', { component: 'PromptHint' }, async ($, e, next) => {
+    const isIdle = !e.props.isDraft && !e.props.isWorking && e.props.hint.includes('for shortcuts')
+    if (!isIdle || !(await read($, isChatStyledAtom))) {
+      return next(e)
+    }
+
+    return next({ ...e, props: { ...e.props, hint: IDLE_HINT } })
+  })
+
+  on('ui.render', { component: 'SessionMode' }, async ($, e, next) => {
+    if (e.props.modes.length === 0 || !(await read($, isChatStyledAtom))) {
+      return next(e)
+    }
+
+    return drawModeBadges($.ui.resolve(e), SKINS[await read($, skinAtom)], e.props.modes)
   })
 
   on('ui.render', { component: 'Spinner' }, async ($, e, next) => {

@@ -2,8 +2,9 @@ import { describe, expect, mock, test } from 'claude-code/testing'
 import type { Engine } from 'claude-code/testing'
 
 import type { Usage } from '../types'
-import { bar, formatDuration, formatReset, prettyModel } from '../hooks/format'
-import { MAX_LEVEL, barPills, barWidth, fitPills } from '../hooks/hud'
+import { IDLE_HINT, sentAt } from '../hooks/chat'
+import { bar, formatDuration, formatElapsed, formatReset, formatTokens, prettyModel } from '../hooks/format'
+import { MAX_LEVEL, barPills, barWidth, fitPills, headerFor } from '../hooks/hud'
 import type { BarInput } from '../hooks/hud'
 import { SKINS, pick } from '../hooks/skins'
 
@@ -13,6 +14,8 @@ const at = (ms: number) => new Date(ms).toISOString()
 const USAGE: Usage = {
   model: 'claude-opus-5-5',
   contextPercent: 34,
+  contextTokens: 68_000,
+  startedAt: -12 * MINUTE,
   rateLimits: [
     { kind: 'five_hour', percentUsed: 72, resetsAt: at(133 * MINUTE) },
     { kind: 'seven_day', percentUsed: 91, resetsAt: at(76 * 60 * MINUTE) },
@@ -67,6 +70,16 @@ describe('format', () => {
     expect(bar(1, 8, '█', '░')).toBe('█░░░░░░░')
     expect(bar(50, 8, '█', '░')).toBe('████░░░░')
     expect(bar(140, 8, '█', '░')).toBe('████████')
+  })
+
+  test('session time and tokens read short', () => {
+    expect(formatElapsed(0, 45_000)).toBe('45s')
+    expect(formatElapsed(0, 12 * MINUTE)).toBe('12m')
+    expect(formatElapsed(0, 65 * MINUTE)).toBe('1h 05m')
+    expect(formatTokens(850)).toBe('850')
+    expect(formatTokens(8_400)).toBe('8.4k')
+    expect(formatTokens(68_000)).toBe('68k')
+    expect(formatTokens(1_200_000)).toBe('1.2M')
   })
 
   test('a word holds for one seed', () => {
@@ -149,7 +162,14 @@ describe('powerline bar', () => {
   })
 
   test('no readings yet still draws', () => {
-    const empty: Usage = { model: null, contextPercent: null, rateLimits: [], costUsd: null }
+    const empty: Usage = {
+      model: null,
+      contextPercent: null,
+      contextTokens: null,
+      rateLimits: [],
+      costUsd: null,
+      startedAt: null,
+    }
     expect(fitPills({ ...RING, usage: empty }, 200).map(p => p.text)).toEqual(['\uf255 RING', '\uf1c0 –'])
   })
 })
@@ -219,12 +239,12 @@ describe('engine', () => {
     })
 
     const before = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
-    expect(await before.find({ type: 'Text', text: /RING/ })).toBeDefined()
+    expect(await before.find({ type: 'Text', text: /MIDNIGHT/ })).toBeDefined()
     await before.unmount()
 
     expect((await runSkin($, 'hud off')).text).toBe('Usage HUD hidden.')
     const after = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
-    expect(await after.find({ type: 'Text', text: /RING/ })).toBeUndefined()
+    expect(await after.find({ type: 'Text', text: /MIDNIGHT/ })).toBeUndefined()
     await after.unmount()
   })
 })
@@ -234,7 +254,7 @@ describe('glyphs', () => {
     mock.store(on)
     expect((await runSkin($, 'glyphs plain')).text).toContain('plain')
     const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
-    expect(await band.find({ type: 'Text', text: /◆ RING/ })).toBeDefined()
+    expect(await band.find({ type: 'Text', text: /✻ MIDNIGHT/ })).toBeDefined()
     expect(await band.find({ type: 'Text', text: /\ue0b0|\ue0b4|\ue0b6/ })).toBeUndefined()
     await band.unmount()
   })
@@ -256,18 +276,19 @@ describe('turns', () => {
     await clock.advance(150)
     const working = { ...bandProps(140), isWorking: true }
     const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: working })
-    expect(await band.find({ type: 'Text', text: /RING ⠙/ })).toBeDefined()
+    expect(await band.find({ type: 'Text', text: /MIDNIGHT ⠙/ })).toBeDefined()
     await band.unmount()
 
     await $.turn.complete({ turnId: 't1', reason: 'answer', answer: '', durationMs: 1_000, isAborted: false })
     await clock.advance(600)
     const idle = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: working })
-    expect(await idle.find({ type: 'Text', text: /RING ⠋/ })).toBeDefined()
+    expect(await idle.find({ type: 'Text', text: /MIDNIGHT ⠋/ })).toBeDefined()
     await idle.unmount()
   })
 
   test('the turn line is a ring pill', async ($, on) => {
     mock.store(on)
+    await runSkin($, 'ring')
     const line = await $.ui.mount({
       plugin: 'cc-skins',
       surface: 'terminal',
@@ -277,5 +298,157 @@ describe('turns', () => {
     expect(await line.find({ type: 'Text', text: /(KO|TKO|Split decision)/ })).toBeDefined()
     expect(await line.find({ type: 'Text', text: /in 1m 4s/ })).toBeDefined()
     await line.unmount()
+  })
+})
+
+const MIDNIGHT: BarInput = { ...RING, skin: SKINS.midnight }
+
+describe('header bar', () => {
+  test('wide shows who, the session figures and the limit badges', () => {
+    const header = headerFor(MIDNIGHT, 200)
+    expect(header.brand.map(i => i.text)).toEqual(['\uf186 CLAUDE', 'Opus 5.5'])
+    expect(header.stats.map(i => i.text)).toEqual(['● Session 12m', '\uf1c0 34% · 68k', '$1.24'])
+    expect(header.badges.map(i => i.text)).toEqual(['● 5h 72%', '● 7d 91%'])
+    expect(header.badges[1]?.color).toBe(SKINS.midnight.colors.danger.bg)
+  })
+
+  test('narrow sheds cost, the 7-day badge and the session time first', () => {
+    const header = headerFor(MIDNIGHT, 60)
+    expect(header.stats.map(i => i.key)).not.toContain('cost')
+    expect(header.badges.map(i => i.key)).not.toContain('limit-seven_day')
+    expect(header.brand[0]?.text).toContain('CLAUDE')
+  })
+
+  test('working shows a spinning badge', () => {
+    const header = headerFor({ ...MIDNIGHT, isWorking: true, frame: 1 }, 200)
+    expect(header.badges[0]?.text).toBe('⠙ working')
+  })
+
+  test('/skin bar header draws the header above the prompt', async ($, on) => {
+    mock.store(on)
+    expect((await runSkin($, 'bar header')).text).toContain('header')
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await band.find({ type: 'Text', text: /CLAUDE/ })).toBeDefined()
+    await band.unmount()
+  })
+})
+
+describe('chat cards', () => {
+  test('a prompt is found by its text, newest first', () => {
+    const prompts = [
+      { text: 'hi', at: 1 },
+      { text: 'other', at: 2 },
+      { text: 'hi ', at: 3 },
+    ]
+    expect(sentAt(prompts, 'hi')).toBe(3)
+    expect(sentAt(prompts, 'never sent')).toBeUndefined()
+  })
+
+  test('your message is a card with your name and when you sent it', async ($, on) => {
+    mock.store(on)
+    mock.clock(on, { now: Date.UTC(2026, 9, 13, 12, 23) })
+    on('prompt.submit', ($, e) => ({ text: e.text }))
+    await $.prompt.submit({ text: 'zähl bis 5', wait: false, origin: { kind: 'composer' } })
+
+    const card = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'UserMessage',
+      props: { text: 'zähl bis 5', origin: { kind: 'composer' }, isExpanded: false },
+    })
+    expect(await card.find({ type: 'Text', text: '❯ You' })).toBeDefined()
+    expect(await card.find({ type: 'Text', text: /^ {2}\d\d:\d\d$/ })).toBeDefined()
+    expect(await card.find({ type: 'Text', text: 'zähl bis 5' })).toBeDefined()
+    expect(await card.drawn()).toMatchObject({ props: { borderStyle: 'round' } })
+    await card.unmount()
+  })
+
+  test("Claude's reply opens with a header and hangs off an accent line", async ($, on) => {
+    mock.store(on)
+    const block = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'AssistantMessage',
+      props: { text: '1… 2… 3', isFirstOfReply: true },
+    })
+    expect(await block.find({ type: 'Text', text: '✻ CLAUDE' })).toBeDefined()
+    expect(await block.find({ type: 'Markdown' })).toBeDefined()
+    await block.unmount()
+  })
+
+  test("a tool call keeps the engine's drawing, framed as a card", async ($, on) => {
+    mock.store(on)
+    on('ui.render', { component: 'ToolUse' }, ($, e) => {
+      const { Text } = $.ui.resolve(e)
+
+      return <Text>Bash ls</Text>
+    })
+    const row = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'ToolUse',
+      props: {
+        tool_use_id: 'toolu_1',
+        tool: 'Bash',
+        input: { command: 'ls' },
+        isRunning: false,
+        isErrored: false,
+        isInterrupted: false,
+      },
+    })
+    expect(await row.drawn()).toMatchObject({ props: { borderStyle: 'round' } })
+    expect(await row.find({ type: 'Text', text: 'Bash ls' })).toBeDefined()
+    await row.unmount()
+  })
+
+  test('the idle hint names what the prompt takes; others stay', async ($, on) => {
+    mock.store(on)
+    const hints: string[] = []
+    on('ui.render', { component: 'PromptHint' }, ($, e) => {
+      hints.push(e.props.hint)
+      const { Text } = $.ui.resolve(e)
+
+      return <Text>{e.props.hint}</Text>
+    })
+    for (const hint of ['? for shortcuts', 'esc to interrupt']) {
+      const line = await $.ui.mount({
+        plugin: 'cc-skins',
+        surface: 'terminal',
+        component: 'PromptHint',
+        props: { isDraft: false, isWorking: hint !== '? for shortcuts', hint },
+      })
+      await line.unmount()
+    }
+    expect(hints).toEqual([IDLE_HINT, 'esc to interrupt'])
+  })
+
+  test('modes become badges', async ($, on) => {
+    mock.store(on)
+    const footer = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'SessionMode',
+      props: { modes: ['auto mode', 'focus'] },
+    })
+    expect(await footer.find({ type: 'Text', text: ' auto mode ' })).toBeDefined()
+    await footer.unmount()
+  })
+
+  test('/skin chat off hands the chat back to the engine', async ($, on) => {
+    mock.store(on)
+    on('ui.render', { component: 'UserMessage' }, ($, e) => {
+      const { Text } = $.ui.resolve(e)
+
+      return <Text>engine</Text>
+    })
+    expect((await runSkin($, 'chat off')).text).toContain('off')
+    const card = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'UserMessage',
+      props: { text: 'hi', origin: { kind: 'composer' }, isExpanded: false },
+    })
+    expect(await card.find({ type: 'Text', text: 'engine' })).toBeDefined()
+    await card.unmount()
   })
 })

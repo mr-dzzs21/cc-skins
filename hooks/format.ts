@@ -54,3 +54,26 @@ export const bar = (percent: number, width: number, fill: string, empty: string)
 
   return fill.repeat(filled) + empty.repeat(width - filled)
 }
+
+/** Time since `startedAt`: `45s`, `12m`, `1h 05m`. */
+export const formatElapsed = (startedAt: number, now: number): string => {
+  const seconds = Math.max(0, Math.floor((now - startedAt) / 1000))
+  if (seconds < 60) {
+    return `${seconds}s`
+  }
+  const minutes = Math.floor(seconds / 60)
+
+  return minutes < 60 ? `${minutes}m` : `${Math.floor(minutes / 60)}h ${String(minutes % 60).padStart(2, '0')}m`
+}
+
+/** `850`, `8.4k`, `68k`, `1.2M`. */
+export const formatTokens = (tokens: number): string => {
+  if (tokens < 1000) {
+    return String(tokens)
+  }
+  if (tokens < 1_000_000) {
+    return tokens < 10_000 ? `${(tokens / 1000).toFixed(1)}k` : `${Math.round(tokens / 1000)}k`
+  }
+
+  return `${(tokens / 1_000_000).toFixed(1)}M`
+}

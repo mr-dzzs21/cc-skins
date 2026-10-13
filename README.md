@@ -1,6 +1,6 @@
 # cc-skins
 
-Skins for [Claude Code](https://code.claude.com) in the terminal. One plugin, four looks, and a powerline usage bar that sits above the prompt, always in view.
+Skins for [Claude Code](https://code.claude.com) in the terminal. One plugin, five looks: chat messages as cards, and a usage bar above the prompt that's always in view.
 
 ```
  RING   Opus 5.5   ■■□□□ 34%   ■■■■□ 72% ↻2h13m   ■■■■■ 91% ↻3d4h  $1.24 
@@ -13,6 +13,7 @@ Every block has its own color: in a Nerd Font they join with powerline arrows, p
 
 Each skin changes:
 
+- **Chat**: your messages become framed cards with your name and the time you sent them; Claude's replies open with a header and hang off an accent line; tool calls and command output sit in cards; the prompt's hint and mode labels get a cleaner look.
 - **Colors**: a full Claude Code color theme (accents, prompt border, diffs, plan/auto modes, message backgrounds).
 - **Spinner**: its own words while Claude works (`Jabbing…`, `Hacking ⟡`, `Compiling▌`).
 - **Turn line**: its own closing line (`◆ KO in 12s`, `⟡ Jacked in for 3s`).
@@ -20,6 +21,7 @@ Each skin changes:
 
 | Skin | Look | Spinner | Turn line |
 |---|---|---|---|
+| `midnight` (default) | Deep navy, Claude in orange, you in blue | `Composing…`, `Pondering…` | `✻ Done in 3s` |
 | `retro` | Phosphor green and amber | `Compiling▌` | `▌ Done in 3s` |
 | `neon` | Magenta and cyan | `Hacking ⟡` | `⟡ Jacked in for 3s` |
 | `minimal` | Muted grey, one calm accent | `Thinking…`, `Writing…` | `· Done in 3s` |
@@ -36,11 +38,11 @@ In Claude Code, type:
 Answer `y` to add the marketplace and pick the user scope. Then:
 
 ```
-/skin ring
-/theme          # pick "cc-skins · Ring" for the matching colors
+/skin midnight
+/theme          # pick "cc-skins · Midnight" for the matching colors
 ```
 
-Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
+Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes). The navy background comes from your terminal: [`extras/terminal`](extras/terminal) has a matching color scheme for each skin.
 
 ## Usage
 
@@ -49,6 +51,8 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 | `/skin` | Lists the skins, marks the current one |
 | `/skin <name>` | Switches the spinner, turn line and HUD, and names the matching color theme |
 | `/skin next` | Cycles to the next skin |
+| `/skin bar powerline` / `/skin bar header` | Colored powerline blocks, or a quiet header line (session time, context, cost, limit badges) |
+| `/skin chat off` / `/skin chat on` | Turns the chat cards off or on |
 | `/skin hud off` / `/skin hud on` | Hides or shows the usage bar |
 | `/skin glyphs nerd` / `/skin glyphs plain` | Powerline arrows and icons (needs a [Nerd Font](https://www.nerdfonts.com)), or plain blocks for any font |
 
@@ -68,7 +72,8 @@ cc-skins is a Claude Code plugin made of:
 
 - `themes/*.json`: color themes in Claude Code's custom-theme format (`name`, `base`, `overrides`).
 - `hooks/register.tsx`: function hooks that draw the `AbovePrompt` band (the usage bar), rewrite the `Spinner` words, draw the `TurnDuration` line, and serve `/skin`. Usage figures come from the `session.measure` event, pushed after each turn, so nothing polls.
-- `hooks/hud.tsx`: the powerline bar: which blocks show at which width, their colors, and how they're drawn.
+- `hooks/hud.tsx`: the usage bar in both styles: which pieces show at which width, their colors, and how they're drawn.
+- `hooks/chat.tsx`: the chat cards. Tool calls keep Claude Code's own drawing inside the card, so nothing about them is lost.
 - `hooks/skins.ts`: the skin definitions. A new skin is one entry there plus one theme file.
 
 ## Development

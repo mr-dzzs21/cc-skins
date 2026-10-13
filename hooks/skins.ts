@@ -36,9 +36,38 @@ export type Skin = {
   }
   /** The line that closes a turn: `<word> <joiner> 3s`. */
   turn: { words: readonly string[]; joiner: string }
+  /** The chat's cards: their frame, your header, Claude's header and accent line, quiet text. */
+  chat: { border: string; user: string; assistant: string; muted: string }
 }
 
 export const SKINS: Record<SkinId, Skin> = {
+  midnight: {
+    id: 'midnight',
+    label: 'Midnight',
+    description: 'Deep navy cards, Claude in orange, you in blue',
+    glyph: '✻',
+    icon: '\uf186',
+    meter: { fill: '━', empty: '─' },
+    colors: {
+      blocks: [
+        { bg: '#f0883e', fg: '#0b1220' },
+        { bg: '#2f4468', fg: '#e6edf3' },
+        { bg: '#26385a', fg: '#e6edf3' },
+        { bg: '#1f2d4a', fg: '#c9d1d9' },
+        { bg: '#19253d', fg: '#c9d1d9' },
+        { bg: '#141e33', fg: '#3fb950' },
+      ],
+      pulse: '#ffb27a',
+      warn: { bg: '#d29922', fg: '#0b1220' },
+      danger: { bg: '#f85149', fg: '#0b1220' },
+    },
+    spinner: {
+      words: ['Thinking', 'Composing', 'Weaving', 'Sketching', 'Tinkering', 'Untangling', 'Polishing', 'Charting'],
+      byMode: { thinking: 'Pondering', 'tool-use': 'Working' },
+    },
+    turn: { words: ['Done', 'Finished', 'Wrapped up'], joiner: 'in' },
+    chat: { border: '#24324d', user: '#6ea8fe', assistant: '#f0883e', muted: '#8b949e' },
+  },
   retro: {
     id: 'retro',
     label: 'Retro',
@@ -65,6 +94,7 @@ export const SKINS: Record<SkinId, Skin> = {
       suffix: '▌',
     },
     turn: { words: ['Done', 'Halted', 'Exited 0'], joiner: 'in' },
+    chat: { border: '#16823a', user: '#ffb000', assistant: '#39ff14', muted: '#5a8a66' },
   },
   neon: {
     id: 'neon',
@@ -92,6 +122,7 @@ export const SKINS: Record<SkinId, Skin> = {
       suffix: ' ⟡',
     },
     turn: { words: ['Jacked in', 'Uplinked', 'Synced'], joiner: 'for' },
+    chat: { border: '#3f37c9', user: '#4cc9f0', assistant: '#f72585', muted: '#7d70a3' },
   },
   minimal: {
     id: 'minimal',
@@ -124,6 +155,7 @@ export const SKINS: Record<SkinId, Skin> = {
       },
     },
     turn: { words: ['Done'], joiner: 'in' },
+    chat: { border: '#394260', user: '#a3aed2', assistant: '#769ff0', muted: '#565f89' },
   },
   ring: {
     id: 'ring',
@@ -150,12 +182,13 @@ export const SKINS: Record<SkinId, Skin> = {
       byMode: { thinking: 'Reading the opponent' },
     },
     turn: { words: ['KO', 'TKO', 'Split decision'], joiner: 'in' },
+    chat: { border: '#7a1f2b', user: '#ffd166', assistant: '#e5604d', muted: '#8a7f6e' },
   },
 }
 
 export const SKIN_IDS = Object.keys(SKINS) as SkinId[]
 
-export const DEFAULT_SKIN: SkinId = 'ring'
+export const DEFAULT_SKIN: SkinId = 'midnight'
 
 export const isSkinId = (value: unknown): value is SkinId =>
   typeof value === 'string' && value in SKINS

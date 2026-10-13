@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0
+
+- Chat cards: your messages are framed cards with your name and send time; Claude's replies open with a header (`✻ CLAUDE  Opus 5.5`) and an accent line; tool calls and command output sit in cards around Claude Code's own drawing. `/skin chat off` turns them off.
+- A second bar style, `/skin bar header`: brand and model, session time, context with tokens, cost, and limit badges in one quiet line.
+- The idle prompt hint reads `/ commands · @ files · ! shell · ↵ send`; mode labels become badges.
+- New skin `midnight`, now the default: deep navy, Claude in orange, you in blue, with a matching theme and terminal colors.
+
 ## 0.2.1
 
 - New colors: each skin's bar is now a gradient (ring: gold to crimson, neon: pink to cyan, retro: phosphor greens, minimal: Tokyo Night blues), every block checked for readable contrast. The `/theme` themes follow the same colors.
