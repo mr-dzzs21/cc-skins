@@ -36,8 +36,20 @@ export type BarInput = {
 
 const LIMIT_LABELS: Record<string, string> = { five_hour: '5h', seven_day: '7d', spend_limit: 'spend' }
 
-const levelPaint = (skin: Skin, percent: number, calm: Paint): Paint =>
-  percent >= 85 ? skin.colors.danger : percent >= 60 ? skin.colors.warn : calm
+type Alert = 'warn' | 'danger'
+
+const alertFor = (percent: number): Alert | undefined =>
+  percent >= 85 ? 'danger' : percent >= 60 ? 'warn' : undefined
+
+/** A block before its color: the bar paints by place in the gradient, an alert over it. */
+type Block = { key: string; text: string; isBold?: boolean; alert?: Alert }
+
+/** The gradient's step for a block's place; past its end, the last step. */
+const gradientAt = (skin: Skin, index: number): Paint => {
+  const { blocks } = skin.colors
+
+  return blocks[Math.min(index, blocks.length - 1)] ?? { bg: '#444444', fg: '#ffffff' }
+}
 
 /**
  * The bar's blocks at one level of detail: 0 is everything, and each level up
@@ -53,29 +65,18 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
   const hasSevenDay = level < 4
   const hasSkinName = level < 5
   const hasLimits = level < 6
-  const pills: Pill[] = []
+  const pills: Block[] = []
 
   const skinText = [
     isNerd ? skin.icon : skin.glyph,
     hasSkinName ? skin.label.toUpperCase() : undefined,
     isWorking ? FRAMES[frame % FRAMES.length] : undefined,
   ]
-  const isPulsing = isWorking && Math.floor(frame / 4) % 2 === 1
-  pills.push({
-    key: 'skin',
-    text: skinText.filter(part => part !== undefined).join(' '),
-    paint: isPulsing ? { ...skin.colors.accent, bg: skin.colors.pulse } : skin.colors.accent,
-    isBold: true,
-  })
+  pills.push({ key: 'skin', text: skinText.filter(part => part !== undefined).join(' '), isBold: true })
 
   if (usage.model !== null) {
     const name = prettyModel(usage.model)
-    pills.push({
-      key: 'model',
-      text: isNerd ? `${ICONS.model} ${name}` : name,
-      paint: skin.colors.model,
-      isBold: true,
-    })
+    pills.push({ key: 'model', text: isNerd ? `${ICONS.model} ${name}` : name, isBold: true })
   }
 
   const meter = (percent: number) =>
@@ -85,10 +86,10 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
   pills.push({
     key: 'context',
     text: `${isNerd ? ICONS.context : 'ctx'} ${context === null ? '–' : meter(context) + formatPercent(context)}`,
-    paint: context === null ? skin.colors.meterA : levelPaint(skin, context, skin.colors.meterA),
+    alert: context === null ? undefined : alertFor(context),
   })
 
-  usage.rateLimits.forEach((limit, index) => {
+  usage.rateLimits.forEach(limit => {
     const isFiveHour = limit.kind === 'five_hour'
     if (!hasLimits || (!isFiveHour && !hasSevenDay)) {
       return
@@ -99,15 +100,23 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     pills.push({
       key: `limit-${limit.kind}`,
       text: `${label} ${meter(limit.percentUsed)}${formatPercent(limit.percentUsed)}${reset === '' ? '' : ` ↻${reset}`}`,
-      paint: levelPaint(skin, limit.percentUsed, index % 2 === 0 ? skin.colors.meterB : skin.colors.meterA),
+      alert: alertFor(limit.percentUsed),
     })
   })
 
   if (usage.costUsd !== null && hasCost) {
-    pills.push({ key: 'cost', text: formatCost(usage.costUsd), paint: skin.colors.cost, isBold: true })
+    pills.push({ key: 'cost', text: formatCost(usage.costUsd), isBold: true })
   }
 
-  return pills
+  const isPulsing = isWorking && Math.floor(frame / 4) % 2 === 1
+
+  return pills.map(({ alert, ...block }, index) => {
+    const step = gradientAt(skin, index)
+    const paint =
+      alert !== undefined ? skin.colors[alert] : index === 0 && isPulsing ? { ...step, bg: skin.colors.pulse } : step
+
+    return { ...block, paint }
+  })
 }
 
 const cells = (text: string) => [...text].length
@@ -173,8 +182,8 @@ export const turnPills = (skin: Skin, word: string, durationMs: number, glyphs: 
   {
     key: 'word',
     text: `${glyphs === 'nerd' ? skin.icon : skin.glyph} ${word}`,
-    paint: skin.colors.accent,
+    paint: gradientAt(skin, 0),
     isBold: true,
   },
-  { key: 'duration', text: `${skin.turn.joiner} ${formatDuration(durationMs)}`, paint: skin.colors.meterA },
+  { key: 'duration', text: `${skin.turn.joiner} ${formatDuration(durationMs)}`, paint: gradientAt(skin, 2) },
 ]

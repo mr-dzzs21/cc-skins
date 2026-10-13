@@ -16,15 +16,14 @@ export type Skin = {
   /** The cells of the small meters inside the bar's blocks. */
   meter: { fill: string; empty: string }
   colors: {
-    /** The skin's own block, and the shade it pulses to while Claude works. */
-    accent: Paint
+    /**
+     * The bar's blocks, left to right: a gradient, so the bar reads as one
+     * piece whichever blocks show. The skin's own block takes the first.
+     */
+    blocks: readonly Paint[]
+    /** The shade the skin's block pulses to while Claude works. */
     pulse: string
-    model: Paint
-    /** Context and limit blocks alternate between these two while below 60 %. */
-    meterA: Paint
-    meterB: Paint
-    cost: Paint
-    /** 60 % and up, then 85 % and up. */
+    /** A context or limit block at 60 % and up, then 85 % and up. */
     warn: Paint
     danger: Paint
   }
@@ -48,14 +47,17 @@ export const SKINS: Record<SkinId, Skin> = {
     icon: '',
     meter: { fill: '█', empty: '░' },
     colors: {
-      accent: { bg: '#33ff66', fg: '#0a0f0a' },
-      pulse: '#a6ffbf',
-      model: { bg: '#ffb000', fg: '#0a0f0a' },
-      meterA: { bg: '#1f5c33', fg: '#c4f5cf' },
-      meterB: { bg: '#2f4d38', fg: '#c4f5cf' },
-      cost: { bg: '#0f1f14', fg: '#33ff66' },
-      warn: { bg: '#ffb000', fg: '#0a0f0a' },
-      danger: { bg: '#ff4d4d', fg: '#0a0f0a' },
+      blocks: [
+        { bg: '#39ff14', fg: '#04140a' },
+        { bg: '#2bd92b', fg: '#04140a' },
+        { bg: '#1fae3b', fg: '#04140a' },
+        { bg: '#16823a', fg: '#e6ffe6' },
+        { bg: '#0f5a2e', fg: '#d6ffd6' },
+        { bg: '#0a3d22', fg: '#39ff14' },
+      ],
+      pulse: '#b6ff9e',
+      warn: { bg: '#ffb000', fg: '#1a0f00' },
+      danger: { bg: '#ff3b30', fg: '#1a0000' },
     },
     spinner: {
       words: ['Compiling', 'Linking', 'Booting', 'Assembling', 'Defragging', 'Spooling', 'Buffering', 'Polling'],
@@ -72,14 +74,17 @@ export const SKINS: Record<SkinId, Skin> = {
     icon: '',
     meter: { fill: '▰', empty: '▱' },
     colors: {
-      accent: { bg: '#ff2bd6', fg: '#0d0221' },
-      pulse: '#00e5ff',
-      model: { bg: '#00e5ff', fg: '#0d0221' },
-      meterA: { bg: '#4a1f7a', fg: '#e6e6ff' },
-      meterB: { bg: '#2d1b54', fg: '#e6e6ff' },
-      cost: { bg: '#1a1033', fg: '#39ff14' },
-      warn: { bg: '#ffea00', fg: '#0d0221' },
-      danger: { bg: '#ff3860', fg: '#ffffff' },
+      blocks: [
+        { bg: '#f72585', fg: '#0b0221' },
+        { bg: '#b5179e', fg: '#ffffff' },
+        { bg: '#7209b7', fg: '#ffffff' },
+        { bg: '#3f37c9', fg: '#ffffff' },
+        { bg: '#4895ef', fg: '#0b0221' },
+        { bg: '#4cc9f0', fg: '#0b0221' },
+      ],
+      pulse: '#ff8fab',
+      warn: { bg: '#ffea00', fg: '#0b0221' },
+      danger: { bg: '#ff0a54', fg: '#0b0221' },
     },
     spinner: {
       words: ['Hacking', 'Decrypting', 'Overclocking', 'Rerouting', 'Glitching', 'Uplinking', 'Splicing', 'Jacking in'],
@@ -96,14 +101,17 @@ export const SKINS: Record<SkinId, Skin> = {
     icon: '',
     meter: { fill: '━', empty: '─' },
     colors: {
-      accent: { bg: '#7aa2f7', fg: '#1c1c1c' },
-      pulse: '#aec5fa',
-      model: { bg: '#3a3a3a', fg: '#d4d4d4' },
-      meterA: { bg: '#2e2e2e', fg: '#d4d4d4' },
-      meterB: { bg: '#262626', fg: '#d4d4d4' },
-      cost: { bg: '#1f1f1f', fg: '#9ece6a' },
-      warn: { bg: '#d4b26a', fg: '#1c1c1c' },
-      danger: { bg: '#e06c75', fg: '#1c1c1c' },
+      blocks: [
+        { bg: '#a3aed2', fg: '#090c0c' },
+        { bg: '#769ff0', fg: '#090c0c' },
+        { bg: '#394260', fg: '#e3e5e5' },
+        { bg: '#2c3149', fg: '#e3e5e5' },
+        { bg: '#212736', fg: '#a0a9cb' },
+        { bg: '#1d2230', fg: '#9ece6a' },
+      ],
+      pulse: '#c0caf5',
+      warn: { bg: '#e0af68', fg: '#1a1b26' },
+      danger: { bg: '#f7768e', fg: '#1a1b26' },
     },
     spinner: {
       words: ['Working'],
@@ -125,14 +133,17 @@ export const SKINS: Record<SkinId, Skin> = {
     icon: '',
     meter: { fill: '■', empty: '□' },
     colors: {
-      accent: { bg: '#e63946', fg: '#ffffff' },
-      pulse: '#ff8a93',
-      model: { bg: '#f2c94c', fg: '#1a1213' },
-      meterA: { bg: '#6a1e25', fg: '#f1e9da' },
-      meterB: { bg: '#3d3428', fg: '#f1e9da' },
-      cost: { bg: '#2a1a1c', fg: '#f2c94c' },
-      warn: { bg: '#f4a261', fg: '#1a1213' },
-      danger: { bg: '#9d0208', fg: '#ffffff' },
+      blocks: [
+        { bg: '#ffd166', fg: '#2b1d0e' },
+        { bg: '#f4a259', fg: '#2b1d0e' },
+        { bg: '#e5604d', fg: '#1f0a05' },
+        { bg: '#b8323f', fg: '#fff5eb' },
+        { bg: '#7a1f2b', fg: '#fff5eb' },
+        { bg: '#4a1520', fg: '#ffd166' },
+      ],
+      pulse: '#fff3b0',
+      warn: { bg: '#ffe45e', fg: '#2b1d0e' },
+      danger: { bg: '#ffffff', fg: '#c1121f' },
     },
     spinner: {
       words: ['Jabbing', 'Slipping', 'Bobbing', 'Weaving', 'Countering', 'Feinting', 'Shadowboxing', 'Uppercutting'],

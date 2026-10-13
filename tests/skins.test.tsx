@@ -87,11 +87,41 @@ describe('powerline bar', () => {
     expect(pills.find(p => p.key === 'limit-five_hour')?.text).toContain('↻2h13m')
   })
 
-  test('blocks turn warn and danger colors as they fill', () => {
+  test('blocks follow the gradient, and turn warn and danger colors as they fill', () => {
     const pills = fitPills(RING, 200)
-    expect(pills.find(p => p.key === 'context')?.paint).toEqual(SKINS.ring.colors.meterA)
-    expect(pills.find(p => p.key === 'limit-five_hour')?.paint).toEqual(SKINS.ring.colors.warn)
-    expect(pills.find(p => p.key === 'limit-seven_day')?.paint).toEqual(SKINS.ring.colors.danger)
+    const { blocks, warn, danger } = SKINS.ring.colors
+    expect(pills.map(p => p.key === 'limit-five_hour' || p.key === 'limit-seven_day' ? null : p.paint)).toEqual([
+      blocks[0],
+      blocks[1],
+      blocks[2],
+      null,
+      null,
+      blocks[5],
+    ])
+    expect(pills.find(p => p.key === 'limit-five_hour')?.paint).toEqual(warn)
+    expect(pills.find(p => p.key === 'limit-seven_day')?.paint).toEqual(danger)
+  })
+
+  test('every block is readable: text contrast of at least 4.5', () => {
+    const luminance = (hex: string) => {
+      const [r = 0, g = 0, b = 0] = [1, 3, 5].map(i => {
+        const c = parseInt(hex.slice(i, i + 2), 16) / 255
+
+        return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
+      })
+
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b
+    }
+    const contrast = ({ bg, fg }: { bg: string; fg: string }) => {
+      const [light, dark] = [luminance(bg), luminance(fg)].sort((x, y) => y - x)
+
+      return ((light ?? 0) + 0.05) / ((dark ?? 0) + 0.05)
+    }
+    for (const skin of Object.values(SKINS)) {
+      for (const paint of [...skin.colors.blocks, skin.colors.warn, skin.colors.danger]) {
+        expect(contrast(paint)).toBeGreaterThanOrEqual(4.5)
+      }
+    }
   })
 
   test('the bar sheds detail until it fits', () => {
