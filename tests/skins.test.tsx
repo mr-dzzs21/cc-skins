@@ -12,6 +12,7 @@ import { modelLabel } from '../hooks/panels'
 import { alertsFor } from '../hooks/alerts'
 import { DEFAULT_PREFS, readPrefs } from '../hooks/prefs'
 import { findTurnStat, turnStatText } from '../hooks/turns'
+import { finishedText, soundFor } from '../hooks/sounds'
 
 const MINUTE = 60_000
 const at = (ms: number) => new Date(ms).toISOString()
@@ -1073,5 +1074,92 @@ describe('turn stats', () => {
     })
     expect(await line.find({ type: 'Text', text: /\$0\.25 · 2 tools/ })).toBeDefined()
     await line.unmount()
+  })
+})
+
+describe('sound and notification', () => {
+  test('the skin picks the sound unless the person picked one', () => {
+    expect(soundFor(SKINS.ring, DEFAULT_PREFS)).toBe('bell')
+    expect(soundFor(SKINS.ring, { ...DEFAULT_PREFS, soundName: 'pop' })).toBe('pop')
+    expect(soundFor(SKINS.lava, { ...DEFAULT_PREFS, soundName: 'nonsense' })).toBe('gong')
+    expect(SKIN_IDS.every(id => SKINS[id].sound !== undefined)).toBe(true)
+  })
+
+  test('a notification says how long and what the answer begins with', () => {
+    expect(finishedText('KO', '1m 4s', '\nAll tests pass.\nMore below')).toBe('KO in 1m 4s · All tests pass.')
+    expect(finishedText('Done', '3s', '')).toBe('Done in 3s')
+    expect(finishedText('Done', '3s', 'x'.repeat(200)).length).toBeLessThan(110)
+  })
+
+  const finish = ($: Engine, durationMs: number) =>
+    $.turn.complete({ turnId: 't', reason: 'answer', answer: 'All done.', durationMs, isAborted: false })
+
+  test('off by default: a long turn plays and notifies nothing', async ($, on) => {
+    mock.store(on)
+    const played: unknown[] = []
+    on('audio.play', ($, e) => (played.push(e), { value: undefined }))
+    on('ui.notify', ($, e) => (played.push(e), { value: { isSent: true as const, channel: 'test' } }) as never)
+    on('turn.complete', () => ({ text: '' }))
+    await finish($, 120_000)
+    expect(played).toEqual([])
+  })
+
+  test('turned on: a long turn plays the skin sound and notifies; a short one does neither', async ($, on) => {
+    mock.store(on)
+    const played: string[] = []
+    const notified: string[] = []
+    on('audio.play', ($, e) => {
+      played.push(JSON.stringify(e))
+
+      return { value: undefined }
+    })
+    on('ui.notify', ($, e) => {
+      notified.push(e.text)
+
+      return { value: { isSent: true as const, channel: 'test' } } as never
+    })
+    on('turn.complete', () => ({ text: '' }))
+
+    await runSkin($, 'ring')
+    const settings = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'bar-settings',
+      props: { ...PANE_PROPS, title: 'Settings' },
+    })
+    await settings.press({ key: 'tab-sound' })
+    await settings.press({ key: 'sound-on' })
+    await settings.press({ key: 'notify-on' })
+    await settings.unmount()
+
+    await finish($, 5_000)
+    expect(played).toEqual([])
+    await finish($, 64_000)
+    expect(played).toHaveLength(1)
+    expect(played[0]).toContain('sounds/bell.wav')
+    expect(notified).toEqual(['KO in 1m 4s · All done.'])
+  })
+
+  test('picking a sound in the settings plays it once', async ($, on) => {
+    mock.store(on)
+    const played: string[] = []
+    on('audio.play', ($, e) => {
+      played.push(JSON.stringify(e))
+
+      return { value: undefined }
+    })
+    const settings = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'bar-settings',
+      props: { ...PANE_PROPS, title: 'Settings' },
+    })
+    await settings.press({ key: 'tab-sound' })
+    await settings.press({ key: 'sound-name-gong' })
+    await settings.unmount()
+    expect(played).toHaveLength(1)
+    expect(played[0]).toContain('sounds/gong.wav')
   })
 })

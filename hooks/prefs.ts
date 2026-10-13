@@ -8,12 +8,17 @@ export const DEFAULT_PREFS: Prefs = {
   turnTokens: false,
   turnTools: true,
   sound: false,
+  soundName: 'skin',
+  soundGain: 1,
   notify: false,
   notifyAfterSec: 30,
 }
 
 /** The thresholds the settings offer for alerts; 0 is off. */
 export const ALERT_LEVELS = [0, 70, 80, 90] as const
+
+/** The loudness the settings offer: quiet, normal, loud. */
+export const SOUND_GAINS = [0.5, 1, 1.8] as const
 
 /** How long a turn must run before it sounds or notifies, as the settings offer it. */
 export const NOTIFY_AFTER = [0, 10, 30, 60] as const

@@ -1,7 +1,7 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register, SessionUsage, Timer } from 'claude-code'
 
-import type { BarItem, BarStyle, Glyphs, ModelChoice, Prefs, SentPrompt, SettingsTab, SkinId, TurnStat, Usage } from '../types'
+import type { BarItem, BarStyle, Glyphs, ModelChoice, Prefs, SentPrompt, SettingsTab, SkinId, SoundName, TurnStat, Usage } from '../types'
 import {
   IDLE_HINT,
   drawAssistantBlock,
@@ -12,7 +12,7 @@ import {
   sentAt,
   todosOf,
 } from './chat'
-import { prettyModel } from './format'
+import { formatDuration, prettyModel } from './format'
 import { drawBar, drawPowerline, turnPills } from './hud'
 import type { BarPress } from './hud'
 import {
@@ -30,6 +30,7 @@ import { alertsFor, compactAt } from './alerts'
 import { DEFAULT_PREFS, readPrefs } from './prefs'
 import { SETTINGS_ROWS, drawSettings, isSettingsTab } from './settings'
 import { MAX_TURN_STATS, findTurnStat, turnStatText } from './turns'
+import { finishedText, isSoundName, soundAsset, soundFor } from './sounds'
 import { PICKER, PICKER_COLUMNS, PICKER_ROWS, drawPicker } from './picker'
 import { DEFAULT_SKIN, SKIN_IDS, SKINS, isSkinId, pick, themeName } from './skins'
 
@@ -312,6 +313,28 @@ const compactNow = async ($: EngineInterface) => {
   }
 }
 
+/** Plays a sound, or the skin's own; a sound that can't play stays quiet. */
+const playSound = async ($: EngineInterface, name: SoundName | 'skin', gain: number) => {
+  const sound = isSoundName(name) ? name : SKINS[await read($, skinAtom)].sound
+  void $.audio.play({ asset: soundAsset(sound) }, { gain }).catch(() => undefined)
+}
+
+/** When a long enough turn ends: the sound and the notification the person turned on. */
+const announceTurn = async ($: EngineInterface, durationMs: number, answer: string) => {
+  const prefs = await read($, prefsAtom)
+  if ((!prefs.sound && !prefs.notify) || durationMs < prefs.notifyAfterSec * 1000) {
+    return
+  }
+  const skin = SKINS[await read($, skinAtom)]
+  if (prefs.sound) {
+    void $.audio.play({ asset: soundAsset(soundFor(skin, prefs)) }, { gain: prefs.soundGain }).catch(() => undefined)
+  }
+  if (prefs.notify) {
+    const word = skin.turn.words[0] ?? 'Done'
+    void $.ui.notify(finishedText(word, formatDuration(durationMs), answer), { title: 'Claude is done' }).catch(() => undefined)
+  }
+}
+
 /** Gives the newest finished turn its cost, once the session's cost after it is measured. */
 const settleTurnCost = async ($: EngineInterface) => {
   const { costUsd } = await read($, usageAtom)
@@ -532,6 +555,9 @@ export const register: Register = on => {
       costAtStart: costAtTurnStart,
     }
     await update($, turnStatsAtom, stats => [...stats, stat].slice(-MAX_TURN_STATS))
+    if (!e.isAborted) {
+      await announceTurn($, e.durationMs, e.answer)
+    }
     animation?.cancel()
     animation = undefined
     await update($, frameAtom, () => 0)
@@ -691,6 +717,7 @@ export const register: Register = on => {
       {
         tab: tab => void update($, settingsTabAtom, () => tab),
         pref: patch => void setPrefs($, patch),
+        play: (name, gain) => void playSound($, name, gain),
         toggle: item => void toggleItem($, item),
         style: style => void applyBarStyle($, style),
         glyphs: glyphs => void applyGlyphs($, glyphs),

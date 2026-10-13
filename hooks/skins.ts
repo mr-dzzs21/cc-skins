@@ -1,4 +1,4 @@
-import type { SkinId } from '../types'
+import type { SkinId, SoundName } from '../types'
 
 export type SpinnerMode = 'requesting' | 'responding' | 'thinking' | 'tool-input' | 'tool-use'
 
@@ -34,6 +34,8 @@ export type Skin = {
     /** Drawn after the word; left out, the engine's ellipsis. */
     suffix?: string
   }
+  /** The sound a finished turn plays, where the person has turned sound on. */
+  sound: SoundName
   /** The line that closes a turn: `<word> <joiner> 3s`. */
   turn: { words: readonly string[]; joiner: string }
   /** Deep, low-light colors: the picker lists these together under Dark. */
@@ -45,6 +47,7 @@ export type Skin = {
 export const SKINS: Record<SkinId, Skin> = {
   midnight: {
     id: 'midnight',
+    sound: 'chime',
     label: 'Midnight',
     description: 'Deep navy cards, Claude in orange, you in blue',
     glyph: '✻',
@@ -72,6 +75,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   retro: {
     id: 'retro',
+    sound: 'beep',
     label: 'Retro',
     description: 'Phosphor green and amber, CRT vibes',
     glyph: '▌',
@@ -100,6 +104,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   neon: {
     id: 'neon',
+    sound: 'blip',
     label: 'Neon',
     description: 'Magenta and cyan, cyberpunk',
     glyph: '⟡',
@@ -128,6 +133,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   minimal: {
     id: 'minimal',
+    sound: 'chime',
     label: 'Minimal',
     description: 'Muted grey with one calm accent, no gimmicks',
     glyph: '·',
@@ -161,6 +167,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   ring: {
     id: 'ring',
+    sound: 'bell',
     label: 'Ring',
     description: 'Red and gold, boxing ring',
     glyph: '◆',
@@ -188,6 +195,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   synthwave: {
     id: 'synthwave',
+    sound: 'blip',
     label: 'Synthwave',
     description: 'Sunset gold to violet, 80s outrun',
     glyph: '◢',
@@ -216,6 +224,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   ocean: {
     id: 'ocean',
+    sound: 'pop',
     label: 'Ocean',
     description: 'Deep sea blues with a coral spark',
     glyph: '≈',
@@ -243,6 +252,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   sakura: {
     id: 'sakura',
+    sound: 'chime',
     label: 'Sakura',
     description: 'Cherry blossom pink and soft plum',
     glyph: '❀',
@@ -271,6 +281,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   forest: {
     id: 'forest',
+    sound: 'chime',
     label: 'Forest',
     description: 'Moss green and bark brown, woodland',
     glyph: '♣',
@@ -298,6 +309,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   arctic: {
     id: 'arctic',
+    sound: 'chime',
     label: 'Arctic',
     description: 'Ice blue and frost, calm and cold',
     glyph: '❄',
@@ -326,6 +338,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   lava: {
     id: 'lava',
+    sound: 'gong',
     label: 'Lava',
     description: 'Molten orange on black rock, volcanic',
     glyph: '▲',
@@ -354,6 +367,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   candy: {
     id: 'candy',
+    sound: 'pop',
     label: 'Candy',
     description: 'Pastel rainbow, sweet and playful',
     glyph: '✿',
@@ -382,6 +396,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   obsidian: {
     id: 'obsidian',
+    sound: 'chime',
     isDark: true,
     label: 'Obsidian',
     description: 'Volcanic glass with a violet glint',
@@ -411,6 +426,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   vampire: {
     id: 'vampire',
+    sound: 'gong',
     isDark: true,
     label: 'Vampire',
     description: 'Blood red on midnight black',
@@ -440,6 +456,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   abyss: {
     id: 'abyss',
+    sound: 'pop',
     isDark: true,
     label: 'Abyss',
     description: 'Pitch-black deep sea, bioluminescent teal',
@@ -468,6 +485,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   emerald: {
     id: 'emerald',
+    sound: 'chime',
     isDark: true,
     label: 'Emerald',
     description: 'Dark jade with a gold spark',
@@ -497,6 +515,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   noir: {
     id: 'noir',
+    sound: 'chime',
     isDark: true,
     label: 'Noir',
     description: 'Black and white, film noir',
@@ -525,6 +544,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   ember: {
     id: 'ember',
+    sound: 'gong',
     isDark: true,
     label: 'Ember',
     description: 'Charcoal with glowing orange embers',
@@ -554,6 +574,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   nebula: {
     id: 'nebula',
+    sound: 'blip',
     isDark: true,
     label: 'Nebula',
     description: 'Deep space violet with a pink star',
@@ -583,6 +604,7 @@ export const SKINS: Record<SkinId, Skin> = {
   },
   aurora: {
     id: 'aurora',
+    sound: 'chime',
     isDark: true,
     label: 'Aurora',
     description: 'Northern lights over a night sky',

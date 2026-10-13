@@ -50,8 +50,12 @@ export type Prefs = {
   turnCost: boolean
   turnTokens: boolean
   turnTools: boolean
-  /** The skin's sound when a turn ends, after `notifyAfterSec`. */
+  /** A sound when a turn ends, after `notifyAfterSec`. */
   sound: boolean
+  /** Which: `skin` for the skin's own, else a sound's name. */
+  soundName: string
+  /** Its loudness, as `$.audio.play` takes a gain. */
+  soundGain: number
   /** A system notification when a turn ends, after `notifyAfterSec`. */
   notify: boolean
   /** How long a turn must run before it sounds or notifies. */
@@ -69,6 +73,9 @@ export type TurnStat = {
   /** The session's cost as it started, to measure from. */
   costAtStart: number | null
 }
+
+/** The sounds cc-skins ships, in `sounds/`. */
+export type SoundName = 'bell' | 'chime' | 'beep' | 'blip' | 'gong' | 'pop'
 
 /** The settings pane's tabs. */
 export type SettingsTab = 'bar' | 'look' | 'alerts' | 'turn' | 'sound'

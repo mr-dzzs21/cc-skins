@@ -1,7 +1,8 @@
-import type { BarItem, BarStyle, Glyphs, Prefs, SettingsTab } from '../types'
+import type { BarItem, BarStyle, Glyphs, Prefs, SettingsTab, SoundName } from '../types'
 import { BAR_ITEMS, drawHeading } from './panels'
 import type { Elements } from './panels'
-import { ALERT_LEVELS } from './prefs'
+import { ALERT_LEVELS, NOTIFY_AFTER, SOUND_GAINS } from './prefs'
+import { SOUNDS } from './sounds'
 import type { Skin } from './skins'
 
 /** The settings pane's tabs, in order, as its tab row names them. */
@@ -10,6 +11,7 @@ export const SETTINGS_TABS: readonly { tab: SettingsTab; label: string }[] = [
   { tab: 'look', label: 'Look' },
   { tab: 'alerts', label: 'Alerts' },
   { tab: 'turn', label: 'Turn line' },
+  { tab: 'sound', label: 'Sound' },
 ]
 
 export const isSettingsTab = (value: unknown): value is SettingsTab => SETTINGS_TABS.some(({ tab }) => tab === value)
@@ -33,6 +35,8 @@ export type SettingsActions = {
   glyphs: (glyphs: Glyphs) => void
   chat: (isOn: boolean) => void
   pref: (patch: Partial<Prefs>) => void
+  /** Plays a sound once, as a pick of it previews it. */
+  play: (name: SoundName | 'skin', gain: number) => void
 }
 
 /** A row of choices, the current one filled and marked as the primary. */
@@ -140,12 +144,61 @@ const drawTurnTab = (elements: Elements, skin: Skin, view: SettingsView, act: Se
   drawOnOff(elements, 'turn-tools', view.prefs.turnTools, turnTools => act.pref({ turnTools })),
 ]
 
+const GAIN_LABELS = ['Quiet', 'Normal', 'Loud'] as const
+
+/**
+ * The sound tab: a sound and a notification when a turn ends, both off until
+ * turned on, for turns longer than the person says. A pick of a sound or its
+ * loudness plays it once.
+ */
+const drawSoundTab = (elements: Elements, skin: Skin, view: SettingsView, act: SettingsActions) => {
+  const { prefs } = view
+  const pickSound = (soundName: SoundName | 'skin') => {
+    act.pref({ soundName })
+    act.play(soundName, prefs.soundGain)
+  }
+
+  return [
+    drawHeading(elements, skin, 'sound-heading', 'Sound', 'when Claude is done'),
+    drawOnOff(elements, 'sound', prefs.sound, sound => act.pref({ sound })),
+    drawHeading(elements, skin, 'sound-name-heading', 'Which', 'a pick plays it'),
+    drawChoice(
+      elements,
+      'sound-name',
+      [{ value: 'skin' as const, label: `Skin's own (${skin.sound})` }, ...SOUNDS.map(({ name, label }) => ({ value: name, label }))],
+      prefs.soundName === 'skin' || SOUNDS.some(({ name }) => name === prefs.soundName) ? (prefs.soundName as SoundName | 'skin') : 'skin',
+      pickSound,
+    ),
+    drawHeading(elements, skin, 'gain-heading', 'Loudness'),
+    drawChoice(
+      elements,
+      'gain',
+      SOUND_GAINS.map((gain, index) => ({ value: gain, label: GAIN_LABELS[index] ?? String(gain) })),
+      prefs.soundGain,
+      soundGain => {
+        act.pref({ soundGain })
+        act.play(prefs.soundName as SoundName | 'skin', soundGain)
+      },
+    ),
+    drawHeading(elements, skin, 'notify-heading', 'Notification', 'through your terminal'),
+    drawOnOff(elements, 'notify', prefs.notify, notify => act.pref({ notify })),
+    drawHeading(elements, skin, 'after-heading', 'Only after turns of'),
+    drawChoice(
+      elements,
+      'after',
+      NOTIFY_AFTER.map(seconds => ({ value: seconds, label: seconds === 0 ? 'Any length' : `${seconds} s+` })),
+      prefs.notifyAfterSec,
+      notifyAfterSec => act.pref({ notifyAfterSec }),
+    ),
+  ]
+}
+
 const TAB_DRAWERS: Record<SettingsTab, typeof drawBarTab> = {
   bar: drawBarTab,
   look: drawLookTab,
   alerts: drawAlertsTab,
   turn: drawTurnTab,
-  sound: drawBarTab,
+  sound: drawSoundTab,
 }
 
 /**

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.0
+
+- Sound and notification when a turn ends, both off until turned on in the new Sound tab: each skin has its own sound (ring rings a boxing bell; others chime, beep, blip, gong or pop), or pick one; three loudness levels; a pick plays it once. The notification says how long the turn took and how the answer begins. Both only for turns of 30 s or more, or 10, 60, or any length.
+- The six sounds are synthesized by `scripts/make_sounds.py`.
+
 ## 0.10.0
 
 - The line closing a turn tells what the turn cost: `KO in 1m 4s · $0.25 · 2 tools`. Cost (the session's cost after the turn less before it), tokens (read and written, the cache included; off by default) and tool calls of the main thread each turn on or off in the new Turn line tab.
