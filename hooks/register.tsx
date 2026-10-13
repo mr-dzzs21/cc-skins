@@ -1,7 +1,7 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register, SessionUsage, Timer } from 'claude-code'
 
-import type { BarItem, BarStyle, Glyphs, ModelChoice, SentPrompt, SkinId, Usage } from '../types'
+import type { BarItem, BarStyle, Glyphs, ModelChoice, Prefs, SentPrompt, SettingsTab, SkinId, Usage } from '../types'
 import {
   IDLE_HINT,
   drawAssistantBlock,
@@ -19,15 +19,16 @@ import {
   DEFAULT_HIDDEN,
   MODEL_PANE,
   SETTINGS_PANE,
-  SETTINGS_ROWS,
   barItemNamed,
   drawModelPicker,
-  drawSettings,
   isBarItem,
   modelLabel,
   modelPaneRows,
 } from './panels'
 import type { EffortChoice } from './panels'
+import { alertsFor, compactAt } from './alerts'
+import { DEFAULT_PREFS, readPrefs } from './prefs'
+import { SETTINGS_ROWS, drawSettings, isSettingsTab } from './settings'
 import { PICKER, PICKER_COLUMNS, PICKER_ROWS, drawPicker } from './picker'
 import { DEFAULT_SKIN, SKIN_IDS, SKINS, isSkinId, pick, themeName } from './skins'
 
@@ -56,6 +57,10 @@ const isHudHiddenAtom = atom({ plugin: 'cc-skins', key: 'isHudHidden' } as const
 const hiddenAtom = atom({ plugin: 'cc-skins', key: 'hidden' } as const, [...DEFAULT_HIDDEN] as BarItem[])
 /** The main thread's effort, as its last request asked it. */
 const effortAtom = atom({ plugin: 'cc-skins', key: 'effort' } as const, null as string | null)
+/** The person's choices beyond the bar's items, the settings tab open, the alerts already raised. */
+const prefsAtom = atom({ plugin: 'cc-skins', key: 'prefs' } as const, DEFAULT_PREFS)
+const settingsTabAtom = atom({ plugin: 'cc-skins', key: 'settingsTab' } as const, 'bar' as SettingsTab)
+const alertedAtom = atom({ plugin: 'cc-skins', key: 'alerted' } as const, {} as Record<string, number>)
 /** The Model row, as the model picker shows it. */
 const modelChoiceAtom = atom(
   { plugin: 'cc-skins', key: 'modelChoice' } as const,
@@ -75,6 +80,7 @@ const STORE = {
   isHudHidden: 'isHudHidden',
   hidden: 'barHidden',
   models: 'aliasModels',
+  prefs: 'prefs',
   hasWelcomed: 'hasWelcomed',
 } as const
 
@@ -279,11 +285,54 @@ const pickEffort = async ($: EngineInterface, level: EffortChoice) => {
 }
 
 const openSettings = ($: EngineInterface) =>
-  $.ui.open({ id: SETTINGS_PANE, title: 'Bar settings', focus: true, closeOnEscape: true, rows: SETTINGS_ROWS })
+  $.ui.open({ id: SETTINGS_PANE, title: 'Settings', focus: true, closeOnEscape: true, rows: SETTINGS_ROWS })
 
-/** What a press on the bar opens. */
+/** Changes some of the person's choices, and keeps them. */
+const setPrefs = async ($: EngineInterface, patch: Partial<Prefs>) => {
+  const prefs = { ...(await read($, prefsAtom)), ...patch }
+  await update($, prefsAtom, () => prefs)
+  await $.store.set(STORE.prefs, prefs)
+}
+
+/** Where the bar offers to compact, by the person's choices; null with the button off. */
+const readCompactAt = async ($: EngineInterface) => {
+  const prefs = await read($, prefsAtom)
+
+  return prefs.compactButton ? compactAt(prefs.alertAt) : null
+}
+
+/** Compacts the conversation as /compact does (a veto says why in its own line); between turns only. */
+const compactNow = async ($: EngineInterface) => {
+  try {
+    await $.session.compact()
+  } catch {
+    $.ui.toast('Compacting waits until Claude is done')
+  }
+}
+
+/** Raises the alerts a measurement calls for, once per crossing. */
+const raiseAlerts = async ($: EngineInterface) => {
+  const { alerts, alerted } = alertsFor(
+    await read($, usageAtom),
+    (await read($, prefsAtom)).alertAt,
+    await read($, alertedAtom),
+    await $.clock.now(),
+  )
+  await update($, alertedAtom, () => alerted)
+  for (const alert of alerts) {
+    $.ui.toast(alert.text, { timeoutMs: 8000 })
+  }
+}
+
+/** What a press on the bar opens or does. */
 const openFromBar = ($: EngineInterface, press: BarPress) => {
-  void (press === 'skin' ? openPicker($) : press === 'model' ? openModelPicker($) : openSettings($))
+  void (press === 'skin'
+    ? openPicker($)
+    : press === 'model'
+      ? openModelPicker($)
+      : press === 'compact'
+        ? compactNow($)
+        : openSettings($))
 }
 
 /** The list's name column: as wide as the longest skin id. */
@@ -328,6 +377,7 @@ const setUp = async ($: EngineInterface) => {
   const isChatStyled = (await $.store.get(STORE.isChatStyled)) !== false
   const isHudHidden = (await $.store.get(STORE.isHudHidden)) === true
   const storedHidden = await $.store.get(STORE.hidden)
+  const storedPrefs = await $.store.get(STORE.prefs)
   const hidden = Array.isArray(storedHidden) ? storedHidden.filter(isBarItem) : [...DEFAULT_HIDDEN]
   await update($, skinAtom, () => (isSkinId(storedSkin) ? storedSkin : DEFAULT_SKIN))
   await update($, glyphsAtom, () => (isGlyphs(storedGlyphs) ? storedGlyphs : 'nerd'))
@@ -335,6 +385,7 @@ const setUp = async ($: EngineInterface) => {
   await update($, isChatStyledAtom, () => isChatStyled)
   await update($, isHudHiddenAtom, () => isHudHidden)
   await update($, hiddenAtom, () => hidden)
+  await update($, prefsAtom, () => readPrefs(storedPrefs))
   await update($, previewAtom, () => null)
   await tick($)
 
@@ -452,6 +503,7 @@ export const register: Register = on => {
     await update($, usageAtom, previous => toUsage(model, e, previous))
     await refreshBranch($)
     await tick($)
+    await raiseAlerts($)
 
     return next(e)
   })
@@ -491,7 +543,11 @@ export const register: Register = on => {
 
       return opened.isPlaced ? {} : { text: 'The model picker needs a wider terminal: /model and /effort do the same.' }
     }
-    if ((first === 'bar' && second === '') || first === 'settings') {
+    if ((first === 'bar' && second === '') || first === 'settings' || first === 'alerts') {
+      const tab = first === 'alerts' ? 'alerts' : isSettingsTab(second) ? second : undefined
+      if (tab !== undefined) {
+        await update($, settingsTabAtom, () => tab)
+      }
       const opened = await openSettings($)
 
       return opened.isPlaced ? {} : { text: `The settings need a wider terminal: /${COMMAND} show|hide <item> does the same.` }
@@ -561,6 +617,7 @@ export const register: Register = on => {
       frame: await read($, frameAtom),
       hidden: await read($, hiddenAtom),
       effort: await read($, effortAtom),
+      compactAt: await readCompactAt($),
     }
 
     return drawBar($.ui.resolve(e), input, await read($, barStyleAtom), e.props.bodyColumns, press => openFromBar($, press))
@@ -581,12 +638,16 @@ export const register: Register = on => {
       $.ui.resolve(e),
       SKINS[await read($, skinAtom)],
       {
+        tab: await read($, settingsTabAtom),
         hidden: await read($, hiddenAtom),
         barStyle: await read($, barStyleAtom),
         glyphs: await read($, glyphsAtom),
         isChatStyled: await read($, isChatStyledAtom),
+        prefs: await read($, prefsAtom),
       },
       {
+        tab: tab => void update($, settingsTabAtom, () => tab),
+        pref: patch => void setPrefs($, patch),
         toggle: item => void toggleItem($, item),
         style: style => void applyBarStyle($, style),
         glyphs: glyphs => void applyGlyphs($, glyphs),
@@ -613,6 +674,7 @@ export const register: Register = on => {
           frame: 0,
           hidden: await read($, hiddenAtom),
           effort: await read($, effortAtom),
+          compactAt: null,
         },
         barStyle: await read($, barStyleAtom),
         columns: e.props.bodyColumns,

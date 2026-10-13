@@ -40,6 +40,27 @@ export type BarItem =
   | 'resets'
   | 'gear'
 
+/** The person's choices beyond what the bar shows; each feature reads its own. */
+export type Prefs = {
+  /** Toast once a limit window or the context reaches this percent (and again at 95); 0 never. */
+  alertAt: number
+  /** A compact block in the bar once the context is that full, between turns. */
+  compactButton: boolean
+  /** What the line closing a turn adds after its duration. */
+  turnCost: boolean
+  turnTokens: boolean
+  turnTools: boolean
+  /** The skin's sound when a turn ends, after `notifyAfterSec`. */
+  sound: boolean
+  /** A system notification when a turn ends, after `notifyAfterSec`. */
+  notify: boolean
+  /** How long a turn must run before it sounds or notifies. */
+  notifyAfterSec: number
+}
+
+/** The settings pane's tabs. */
+export type SettingsTab = 'bar' | 'look' | 'alerts' | 'turn' | 'sound'
+
 /**
  * The model choices the `/config` Model row offers, the one set, and the
  * model each alias is known to name (the running one, and those picks showed).
@@ -81,6 +102,10 @@ declare module 'claude-code' {
       effort: string | null
       /** The Model row, read as the model picker opens and after a pick. */
       modelChoice: ModelChoice
+      prefs: Prefs
+      settingsTab: SettingsTab
+      /** The level each unit (context, a limit window) was last alerted at; 0 once it drops back. */
+      alerted: Record<string, number>
       now: number
       frame: number
     }

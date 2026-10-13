@@ -1,6 +1,6 @@
 import type { BoxProps, ButtonProps, ElementConstructor, TextProps } from 'claude-code'
 
-import type { BarItem, BarStyle, Glyphs, ModelChoice } from '../types'
+import type { BarItem, ModelChoice } from '../types'
 import { prettyModel } from './format'
 import type { Skin } from './skins'
 
@@ -62,13 +62,13 @@ export const modelLabel = (alias: string, resolved?: string): string => {
 
 const HOTKEYS = '1234567890'
 
-type Elements = {
+export type Elements = {
   Box: ElementConstructor<BoxProps>
   Text: ElementConstructor<TextProps>
   Button: ElementConstructor<ButtonProps>
 }
 
-const drawHeading = ({ Box, Text }: Elements, skin: Skin, key: string, title: string, note?: string) => (
+export const drawHeading = ({ Box, Text }: Elements, skin: Skin, key: string, title: string, note?: string) => (
   <Box key={key} flexDirection="row" marginTop={key === 'model-heading' || key === 'items-heading' ? 0 : 1}>
     <Text color={skin.chat.assistant} bold>
       {title}
@@ -131,99 +131,6 @@ export const drawModelPicker = (
       </Box>
       <Text key="hint" color={skin.chat.muted} wrap="truncate-end">
         {`↑↓ Tab · Enter picks · 1–${HOTKEYS[Math.min(view.choice.options.length, HOTKEYS.length) - 1] ?? '1'} a model · Esc closes`}
-      </Text>
-    </Box>
-  )
-}
-
-export type SettingsView = {
-  hidden: readonly BarItem[]
-  barStyle: BarStyle
-  glyphs: Glyphs
-  isChatStyled: boolean
-}
-
-export type SettingsActions = {
-  toggle: (item: BarItem) => void
-  style: (style: BarStyle) => void
-  glyphs: (glyphs: Glyphs) => void
-  chat: (isOn: boolean) => void
-}
-
-/** Rows the settings pane asks for: the items, three option rows, their headings, the hint. */
-export const SETTINGS_ROWS = BAR_ITEMS.length + 1 + 3 * 2 + 1 + 3
-
-/**
- * The bar's settings: a check per item, each a press that turns it on or
- * off, then the bar's style, its icons and the chat cards as pairs of
- * choices. The bar above the prompt redraws as they change.
- */
-export const drawSettings = (elements: Elements, skin: Skin, view: SettingsView, act: SettingsActions) => {
-  const { Box, Text, Button } = elements
-  const choice = <T extends string>(key: string, options: readonly { value: T; label: string }[], current: T, pick: (value: T) => void) => (
-    <Box key={key} flexDirection="row" columnGap={1}>
-      {options.map(option => (
-        <Button
-          key={`${key}-${option.value}`}
-          label={`${option.value === current ? '●' : '○'} ${option.label}`}
-          variant={option.value === current ? 'primary' : undefined}
-          onPress={() => pick(option.value)}
-        />
-      ))}
-    </Box>
-  )
-
-  return (
-    <Box flexDirection="column">
-      {drawHeading(elements, skin, 'items-heading', 'Show in the bar', 'Enter turns one on or off')}
-      {BAR_ITEMS.map(({ item, label }, index) => {
-        const isOn = !view.hidden.includes(item)
-
-        return (
-          <Button
-            key={`item-${item}`}
-            label={label}
-            plain
-            autoFocus={index === 0 ? true : undefined}
-            onPress={() => act.toggle(item)}
-          >
-            <Text color={isOn ? skin.chat.success : skin.chat.muted}>{isOn ? '[✓] ' : '[ ] '}</Text>
-            <Text color={isOn ? undefined : skin.chat.muted}>{label}</Text>
-          </Button>
-        )
-      })}
-      {drawHeading(elements, skin, 'style-heading', 'Style')}
-      {choice(
-        'style',
-        [
-          { value: 'powerline', label: 'Powerline blocks' },
-          { value: 'header', label: 'Quiet header' },
-        ],
-        view.barStyle,
-        act.style,
-      )}
-      {drawHeading(elements, skin, 'glyphs-heading', 'Icons', 'powerline arrows need a Nerd Font')}
-      {choice(
-        'glyphs',
-        [
-          { value: 'nerd', label: 'Nerd Font' },
-          { value: 'plain', label: 'Plain' },
-        ],
-        view.glyphs,
-        act.glyphs,
-      )}
-      {drawHeading(elements, skin, 'chat-heading', 'Chat cards')}
-      {choice(
-        'chat',
-        [
-          { value: 'on', label: 'On' },
-          { value: 'off', label: 'Off' },
-        ],
-        view.isChatStyled ? 'on' : 'off',
-        value => act.chat(value === 'on'),
-      )}
-      <Text key="hint" color={skin.chat.muted} wrap="truncate-end">
-        {'↑↓ Tab · Enter · Esc closes · also /skin show|hide <item>'}
       </Text>
     </Box>
   )

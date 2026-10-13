@@ -16,15 +16,17 @@ const ICONS = {
   seven_day: '\uf073',
   spend_limit: '\uf155',
   gear: '\uf013',
+  compact: '\uf066',
 } as const
 
 /** What a press on the bar opens: the skin picker, the model and effort picker, the bar's settings. */
-export type BarPress = 'skin' | 'model' | 'settings'
+export type BarPress = 'skin' | 'model' | 'settings' | 'compact'
 
 const PRESS_LABELS: Record<BarPress, string> = {
   skin: 'Pick a skin',
   model: 'Model and effort',
   settings: 'Bar settings',
+  compact: 'Compact the conversation',
 }
 
 /** The ⚙ after the bar, with the space before it. */
@@ -55,6 +57,8 @@ export type BarInput = {
   hidden: readonly BarItem[]
   /** The main thread's effort; null until a request has said. */
   effort: string | null
+  /** The context percent from which a compact button shows between turns; null for none. */
+  compactAt: number | null
 }
 
 const LIMIT_LABELS: Record<string, string> = { five_hour: '5h', seven_day: '7d', spend_limit: 'spend' }
@@ -81,7 +85,7 @@ const gradientAt = (skin: Skin, index: number): Paint => {
  * 5-hour window. The skin's block always stays: it opens the skin picker.
  */
 export const barPills = (input: BarInput, level: number): Pill[] => {
-  const { skin, usage, branch, now, glyphs, isWorking, frame, hidden, effort } = input
+  const { skin, usage, branch, now, glyphs, isWorking, frame, hidden, effort, compactAt } = input
   const isNerd = glyphs === 'nerd'
   const shows = (item: BarItem) => !hidden.includes(item)
   const hasMeters = level < 1 && shows('meters')
@@ -122,6 +126,15 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
       alert: context === null ? undefined : alertFor(context),
     })
   }
+  if (isCompactDue(input)) {
+    pills.push({
+      key: 'compact',
+      text: `${isNerd ? ICONS.compact : '⇣'} compact`,
+      alert: (context ?? 0) >= 95 ? 'danger' : 'warn',
+      isBold: true,
+      press: 'compact',
+    })
+  }
 
   usage.rateLimits.forEach(limit => {
     const isFiveHour = limit.kind === 'five_hour'
@@ -153,6 +166,10 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     return { ...block, paint }
   })
 }
+
+/** Whether the bar offers to compact: the context is that full, between turns. */
+export const isCompactDue = ({ usage, compactAt, isWorking }: BarInput): boolean =>
+  compactAt !== null && !isWorking && usage.contextPercent !== null && usage.contextPercent >= compactAt
 
 const cells = (text: string) => [...text].length
 
@@ -332,6 +349,14 @@ export const headerFor = (input: BarInput, columns: number): Header => {
       text: `● ${LIMIT_LABELS[limit.kind] ?? limit.kind} ${formatPercent(limit.percentUsed)}`,
       color: alertColor(skin, limit.percentUsed) ?? chat.muted,
     }))
+  if (isCompactDue(input)) {
+    badges.unshift({
+      key: 'compact',
+      text: '⇣ compact',
+      color: skin.colors[(usage.contextPercent ?? 0) >= 95 ? 'danger' : 'warn'].bg,
+      press: 'compact',
+    })
+  }
   if (isWorking) {
     badges.unshift({ key: 'working', text: `${FRAMES[frame % FRAMES.length]} working`, color: chat.assistant })
   }
@@ -405,11 +430,16 @@ export const drawHeader = (
       ))}
     </Box>
     <Box flexDirection="row" gap={1}>
-      {header.badges.map(item => (
-        <Text key={item.key} color={item.color} bold>
-          {item.text}
-        </Text>
-      ))}
+      {header.badges.map(item =>
+        pressable(
+          Button,
+          item.press,
+          onPress,
+          <Text key={item.key} color={item.color} bold>
+            {item.text}
+          </Text>,
+        ),
+      )}
       {gear !== undefined && onPress !== undefined && drawGear(elements, glyphs, gear, onPress)}
     </Box>
   </Box>

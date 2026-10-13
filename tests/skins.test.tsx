@@ -9,6 +9,8 @@ import type { BarInput } from '../hooks/hud'
 import { SKIN_IDS, SKINS, pick } from '../hooks/skins'
 import { hotkeyFor, hotkeyRange } from '../hooks/picker'
 import { modelLabel } from '../hooks/panels'
+import { alertsFor } from '../hooks/alerts'
+import { DEFAULT_PREFS, readPrefs } from '../hooks/prefs'
 
 const MINUTE = 60_000
 const at = (ms: number) => new Date(ms).toISOString()
@@ -103,6 +105,7 @@ const RING: BarInput = {
   frame: 0,
   hidden: [],
   effort: null,
+  compactAt: null,
 }
 
 describe('powerline bar', () => {
@@ -893,6 +896,7 @@ describe('bar settings', () => {
     })
     expect(await settings.find({ type: 'Text', text: /\[ \] / })).toBeDefined()
     await settings.press({ key: 'item-cost' })
+    await settings.press({ key: 'tab-look' })
     await settings.press({ key: 'style-header' })
     await settings.unmount()
 
@@ -927,5 +931,88 @@ describe('model names', () => {
     expect(modelLabel('default')).toBe('Default')
     expect(modelLabel('default', 'claude-opus-5-5')).toBe('Default · Opus 5.5')
     expect(modelLabel('sonnet', 'claude-sonnet-5-6')).toBe('Sonnet 5.6')
+  })
+})
+
+describe('alerts', () => {
+  test('each unit alerts once at the threshold, once more at 95, and again only after dropping back', () => {
+    const at = (contextPercent: number) => ({ ...USAGE, rateLimits: [], contextPercent })
+    const first = alertsFor(at(82), 80, {}, 0)
+    expect(first.alerts.map(a => a.text)).toEqual(['Context 82% full · compact from the bar, or /compact'])
+    expect(alertsFor(at(84), 80, first.alerted, 0).alerts).toEqual([])
+    const urgent = alertsFor(at(96), 80, first.alerted, 0)
+    expect(urgent.alerts.map(a => a.level)).toEqual([95])
+    const dropped = alertsFor(at(40), 80, urgent.alerted, 0)
+    expect(dropped.alerted.context).toBe(0)
+    expect(alertsFor(at(81), 80, dropped.alerted, 0).alerts).toHaveLength(1)
+  })
+
+  test('limits name their window and reset; off means none', () => {
+    const { alerts } = alertsFor(USAGE, 70, {}, 0)
+    expect(alerts.map(a => a.text)).toEqual(['5-hour limit at 72% · resets in 2h13m', '7-day limit at 91% · resets in 3d4h'])
+    expect(alertsFor(USAGE, 0, {}, 0).alerts).toEqual([])
+  })
+
+  test('stored prefs keep only fields of the right kind', () => {
+    expect(readPrefs({ alertAt: 90, sound: 'loud', bogus: 1 })).toEqual({ ...DEFAULT_PREFS, alertAt: 90 })
+    expect(readPrefs(null)).toEqual(DEFAULT_PREFS)
+  })
+
+  test('the compact block shows between turns once the context is that full', () => {
+    const full = { ...RING, usage: { ...USAGE, contextPercent: 88 }, compactAt: 80 }
+    expect(barPills(full, 0).find(p => p.key === 'compact')?.press).toBe('compact')
+    expect(barPills({ ...full, isWorking: true }, 0).some(p => p.key === 'compact')).toBe(false)
+    expect(barPills({ ...full, compactAt: null }, 0).some(p => p.key === 'compact')).toBe(false)
+    expect(barPills({ ...full, compactAt: 90 }, 0).some(p => p.key === 'compact')).toBe(false)
+  })
+
+  test('a measurement past the threshold toasts; the compact button compacts', async ($, on) => {
+    mock.store(on)
+    const toasts: string[] = []
+    let compacted = 0
+    on('ui.toast', ($, e) => {
+      toasts.push(e.text)
+
+      return { value: undefined }
+    })
+    mock.clock(on, { now: 0 })
+    on('session.compact', () => {
+      compacted += 1
+
+      return { skip: 'kept in this test' }
+    })
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    await $.session.measure({ context: { window: 200_000, tokens: 170_000, percent: 85 }, rateLimits: [], changed: ['context'] })
+    expect(toasts).toEqual(['Context 85% full · compact from the bar, or /compact'])
+
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    await band.press({ key: 'compact-button' })
+    await band.unmount()
+    expect(compacted).toBe(1)
+  })
+
+  test('the alerts tab sets the threshold and the compact button', async ($, on) => {
+    mock.store(on)
+    mock.clock(on, { now: 0 })
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    const settings = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'bar-settings',
+      props: { ...PANE_PROPS, title: 'Settings' },
+    })
+    await settings.press({ key: 'tab-alerts' })
+    expect(await settings.find({ key: 'alert-80' })).toBeDefined()
+    await settings.press({ key: 'alert-90' })
+    await settings.press({ key: 'compact-off' })
+    await settings.unmount()
+
+    await $.session.measure({ context: { window: 200_000, tokens: 176_000, percent: 88 }, rateLimits: [], changed: ['context'] })
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await band.find({ key: 'compact-button' })).toBeUndefined()
+    await band.unmount()
   })
 })

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.0
+
+- Alerts: a toast as the context or a limit window reaches the threshold (80 % by default; 70, 90 or off), once more at 95 %, and again only after it drops back.
+- A compact button joins the bar once the context is that full, between turns: one click compacts the conversation, as /compact does.
+- The settings come in tabs: Bar, Look, Alerts. `/skin alerts` opens the Alerts tab.
+
 ## 0.8.1
 
 - Models read with their version everywhere: the model picker lists `Opus 5.5`, `Opus 5.5 · 1M context`, `Sonnet 5.5`, `Opus 5.5 plan mode` instead of bare aliases. The running model, and every model a pick has shown an alias to name, take precedence over this build's defaults.
