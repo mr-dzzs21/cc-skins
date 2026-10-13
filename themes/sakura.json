@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Sakura",
+  "base": "dark",
+  "overrides": {
+    "claude": "#ffb3cc",
+    "claudeShimmer": "#fff0f5",
+    "text": "#fbe4ec",
+    "inactive": "#9a8c98",
+    "subtle": "#7a4161",
+    "suggestion": "#bde0fe",
+    "permission": "#bde0fe",
+    "permissionShimmer": "#d7ecfe",
+    "promptBorder": "#7a4161",
+    "promptBorderShimmer": "#9b7088",
+    "planMode": "#bde0fe",
+    "autoAccept": "#b9fbc0",
+    "bashBorder": "#ffe29a",
+    "success": "#b9fbc0",
+    "error": "#ff5c7a",
+    "warning": "#ffe29a",
+    "diffAdded": "#273f29",
+    "diffRemoved": "#64282b",
+    "diffAddedDimmed": "#262b24",
+    "diffRemovedDimmed": "#441f24",
+    "diffAddedWord": "#2a6232",
+    "diffRemovedWord": "#993636",
+    "userMessageBackground": "#422535",
+    "userMessageBackgroundHover": "#532e43",
+    "selectionBg": "#714d5b",
+    "rate_limit_fill": "#ffb3cc",
+    "rate_limit_empty": "#7a4161"
+  }
+}

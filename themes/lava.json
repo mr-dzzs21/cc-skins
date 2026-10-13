@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Lava",
+  "base": "dark",
+  "overrides": {
+    "claude": "#fb8500",
+    "claudeShimmer": "#fff59d",
+    "text": "#f5e6d3",
+    "inactive": "#8d7b6a",
+    "subtle": "#6a040f",
+    "suggestion": "#ffb703",
+    "permission": "#ffb703",
+    "permissionShimmer": "#ffd468",
+    "promptBorder": "#6a040f",
+    "promptBorderShimmer": "#8f434b",
+    "planMode": "#ffb703",
+    "autoAccept": "#95d5b2",
+    "bashBorder": "#fff3b0",
+    "success": "#95d5b2",
+    "error": "#ff4d4d",
+    "warning": "#fff3b0",
+    "diffAdded": "#1a371a",
+    "diffRemoved": "#571f1c",
+    "diffAddedDimmed": "#162011",
+    "diffRemovedDimmed": "#341512",
+    "diffAddedWord": "#215c28",
+    "diffRemovedWord": "#90312c",
+    "userMessageBackground": "#31080a",
+    "userMessageBackgroundHover": "#42070c",
+    "selectionBg": "#643505",
+    "rate_limit_fill": "#fb8500",
+    "rate_limit_empty": "#6a040f"
+  }
+}

@@ -1,0 +1,22 @@
+# cc-skins · Candy — Ghostty theme
+background = #221b2e
+foreground = #f7f1ff
+cursor-color = #ff99c8
+selection-background = #6f4764
+selection-foreground = #f7f1ff
+palette = 0=#221b2e
+palette = 1=#ff595e
+palette = 2=#b9fbc0
+palette = 3=#ffd166
+palette = 4=#a9def9
+palette = 5=#ff99c8
+palette = 6=#9ef0e0
+palette = 7=#f7f1ff
+palette = 8=#897ca1
+palette = 9=#ff8b8e
+palette = 10=#cefcd3
+palette = 11=#ffdf94
+palette = 12=#c3e8fb
+palette = 13=#ffb8d8
+palette = 14=#bbf4e9
+palette = 15=#ffffff

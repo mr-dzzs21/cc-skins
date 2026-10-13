@@ -11,6 +11,13 @@ whole window fits, not just Claude Code's parts.
 | neon | `ghostty/cc-skins-neon` | `iterm2/cc-skins-neon.itermcolors` | Space Mono or Monaspace Radon |
 | minimal | `ghostty/cc-skins-minimal` | `iterm2/cc-skins-minimal.itermcolors` | JetBrains Mono or Geist Mono |
 | ring | `ghostty/cc-skins-ring` | `iterm2/cc-skins-ring.itermcolors` | Iosevka or Fira Code |
+| synthwave | `ghostty/cc-skins-synthwave` | `iterm2/cc-skins-synthwave.itermcolors` | Space Mono or Monaspace Radon |
+| ocean | `ghostty/cc-skins-ocean` | `iterm2/cc-skins-ocean.itermcolors` | JetBrains Mono or Fira Code |
+| sakura | `ghostty/cc-skins-sakura` | `iterm2/cc-skins-sakura.itermcolors` | Victor Mono or Recursive Mono |
+| forest | `ghostty/cc-skins-forest` | `iterm2/cc-skins-forest.itermcolors` | IBM Plex Mono or Iosevka |
+| arctic | `ghostty/cc-skins-arctic` | `iterm2/cc-skins-arctic.itermcolors` | JetBrains Mono or Geist Mono |
+| lava | `ghostty/cc-skins-lava` | `iterm2/cc-skins-lava.itermcolors` | Iosevka or Fira Code |
+| candy | `ghostty/cc-skins-candy` | `iterm2/cc-skins-candy.itermcolors` | Comic Mono or Recursive Mono |
 
 With `/skin glyphs plain`, cc-skins draws only standard Unicode characters,
 so any monospace font works. The default powerline look needs a

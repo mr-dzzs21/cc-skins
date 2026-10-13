@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Forest",
+  "base": "dark",
+  "overrides": {
+    "claude": "#c5e17a",
+    "claudeShimmer": "#e6f5b8",
+    "text": "#e9e4cf",
+    "inactive": "#8a8a6e",
+    "subtle": "#4f7942",
+    "suggestion": "#e9d8a6",
+    "permission": "#e9d8a6",
+    "permissionShimmer": "#f2e8ca",
+    "promptBorder": "#4f7942",
+    "promptBorderShimmer": "#7b9a71",
+    "planMode": "#e9d8a6",
+    "autoAccept": "#a7c957",
+    "bashBorder": "#e9c46a",
+    "success": "#a7c957",
+    "error": "#e76f51",
+    "warning": "#e9c46a",
+    "diffAdded": "#1c421f",
+    "diffRemoved": "#582a21",
+    "diffAddedDimmed": "#182e18",
+    "diffRemovedDimmed": "#362219",
+    "diffAddedWord": "#22642c",
+    "diffRemovedWord": "#91382f",
+    "userMessageBackground": "#293b22",
+    "userMessageBackgroundHover": "#344e2c",
+    "selectionBg": "#526035",
+    "rate_limit_fill": "#c5e17a",
+    "rate_limit_empty": "#4f7942"
+  }
+}

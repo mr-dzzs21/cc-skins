@@ -1,0 +1,22 @@
+# cc-skins · Lava — Ghostty theme
+background = #120a08
+foreground = #f5e6d3
+cursor-color = #fb8500
+selection-background = #643505
+selection-foreground = #f5e6d3
+palette = 0=#120a08
+palette = 1=#ff4d4d
+palette = 2=#95d5b2
+palette = 3=#fff3b0
+palette = 4=#5c7cfa
+palette = 5=#fb8500
+palette = 6=#4cc9b0
+palette = 7=#f5e6d3
+palette = 8=#88363f
+palette = 9=#ff8282
+palette = 10=#b5e2c9
+palette = 11=#fff7c8
+palette = 12=#8da3fc
+palette = 13=#fcaa4c
+palette = 14=#82d9c8
+palette = 15=#ffffff

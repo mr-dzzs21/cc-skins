@@ -1,0 +1,22 @@
+# cc-skins · Arctic — Ghostty theme
+background = #2e3440
+foreground = #d8dee9
+cursor-color = #88c0d0
+selection-background = #4e6572
+selection-foreground = #d8dee9
+palette = 0=#2e3440
+palette = 1=#bf616a
+palette = 2=#a3be8c
+palette = 3=#ebcb8b
+palette = 4=#81a1c1
+palette = 5=#88c0d0
+palette = 6=#88c0d0
+palette = 7=#d8dee9
+palette = 8=#707888
+palette = 9=#d29097
+palette = 10=#bfd2ae
+palette = 11=#f1dbae
+palette = 12=#a7bdd4
+palette = 13=#acd3de
+palette = 14=#acd3de
+palette = 15=#ffffff

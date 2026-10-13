@@ -13,8 +13,8 @@ import {
   todosOf,
 } from './chat'
 import { prettyModel } from './format'
-import { drawHeader, drawPowerline, fitPills, headerFor, turnPills } from './hud'
-import { PICKER, drawPicker } from './picker'
+import { drawBar, drawPowerline, turnPills } from './hud'
+import { PICKER, PICKER_COLUMNS, PICKER_ROWS, drawPicker } from './picker'
 import { DEFAULT_SKIN, SKIN_IDS, SKINS, isSkinId, pick, themeName } from './skins'
 
 const EMPTY_USAGE: Usage = {
@@ -30,6 +30,8 @@ const NO_PROMPTS: SentPrompt[] = []
 const skinAtom = atom({ plugin: 'cc-skins', key: 'skin' } as const, DEFAULT_SKIN)
 const glyphsAtom = atom({ plugin: 'cc-skins', key: 'glyphs' } as const, 'nerd' as Glyphs)
 const barStyleAtom = atom({ plugin: 'cc-skins', key: 'barStyle' } as const, 'powerline' as BarStyle)
+/** The skin the picker's focus rests on; the bar draws it until the picker closes. */
+const previewAtom = atom({ plugin: 'cc-skins', key: 'preview' } as const, null as SkinId | null)
 const isChatStyledAtom = atom({ plugin: 'cc-skins', key: 'isChatStyled' } as const, true)
 /** The prompts sent this session, newest last, so a card can say when. */
 const promptsAtom = atom({ plugin: 'cc-skins', key: 'prompts' } as const, NO_PROMPTS)
@@ -132,21 +134,32 @@ const applySkin = async ($: EngineInterface, id: SkinId): Promise<string> => {
   ].join('\n')
 }
 
-/** Opens the skin picker with the keyboard in it: ↑↓ Enter or a digit picks, Escape closes. */
+/** Opens the skin picker with the keyboard in it: ↑↓ previews, Enter or a hotkey picks, Escape closes. */
 const openPicker = ($: EngineInterface) =>
-  $.ui.open({ id: PICKER, title: 'Pick a skin', focus: true, closeOnEscape: true, rows: SKIN_IDS.length + 1 })
+  $.ui.open({
+    id: PICKER,
+    title: 'Pick a skin',
+    focus: true,
+    closeOnEscape: true,
+    rows: PICKER_ROWS,
+    columns: PICKER_COLUMNS,
+  })
 
 /** A pick in the picker: switch, close it, and say so in a toast, since no command line shows it. */
 const chooseSkin = async ($: EngineInterface, id: SkinId) => {
   await applySkin($, id)
+  await update($, previewAtom, () => null)
   await $.ui.close({ id: PICKER })
   $.ui.toast(`Skin → ${SKINS[id].label} · matching colors: /theme → "${themeName(id)}"`)
 }
 
+/** The list's name column: as wide as the longest skin id. */
+const NAME_WIDTH = Math.max(...SKIN_IDS.map(id => id.length))
+
 const listSkins = (current: SkinId): string =>
   [
     `${SKIN_IDS.length} skins · current: ${current}`,
-    ...SKIN_IDS.map(id => `${id === current ? '▸' : ' '} ${id.padEnd(8)} ${SKINS[id].description}`),
+    ...SKIN_IDS.map(id => `${id === current ? '▸' : ' '} ${id.padEnd(NAME_WIDTH)} ${SKINS[id].description}`),
     '',
     `/${COMMAND} opens the picker (or click the bar's first block) · /${COMMAND} <name> · /${COMMAND} next · colors live in /theme`,
     `/${COMMAND} bar powerline|header · /${COMMAND} chat on|off · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|plain`,
@@ -160,7 +173,7 @@ export const register: Register = on => {
     await $.command.register({
       name: 'skin',
       description: 'Pick a cc-skins skin, or switch its bar, chat cards and glyphs',
-      argumentHint: '[list|midnight|ring|neon|retro|minimal|next|bar powerline|header|chat on|off|hud on|off|glyphs nerd|plain]',
+      argumentHint: '[list|<skin>|next|bar powerline|header|chat on|off|hud on|off|glyphs nerd|plain]',
     })
 
     const storedSkin = await $.store.get(STORE.skin)
@@ -173,6 +186,7 @@ export const register: Register = on => {
     await update($, barStyleAtom, () => (isBarStyle(storedBarStyle) ? storedBarStyle : 'powerline'))
     await update($, isChatStyledAtom, () => isChatStyled)
     await update($, isHudHiddenAtom, () => isHudHidden)
+    await update($, previewAtom, () => null)
     await tick($)
 
     const usage = await $.session.usage()
@@ -302,29 +316,61 @@ export const register: Register = on => {
     if (e.props.hasSurvey || (await read($, isHudHiddenAtom))) {
       return next(e)
     }
-    const skin = SKINS[await read($, skinAtom)]
-    const glyphs = await read($, glyphsAtom)
+    const shown = (await read($, previewAtom)) ?? (await read($, skinAtom))
     const input = {
-      skin,
+      skin: SKINS[shown],
       usage: await read($, usageAtom),
       branch: await read($, branchAtom),
       now: await read($, nowAtom),
-      glyphs,
+      glyphs: await read($, glyphsAtom),
       isWorking: e.props.isWorking,
       frame: await read($, frameAtom),
     }
-    const elements = $.ui.resolve(e)
-    const columns = e.props.bodyColumns
-    const openSkinPicker = () => void openPicker($)
 
-    return (await read($, barStyleAtom)) === 'header'
-      ? drawHeader(elements, headerFor(input, columns), skin, columns, openSkinPicker)
-      : drawPowerline(elements, fitPills(input, columns), glyphs, openSkinPicker)
+    return drawBar($.ui.resolve(e), input, await read($, barStyleAtom), e.props.bodyColumns, () => void openPicker($))
   })
 
-  on('ui.render', { component: 'Pane', requestId: PICKER }, async ($, e) =>
-    drawPicker($.ui.resolve(e), await read($, skinAtom), id => void chooseSkin($, id)),
-  )
+  on('ui.render', { component: 'Pane', requestId: PICKER }, async ($, e) => {
+    const current = await read($, skinAtom)
+    const now = await read($, nowAtom)
+
+    return drawPicker(
+      $.ui.resolve(e),
+      {
+        current,
+        previewed: (await read($, previewAtom)) ?? current,
+        bar: {
+          usage: await read($, usageAtom),
+          branch: await read($, branchAtom),
+          now,
+          glyphs: await read($, glyphsAtom),
+          isWorking: false,
+          frame: 0,
+        },
+        barStyle: await read($, barStyleAtom),
+        columns: e.props.bodyColumns,
+        isRoomy: e.props.placement === 'dock',
+        now,
+      },
+      id => void chooseSkin($, id),
+    )
+  })
+
+  on('ui.focus', { requestId: PICKER }, async ($, e, next) => {
+    const element = e.element
+    if (isSkinId(element)) {
+      await update($, previewAtom, () => element)
+    }
+
+    return next(e)
+  }).catch(($, e, next) => next(e))
+
+  on('ui.close', { id: PICKER }, async ($, e, next) => {
+    const result = await next(e)
+    await update($, previewAtom, () => null)
+
+    return result
+  }).catch(($, e, next) => next(e))
 
   on('ui.render', { component: 'UserMessage' }, async ($, e, next) => {
     if (!(await read($, isChatStyledAtom)) || e.props.origin.kind === 'task-notification') {

@@ -6,7 +6,8 @@ import { IDLE_HINT, sentAt } from '../hooks/chat'
 import { bar, formatDuration, formatElapsed, formatReset, formatTokens, prettyModel } from '../hooks/format'
 import { MAX_LEVEL, barPills, barWidth, fitPills, headerFor } from '../hooks/hud'
 import type { BarInput } from '../hooks/hud'
-import { SKINS, pick } from '../hooks/skins'
+import { SKIN_IDS, SKINS, pick } from '../hooks/skins'
+import { hotkeyFor, hotkeyRange } from '../hooks/picker'
 
 const MINUTE = 60_000
 const at = (ms: number) => new Date(ms).toISOString()
@@ -523,7 +524,7 @@ describe('skin picker', () => {
     mock.store(on)
     on('ui.open', () => ({ value: { isPlaced: false as const, reason: 'narrow' as const } }))
 
-    expect((await runSkin($, '')).text).toContain('5 skins · current:')
+    expect((await runSkin($, '')).text).toContain(`${SKIN_IDS.length} skins · current:`)
   })
 
   test('a pick switches the skin, closes the picker and says so', async ($, on) => {
@@ -548,7 +549,7 @@ describe('skin picker', () => {
       requestId: 'skin-picker',
       props: PANE_PROPS,
     })
-    expect(await picker.findAll({ type: 'Button' })).toHaveLength(5)
+    expect(await picker.findAll({ type: 'Button' })).toHaveLength(SKIN_IDS.length)
     await picker.press({ key: 'retro' })
     await picker.unmount()
 
@@ -573,5 +574,90 @@ describe('skin picker', () => {
       await band.unmount()
     }
     expect(opened).toEqual(['skin-picker', 'skin-picker'])
+  })
+})
+
+const pickerProps = (placement: 'dock' | 'inline') => ({ ...PANE_PROPS, placement, bodyColumns: 64 })
+
+/** Moves the picker's focus ring onto a skin's row, as the person's arrow keys do. */
+const focusRow = ($: Engine, element: string) =>
+  $.ui.focus({ component: 'Pane', requestId: 'skin-picker', plugin: 'cc-skins', element, origin: { kind: 'person' } })
+
+describe('preview', () => {
+  test('every skin has a hotkey, read back in the hint', () => {
+    expect(SKIN_IDS.every((id, index) => hotkeyFor(index) !== undefined)).toBe(true)
+    expect(hotkeyRange(5)).toBe('1–5')
+    expect(hotkeyRange(10)).toBe('1–9, 0')
+    expect(hotkeyRange(11)).toBe('1–9, 0, a')
+    expect(hotkeyRange(12)).toBe('1–9, 0, a–b')
+  })
+
+  test('docked, the picker previews the current skin with sample cards', async ($, on) => {
+    mock.store(on)
+    const picker = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'skin-picker',
+      props: pickerProps('dock'),
+    })
+    expect(await picker.find({ type: 'Text', text: /Preview · Midnight/ })).toBeDefined()
+    expect(await picker.find({ type: 'Text', text: /count slowly to 5/ })).toBeDefined()
+    expect(await picker.find({ type: 'Text', text: /CLAUDE/ })).toBeDefined()
+    await picker.unmount()
+  })
+
+  test('inline, the preview stays short', async ($, on) => {
+    mock.store(on)
+    const picker = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'skin-picker',
+      props: pickerProps('inline'),
+    })
+    expect(await picker.find({ type: 'Text', text: /Preview · Midnight/ })).toBeDefined()
+    expect(await picker.find({ type: 'Text', text: /count slowly to 5/ })).toBeUndefined()
+    await picker.unmount()
+  })
+
+  test('moving the focus previews that skin in the picker and the bar; a pick ends it', async ($, on) => {
+    mock.store(on)
+    on('ui.focus', () => ({}))
+    on('ui.close', () => ({ value: undefined }))
+    on('ui.toast', () => ({ value: undefined }))
+
+    await focusRow($, 'lava')
+    const picker = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'skin-picker',
+      props: pickerProps('dock'),
+    })
+    expect(await picker.find({ type: 'Text', text: /Preview · Lava/ })).toBeDefined()
+
+    const previewing = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await previewing.find({ type: 'Text', text: /LAVA/ })).toBeDefined()
+    await previewing.unmount()
+    expect((await runSkin($, 'list')).text).toContain('current: midnight')
+
+    await picker.press({ key: 'forest' })
+    await picker.unmount()
+    const after = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await after.find({ type: 'Text', text: /FOREST/ })).toBeDefined()
+    expect(await after.find({ type: 'Text', text: /LAVA/ })).toBeUndefined()
+    await after.unmount()
+  })
+
+  test('the focus on something else leaves the preview as it was', async ($, on) => {
+    mock.store(on)
+    on('ui.focus', () => ({}))
+
+    await focusRow($, 'ocean')
+    await focusRow($, 'not-a-skin')
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await band.find({ type: 'Text', text: /OCEAN/ })).toBeDefined()
+    await band.unmount()
   })
 })

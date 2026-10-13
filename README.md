@@ -1,6 +1,6 @@
 # cc-skins
 
-Skins for [Claude Code](https://code.claude.com) in the terminal. One plugin, five looks: chat messages as cards, and a usage bar above the prompt that's always in view.
+Skins for [Claude Code](https://code.claude.com) in the terminal. One plugin, twelve looks: chat messages as cards, and a usage bar above the prompt that's always in view.
 
 ```
  RING   Opus 5.5   ■■□□□ 34%   ■■■■□ 72% ↻2h13m   ■■■■■ 91% ↻3d4h  $1.24 
@@ -26,6 +26,13 @@ Each skin changes:
 | `neon` | Magenta and cyan | `Hacking ⟡` | `⟡ Jacked in for 3s` |
 | `minimal` | Muted grey, one calm accent | `Thinking…`, `Writing…` | `· Done in 3s` |
 | `ring` | Red and gold, boxing ring | `Jabbing…`, `Slipping…` | `◆ KO in 3s` |
+| `synthwave` | Sunset gold to violet, 80s outrun | `Cruising ◢`, `Arpeggiating ◢` | `◢ Fade out in 3s` |
+| `ocean` | Deep sea blues with a coral spark | `Diving…`, `Riding the wave…` | `≈ Surfaced in 3s` |
+| `sakura` | Cherry blossom pink and soft plum | `Blossoming ❀`, `Steeping tea ❀` | `❀ Bloomed in 3s` |
+| `forest` | Moss green and bark brown | `Rooting…`, `Foraging…` | `♣ Harvested in 3s` |
+| `arctic` | Ice blue and frost | `Crystallizing ❄`, `Gliding ❄` | `❄ Frozen in 3s` |
+| `lava` | Molten orange on black rock | `Erupting ▲`, `Forging ▲` | `▲ Erupted in 3s` |
+| `candy` | Pastel rainbow, sweet and playful | `Sprinkling ✿`, `Fizzing ✿` | `✿ Sweet in 3s` |
 
 ## Install
 
@@ -35,7 +42,7 @@ In Claude Code, type:
 /plugin install cc-skins --marketplace mr-dzzs21/cc-skins
 ```
 
-Answer `y` to add the marketplace and pick the user scope. Then type `/skin` (or click the first block of the bar) and pick a skin with ↑↓ and Enter, or its number. For the matching colors everywhere else, open `/theme` and pick `cc-skins · <skin>`.
+Answer `y` to add the marketplace and pick the user scope. Then type `/skin` (or click the first block of the bar). Move through the skins with ↑↓: each one previews as you land on it, in the picker and in the real bar. Pick with Enter or its hotkey; Esc goes back to the one you had. For the matching colors everywhere else, open `/theme` and pick `cc-skins · <skin>`.
 
 Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes). The navy background comes from your terminal: [`extras/terminal`](extras/terminal) has a matching color scheme for each skin.
 
@@ -43,7 +50,7 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 
 | Command | Does |
 |---|---|
-| `/skin` | Opens the skin picker: ↑↓ Enter or 1–5, Esc closes. A click on the bar's first block opens it too |
+| `/skin` | Opens the skin picker: ↑↓ previews, Enter or 1–9, 0, a–b picks, Esc closes. A click on the bar's first block opens it too |
 | `/skin list` | Lists the skins as text, marks the current one |
 | `/skin <name>` | Switches the spinner, turn line and HUD, and names the matching color theme |
 | `/skin next` | Cycles to the next skin |

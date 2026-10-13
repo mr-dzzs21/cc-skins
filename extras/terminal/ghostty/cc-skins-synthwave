@@ -1,0 +1,22 @@
+# cc-skins · Synthwave — Ghostty theme
+background = #1a1226
+foreground = #f0e6ff
+cursor-color = #ff6ac1
+selection-background = #6a315c
+selection-foreground = #f0e6ff
+palette = 0=#1a1226
+palette = 1=#ff3864
+palette = 2=#72f1b8
+palette = 3=#ffe066
+palette = 4=#7b6cf6
+palette = 5=#ff6ac1
+palette = 6=#36f9f6
+palette = 7=#f0e6ff
+palette = 8=#625575
+palette = 9=#ff7492
+palette = 10=#9cf5cd
+palette = 11=#ffe994
+palette = 12=#a398f9
+palette = 13=#ff97d4
+palette = 14=#72fbf9
+palette = 15=#ffffff

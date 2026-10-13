@@ -1,6 +1,6 @@
 import type { BoxProps, ButtonProps, ElementConstructor, TextProps } from 'claude-code'
 
-import type { Glyphs, Usage } from '../types'
+import type { BarStyle, Glyphs, Usage } from '../types'
 import { bar, formatCost, formatDuration, formatElapsed, formatPercent, formatReset, formatTokens, prettyModel } from './format'
 import type { Paint, Skin } from './skins'
 
@@ -349,3 +349,15 @@ export const drawHeader = (
     </Box>
   </Box>
 )
+
+/** The bar in the chosen style, sized to `columns`; `onSkinPress` makes its first piece open the picker. */
+export const drawBar = (
+  elements: Elements,
+  input: BarInput,
+  style: BarStyle,
+  columns: number,
+  onSkinPress?: () => void,
+) =>
+  style === 'header'
+    ? drawHeader(elements, headerFor(input, columns), input.skin, columns, onSkinPress)
+    : drawPowerline(elements, fitPills(input, columns), input.glyphs, onSkinPress)

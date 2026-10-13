@@ -1,0 +1,22 @@
+# cc-skins · Ocean — Ghostty theme
+background = #04122b
+foreground = #d6f3fa
+cursor-color = #ff8c69
+selection-background = #5c3d41
+selection-foreground = #d6f3fa
+palette = 0=#04122b
+palette = 1=#ff4d6d
+palette = 2=#52d1a4
+palette = 3=#ffd166
+palette = 4=#0096c7
+palette = 5=#ff8c69
+palette = 6=#48cae4
+palette = 7=#d6f3fa
+palette = 8=#3565a1
+palette = 9=#ff8299
+palette = 10=#86dfbf
+palette = 11=#ffdf94
+palette = 12=#4cb6d8
+palette = 13=#ffae96
+palette = 14=#7fdaec
+palette = 15=#ffffff

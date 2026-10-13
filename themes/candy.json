@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Candy",
+  "base": "dark",
+  "overrides": {
+    "claude": "#ff99c8",
+    "claudeShimmer": "#ffd6ea",
+    "text": "#f7f1ff",
+    "inactive": "#9a8cb0",
+    "subtle": "#6b5b8a",
+    "suggestion": "#a9def9",
+    "permission": "#a9def9",
+    "permissionShimmer": "#cbebfb",
+    "promptBorder": "#6b5b8a",
+    "promptBorderShimmer": "#9084a7",
+    "planMode": "#a9def9",
+    "autoAccept": "#b9fbc0",
+    "bashBorder": "#ffd166",
+    "success": "#b9fbc0",
+    "error": "#ff595e",
+    "warning": "#ffd166",
+    "diffAdded": "#264334",
+    "diffRemoved": "#622b36",
+    "diffAddedDimmed": "#242f31",
+    "diffRemovedDimmed": "#422332",
+    "diffAddedWord": "#29643a",
+    "diffRemovedWord": "#98393d",
+    "userMessageBackground": "#3c314e",
+    "userMessageBackgroundHover": "#4a3e61",
+    "selectionBg": "#6f4764",
+    "rate_limit_fill": "#ff99c8",
+    "rate_limit_empty": "#6b5b8a"
+  }
+}

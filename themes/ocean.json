@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Ocean",
+  "base": "dark",
+  "overrides": {
+    "claude": "#ff8c69",
+    "claudeShimmer": "#ffc2ad",
+    "text": "#d6f3fa",
+    "inactive": "#6c8ea0",
+    "subtle": "#023e8a",
+    "suggestion": "#90e0ef",
+    "permission": "#90e0ef",
+    "permissionShimmer": "#bcecf5",
+    "promptBorder": "#023e8a",
+    "promptBorderShimmer": "#416ea7",
+    "planMode": "#90e0ef",
+    "autoAccept": "#52d1a4",
+    "bashBorder": "#ffd166",
+    "success": "#52d1a4",
+    "error": "#ff4d6d",
+    "warning": "#ffd166",
+    "diffAdded": "#113d32",
+    "diffRemoved": "#4d2534",
+    "diffAddedDimmed": "#0a272f",
+    "diffRemovedDimmed": "#291b30",
+    "diffAddedWord": "#1b6038",
+    "diffRemovedWord": "#8a353c",
+    "userMessageBackground": "#03214c",
+    "userMessageBackgroundHover": "#032a5f",
+    "selectionBg": "#5c3d41",
+    "rate_limit_fill": "#ff8c69",
+    "rate_limit_empty": "#023e8a"
+  }
+}

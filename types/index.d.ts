@@ -1,4 +1,16 @@
-export type SkinId = 'midnight' | 'ring' | 'neon' | 'retro' | 'minimal'
+export type SkinId =
+  | 'midnight'
+  | 'ring'
+  | 'neon'
+  | 'retro'
+  | 'minimal'
+  | 'synthwave'
+  | 'ocean'
+  | 'sakura'
+  | 'forest'
+  | 'arctic'
+  | 'lava'
+  | 'candy'
 
 /** `nerd`: powerline arrows and icons (Nerd Font); `plain`: any monospace font. */
 export type Glyphs = 'nerd' | 'plain'
@@ -27,6 +39,8 @@ declare module 'claude-code' {
       skin: SkinId
       glyphs: Glyphs
       barStyle: BarStyle
+      /** The skin under the picker's focus ring, drawn in place of `skin` while the picker is open. */
+      preview: SkinId | null
       isChatStyled: boolean
       usage: Usage
       /** The checked-out branch of the session's repository; null outside one. */

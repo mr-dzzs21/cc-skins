@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Synthwave",
+  "base": "dark",
+  "overrides": {
+    "claude": "#ff6ac1",
+    "claudeShimmer": "#fff3a8",
+    "text": "#f0e6ff",
+    "inactive": "#8b7ca6",
+    "subtle": "#3b2a52",
+    "suggestion": "#36f9f6",
+    "permission": "#36f9f6",
+    "permissionShimmer": "#86fbfa",
+    "promptBorder": "#3b2a52",
+    "promptBorderShimmer": "#6c5f7d",
+    "planMode": "#36f9f6",
+    "autoAccept": "#72f1b8",
+    "bashBorder": "#ffe066",
+    "success": "#72f1b8",
+    "error": "#ff3864",
+    "warning": "#ffe066",
+    "diffAdded": "#203d2f",
+    "diffRemoved": "#5d2530",
+    "diffAddedDimmed": "#1d272a",
+    "diffRemovedDimmed": "#3b1b2b",
+    "diffAddedWord": "#256036",
+    "diffRemovedWord": "#943539",
+    "userMessageBackground": "#261a35",
+    "userMessageBackgroundHover": "#2c1f3e",
+    "selectionBg": "#6a315c",
+    "rate_limit_fill": "#ff6ac1",
+    "rate_limit_empty": "#3b2a52"
+  }
+}

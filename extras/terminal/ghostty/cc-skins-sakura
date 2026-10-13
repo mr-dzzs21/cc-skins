@@ -1,0 +1,22 @@
+# cc-skins · Sakura — Ghostty theme
+background = #24161e
+foreground = #fbe4ec
+cursor-color = #ffb3cc
+selection-background = #714d5b
+selection-foreground = #fbe4ec
+palette = 0=#24161e
+palette = 1=#ff5c7a
+palette = 2=#b9fbc0
+palette = 3=#ffe29a
+palette = 4=#8fb8ff
+palette = 5=#ffb3cc
+palette = 6=#9ee6e0
+palette = 7=#fbe4ec
+palette = 8=#956781
+palette = 9=#ff8da2
+palette = 10=#cefcd3
+palette = 11=#ffebb8
+palette = 12=#b1cdff
+palette = 13=#ffcadb
+palette = 14=#bbeee9
+palette = 15=#ffffff

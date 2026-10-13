@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+
+- Seven new skins: synthwave, ocean, sakura, forest, arctic, lava and candy, each with its bar colors, chat colors, spinner and turn words, a `/theme` theme, and Ghostty and iTerm2 color schemes. Every bar block keeps a text contrast of at least 4.5.
+- Live preview in the picker: the skin under the focus shows in the picker (the bar with this session's figures, a sample prompt and reply as cards, the spinner and turn line) and in the real bar above the prompt. Esc goes back to the skin you had.
+- The picker opens on the current skin and asks for room for the preview; hotkeys run 1–9, 0, a, b.
+
 ## 0.5.0
 
 - Skin picker: `/skin` opens a list of the skins, each with a strip of its colors; ↑↓ Enter or a digit picks, Esc closes. A click on the bar's first block (or the header's brand) opens it too. `/skin list` keeps the text list.

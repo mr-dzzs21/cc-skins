@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Arctic",
+  "base": "dark",
+  "overrides": {
+    "claude": "#88c0d0",
+    "claudeShimmer": "#c8e6ef",
+    "text": "#d8dee9",
+    "inactive": "#7b88a1",
+    "subtle": "#4c566a",
+    "suggestion": "#a3be8c",
+    "permission": "#a3be8c",
+    "permissionShimmer": "#c8d8ba",
+    "promptBorder": "#4c566a",
+    "promptBorderShimmer": "#79808f",
+    "planMode": "#a3be8c",
+    "autoAccept": "#a3be8c",
+    "bashBorder": "#ebcb8b",
+    "success": "#a3be8c",
+    "error": "#ef8a92",
+    "warning": "#ebcb8b",
+    "diffAdded": "#2e5441",
+    "diffRemoved": "#6b3d43",
+    "diffAddedDimmed": "#2e4440",
+    "diffRemovedDimmed": "#4c3841",
+    "diffAddedWord": "#2e6f42",
+    "diffRemovedWord": "#9d4445",
+    "userMessageBackground": "#38404f",
+    "userMessageBackgroundHover": "#3e4757",
+    "selectionBg": "#4e6572",
+    "rate_limit_fill": "#88c0d0",
+    "rate_limit_empty": "#4c566a"
+  }
+}

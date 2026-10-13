@@ -1,0 +1,22 @@
+# cc-skins · Forest — Ghostty theme
+background = #141a10
+foreground = #e9e4cf
+cursor-color = #c5e17a
+selection-background = #526035
+selection-foreground = #e9e4cf
+palette = 0=#141a10
+palette = 1=#e76f51
+palette = 2=#a7c957
+palette = 3=#e9c46a
+palette = 4=#6a9fb5
+palette = 5=#c5e17a
+palette = 6=#7fb7a4
+palette = 7=#e9e4cf
+palette = 8=#729468
+palette = 9=#ee9a85
+palette = 10=#c1d989
+palette = 11=#f0d697
+palette = 12=#97bccb
+palette = 13=#d6eaa2
+palette = 14=#a5cdbf
+palette = 15=#ffffff
