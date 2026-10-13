@@ -77,6 +77,14 @@ export type TurnStat = {
 /** The sounds cc-skins ships, in `sounds/`. */
 export type SoundName = 'bell' | 'chime' | 'beep' | 'blip' | 'gong' | 'pop'
 
+/** One measurement, for the dashboard's trends. */
+export type UsagePoint = { at: number; contextPercent: number | null; costUsd: number | null }
+
+/** One row of the context's breakdown, as /context lists it; `color` a theme key. */
+export type ContextRow = { name: string; tokens: number; color: string }
+
+export type ContextBreakdown = { rows: ContextRow[]; totalTokens: number; maxTokens: number }
+
 /** The settings pane's tabs. */
 export type SettingsTab = 'bar' | 'look' | 'alerts' | 'turn' | 'sound'
 
@@ -124,6 +132,12 @@ declare module 'claude-code' {
       prefs: Prefs
       /** The session's finished turns, newest last. */
       turnStats: TurnStat[]
+      /** The session's measurements, oldest first, for the dashboard. */
+      history: UsagePoint[]
+      /** Whether a main-thread turn runs now. */
+      isBusy: boolean
+      /** The context's breakdown as the dashboard last read it; null until then. */
+      breakdown: ContextBreakdown | null
       settingsTab: SettingsTab
       /** The level each unit (context, a limit window) was last alerted at; 0 once it drops back. */
       alerted: Record<string, number>

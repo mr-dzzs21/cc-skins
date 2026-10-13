@@ -65,7 +65,7 @@ const LIMIT_LABELS: Record<string, string> = { five_hour: '5h', seven_day: '7d',
 
 type Alert = 'warn' | 'danger'
 
-const alertFor = (percent: number): Alert | undefined =>
+export const alertFor = (percent: number): Alert | undefined =>
   percent >= 85 ? 'danger' : percent >= 60 ? 'warn' : undefined
 
 /** A block before its color: the bar paints by place in the gradient, an alert over it. */

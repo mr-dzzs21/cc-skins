@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.0
+
+- Usage dashboard (`/skin usage`): the context as a meter with its trend over the session and its largest parts as /context counts them, the limit windows with their resets, the cost overall and per turn (trend, average, priciest), and the session's time, turns, tool calls and tokens. Refresh and Compact buttons.
+
 ## 0.11.0
 
 - Sound and notification when a turn ends, both off until turned on in the new Sound tab: each skin has its own sound (ring rings a boxing bell; others chime, beep, blip, gong or pop), or pick one; three loudness levels; a pick plays it once. The notification says how long the turn took and how the answer begins. Both only for turns of 30 s or more, or 10, 60, or any length.

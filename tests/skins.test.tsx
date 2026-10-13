@@ -13,6 +13,7 @@ import { alertsFor } from '../hooks/alerts'
 import { DEFAULT_PREFS, readPrefs } from '../hooks/prefs'
 import { findTurnStat, turnStatText } from '../hooks/turns'
 import { finishedText, soundFor } from '../hooks/sounds'
+import { sparkline, turnTotals } from '../hooks/dashboard'
 
 const MINUTE = 60_000
 const at = (ms: number) => new Date(ms).toISOString()
@@ -1161,5 +1162,76 @@ describe('sound and notification', () => {
     await settings.unmount()
     expect(played).toHaveLength(1)
     expect(played[0]).toContain('sounds/gong.wav')
+  })
+})
+
+describe('usage dashboard', () => {
+  test('a sparkline scales to its ceiling, or its largest value, and keeps the newest', () => {
+    expect(sparkline([0, 50, 100], 10, 100)).toBe('▁▅█')
+    expect(sparkline([1, 2, 4], 10)).toBe('▃▅█')
+    expect(sparkline([1, 2, 3, 4, 5], 2)).toBe('▇█')
+    expect(sparkline([], 5)).toBe('')
+  })
+
+  test('totals add the finished turns up', () => {
+    const turn = (costUsd: number | null, tools: number) => ({ durationMs: 1, tokens: 1000, tools, costUsd, costAtStart: 0 })
+    const totals = turnTotals([turn(0.1, 2), turn(0.3, 1), turn(null, 0)])
+    expect(totals).toMatchObject({ count: 3, tools: 3, tokens: 3000, costs: [0.1, 0.3], priciest: 0.3 })
+    expect(Math.round((totals.average ?? 0) * 1000)).toBe(200)
+  })
+
+  test('/skin usage opens it with the breakdown; it draws the context, limits, cost and breakdown', async ($, on) => {
+    mock.store(on)
+    mock.clock(on, { now: 0 })
+    const opened: string[] = []
+    on('ui.open', ($, e) => {
+      opened.push(e.id)
+
+      return { value: { isPlaced: true as const } }
+    })
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    on('session.usage', () => ({
+      value: {
+        startedAt: 0,
+        rateLimits: [],
+        context: {
+          window: 200_000,
+          breakdown: {
+            categories: [
+              { name: 'Messages', tokens: 40_000, color: 'claude', isDeferred: false, kind: 'messages' },
+              { name: 'System tools', tokens: 12_000, color: 'inactive', isDeferred: false, kind: 'tools' },
+              { name: 'Deferred', tokens: 9_000, color: 'inactive', isDeferred: true, kind: 'tools' },
+            ],
+            totalTokens: 52_000,
+            maxTokens: 200_000,
+          },
+        },
+      } as never,
+    }))
+    await $.session.measure({
+      context: { window: 200_000, tokens: 68_000, percent: 34 },
+      rateLimits: USAGE.rateLimits,
+      cost: { usd: 1.237 },
+      changed: ['context', 'rateLimits', 'cost'],
+    })
+
+    expect(await runSkin($, 'usage')).toEqual({})
+    expect(opened).toEqual(['usage-dashboard'])
+    const dashboard = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'usage-dashboard',
+      props: { ...PANE_PROPS, title: 'Usage', bodyColumns: 72, placement: 'dock' as const },
+    })
+    expect(await dashboard.find({ type: 'Text', text: /Opus 5\.5/ })).toBeDefined()
+    expect(await dashboard.find({ type: 'Text', text: /34%/ })).toBeDefined()
+    expect(await dashboard.find({ type: 'Text', text: /resets in 2h13m/ })).toBeDefined()
+    expect(await dashboard.find({ type: 'Text', text: /\$1\.24/ })).toBeDefined()
+    expect(await dashboard.find({ type: 'Text', text: /Messages/ })).toBeDefined()
+    expect(await dashboard.find({ type: 'Text', text: /Deferred/ })).toBeUndefined()
+    expect(await dashboard.find({ key: 'dashboard-refresh' })).toBeDefined()
+    await dashboard.unmount()
   })
 })

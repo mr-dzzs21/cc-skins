@@ -1,7 +1,21 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register, SessionUsage, Timer } from 'claude-code'
 
-import type { BarItem, BarStyle, Glyphs, ModelChoice, Prefs, SentPrompt, SettingsTab, SkinId, SoundName, TurnStat, Usage } from '../types'
+import type {
+  BarItem,
+  BarStyle,
+  ContextBreakdown,
+  Glyphs,
+  ModelChoice,
+  Prefs,
+  SentPrompt,
+  SettingsTab,
+  SkinId,
+  SoundName,
+  TurnStat,
+  Usage,
+  UsagePoint,
+} from '../types'
 import {
   IDLE_HINT,
   drawAssistantBlock,
@@ -31,6 +45,7 @@ import { DEFAULT_PREFS, readPrefs } from './prefs'
 import { SETTINGS_ROWS, drawSettings, isSettingsTab } from './settings'
 import { MAX_TURN_STATS, findTurnStat, turnStatText } from './turns'
 import { finishedText, isSoundName, soundAsset, soundFor } from './sounds'
+import { DASHBOARD, DASHBOARD_COLUMNS, DASHBOARD_ROWS, MAX_HISTORY, drawDashboard } from './dashboard'
 import { PICKER, PICKER_COLUMNS, PICKER_ROWS, drawPicker } from './picker'
 import { DEFAULT_SKIN, SKIN_IDS, SKINS, isSkinId, pick, themeName } from './skins'
 
@@ -64,6 +79,9 @@ const prefsAtom = atom({ plugin: 'cc-skins', key: 'prefs' } as const, DEFAULT_PR
 const settingsTabAtom = atom({ plugin: 'cc-skins', key: 'settingsTab' } as const, 'bar' as SettingsTab)
 const alertedAtom = atom({ plugin: 'cc-skins', key: 'alerted' } as const, {} as Record<string, number>)
 const turnStatsAtom = atom({ plugin: 'cc-skins', key: 'turnStats' } as const, [] as TurnStat[])
+const historyAtom = atom({ plugin: 'cc-skins', key: 'history' } as const, [] as UsagePoint[])
+const breakdownAtom = atom({ plugin: 'cc-skins', key: 'breakdown' } as const, null as ContextBreakdown | null)
+const busyAtom = atom({ plugin: 'cc-skins', key: 'isBusy' } as const, false)
 /** The Model row, as the model picker shows it. */
 const modelChoiceAtom = atom(
   { plugin: 'cc-skins', key: 'modelChoice' } as const,
@@ -335,6 +353,48 @@ const announceTurn = async ($: EngineInterface, durationMs: number, answer: stri
   }
 }
 
+/** Reads the context's breakdown as /context counts it (estimated locally, so it costs nothing). */
+const readBreakdown = async ($: EngineInterface) => {
+  try {
+    const { context } = await $.session.usage({ breakdown: 'summary', columns: DASHBOARD_COLUMNS })
+    const breakdown = context.breakdown
+    if (breakdown === undefined) {
+      return
+    }
+    const next: ContextBreakdown = {
+      rows: breakdown.categories
+        .filter(category => !category.isDeferred && category.tokens > 0)
+        .map(({ name, tokens, color }) => ({ name, tokens, color })),
+      totalTokens: breakdown.totalTokens,
+      maxTokens: breakdown.maxTokens,
+    }
+    await update($, breakdownAtom, () => next)
+  } catch {
+    // The dashboard goes on without the breakdown.
+  }
+}
+
+/** Opens the usage dashboard, its breakdown read fresh. */
+const openDashboard = async ($: EngineInterface) => {
+  await readBreakdown($)
+
+  return $.ui.open({
+    id: DASHBOARD,
+    title: 'Usage',
+    focus: true,
+    closeOnEscape: true,
+    rows: DASHBOARD_ROWS,
+    columns: DASHBOARD_COLUMNS,
+  })
+}
+
+/** Keeps the measurement for the dashboard's trends. */
+const recordPoint = async ($: EngineInterface) => {
+  const { contextPercent, costUsd } = await read($, usageAtom)
+  const at = await $.clock.now()
+  await update($, historyAtom, history => [...history, { at, contextPercent, costUsd }].slice(-MAX_HISTORY))
+}
+
 /** Gives the newest finished turn its cost, once the session's cost after it is measured. */
 const settleTurnCost = async ($: EngineInterface) => {
   const { costUsd } = await read($, usageAtom)
@@ -383,7 +443,7 @@ const listSkins = (current: SkinId): string =>
     ...SKIN_IDS.map(id => `${id === current ? '▸' : ' '} ${id.padEnd(NAME_WIDTH)} ${SKINS[id].description}`),
     '',
     `/${COMMAND} opens the picker (or click the bar's first block) · /${COMMAND} <name> · /${COMMAND} next · colors live in /theme`,
-    `/${COMMAND} model (or click the model) · /${COMMAND} bar (or click ⚙) · /${COMMAND} show|hide <item>`,
+    `/${COMMAND} model (or click the model) · /${COMMAND} bar (or click ⚙) · /${COMMAND} usage · /${COMMAND} show|hide <item>`,
     `/${COMMAND} bar powerline|header · /${COMMAND} chat on|off · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|plain`,
   ].join('\n')
 
@@ -504,6 +564,7 @@ export const register: Register = on => {
   }).catch(($, e, next) => next(e))
 
   on('turn.start', async ($, e, next) => {
+    await update($, busyAtom, () => true)
     toolsThisTurn = 0
     costAtTurnStart = (await read($, usageAtom)).costUsd
     animation?.cancel()
@@ -558,6 +619,7 @@ export const register: Register = on => {
     if (!e.isAborted) {
       await announceTurn($, e.durationMs, e.answer)
     }
+    await update($, busyAtom, () => false)
     animation?.cancel()
     animation = undefined
     await update($, frameAtom, () => 0)
@@ -570,6 +632,7 @@ export const register: Register = on => {
     const model = await readModel($)
     await update($, usageAtom, previous => toUsage(model, e, previous))
     await settleTurnCost($)
+    await recordPoint($)
     await refreshBranch($)
     await tick($)
     await raiseAlerts($)
@@ -606,6 +669,11 @@ export const register: Register = on => {
       await $.store.set(STORE.isHudHidden, isHidden)
 
       return { text: isHidden ? 'Usage HUD hidden.' : 'Usage HUD shown.' }
+    }
+    if (first === 'usage' || first === 'dashboard') {
+      const opened = await openDashboard($)
+
+      return opened.isPlaced ? {} : { text: 'The usage dashboard needs a wider terminal.' }
     }
     if (first === 'model') {
       const opened = await openModelPicker($)
@@ -699,6 +767,26 @@ export const register: Register = on => {
       { choice: await read($, modelChoiceAtom), effort: await read($, effortAtom) },
       value => void pickModel($, value),
       level => void pickEffort($, level),
+    ),
+  )
+
+  on('ui.render', { component: 'Pane', requestId: DASHBOARD }, async ($, e) =>
+    drawDashboard(
+      $.ui.resolve(e),
+      SKINS[await read($, skinAtom)],
+      {
+        usage: await read($, usageAtom),
+        effort: await read($, effortAtom),
+        branch: await read($, branchAtom),
+        now: await read($, nowAtom),
+        glyphs: await read($, glyphsAtom),
+        history: await read($, historyAtom),
+        turns: await read($, turnStatsAtom),
+        breakdown: await read($, breakdownAtom),
+        columns: e.props.bodyColumns,
+        isWorking: await read($, busyAtom),
+      },
+      { refresh: () => void readBreakdown($), compact: () => void compactNow($) },
     ),
   )
 

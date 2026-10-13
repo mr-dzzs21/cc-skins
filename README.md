@@ -65,6 +65,7 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 | `/skin model` | Opens the model and effort picker (or click the model in the bar). A model pick is saved as your default, as `/model` does; effort holds for the session, as `/effort` does |
 | `/skin bar` | Opens the settings (or click the ⚙ at the bar's end), in tabs: **Bar** (each piece on or off), **Look** (style, icons, chat cards), **Alerts** (when to warn, the compact button), **Turn line** (cost, tokens, tool calls), **Sound** (sound, loudness, notification) |
 | `/skin alerts` | Opens the settings on the Alerts tab |
+| `/skin usage` | Opens the usage dashboard: the context with its trend and a /context-style breakdown, the limit windows, the cost overall and per turn, the session's totals, with Refresh and Compact buttons |
 | `/skin show <item>` / `/skin hide <item>` | Shows or hides one piece: `skinName`, `model`, `effort`, `branch`, `context`, `fiveHour`, `sevenDay`, `cost`, `meters`, `resets`, `gear` |
 | `/skin <name>` | Switches the spinner, turn line and HUD, and names the matching color theme |
 | `/skin next` | Cycles to the next skin |
