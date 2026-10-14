@@ -160,6 +160,8 @@ declare module 'claude-code' {
       /** The checked-out branch of the session's repository; null outside one. */
       branch: string | null
       prompts: SentPrompt[]
+      /** When each prompt row was kept, by the row's id. */
+      sentById: Record<string, number>
       isHudHidden: boolean
       /** What the person turned off in the bar. */
       hidden: BarItem[]

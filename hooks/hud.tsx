@@ -3,6 +3,7 @@ import type { BoxProps, ButtonProps, ElementConstructor, RenderElement, TextProp
 import type { BarItem, BarStyle, Glyphs, Usage } from '../types'
 import { bar, formatCost, formatDuration, formatElapsed, formatPercent, formatReset, formatTokens, prettyModel } from './format'
 import type { Paint, Skin } from './skins'
+import { displayWidth } from './text'
 
 /** Powerline separators (Nerd Fonts and Powerline-patched fonts). */
 const POWERLINE = { open: '\ue0b6', arrow: '\ue0b0', close: '\ue0b4' }
@@ -175,7 +176,8 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
 export const isCompactDue = ({ usage, compactAt, isWorking }: BarInput): boolean =>
   compactAt !== null && !isWorking && usage.contextPercent !== null && usage.contextPercent >= compactAt
 
-const cells = (text: string) => [...text].length
+/** Terminal cells, not code points: a wide character takes two, a combining mark none. */
+const cells = (text: string) => displayWidth(text)
 
 /** Cells the bar takes: each block padded by a space a side, plus the caps and arrows (the ⚙ not counted). */
 export const barWidth = (pills: Pill[], glyphs: Glyphs): number =>

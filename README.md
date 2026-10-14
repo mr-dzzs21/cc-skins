@@ -1,25 +1,33 @@
 # cc-skins
 
-Skins for [Claude Code](https://code.claude.com) in the terminal. One plugin, twenty-six looks (eight dark, six for light terminals), plus any you build: chat messages as cards, and a usage bar above the prompt that's always in view.
+Skins, a usage bar and quick controls for [Claude Code](https://code.claude.com) in the terminal. Twenty-six looks (eight dark, six for light terminals) plus any you build; a bar above the prompt that keeps model, context, limits and cost in view and opens what you need with a click.
 
 ```
- RING   Opus 5.5   ■■□□□ 34%   ■■■■□ 72% ↻2h13m   ■■■■■ 91% ↻3d4h  $1.24 
-╭──────────────────────────────────────────────────────────────────────────────────╮
-│ >                                                                                │
-╰──────────────────────────────────────────────────────────────────────────────────╯
+ ◆  Opus 5.5 · xhigh   main   ■■□□□ 34%   ■■■■□ 72% ↻2h13m   ■■■■■ 91% ↻3d4h  $1.24  ⚙
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│ >                                                                                    │
+╰──────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 Every block has its own color: in a Nerd Font they join with powerline arrows, p10k style.
 
+### What changes, and where
+
+| What | Changed by | When |
+|---|---|---|
+| The bar, chat cards, spinner, turn line, sounds | the skin: `/skin` | at once, with every skin, yours too |
+| Claude Code's own colors: accents, prompt border, diffs, message backgrounds | `/theme` → `cc-skins · <Skin>` | when you pick it there: Claude Code keeps the theme yours to choose, and only built-in skins come with one |
+| The terminal's background and font | your terminal app | when you set it there: [`extras/terminal`](extras/terminal) has a scheme per skin and font tips |
+
 Each skin changes:
 
 - **Chat**: your messages and Claude's replies become framed cards with icon badges, names and send times; Claude's text hangs off an accent line; todo lists become a plan card with green ticks; tool calls and command output sit in cards; the prompt's hint and mode labels get a cleaner look.
-- **Colors**: a full Claude Code color theme (accents, prompt border, diffs, plan/auto modes, message backgrounds).
+- **Colors**: a matching Claude Code color theme (accents, prompt border, diffs, plan/auto modes, message backgrounds), picked in `/theme`; built-in skins only.
 - **Spinner**: its own words while Claude works (`Jabbing…`, `Hacking ⟡`, `Compiling▌`).
 - **Turn line**: its own closing line, with what the turn cost (`◆ KO in 12s · $0.04 · 3 tools`). Cost, tokens and tool calls each turn on or off in the settings' Turn line tab.
 - **Alerts**: a toast as the context or a limit window reaches 80 % (or 70, 90, or off), once more at 95 %. When the context is that full, a **compact** button in the bar compacts the conversation with one click.
-- **Sound and notification** (off until you turn them on): when a turn of 30 s or more ends, the skin's own sound (the ring skin rings a boxing bell; others chime, beep, blip, gong or pop) and a notification with the answer's first line. Sound, loudness, notification and the minimum length are yours to set in the Sound tab.
-- **Usage bar**: model and effort, git branch, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 %. While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block. Click the skin's icon to switch skins, the model to switch model or effort, the context, a limit or the cost for the usage dashboard, the branch for its changed files, the ⚙ to choose what the bar shows (the skin's name is off by default). The Look tab turns the clicks off.
+- **Sound and notification** (off until you turn them on): when a turn of 30 s or more ends, the skin's own sound (the ring skin rings a boxing bell; others chime, beep, blip, gong or pop) and a notification saying how long the turn took (with the answer's first line, if you turn that on too). Sound, loudness, notification, its preview and the minimum length are yours to set in the Sound tab.
+- **Usage bar**: model and effort, git branch, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 %. While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block. Click the skin's icon to switch skins, the model to switch model or effort, the context, a limit or the cost for the usage dashboard, the branch for its changed files, the ⚙ to choose what the bar shows (the skin's name is off by default). The Look tab's Clickable bar switch turns the pieces' clicks off; the ⚙ stays clickable so the settings stay in reach (`/skin hide gear` hides it, `/skin bar` opens the settings either way).
 
 | Skin | Look | Spinner | Turn line |
 |---|---|---|---|
@@ -96,7 +104,7 @@ cc-skins runs inside Claude Code on your machine and keeps to what it needs:
 
 - **No network.** It makes no requests of its own and sends nothing anywhere.
 - **Reads:** the session's usage figures, model and effort (from Claude Code), your repository's current branch (`.git/HEAD`, a small plain file only), and, when you click the branch or run `/skin changes`, `git status` and `git diff --shortstat` (run without a shell, without optional locks, fsmonitor, external diff or textconv).
-- **Writes:** no files. Your choices and your own skins live in Claude Code's plugin store on your machine.
+- **Writes:** nothing to your files or projects. Your choices and your own skins are kept through Claude Code's local plugin store on your machine.
 - **Acts only when you ask:** a model pick (saved as your default, as `/model` does), an effort pick (`/effort`), a compact, a copy on `/skin export`. Unasked, it shows a welcome toast and the usage alerts.
 - **Sound and notifications are off** until you turn them on. A notification says how long a turn took; the answer's first line goes along only if you turn that on, cleaned of control characters.
 - **Shared skins are data, not code.** `/skin import` takes a name, a built-in base, a `#rrggbb` accent and a style; the name loses every control character, the id must be lowercase words and dashes.

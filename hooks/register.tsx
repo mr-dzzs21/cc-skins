@@ -76,6 +76,7 @@ const previewAtom = atom({ plugin: 'cc-skins', key: 'preview' } as const, null a
 const isChatStyledAtom = atom({ plugin: 'cc-skins', key: 'isChatStyled' } as const, true)
 /** The prompts sent this session, newest last, so a card can say when. */
 const promptsAtom = atom({ plugin: 'cc-skins', key: 'prompts' } as const, NO_PROMPTS)
+const sentByIdAtom = atom({ plugin: 'cc-skins', key: 'sentById' } as const, {} as Record<string, number>)
 const branchAtom = atom({ plugin: 'cc-skins', key: 'branch' } as const, null as string | null)
 const usageAtom = atom({ plugin: 'cc-skins', key: 'usage' } as const, EMPTY_USAGE)
 const isHudHiddenAtom = atom({ plugin: 'cc-skins', key: 'isHudHidden' } as const, false)
@@ -746,6 +747,16 @@ export const register: Register = on => {
     return next(e)
   })
 
+  on('session.append', async ($, e, next) => {
+    if (e.door === 'prompt' && e.agentId === undefined) {
+      const at = await $.clock.now()
+      const id = e.uuid
+      await update($, sentByIdAtom, byId => Object.fromEntries([...Object.entries(byId), [id, at]].slice(-MAX_PROMPTS)))
+    }
+
+    return next(e)
+  }).catch(($, e, next) => next(e))
+
   on('prompt.submit', async ($, e, next) => {
     await setUpIfMoved($)
     const at = await $.clock.now()
@@ -1143,7 +1154,7 @@ export const register: Register = on => {
     if (!(await read($, isChatStyledAtom)) || e.props.origin.kind === 'task-notification') {
       return next(e)
     }
-    const at = sentAt(await read($, promptsAtom), e.props.text)
+    const at = sentAt(await read($, promptsAtom), e.props.text, await read($, sentByIdAtom), e.requestId)
 
     return drawUserCard($.ui.resolve(e), (await currentSkin($)), {
       text: e.props.text,

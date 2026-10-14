@@ -12,16 +12,25 @@ const MAX_FILES = 12
 
 /** What the commands behind the pane run: read-only, as the person's own git would. */
 const QUIET_GIT = ['git', '--no-optional-locks', '-c', 'core.fsmonitor=false'] as const
-export const GIT_STATUS = [...QUIET_GIT, 'status', '--porcelain=v1', '--branch'] as const
+export const GIT_STATUS = [...QUIET_GIT, 'status', '--porcelain=v1', '-z', '--branch'] as const
 export const GIT_SHORTSTAT = [...QUIET_GIT, 'diff', '--no-ext-diff', '--no-textconv', '--shortstat', 'HEAD'] as const
 
 /**
- * `git status --porcelain=v1 --branch`, read: the branch line
- * (`## main...origin/main [ahead 1, behind 2]`) and one line per file
- * (`XY path`, a rename as `old -> new`).
+ * `git status --porcelain=v1 -z --branch`, read: entries end in NUL, the
+ * branch entry first (`## main...origin/main [ahead 1, behind 2]`), then
+ * `XY path` per file, a rename or copy (`R`, `C`) followed by its original
+ * path as an entry of its own. Paths come raw: no quoting, ` -> ` just text.
  */
 export const parseStatus = (status: string, shortstat = ''): GitChanges => {
-  const lines = status.split('\n').filter(line => line !== '')
+  const entries = status.split('\0').filter(entry => entry !== '')
+  const lines: string[] = []
+  for (let i = 0; i < entries.length; i++) {
+    const entry = entries[i] ?? ''
+    lines.push(entry)
+    if (!entry.startsWith('## ') && /[RC]/.test(entry.slice(0, 2))) {
+      i += 1
+    }
+  }
   const head = lines[0]?.startsWith('## ') ? lines[0].slice(3) : ''
   const bracket = head.indexOf(' [')
   const refs = (bracket >= 0 ? head.slice(0, bracket) : head).replace(/^No commits yet on /, '')
@@ -29,7 +38,7 @@ export const parseStatus = (status: string, shortstat = ''): GitChanges => {
   const [branch = '', upstream] = refs.split('...')
   const files = lines
     .filter(line => !line.startsWith('## '))
-    .map(line => ({ code: cleanLine(line.slice(0, 2)) || '?', path: cleanLine(line.slice(3).replace(/^.* -> /, '')) }))
+    .map(line => ({ code: cleanLine(line.slice(0, 2)) || '?', path: cleanLine(line.slice(3)) }))
 
   return {
     branch: branch === '' || branch.startsWith('HEAD') ? null : cleanLine(branch).slice(0, 100),

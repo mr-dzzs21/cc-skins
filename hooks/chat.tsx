@@ -22,17 +22,25 @@ export const formatClock = (at: number): string => {
   return `${pad(date.getHours())}:${pad(date.getMinutes())}`
 }
 
-/** When the newest prompt with this text was sent; undefined when this session never saw it sent. */
-export const sentAt = (prompts: readonly SentPrompt[], text: string): number | undefined => {
-  const wanted = text.trim()
-  for (let i = prompts.length - 1; i >= 0; i--) {
-    const prompt = prompts[i]
-    if (prompt !== undefined && prompt.text.trim() === wanted) {
-      return prompt.at
-    }
+/**
+ * When a prompt was sent: by its row's id where the session reported it
+ * (exact), else by its text where exactly one prompt this session had that
+ * text. Two prompts alike and no id: undefined, rather than a wrong time.
+ */
+export const sentAt = (
+  prompts: readonly SentPrompt[],
+  text: string,
+  byId?: Readonly<Record<string, number>>,
+  id?: string,
+): number | undefined => {
+  const exact = id === undefined ? undefined : byId?.[id]
+  if (exact !== undefined) {
+    return exact
   }
+  const wanted = text.trim()
+  const alike = prompts.filter(prompt => prompt.text.trim() === wanted)
 
-  return undefined
+  return alike.length === 1 ? alike[0]?.at : undefined
 }
 
 /** A card's head: an icon on a badge, a bold name, and a quiet note after it. */

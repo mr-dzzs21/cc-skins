@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.15.2
+
+After a review:
+
+- The bar measures terminal cells, not code points: a wide character (CJK, emoji) takes two, a combining mark none, so a branch or skin name in any script no longer overflows the bar or sheds detail early.
+- Two prompts alike show their own send times: each prompt row's time is kept by its id as the session stores it; where no id is known, a time shows only for a text one prompt had, never a wrong one.
+- The changes pane reads `git status -z`: file names with ` -> `, quotes, spaces or any script stay whole, and a rename shows its new name.
+- Tests hold the bar to fitting at every width from its least, and to its least below that.
+- README: what changes where (skin, `/theme`, terminal), the ⚙ staying clickable, notifications and storage worded exactly.
+
 ## 0.15.1
 
 Hardening before going public, after an audit:

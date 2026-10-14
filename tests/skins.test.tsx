@@ -2,7 +2,7 @@ import { describe, expect, mock, test } from 'claude-code/testing'
 import type { Engine } from 'claude-code/testing'
 
 import type { Usage } from '../types'
-import { IDLE_HINT, sentAt } from '../hooks/chat'
+import { IDLE_HINT, formatClock, sentAt } from '../hooks/chat'
 import { bar, formatDuration, formatElapsed, formatReset, formatTokens, prettyModel } from '../hooks/format'
 import { MAX_LEVEL, barPills, barWidth, fitPills, headerFor } from '../hooks/hud'
 import type { BarInput } from '../hooks/hud'
@@ -17,7 +17,7 @@ import { sparkline, turnTotals } from '../hooks/dashboard'
 import { ACCENTS, buildSkin, parseRecipe, slugFor } from '../hooks/custom'
 import { contrast } from '../hooks/color'
 import { parseStatus } from '../hooks/git'
-import { cleanLine, stripControls } from '../hooks/text'
+import { cleanLine, displayWidth, stripControls } from '../hooks/text'
 import { todosOf } from '../hooks/chat'
 
 const MINUTE = 60_000
@@ -164,13 +164,33 @@ describe('powerline bar', () => {
     }
   })
 
-  test('the bar sheds detail until it fits', () => {
-    for (const columns of [120, 90, 70, 50, 30]) {
-      const pills = fitPills(RING, columns)
-      const coarsest = barPills(RING, MAX_LEVEL)
-      expect(barWidth(pills, 'nerd') <= columns || pills.length === coarsest.length).toBe(true)
+  test('the bar sheds detail until it fits, and below its least width keeps its least', () => {
+    const coarsest = barPills(RING, MAX_LEVEL)
+    const least = barWidth(coarsest, 'nerd')
+    for (let columns = least; columns <= 200; columns++) {
+      expect(barWidth(fitPills(RING, columns), 'nerd')).toBeLessThanOrEqual(columns)
+    }
+    for (const columns of [least - 1, 10, 1]) {
+      expect(fitPills(RING, columns)).toEqual(coarsest)
     }
     expect(fitPills(RING, 30).map(p => p.key)).toEqual(['skin', 'model', 'context'])
+  })
+
+  test('widths count terminal cells: wide characters two, combining marks none', () => {
+    expect(displayWidth('main')).toBe(4)
+    expect(displayWidth('功能分支')).toBe(8)
+    expect(displayWidth('e\u0301te\u0301')).toBe(3)
+    expect(displayWidth('🚀 go')).toBe(5)
+    expect(displayWidth('\uf255')).toBe(1)
+    const wide = { ...RING, branch: '功能/新しい機能' }
+    for (let columns = 30; columns <= 200; columns += 7) {
+      const pills = fitPills(wide, columns)
+      if (barWidth(pills, 'nerd') > columns) {
+        expect(pills).toEqual(barPills(wide, MAX_LEVEL))
+      }
+    }
+    const branch = barPills(wide, 0).find(p => p.key === 'branch')
+    expect(barWidth(branch === undefined ? [] : [branch], 'plain')).toBe(displayWidth(` ${branch?.text ?? ''} `))
   })
 
   test('plain glyphs use words and no powerline characters', () => {
@@ -364,14 +384,47 @@ describe('header bar', () => {
 })
 
 describe('chat cards', () => {
-  test('a prompt is found by its text, newest first', () => {
+  test('a prompt gets its own time: by its row id, else by a text only one prompt had', () => {
     const prompts = [
-      { text: 'hi', at: 1 },
-      { text: 'other', at: 2 },
-      { text: 'hi ', at: 3 },
+      { text: 'weiter', at: 900 },
+      { text: 'other', at: 950 },
+      { text: 'weiter ', at: 1000 },
     ]
-    expect(sentAt(prompts, 'hi')).toBe(3)
+    const byId = { 'row-1': 900, 'row-3': 1000 }
+    expect(sentAt(prompts, 'weiter', byId, 'row-1')).toBe(900)
+    expect(sentAt(prompts, 'weiter', byId, 'row-3')).toBe(1000)
+    expect(sentAt(prompts, 'weiter')).toBeUndefined()
+    expect(sentAt(prompts, 'other')).toBe(950)
     expect(sentAt(prompts, 'never sent')).toBeUndefined()
+  })
+
+  test('two prompts alike each show their own time once the session reported their rows', async ($, on) => {
+    mock.store(on)
+    const start = Date.UTC(2026, 9, 13, 9, 0)
+    const clock = mock.clock(on, { now: start })
+    const append = (uuid: string) =>
+      $.session.append({
+        message: { type: 'user', role: 'user', content: [{ type: 'text', text: 'weiter' }] },
+        door: 'prompt',
+        origin: { kind: 'composer' },
+        uuid,
+      } as never)
+    await append('row-1')
+    await clock.advance(10 * 60_000)
+    await append('row-2')
+
+    for (const [requestId, at] of [['row-1', start], ['row-2', start + 10 * 60_000]] as const) {
+      const time = formatClock(at)
+      const card = await $.ui.mount({
+        plugin: 'cc-skins',
+        surface: 'terminal',
+        component: 'UserMessage',
+        requestId,
+        props: { text: 'weiter', origin: { kind: 'composer' }, isExpanded: false },
+      })
+      expect(await card.find({ type: 'Text', text: new RegExp(time) })).toBeDefined()
+      await card.unmount()
+    }
   })
 
   test('your message is a card with your name and when you sent it', async ($, on) => {
@@ -1351,7 +1404,7 @@ describe('your own skins', () => {
 describe('clickable bar', () => {
   test('git status reads into branch, tracking, files and totals', () => {
     const changes = parseStatus(
-      '## release/1.2...origin/release/1.2 [ahead 1, behind 2]\n M hooks/a.ts\nA  new.ts\nR  old.ts -> renamed.ts\n?? notes.txt\n',
+      '## release/1.2...origin/release/1.2 [ahead 1, behind 2]\0 M hooks/a.ts\0A  new.ts\0R  renamed.ts\0old.ts\0?? notes.txt\0',
       ' 3 files changed, 10 insertions(+), 3 deletions(-)\n',
     )
     expect(changes).toEqual({
@@ -1368,9 +1421,16 @@ describe('clickable bar', () => {
       added: 10,
       removed: 3,
     })
-    expect(parseStatus('## No commits yet on main\n').branch).toBe('main')
-    expect(parseStatus('## HEAD (no branch)\n').branch).toBeNull()
-    expect(parseStatus('## main\n')).toMatchObject({ branch: 'main', upstream: null, ahead: 0, behind: 0, files: [] })
+    expect(parseStatus('## No commits yet on main\0').branch).toBe('main')
+    expect(parseStatus('## HEAD (no branch)\0').branch).toBeNull()
+    expect(parseStatus('## main\0')).toMatchObject({ branch: 'main', upstream: null, ahead: 0, behind: 0, files: [] })
+  })
+
+  test('odd file names stay whole: arrows, spaces, quotes, unicode, a rename of one', () => {
+    const odd = ['notes -> draft.md', 'my file.txt', 'say "hi".md', 'ünïcödé/日本.ts']
+    const changes = parseStatus(`## main\0${odd.map(name => ` M ${name}`).join('\0')}\0R  a -> b.md\0old -> name.md\0`)
+    expect(changes.files.map(file => file.path)).toEqual([...odd, 'a -> b.md'])
+    expect(changes.files.at(-1)?.code).toBe('R')
   })
 
   test('a click on the context or the cost opens the dashboard; on the branch, the changes', async ($, on) => {
@@ -1389,7 +1449,7 @@ describe('clickable bar', () => {
     on('ui.toast', () => ({ value: undefined }))
     on('process.run', ($, e) => ({
       value: e.argv.includes('status')
-        ? { exitCode: 0, stdout: '## main...origin/main [ahead 1]\n M a.ts\n?? b.ts\n', stderr: '', isStdoutTruncated: false, isStderrTruncated: false }
+        ? { exitCode: 0, stdout: '## main...origin/main [ahead 1]\0 M a.ts\0?? b.ts\0', stderr: '', isStdoutTruncated: false, isStderrTruncated: false }
         : { exitCode: 0, stdout: ' 2 files changed, 10 insertions(+), 3 deletions(-)\n', stderr: '', isStdoutTruncated: false, isStderrTruncated: false },
     }))
     on('session.model', () => ({ value: 'claude-opus-5-5' }))
@@ -1530,7 +1590,7 @@ describe('security', () => {
   })
 
   test('git output is drawn without control characters', () => {
-    const changes = parseStatus(`## ma${ESC}in\n M a${ESC}[2Jb.ts\n`)
+    const changes = parseStatus(`## ma${ESC}in\0 M a${ESC}[2Jb.ts\0`)
     expect(changes.branch).toBe('ma in')
     expect(changes.files[0]?.path).toBe('a [2Jb.ts')
   })
