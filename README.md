@@ -1,35 +1,52 @@
 # cc-skins
 
 [![CI](https://github.com/mr-dzzs21/cc-skins/actions/workflows/ci.yml/badge.svg)](https://github.com/mr-dzzs21/cc-skins/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Skins, a usage bar and quick controls for [Claude Code](https://code.claude.com) in the terminal. Twenty-six looks (eight dark, six for light terminals) plus any you build; a bar above the prompt that keeps model, context, limits and cost in view and opens what you need with a click.
+**Skins and a clickable usage bar for [Claude Code](https://code.claude.com).** Twenty-six looks (eight dark, six for light terminals) plus any you build. A skin restyles the whole terminal UI: a bar above the prompt that keeps model, context, limits and cost in view and opens what you need with a click, the chat as cards, the spinner, the line that closes each turn, and a matching color theme.
+
+<p align="center"><img src="docs/hero.svg" alt="Claude Code with cc-skins: a chat as framed cards, a turn line with its cost, and the usage bar above the prompt, cycling through eight skins" width="100%"></p>
+
+## Install
+
+In Claude Code, type:
 
 ```
- ◆  Opus 5.5 · xhigh   main   ■■□□□ 34%   ■■■■□ 72% ⟳ 2h13m   ■■■■■ 91% ⟳ 3d4h  $1.24  ⚙
-╭──────────────────────────────────────────────────────────────────────────────────────╮
-│ >                                                                                    │
-╰──────────────────────────────────────────────────────────────────────────────────────╯
+/plugin install cc-skins --marketplace mr-dzzs21/cc-skins
 ```
 
-Every block has its own color: in a Nerd Font they join with powerline arrows, p10k style.
+Answer `y` to add the marketplace and pick the user scope. Then type `/skin` (or click the first block of the bar). Move through the skins with ↑↓: each one previews as you land on it, in the picker and in the real bar; Enter picks it. A skin's key or a click previews it too, and the same again picks it (the terminal doesn't tell plugins where the mouse hovers, so a click stands in). Esc goes back to the one you had. For the matching colors everywhere else, open `/theme` and pick `cc-skins · <skin>`.
 
-### What changes, and where
+Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes). The navy background comes from your terminal: [`extras/terminal`](extras/terminal) has a matching color scheme for each skin.
 
-| What | Changed by | When |
+## Why cc-skins
+
+- **A bar you can click.** Model and effort, branch, context, the 5-hour and 7-day limits, cost: each block opens what it shows. The model opens a model and effort picker, the branch its changed files, the context or cost a usage dashboard, a limit a live reading, the ⚙ the settings.
+- **The whole UI, not one line.** A skin restyles the chat into cards, gives the spinner and the turn line their own words, and comes with a `/theme` color theme and Ghostty and iTerm2 schemes for the terminal itself.
+- **No network, no credentials.** cc-skins makes no requests of its own and reads no login: every figure comes from Claude Code itself.
+- **One command, no setup.** It's a plugin: no package to install, no `settings.json` to edit, no script run on every refresh.
+- **Yours to shape.** Every block on or off, three icon sets for any font, when and whether blocks turn warning-colored, alerts, a compact button, sound and notifications (off until you turn them on), and your own skins from one accent color, shared as one line of JSON.
+
+## cc-skins and status line tools
+
+Claude Code's status line shows the output of a command you configure, below the prompt. Tools such as [ccstatusline](https://github.com/sirmalloc/ccstatusline) build on it, and do it well. cc-skins is a plugin instead, which changes what it can do:
+
+| | cc-skins | A status line tool |
 |---|---|---|
-| The bar, chat cards, spinner, turn line, sounds | the skin: `/skin` | at once, with every skin, yours too |
-| Claude Code's own colors: accents, prompt border, diffs, message backgrounds | `/theme` → `cc-skins · <Skin>` | when you pick it there: Claude Code keeps the theme yours to choose, and only built-in skins come with one |
-| The terminal's background and font | your terminal app | when you set it there: [`extras/terminal`](extras/terminal) has a scheme per skin and font tips |
+| Where | A bar above the prompt, plus the chat, spinner, turn line and theme | One or more lines below the prompt |
+| Clicks | Each block opens something inside Claude Code: model and effort picker, usage dashboard, changed files, live limits, settings | Links to open elsewhere, where the tool draws them (ccstatusline has branch, PR and editor links) |
+| Look | Skins for the whole UI: 26 built in, your own from one color | Colors, themes and powerline styles for the line |
+| Settings | Inside Claude Code: `/skin bar`, in tabs | A config file or the tool's own setup screen |
+| Install | `/plugin install`, nothing else | The tool, plus a `statusLine` entry in `settings.json` (some tools write it for you) |
+| Network and credentials | None | Depends on the tool: live usage figures may come from Anthropic's API with your stored login |
+| What it shows | Model, effort, branch, context, 5h and 7d limits with resets, cost, a compact button | Often much more: ccstatusline alone has dozens of widgets |
+| Claude Code | 2.1.296 or newer: function-hook plugins are new and may still change | Any version with a status line |
 
-Each skin changes:
+They don't get in each other's way: keep your status line below the prompt and cc-skins above it.
 
-- **Chat**: your messages and Claude's replies become framed cards with icon badges, names and send times; Claude's text hangs off an accent line; todo lists become a plan card with green ticks; tool calls and command output sit in cards; the prompt's hint and mode labels get a cleaner look.
-- **Colors**: a matching Claude Code color theme (accents, prompt border, diffs, plan/auto modes, message backgrounds), picked in `/theme`; built-in skins only.
-- **Spinner**: its own words while Claude works (`Jabbing…`, `Hacking ⟡`, `Compiling▌`).
-- **Turn line**: its own closing line, with what the turn cost (`◆ KO in 12s · $0.04 · 3 tools`). Cost, tokens and tool calls each turn on or off in the settings' Turn line tab.
-- **Alerts**: a toast as the context or a limit window reaches 80 % (or 70, 90, or off), once more at 95 %. When the context is that full, a **compact** button in the bar compacts the conversation with one click.
-- **Sound and notification** (off until you turn them on): when a turn of 30 s or more ends, the skin's own sound (the ring skin rings a boxing bell; others chime, beep, blip, gong or pop) and a notification saying how long the turn took (with the answer's first line, if you turn that on too). Sound, loudness, notification, its preview and the minimum length are yours to set in the Sound tab.
-- **Usage bar**: model and effort, git branch, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 % (or only at 85 %, or never: the Alerts tab's Warning colors). While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block. Click the skin's icon to switch skins, the model to switch model or effort, the context, a limit or the cost for the usage dashboard, the branch for its changed files, the ⚙ to choose what the bar shows (the skin's name is off by default). The Look tab's Clickable bar switch turns the pieces' clicks off; the ⚙ stays clickable so the settings stay in reach (`/skin hide gear` hides it, `/skin bar` opens the settings either way).
+## Skins
+
+<p align="center"><img src="docs/skins.svg" alt="The usage bar in each of the 26 built-in skins: twelve vivid, eight dark, six light" width="100%"></p>
 
 | Skin | Look | Spinner | Turn line |
 |---|---|---|---|
@@ -60,17 +77,25 @@ Each skin changes:
 | `peach` | Peach sorbet and rosy coral | `Blending ❁`, `Whisking ❁` | `❁ Ripe in 3s` |
 | `snow` | Bright white and quiet grey, nothing more | `Working…`, `Reading…` | `◇ Done in 3s` |
 
-## Install
+## What a skin changes
 
-In Claude Code, type:
+### What changes, and where
 
-```
-/plugin install cc-skins --marketplace mr-dzzs21/cc-skins
-```
+| What | Changed by | When |
+|---|---|---|
+| The bar, chat cards, spinner, turn line, sounds | the skin: `/skin` | at once, with every skin, yours too |
+| Claude Code's own colors: accents, prompt border, diffs, message backgrounds | `/theme` → `cc-skins · <Skin>` | when you pick it there: Claude Code keeps the theme yours to choose, and only built-in skins come with one |
+| The terminal's background and font | your terminal app | when you set it there: [`extras/terminal`](extras/terminal) has a scheme per skin and font tips |
 
-Answer `y` to add the marketplace and pick the user scope. Then type `/skin` (or click the first block of the bar). Move through the skins with ↑↓: each one previews as you land on it, in the picker and in the real bar; Enter picks it. A skin's key or a click previews it too, and the same again picks it (the terminal doesn't tell plugins where the mouse hovers, so a click stands in). Esc goes back to the one you had. For the matching colors everywhere else, open `/theme` and pick `cc-skins · <skin>`.
+Each skin changes:
 
-Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes). The navy background comes from your terminal: [`extras/terminal`](extras/terminal) has a matching color scheme for each skin.
+- **Chat**: your messages and Claude's replies become framed cards with icon badges, names and send times; Claude's text hangs off an accent line; todo lists become a plan card with green ticks; tool calls and command output sit in cards; the prompt's hint and mode labels get a cleaner look.
+- **Colors**: a matching Claude Code color theme (accents, prompt border, diffs, plan/auto modes, message backgrounds), picked in `/theme`; built-in skins only.
+- **Spinner**: its own words while Claude works (`Jabbing…`, `Hacking ⟡`, `Compiling▌`).
+- **Turn line**: its own closing line, with what the turn cost (`◆ KO in 12s · $0.04 · 3 tools`). Cost, tokens and tool calls each turn on or off in the settings' Turn line tab.
+- **Alerts**: a toast as the context or a limit window reaches 80 % (or 70, 90, or off), once more at 95 %. When the context is that full, a **compact** button in the bar compacts the conversation with one click.
+- **Sound and notification** (off until you turn them on): when a turn of 30 s or more ends, the skin's own sound (the ring skin rings a boxing bell; others chime, beep, blip, gong or pop) and a notification saying how long the turn took (with the answer's first line, if you turn that on too). Sound, loudness, notification, its preview and the minimum length are yours to set in the Sound tab.
+- **Usage bar**: model and effort, git branch, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 % (or only at 85 %, or never: the Alerts tab's Warning colors). While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block. Click the skin's icon to switch skins, the model to switch model or effort, the context, a limit or the cost for the usage dashboard, the branch for its changed files, the ⚙ to choose what the bar shows (the skin's name is off by default). The Look tab's Clickable bar switch turns the pieces' clicks off; the ⚙ stays clickable so the settings stay in reach (`/skin hide gear` hides it, `/skin bar` opens the settings either way).
 
 ## Usage
 
@@ -133,7 +158,8 @@ git clone https://github.com/mr-dzzs21/cc-skins && cd cc-skins
 claude --plugin-dir .          # run Claude Code with the plugin loaded; edits hot-reload
 claude plugin validate .       # check manifest, hooks and state contract
 claude plugin test .           # run tests/*.test.tsx against the engine
-python3 scripts/check_assets.py  # JSON, schemes, scripts, one theme and scheme per skin, versions
+python3 scripts/check_assets.py  # JSON, schemes, scripts, one theme and scheme per skin, the pictures, versions
+npx -y tsx@4.19.2 scripts/render_previews.ts  # redraw docs/hero.svg and docs/skins.svg from the skins
 ```
 
 CI runs the last three on every push and pull request, with Claude Code pinned, no login and no secrets (nothing calls a model).
@@ -144,7 +170,7 @@ Contributions are welcome, especially new skins.
 
 The sounds in `sounds/` are synthesized by `scripts/make_sounds.py` (`python3 scripts/make_sounds.py sounds`), so they carry the project's license.
 
-New built-in skins go through `scripts/add_skins.py <skins.json>`: it writes the skin, its `/theme` theme, its terminal schemes and the README rows, and refuses a block whose text would not read.
+New built-in skins go through `scripts/add_skins.py <skins.json>`: it writes the skin, its `/theme` theme, its terminal schemes and the README rows, and refuses a block whose text would not read. Then `scripts/render_previews.ts` redraws the README's pictures; they come from the plugin's own `barPills` and `turnPills`, so they show what the bar draws.
 
 ## License
 

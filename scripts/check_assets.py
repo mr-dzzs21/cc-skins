@@ -4,6 +4,7 @@
 - every iTerm2 scheme is a well-formed property list
 - every Python script compiles
 - every built-in skin has its theme, its Ghostty scheme and its iTerm2 scheme
+- the README's pictures exist, and the skin gallery has every built-in skin (scripts/render_previews.ts draws them)
 - the manifest's version is the changelog's newest
 
     python3 scripts/check_assets.py
@@ -51,6 +52,11 @@ check(len(skins) >= 20, f'hooks/skins.ts: found {len(skins)} skins, expected the
 for skin in skins:
     for path in (f'themes/{skin}.json', f'extras/terminal/ghostty/cc-skins-{skin}', f'extras/terminal/iterm2/cc-skins-{skin}.itermcolors'):
         check(os.path.isfile(path), f'{skin}: {path} is missing')
+
+gallery = open('docs/skins.svg', encoding='utf-8').read() if os.path.isfile('docs/skins.svg') else ''
+check(os.path.isfile('docs/hero.svg'), 'docs/hero.svg is missing: run scripts/render_previews.ts')
+for skin in skins:
+    check(f'data-skin="{skin}"' in gallery, f'{skin}: not in docs/skins.svg, run scripts/render_previews.ts')
 
 version = json.load(open('.claude-plugin/plugin.json', encoding='utf-8')).get('version')
 newest = re.search(r'^## (\S+)', open('CHANGELOG.md', encoding='utf-8').read(), re.M)

@@ -159,4 +159,4 @@ def spin(s):
     return f"`{w[0]}{suf}`, `{w[min(3, len(w) - 1)]}{suf}`"
 open('README.md', 'w').write(R.replace(last, last + ''.join(
     f"| `{s['id']}` | {s['desc']} | {spin(s)} | `{s['glyph']} {s['turn'][0]} in 3s` |\n" for s in NEW)))
-print('added', ', '.join(s['id'] for s in NEW))
+print('added', ', '.join(s['id'] for s in NEW) + '; now redraw the README pictures: npx -y tsx@4.19.2 scripts/render_previews.ts')
