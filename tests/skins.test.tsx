@@ -1457,7 +1457,7 @@ describe('clickable bar', () => {
     })
     on('session.repo', () => ({ value: { root: '/repo', remote: null, internal: false, name: 'repo' } }) as never)
     on('fs.stat', ($, e) =>
-      ({ value: { kind: e.path.endsWith('/HEAD') ? 'file' : 'dir', size: 21, mtimeMs: 0, isLink: false } }) as never)
+      ({ value: { kind: /[\\/]HEAD$/.test(e.path) ? 'file' : 'dir', size: 21, mtimeMs: 0, isLink: false } }) as never)
     on('fs.read', () => ({ value: 'ref: refs/heads/main\n' }) as never)
     on('ui.toast', () => ({ value: undefined }))
     on('process.run', ($, e) => ({
@@ -1613,7 +1613,7 @@ describe('security', () => {
     ])
   })
 
-  for (const [name, files, expected] of [
+  for (const entry of [
     ['a plain checkout shows its branch', { '/repo/.git': ['dir'], '/repo/.git/HEAD': ['file', 'ref: refs/heads/main\n'] }, true],
     ['a worktree pointer is read relative to the repository', {
       '/repo/.git': ['file', 'gitdir: ../main/.git/worktrees/w\n'],
@@ -1626,15 +1626,30 @@ describe('security', () => {
     ['a branch in any script shows', { '/repo/.git': ['dir'], '/repo/.git/HEAD': ['file', 'ref: refs/heads/feature/über\n'] }, true],
     ['a .git file without a gitdir line is not followed', { '/repo/.git': ['file', '../elsewhere\n'], '/repo/../elsewhere/HEAD': ['file', 'ref: refs/heads/main\n'] }, false],
     ['a .git that is a link is not followed', { '/repo/.git': ['link'], '/repo/.git/HEAD': ['file', 'ref: refs/heads/main\n'] }, false],
+    ['a Windows checkout shows its branch', { 'C:\\repo\\.git': ['dir'], 'C:\\repo\\.git\\HEAD': ['file', 'ref: refs/heads/main\n'] }, true, 'C:\\repo'],
+    ['a Windows worktree pointer with a drive is read as absolute', {
+      'C:\\repo\\.git': ['file', 'gitdir: C:/main/.git/worktrees/w\n'],
+      'C:\\main\\.git\\worktrees\\w\\HEAD': ['file', 'ref: refs/heads/feature\n'],
+    }, true, 'C:\\repo'],
   ] as const) {
+    const [name, files, expected] = entry
+    const root = ((entry as readonly unknown[])[3] as string | undefined) ?? '/repo'
     test(`branch: ${name}`, async ($, on) => {
       mock.store(on)
       mock.clock(on, { now: 0 })
       const table = files as Record<string, readonly [string, string?]>
-      on('session.repo', () => ({ value: { root: '/repo', remote: null, internal: false, name: 'repo' } }) as never)
+      on('session.repo', () => ({ value: { root, remote: null, internal: false, name: 'repo' } }) as never)
       /** A path with its `..` segments resolved, as the engine may resolve them first. */
+      // as the engine may hand a path on: `..` resolved, Windows separators and a drive letter (D:\repo);
+      // off Windows a Windows root is no absolute path, so the engine puts the working directory before it
       const normal = (path: string) =>
-        path.split('/').reduce<string[]>((parts, part) => (part === '..' ? parts.slice(0, -1) : [...parts, part]), []).join('/')
+        path
+          .replace(/^.*?(?=[A-Za-z]:[\\/])/, '')
+          .replace(/\\/g, '/')
+          .replace(/^[A-Za-z]:/, '')
+          .split('/')
+          .reduce<string[]>((parts, part) => (part === '..' ? parts.slice(0, -1) : [...parts, part]), [])
+          .join('/')
       const at = (path: string) => Object.entries(table).find(([key]) => normal(key) === normal(path))?.[1]
       on('fs.stat', ($, e) => {
         const entry = at(e.path)
@@ -2146,7 +2161,7 @@ describe('bar extras', () => {
     on('ui.toast', () => ({ value: undefined }))
     on('session.repo', () => ({ value: { root: '/repo', remote: null, internal: false, name: 'repo' } }) as never)
     on('fs.stat', ($, e) =>
-      ({ value: { kind: e.path.endsWith('/HEAD') ? 'file' : 'dir', size: 21, mtimeMs: 0, isLink: false } }) as never)
+      ({ value: { kind: /[\\/]HEAD$/.test(e.path) ? 'file' : 'dir', size: 21, mtimeMs: 0, isLink: false } }) as never)
     on('fs.read', () => ({ value: 'ref: refs/heads/main\n' }) as never)
     on('process.run', ($, e) => {
       if (e.argv.includes('status')) {

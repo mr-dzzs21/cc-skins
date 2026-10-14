@@ -55,19 +55,23 @@ if run('git', 'tag', '--list', tag):
     stop(f'{tag} exists already: bump the version for a new release')
 print(f'✔ {version} at {head[:7]}, versions agree')
 
-# 2. CI passed on this very commit
+# 2. CI passed on this very commit: every job that tests it (the "Released version" jobs test
+#    the release people have now, not this one, so they neither block nor pass it)
 for attempt in range(90):
     runs = json.loads(run('gh', 'run', 'list', '--repo', REPO, '--workflow', 'ci.yml', '--commit', head,
                           '--event', 'push', '--json', 'databaseId,status,conclusion'))
     if runs and runs[0]['status'] == 'completed':
-        if runs[0]['conclusion'] != 'success':
-            stop(f'CI did not pass on {head[:7]} ({runs[0]["conclusion"]}): gh run view {runs[0]["databaseId"]}')
+        jobs = json.loads(run('gh', 'run', 'view', str(runs[0]['databaseId']), '--repo', REPO, '--json', 'jobs'))['jobs']
+        own = [job for job in jobs if not job['name'].startswith('Released version')]
+        failed = [job['name'] for job in own if job['conclusion'] != 'success']
+        if not own or failed:
+            stop(f'CI did not pass on {head[:7]}: {", ".join(failed) or "no jobs"} (gh run view {runs[0]["databaseId"]})')
         break
     print('… waiting for CI' if runs else '… waiting for CI to start', flush=True)
     time.sleep(20)
 else:
     stop('CI took longer than half an hour: run this again once it is done')
-print(f'✔ CI passed on {head[:7]}')
+print(f'✔ CI passed on {head[:7]}: {len(own)} jobs on macOS, Windows and Linux')
 if '--check' in sys.argv:
     sys.exit(0)
 
