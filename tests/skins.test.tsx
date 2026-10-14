@@ -4,7 +4,7 @@ import type { Engine } from 'claude-code/testing'
 import type { Usage } from '../types'
 import { IDLE_HINT, formatClock, sentAt } from '../hooks/chat'
 import { bar, formatDuration, formatElapsed, formatReset, formatTokens, prettyModel } from '../hooks/format'
-import { MAX_LEVEL, alertFor, barPills, barWidth, burnRate, fitPills, gitMarks, headerFor, turnPills } from '../hooks/hud'
+import { MAX_LEVEL, alertFor, barPills, barWidth, burnRate, fitPills, gitMarks, headerFor, plainLabel, turnPills } from '../hooks/hud'
 import type { BarInput } from '../hooks/hud'
 import { SKIN_IDS, SKINS, pick } from '../hooks/skins'
 import { hotkeyFor, hotkeyRange } from '../hooks/picker'
@@ -2515,5 +2515,77 @@ describe('doctor', () => {
     expect(hints.join('\n')).toContain('git: not found')
     expect(hints.join('\n')).toContain('/skin limits')
     expect(hints).toHaveLength(7)
+  })
+})
+
+describe('Claude Desktop and VS Code', () => {
+  /** Every button's label in a drawing: Desktop and VS Code draw a button by it. */
+  const labels = (tree: unknown) => [...JSON.stringify(tree).matchAll(/"label":"((?:[^"\\]|\\.)*)"/g)].map(match => JSON.parse(`"${match[1]}"`) as string)
+  const PRIVATE_USE = /[-]/u
+
+  test('a block reads as its words: icons become ctx, 5h, 7d, resets go in brackets', () => {
+    expect(plainLabel(' Opus 5.5 · xhigh')).toBe('Opus 5.5 · xhigh')
+    expect(plainLabel(' ■■□□□ 34% · 68k')).toBe('ctx ■■□□□ 34% · 68k')
+    expect(plainLabel(' ■■■□□ 52%  2h13m')).toBe('5h ■■■□□ 52% (2h13m)')
+    expect(plainLabel(' 18%  3d4h')).toBe('7d 18% (3d4h)')
+    expect(plainLabel(' main ●3 ↑1')).toBe('⎇ main ●3 ↑1')
+    expect(plainLabel(' 2.1.299')).toBe('v2.1.299')
+    expect(plainLabel(' 14:23')).toBe('14:23')
+    expect(plainLabel(' 12m')).toBe('◷ 12m')
+    expect(plainLabel(' odd  glyphs')).toBe('odd glyphs')
+    expect(plainLabel('ctx ■□□□□ 4%')).toBe('ctx ■□□□□ 4%')
+  })
+
+  for (const surface of ['desktop', 'vscode', 'terminal'] as const) {
+    test(`on ${surface} the bar's buttons say what their blocks show`, async ($, on) => {
+      mock.store(on)
+      mock.clock(on, { now: 0 })
+      on('session.model', () => ({ value: 'claude-opus-5-5' }))
+      on('session.measure', ($, e) => ({ changed: e.changed }))
+      on('ui.toast', () => ({ value: undefined }))
+      await $.session.measure({
+        context: { window: 200_000, tokens: 20_000, percent: 10 },
+        rateLimits: [{ kind: 'five_hour', percentUsed: 42 }, { kind: 'seven_day', percentUsed: 23 }],
+        cost: { usd: 1.24 },
+        changed: ['context'],
+      })
+      const band = await $.ui.mount({ plugin: 'cc-skins', surface, component: 'AbovePrompt', props: bandProps(200) })
+      const said = labels(await band.drawn())
+      await band.unmount()
+      expect(said[0]).toBe('✻ Midnight')
+      expect(said).toContain('Opus 5.5')
+      expect(said.some(label => /^ctx .*10%$/.test(label))).toBe(true)
+      expect(said.some(label => /^5h .*42%$/.test(label))).toBe(true)
+      expect(said.some(label => /^7d .*23%$/.test(label))).toBe(true)
+      expect(said).toContain('$1.24')
+      expect(said.some(label => PRIVATE_USE.test(label))).toBe(false)
+      expect(new Set(said).size).toBe(said.length)
+    })
+  }
+
+  test('on Desktop the settings say which pieces are on, the pickers which one is in use', async ($, on) => {
+    mock.store(on)
+    on('ui.open', () => ({ value: { isPlaced: true as const } }))
+    on('ui.toast', () => ({ value: undefined }))
+    await runSkin($, 'bar')
+    const settings = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'desktop',
+      component: 'Pane',
+      requestId: 'bar-settings',
+      props: { ...PANE_PROPS, title: 'Bar settings' },
+    })
+    const said = labels(await settings.drawn())
+    await settings.unmount()
+    expect(said).toContain('[✓] Model')
+    expect(said).toContain('[ ] Skin name')
+    expect(said).toContain('[ ] Clock')
+
+    await runSkin($, '')
+    const picker = await $.ui.mount({ plugin: 'cc-skins', surface: 'desktop', component: 'Pane', requestId: 'skin-picker', props: PANE_PROPS })
+    const skins = labels(await picker.drawn())
+    await picker.unmount()
+    expect(skins).toContain('Midnight ✓')
+    expect(skins).toContain('Ring')
   })
 })

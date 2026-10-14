@@ -131,7 +131,7 @@ export const drawModelPicker = (
         return (
           <Button
             key={`model-${value}`}
-            label={label}
+            label={isCurrent ? `${label} ✓` : label}
             hotkey={HOTKEYS[index]}
             plain
             autoFocus={isCurrent ? true : undefined}

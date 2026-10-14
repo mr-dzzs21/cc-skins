@@ -162,7 +162,7 @@ export const drawPicker = (elements: Elements, view: PickerView, choose: (id: st
           ...heading,
           <Button
             key={id}
-            label={skin.label}
+            label={isCurrent ? `${skin.label} ✓` : skin.label}
             hotkey={hotkeyFor(index)}
             plain
             autoFocus={isCurrent ? true : undefined}

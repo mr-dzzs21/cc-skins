@@ -211,7 +211,7 @@ export const drawBuilder = (
       {drawHeading(elements, chrome, 'accent-heading', 'Accent', 'a swatch, or type #rrggbb')}
       <Box key="swatches" flexDirection="row" flexWrap="wrap" columnGap={1}>
         {ACCENTS.map(accent => (
-          <Button key={`accent-${accent.slice(1)}`} label={accent} plain onPress={() => act.accent(accent)}>
+          <Button key={`accent-${accent.slice(1)}`} label={accent === draft.accent ? `${accent} ✓` : accent} plain onPress={() => act.accent(accent)}>
             <Text backgroundColor={accent}>{accent === draft.accent ? ' ✓ ' : '   '}</Text>
           </Button>
         ))}

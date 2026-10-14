@@ -6,6 +6,10 @@
 
 - **Usage bar**: model and effort, git branch, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 % (or only at 85 %, or never: the Alerts tab's Warning colors). While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block. Click the skin's icon to switch skins, the model to switch model or effort, the context, a limit or the cost for the usage dashboard, the branch for its changed files, the ⚙ to choose what the bar shows (the skin's name is off by default). Extras, off until you turn them on in the ⚙ or with `/skin show`: git status on the branch (`main ●3 ↑1`: files changed, commits ahead and behind; it runs `git status` after each reply), context tokens (`34% · 68k`), cost per hour (`$1.24 · $0.62/h`), and an info block with session time, clock and Claude Code version; they are the first to go when the bar runs out of room. The Look tab's Clickable bar switch turns the pieces' clicks off; the ⚙ stays clickable so the settings stay in reach (`/skin hide gear` hides it, `/skin bar` opens the settings either way).
 
+## In Claude Desktop and VS Code
+
+cc-skins runs wherever Claude Code does, in the terminal and inside Claude Desktop and VS Code. The chat cards, the spinner and the turn line look the same everywhere. The bar is simpler outside the terminal: Desktop and VS Code draw each block as a button with its words (`Opus 5.5 · xhigh`, `ctx 34%`, `5h 42% (2h13m)`, `$1.24`), without the powerline colors, and a click opens what it opens in the terminal.
+
 ## The two styles
 
 `/skin bar powerline` draws colored blocks joined by powerline arrows; `/skin bar header` a quiet line with the skin and model at the left, the session time, branch, context and cost in the middle, and the limits as badges at the right.

@@ -79,7 +79,7 @@ const drawBarTab = (elements: Elements, skin: Skin, view: SettingsView, act: Set
       return (
         <Button
           key={`item-${item}`}
-          label={label}
+          label={`${isOn ? '[✓]' : '[ ]'} ${label}`}
           plain
           autoFocus={index === 0 ? true : undefined}
           onPress={() => act.toggle(item)}

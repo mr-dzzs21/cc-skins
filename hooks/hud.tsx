@@ -25,6 +25,33 @@ const ICONS = {
   version: '\uf120',
 } as const
 
+/** The Nerd Font icons as the words plain glyphs use, so a label reads on any surface and font. */
+const ICON_WORDS: Readonly<Record<string, string>> = {
+  [ICONS.model]: '',
+  [ICONS.context]: 'ctx',
+  [ICONS.five_hour]: '5h',
+  [ICONS.seven_day]: '7d',
+  [ICONS.spend_limit]: 'spend',
+  [ICONS.compact]: '⇣',
+  [ICONS.branch]: '⎇',
+  [ICONS.session]: '◷',
+  [ICONS.clock]: '',
+  [ICONS.gear]: '≡',
+}
+
+/**
+ * A block's text as a button's label: Claude Desktop and VS Code draw a
+ * button by its label, not by the colored text inside it, so the label must
+ * say what the block shows. Icons become words (`ctx 34%`, `5h 42% (2h13m)`,
+ * `v2.1.299`), any other private-use glyph goes, spaces collapse.
+ */
+export const plainLabel = (text: string): string =>
+  [...text.replace(new RegExp(`${ICONS.reset} (\\S+)`, 'gu'), '($1)').replace(`${ICONS.version} `, 'v')]
+    .map(char => ICON_WORDS[char] ?? (/[\ue000-\uf8ff]/u.test(char) ? '' : char))
+    .join('')
+    .replace(/\s+/g, ' ')
+    .trim()
+
 /** What a press on the bar opens: the skin picker, the model and effort picker, the bar's settings. */
 export type BarPress = 'skin' | 'model' | 'settings' | 'compact' | 'usage' | 'branch' | 'limits'
 
@@ -53,7 +80,7 @@ export const MAX_LEVEL = 8
 /** Cost per hour waits for this much session, so a first minute's spend does not read as a rate. */
 const BURN_AFTER_MS = 5 * 60_000
 
-export type Pill = { key: string; text: string; paint: Paint; isBold?: boolean; press?: BarPress }
+export type Pill = { key: string; text: string; paint: Paint; isBold?: boolean; press?: BarPress; label?: string }
 
 export type BarInput = {
   skin: Skin
@@ -90,7 +117,7 @@ export const alertFor = (percent: number, mode: WarnColors = 'all'): Alert | und
   mode === 'off' ? undefined : percent >= 85 ? 'danger' : percent >= 60 && mode !== 'danger' ? 'warn' : undefined
 
 /** A block before its color: the bar paints by place in the gradient, a piece's own color over that, an alert over both. */
-type Block = { key: string; text: string; isBold?: boolean; alert?: Alert; press?: BarPress }
+type Block = { key: string; text: string; isBold?: boolean; alert?: Alert; press?: BarPress; label?: string }
 
 /** The piece of a skin of one's own that colors a block, by the block's key. */
 const PART_OF: Readonly<Record<string, ColorPart>> = {
@@ -151,7 +178,13 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     hasSkinName ? skin.label.toUpperCase() : undefined,
     isWorking ? FRAMES[frame % FRAMES.length] : undefined,
   ]
-  pills.push({ key: 'skin', text: skinText.filter(part => part !== undefined).join(' '), isBold: true, press: 'skin' })
+  pills.push({
+    key: 'skin',
+    text: skinText.filter(part => part !== undefined).join(' '),
+    isBold: true,
+    press: 'skin',
+    label: `${skin.glyph} ${skin.label}`,
+  })
 
   const modelName = usage.model !== null && shows('model') ? prettyModel(usage.model) : undefined
   const modelParts = [modelName, hasEffort ? effort : undefined].filter(part => part !== undefined)
@@ -279,16 +312,22 @@ type Elements = {
   Button?: ElementConstructor<ButtonProps>
 }
 
-/** A bar piece as a button (keyed `<piece>-button`) when it opens something and the surface draws buttons. */
+/**
+ * A bar piece as a button (keyed `<piece>-button`) when it opens something and
+ * the surface draws buttons. The terminal draws the colored child; Desktop and
+ * VS Code draw the label, so it carries what the piece shows (else what a
+ * press does).
+ */
 const pressable = (
   Button: Elements['Button'],
   piece: string,
   press: BarPress | undefined,
   onPress: ((press: BarPress) => void) | undefined,
   child: RenderElement,
+  label?: string,
 ): RenderElement =>
   press !== undefined && onPress !== undefined && Button !== undefined ? (
-    <Button key={`${piece}-button`} label={PRESS_LABELS[press]} plain onPress={() => onPress(press)}>
+    <Button key={`${piece}-button`} label={label || PRESS_LABELS[press]} plain onPress={() => onPress(press)}>
       {child}
     </Button>
   ) : (
@@ -342,6 +381,7 @@ export const drawPowerline = (
           <Text key={pill.key} backgroundColor={pill.paint.bg} color={pill.paint.fg} bold={pill.isBold}>
             {` ${pill.text} `}
           </Text>,
+          pill.label ?? plainLabel(pill.text),
         )
         if (!hasArrows) {
           return [block]
@@ -529,6 +569,7 @@ export const drawHeader = (
           <Text key={item.key} color={item.color} bold={item.isBold}>
             {index > 0 ? `  ${item.text}` : item.text}
           </Text>,
+          plainLabel(item.text),
         ),
       )}
     </Box>
@@ -536,7 +577,7 @@ export const drawHeader = (
       {header.stats.map((item, index) => (
         <Box key={item.key} flexDirection="row">
           {index > 0 && <Text color={skin.chat.border}>{HEADER_SEPARATOR}</Text>}
-          {pressable(Button, item.key, item.press, onPress, <Text color={item.color}>{item.text}</Text>)}
+          {pressable(Button, item.key, item.press, onPress, <Text color={item.color}>{item.text}</Text>, plainLabel(item.text))}
         </Box>
       ))}
     </Box>
@@ -550,6 +591,7 @@ export const drawHeader = (
           <Text key={item.key} color={item.color} bold>
             {item.text}
           </Text>,
+          plainLabel(item.text),
         ),
       )}
       {gear !== undefined && onPress !== undefined && drawGear(elements, glyphs, gear, onPress)}

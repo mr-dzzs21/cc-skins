@@ -20,7 +20,7 @@ One command, the same on macOS, Windows and Linux:
 claude plugin install cc-skins --marketplace https://github.com/mr-dzzs21/cc-skins.git
 ```
 
-Then open Claude Code and type **`/skin`** to pick a look. That's it.
+Then open Claude Code and type **`/skin`** to pick a look. That's it. Works in the terminal, and in Claude Code inside Claude Desktop and VS Code too.
 
 <sub>Needs Claude Code 2.1.295 or newer: `claude update` gets it. More options, updating and removing: <a href="#more-about-installing">below</a>.</sub>
 

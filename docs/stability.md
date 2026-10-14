@@ -12,7 +12,7 @@ The marketplace you install from points at a release tag, not at the code being 
 
 Every push and pull request runs, on **macOS, Windows and Linux**:
 
-- the whole test suite and a strict validation, with the **oldest Claude Code cc-skins supports** and with the **newest**
+- the whole test suite and a strict validation, with the **oldest Claude Code cc-skins supports** and with the **newest**; the bar, the settings and the pickers are drawn as the terminal, Claude Desktop and VS Code each draw them
 - an install through the marketplace, as you do it
 - the asset checks: themes, schemes, scripts, pictures, links, versions
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.19.1
+
+- **The bar reads right in Claude Desktop and VS Code.** cc-skins runs there too, and those draw a button by its label, not by the colored text inside it: the bar showed "Pick a skin · Model and effort · Usage dashboard · Live limits · Live limits…" instead of its figures. Each block's label is now what it shows (`Opus 5.5 · xhigh`, `ctx 34%`, `5h 42% (2h13m)`, `$1.24`), icons as words. The terminal looks as before.
+- The same in the panes: the settings say which pieces are on (`[✓] Model`), the skin and model pickers mark the one in use, the builder its accent.
+- Tests draw the bar, the settings and the picker as the terminal, Desktop and VS Code each do.
+
 ## 0.19.0
 
 Stability:
