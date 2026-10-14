@@ -159,6 +159,8 @@ declare module 'claude-code' {
       barStyle: BarStyle
       /** The skin under the picker's focus ring, drawn in place of `skin` while the picker is open. */
       preview: string | null
+      /** The skin a first press in the picker armed: a second press of it picks it. */
+      armed: string | null
       isChatStyled: boolean
       usage: Usage
       /** The checked-out branch of the session's repository; null outside one. */

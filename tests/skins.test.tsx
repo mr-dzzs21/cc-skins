@@ -623,6 +623,8 @@ describe('skin picker', () => {
     })
     expect(await picker.findAll({ type: 'Button' })).toHaveLength(SKIN_IDS.length)
     await picker.press({ key: 'retro' })
+    expect(closed).toEqual([])
+    await picker.press({ key: 'retro' })
     await picker.unmount()
 
     expect(closed).toEqual(['skin-picker'])
@@ -717,6 +719,7 @@ describe('preview', () => {
     await previewing.unmount()
     expect((await runSkin($, 'list')).text).toContain('current: midnight')
 
+    await picker.press({ key: 'forest' })
     await picker.press({ key: 'forest' })
     await picker.unmount()
     const after = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
@@ -1687,5 +1690,88 @@ describe('picker rows', () => {
     expect(await picker.find({ type: 'Text', text: /Deep navy cards, Claude in orange…/ })).toBeDefined()
     expect(await picker.find({ type: 'Text', text: /^Deep navy cards, Claude in orange, you in blue$/ })).toBeUndefined()
     await picker.unmount()
+  })
+})
+
+describe('picker keys and clicks', () => {
+  const mountPicker = ($: Engine) =>
+    $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'skin-picker',
+      props: { ...PANE_PROPS, bodyColumns: 64, placement: 'dock' as const },
+    })
+  const arrow = ($: Engine, by: number, offset = 0) =>
+    $.ui.scroll({ component: 'Pane', requestId: 'skin-picker', offset: offset + by, by, bodyRows: 12, contentRows: 45, origin: { kind: 'person' } })
+
+  test('the arrows walk the skins with a live preview, and Enter picks the one landed on', async ($, on) => {
+    mock.store(on)
+    const scrolled: number[] = []
+    on('ui.scroll', ($, e) => {
+      scrolled.push(e.offset)
+
+      return {}
+    })
+    on('ui.close', () => ({ value: undefined }))
+    on('ui.toast', () => ({ value: undefined }))
+    await runSkin($, 'show skinName')
+
+    await arrow($, 1)
+    await arrow($, 1)
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await band.find({ type: 'Text', text: /NEON/ })).toBeDefined()
+    await band.unmount()
+    expect((await runSkin($, 'list')).text).toContain('current: midnight')
+    expect(scrolled).toEqual([0, 0])
+
+    const picker = await mountPicker($)
+    await picker.press({ key: 'neon' })
+    await picker.unmount()
+    expect((await runSkin($, 'list')).text).toContain('current: neon')
+  })
+
+  test('far down the list the window follows the row walked onto', async ($, on) => {
+    mock.store(on)
+    const scrolled: number[] = []
+    on('ui.scroll', ($, e) => {
+      scrolled.push(e.offset)
+
+      return {}
+    })
+    await runSkin($, 'snow')
+    await arrow($, -1, 20)
+    expect(scrolled.at(-1)).toBe(20)
+    await arrow($, -1, 0)
+    expect(scrolled.at(-1)).toBeGreaterThan(12)
+  })
+
+  test('pages and wheel bursts still scroll the window', async ($, on) => {
+    mock.store(on)
+    const scrolled: number[] = []
+    on('ui.scroll', ($, e) => {
+      scrolled.push(e.offset)
+
+      return {}
+    })
+    await $.ui.scroll({ component: 'Pane', requestId: 'skin-picker', offset: 12, by: 12, bodyRows: 12, contentRows: 45, origin: { kind: 'person' } })
+    expect(scrolled).toEqual([12])
+    expect((await runSkin($, 'list')).text).toContain('current: midnight')
+  })
+
+  test('a click or a key previews first; the same again picks', async ($, on) => {
+    mock.store(on)
+    on('ui.close', () => ({ value: undefined }))
+    on('ui.toast', () => ({ value: undefined }))
+    await runSkin($, 'show skinName')
+    const picker = await mountPicker($)
+    await picker.press({ key: 'abyss' })
+    expect((await runSkin($, 'list')).text).toContain('current: midnight')
+    expect(await picker.find({ type: 'Text', text: /Preview · Abyss/ })).toBeDefined()
+    await picker.press({ key: 'lava' })
+    expect((await runSkin($, 'list')).text).toContain('current: midnight')
+    await picker.press({ key: 'lava' })
+    await picker.unmount()
+    expect((await runSkin($, 'list')).text).toContain('current: lava')
   })
 })

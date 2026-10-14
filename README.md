@@ -66,7 +66,7 @@ In Claude Code, type:
 /plugin install cc-skins --marketplace mr-dzzs21/cc-skins
 ```
 
-Answer `y` to add the marketplace and pick the user scope. Then type `/skin` (or click the first block of the bar). Move through the skins with ↑↓: each one previews as you land on it, in the picker and in the real bar. Pick with Enter or its hotkey; Esc goes back to the one you had. For the matching colors everywhere else, open `/theme` and pick `cc-skins · <skin>`.
+Answer `y` to add the marketplace and pick the user scope. Then type `/skin` (or click the first block of the bar). Move through the skins with ↑↓: each one previews as you land on it, in the picker and in the real bar; Enter picks it. A skin's key or a click previews it too, and the same again picks it (the terminal doesn't tell plugins where the mouse hovers, so a click stands in). Esc goes back to the one you had. For the matching colors everywhere else, open `/theme` and pick `cc-skins · <skin>`.
 
 Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes). The navy background comes from your terminal: [`extras/terminal`](extras/terminal) has a matching color scheme for each skin.
 
@@ -74,7 +74,7 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 
 | Command | Does |
 |---|---|
-| `/skin` | Opens the skin picker: ↑↓ previews, Enter or 1–9, 0, a–p picks, Esc closes. A click on the bar's first block opens it too |
+| `/skin` | Opens the skin picker: ↑↓ previews and Enter picks; a key (1–9, 0, a–p) or a click previews and the same again picks; Esc closes. A click on the bar's first block opens it too (then click into the picker once, so it has the keys) |
 | `/skin list` | Lists the skins as text, marks the current one |
 | `/skin model` | Opens the model and effort picker (or click the model in the bar). A model pick is saved as your default, as `/model` does; effort holds for the session, as `/effort` does |
 | `/skin bar` | Opens the settings (or click the ⚙ at the bar's end), in tabs: **Bar** (each piece on or off), **Look** (style, icons, chat cards), **Alerts** (when to warn, the compact button), **Turn line** (cost, tokens, tool calls), **Sound** (sound, loudness, notification) |

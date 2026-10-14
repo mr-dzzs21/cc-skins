@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.4
+
+- In the skin picker the arrow keys walk the skins (they used to scroll the pane, or the screen), each one previewing in the picker and the real bar; Enter picks it. Pages, Home and End still scroll, and the window follows the row walked onto.
+- A skin's key or a click previews first and picks on the second press: the terminal reports no mouse hover to plugins, so a click stands in for it.
+- The picker's hint says so; it no longer claims the arrows preview while they scrolled.
+
 ## 0.15.3
 
 - A third glyph mode, `powerline`: the arrows and the branch mark stay, short words (`ctx`, `5h`, `7d`) take the icons' place. For fonts with Powerline symbols but no Nerd Font icons, as Windows Terminal's Cascadia Code. In `/skin glyphs` and the Look tab (Arrows only).

@@ -25,6 +25,26 @@ const SAMPLE = { prompt: 'count slowly to 5', reply: '1… 2… 3… 4… 5.', d
 const LABEL_CELLS = 10
 const ROW_CELLS = 3 + SWATCH * 2 + 1 + LABEL_CELLS + 1 + 2 + 1
 
+/** The row a skin's entry takes in the picker's list, its group headings counted. */
+export const pickerRowOf = (entries: readonly SkinEntry[], id: string): number => {
+  let row = 0
+  for (let index = 0; index < entries.length; index++) {
+    const entry = entries[index]
+    if (entry === undefined) {
+      break
+    }
+    if (GROUP_HEADINGS[entry.group] !== undefined && entries[index - 1]?.group !== entry.group) {
+      row += 1
+    }
+    if (entry.id === id) {
+      return row
+    }
+    row += 1
+  }
+
+  return 0
+}
+
 const padCells = (text: string, cells: number) => `${text}${' '.repeat(Math.max(0, cells - displayWidth(text)))}`
 
 const GROUP_HEADINGS: Record<SkinEntry['group'], string | undefined> = {
@@ -156,7 +176,7 @@ export const drawPicker = (elements: Elements, view: PickerView, choose: (id: st
         ]
       })}
       <Text key="hint" dimColor wrap="truncate-end">
-        {`↑↓ preview · Enter or ${hotkeyRange(view.entries.length)} picks · Esc closes · /skin create builds your own`}
+        {`↑↓, ${hotkeyRange(view.entries.length)} or a click: preview · Enter or again: pick · Esc closes`}
       </Text>
       {previewed !== undefined && drawPreview(elements, previewed.skin, view)}
     </Box>

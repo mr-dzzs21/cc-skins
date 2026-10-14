@@ -49,7 +49,7 @@ import { MAX_TURN_STATS, findTurnStat, turnStatText } from './turns'
 import { finishedText, isSoundName, soundAsset, soundFor } from './sounds'
 import { DASHBOARD, DASHBOARD_COLUMNS, DASHBOARD_ROWS, MAX_HISTORY, drawDashboard } from './dashboard'
 import { GIT_PANE, GIT_ROWS, GIT_SHORTSTAT, GIT_STATUS, drawChanges, parseStatus } from './git'
-import { PICKER, PICKER_COLUMNS, drawPicker, pickerRows } from './picker'
+import { PICKER, PICKER_COLUMNS, drawPicker, pickerRowOf, pickerRows } from './picker'
 import { BUILDER, BUILDER_COLUMNS, BUILDER_ROWS, drawBuilder } from './builder'
 import { MAX_CUSTOM_SKINS, isKnownSkin, parseRecipe, resolveSkin, skinEntries, slugFor, themeName } from './custom'
 import { cleanLine, stripControls } from './text'
@@ -73,6 +73,8 @@ const glyphsAtom = atom({ plugin: 'cc-skins', key: 'glyphs' } as const, 'nerd' a
 const barStyleAtom = atom({ plugin: 'cc-skins', key: 'barStyle' } as const, 'powerline' as BarStyle)
 /** The skin the picker's focus rests on; the bar draws it until the picker closes. */
 const previewAtom = atom({ plugin: 'cc-skins', key: 'preview' } as const, null as string | null)
+/** The skin a first press armed; a second press of it picks it. */
+const armedAtom = atom({ plugin: 'cc-skins', key: 'armed' } as const, null as string | null)
 const isChatStyledAtom = atom({ plugin: 'cc-skins', key: 'isChatStyled' } as const, true)
 /** The prompts sent this session, newest last, so a card can say when. */
 const promptsAtom = atom({ plugin: 'cc-skins', key: 'prompts' } as const, NO_PROMPTS)
@@ -235,8 +237,10 @@ const applySkin = async ($: EngineInterface, id: string): Promise<string> => {
 const currentSkin = async ($: EngineInterface) => resolveSkin(await read($, skinAtom), await read($, customSkinsAtom))
 
 /** Opens the skin picker with the keyboard in it: ↑↓ previews, Enter or a hotkey picks, Escape closes. */
-const openPicker = async ($: EngineInterface) =>
-  $.ui.open({
+const openPicker = async ($: EngineInterface) => {
+  await update($, armedAtom, () => null)
+
+  return $.ui.open({
     id: PICKER,
     title: 'Pick a skin',
     focus: true,
@@ -244,11 +248,30 @@ const openPicker = async ($: EngineInterface) =>
     rows: pickerRows(skinEntries(await read($, customSkinsAtom))),
     columns: PICKER_COLUMNS,
   })
+}
+
+/**
+ * A press on a skin's row (a click, its key, Enter): the first previews it
+ * and arms it, the next press of the same skin picks it. The mouse has no
+ * hover a plugin hears of, so a click is how it previews.
+ */
+const pressSkin = async ($: EngineInterface, id: string) => {
+  if ((await read($, armedAtom)) === id) {
+    await update($, armedAtom, () => null)
+    await chooseSkin($, id)
+
+    return
+  }
+  await update($, armedAtom, () => id)
+  await update($, previewAtom, () => id)
+  await $.ui.focus({ requestId: PICKER, key: id }).catch(() => undefined)
+}
 
 /** A pick in the picker: switch, close it, and say so in a toast, since no command line shows it. */
 const chooseSkin = async ($: EngineInterface, id: string) => {
   await applySkin($, id)
   await update($, previewAtom, () => null)
+  await update($, armedAtom, () => null)
   await $.ui.close({ id: PICKER })
   const theme = themeName(id)
   const label = resolveSkin(id, await read($, customSkinsAtom)).label
@@ -1105,9 +1128,33 @@ export const register: Register = on => {
         current,
         previewed: (await read($, previewAtom)) ?? current,
       },
-      id => void chooseSkin($, id),
+      id => void pressSkin($, id),
     )
   })
+
+  on('ui.scroll', { requestId: PICKER }, async ($, e, next) => {
+    // Up and down, a row at a time, walk the skins instead of the window: the
+    // one landed on previews and is armed, so Enter picks it. Pages and Home
+    // and End still scroll, the window following the row walked onto.
+    if (e.origin.kind !== 'person' || Math.abs(e.by) !== 1) {
+      return next(e)
+    }
+    const entries = skinEntries(await read($, customSkinsAtom))
+    const ids = entries.map(entry => entry.id)
+    const from = Math.max(0, ids.indexOf((await read($, previewAtom)) ?? (await read($, skinAtom))))
+    const target = ids[Math.min(ids.length - 1, Math.max(0, from + Math.sign(e.by)))]
+    if (target === undefined) {
+      return {}
+    }
+    await update($, previewAtom, () => target)
+    await update($, armedAtom, () => target)
+    await $.ui.focus({ requestId: PICKER, key: target }).catch(() => undefined)
+    const row = pickerRowOf(entries, target)
+    const top = Math.max(0, e.offset - e.by)
+    const offset = row < top ? row : row >= top + e.bodyRows ? row - e.bodyRows + 1 : top
+
+    return next({ ...e, offset })
+  }).catch(($, e, next) => next(e))
 
   on('ui.render', { component: 'Pane', requestId: BUILDER }, async ($, e) => {
     const draft = await read($, draftAtom)
@@ -1153,6 +1200,7 @@ export const register: Register = on => {
   on('ui.close', { id: PICKER }, async ($, e, next) => {
     const result = await next(e)
     await update($, previewAtom, () => null)
+    await update($, armedAtom, () => null)
 
     return result
   }).catch(($, e, next) => next(e))
