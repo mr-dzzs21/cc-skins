@@ -1465,6 +1465,7 @@ describe('panes that cannot show', () => {
     mock.store(on)
     let reason = 'no-surface: no surface is attached'
     on('ui.open', () => ({ value: { isPlaced: false as const, reason } }))
+    on('config.list', () => ({ value: [MODEL_ROW] }))
     expect((await runSkin($, 'usage')).text).toBe('The usage dashboard opens in the interactive terminal: /context and /cost say much of it')
     reason = 'narrow'
     expect((await runSkin($, 'model')).text).toBe('The model picker needs a wider terminal: /model and /effort do the same')
