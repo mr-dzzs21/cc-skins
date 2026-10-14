@@ -1,4 +1,4 @@
-import type { ContextBreakdown, Glyphs, TurnStat, Usage, UsagePoint } from '../types'
+import type { ContextBreakdown, Glyphs, TurnStat, Usage, UsagePoint, WarnColors } from '../types'
 import { bar, formatCost, formatDuration, formatElapsed, formatPercent, formatReset, formatTokens, prettyModel } from './format'
 import { alertFor } from './hud'
 import { isStale } from './limits'
@@ -54,6 +54,7 @@ export type DashboardView = {
   isWorking: boolean
   /** When the limit windows were last read; null before any. */
   limitsAt: number | null
+  warnColors?: WarnColors
 }
 
 export type DashboardActions = { refresh: () => void; compact: () => void; liveLimits: () => void }
@@ -87,7 +88,7 @@ export const drawDashboard = (elements: Elements, skin: Skin, view: DashboardVie
   const meterWidth = Math.max(10, Math.min(30, view.columns - 34))
   const sparkWidth = Math.max(8, view.columns - 14)
   const levelColor = (percent: number) => {
-    const alert = alertFor(percent)
+    const alert = alertFor(percent, view.warnColors)
 
     return alert === undefined ? chat.assistant : skin.colors[alert].bg
   }

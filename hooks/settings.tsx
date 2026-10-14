@@ -135,6 +135,18 @@ const drawAlertsTab = (elements: Elements, skin: Skin, view: SettingsView, act: 
   ),
   drawHeading(elements, skin, 'compact-heading', 'Compact button', 'in the bar once the context is that full'),
   drawOnOff(elements, 'compact', view.prefs.compactButton, compactButton => act.pref({ compactButton })),
+  drawHeading(elements, skin, 'warn-colors-heading', 'Warning colors', 'context and limit blocks as they fill'),
+  drawChoice(
+    elements,
+    'warn-colors',
+    [
+      { value: 'all', label: 'Yellow 60 %, red 85 %' },
+      { value: 'danger', label: 'Red at 85 % only' },
+      { value: 'off', label: 'Off' },
+    ],
+    view.prefs.warnColors,
+    warnColors => act.pref({ warnColors }),
+  ),
 ]
 
 /** The turn-line tab: what the line closing each turn adds after its duration. */

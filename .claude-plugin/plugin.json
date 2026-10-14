@@ -1,6 +1,6 @@
 {
   "name": "cc-skins",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Skins, a usage bar and quick controls for Claude Code in the terminal: 26 looks plus your own, model and effort, context and limits, cost, alerts and a usage dashboard.",
   "author": {
     "name": "mr-dzzs21",

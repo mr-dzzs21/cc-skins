@@ -50,6 +50,9 @@ export type BarItem =
   | 'resets'
   | 'gear'
 
+/** When a block turns a warning color: yellow at 60 % and red at 85 %, red at 85 % only, or never. */
+export type WarnColors = 'all' | 'danger' | 'off'
+
 /** The person's choices beyond what the bar shows; each feature reads its own. */
 export type Prefs = {
   /** Toast once a limit window or the context reaches this percent (and again at 95); 0 never. */
@@ -58,6 +61,8 @@ export type Prefs = {
   compactButton: boolean
   /** Whether the bar's pieces open what they show (the ⚙ always does). */
   clickable: boolean
+  /** When the context and limit blocks turn a warning color. */
+  warnColors: WarnColors
   /** What the line closing a turn adds after its duration. */
   turnCost: boolean
   turnTokens: boolean

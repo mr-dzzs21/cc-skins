@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.16.1
+
+- Warning colors are yours to set in the Alerts tab: yellow at 60 % and red at 85 % (as before), red at 85 % only, or off, the context and limit blocks then keeping the skin's colors. The bar, the header and the dashboard follow it.
+
 ## 0.16.0
 
 - Limits that stay current: a reading that may be behind (none from this session yet, or older than ten minutes) is marked `~49%`; a click on a limit, `/skin limits` or the dashboard's Live limits button reads them live, as `/usage` does, and puts them in the bar at once; sessions on the same machine share their freshest reading within a minute. The dashboard says when the limits were read.

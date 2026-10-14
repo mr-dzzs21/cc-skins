@@ -351,6 +351,7 @@ const readSample = async ($: EngineInterface, columns: number, isRoomy: boolean)
       hidden: await read($, hiddenAtom),
       effort: await read($, effortAtom),
       compactAt: null,
+      warnColors: (await read($, prefsAtom)).warnColors,
     },
     barStyle: await read($, barStyleAtom),
     columns,
@@ -1129,6 +1130,7 @@ export const register: Register = on => {
       effort: await read($, effortAtom),
       compactAt: await readCompactAt($),
       limitsStale: isStale(await read($, limitsAtAtom), await read($, nowAtom)),
+      warnColors: (await read($, prefsAtom)).warnColors,
     }
 
     return drawBar(
@@ -1167,6 +1169,7 @@ export const register: Register = on => {
         columns: e.props.bodyColumns,
         isWorking: await read($, busyAtom),
         limitsAt: await read($, limitsAtAtom),
+        warnColors: (await read($, prefsAtom)).warnColors,
       },
       { refresh: () => void readBreakdown($), compact: () => void compactNow($), liveLimits: () => refreshLimits($) },
     ),

@@ -5,6 +5,7 @@ export const DEFAULT_PREFS: Prefs = {
   alertAt: 80,
   compactButton: true,
   clickable: true,
+  warnColors: 'all',
   turnCost: true,
   turnTokens: false,
   turnTools: true,

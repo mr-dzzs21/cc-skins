@@ -4,7 +4,7 @@ import type { Engine } from 'claude-code/testing'
 import type { Usage } from '../types'
 import { IDLE_HINT, formatClock, sentAt } from '../hooks/chat'
 import { bar, formatDuration, formatElapsed, formatReset, formatTokens, prettyModel } from '../hooks/format'
-import { MAX_LEVEL, barPills, barWidth, fitPills, headerFor } from '../hooks/hud'
+import { MAX_LEVEL, alertFor, barPills, barWidth, fitPills, headerFor } from '../hooks/hud'
 import type { BarInput } from '../hooks/hud'
 import { SKIN_IDS, SKINS, pick } from '../hooks/skins'
 import { hotkeyFor, hotkeyRange } from '../hooks/picker'
@@ -2008,5 +2008,53 @@ describe('limits kept current', () => {
     const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
     expect(await limitsOn(band, / 80%/)).toBeDefined()
     await band.unmount()
+  })
+})
+
+describe('warning colors', () => {
+  test('yellow and red, red only, or none', () => {
+    expect([30, 72, 91].map(p => alertFor(p))).toEqual([undefined, 'warn', 'danger'])
+    expect([30, 72, 91].map(p => alertFor(p, 'danger'))).toEqual([undefined, undefined, 'danger'])
+    expect([30, 72, 91].map(p => alertFor(p, 'off'))).toEqual([undefined, undefined, undefined])
+  })
+
+  test('with them off the blocks keep the skin colors', () => {
+    const off = barPills({ ...RING, warnColors: 'off' }, 0)
+    const five = off.find(p => p.key === 'limit-five_hour')
+    const seven = off.find(p => p.key === 'limit-seven_day')
+    expect([five?.paint, seven?.paint]).not.toContainEqual(SKINS.ring.colors.warn)
+    expect([five?.paint, seven?.paint]).not.toContainEqual(SKINS.ring.colors.danger)
+    const red = barPills({ ...RING, warnColors: 'danger' }, 0)
+    expect(red.find(p => p.key === 'limit-five_hour')?.paint).not.toEqual(SKINS.ring.colors.warn)
+    expect(red.find(p => p.key === 'limit-seven_day')?.paint).toEqual(SKINS.ring.colors.danger)
+  })
+
+  test('the Alerts tab turns them off for the bar above the prompt', async ($, on) => {
+    mock.store(on)
+    mock.clock(on, { now: 0 })
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    on('ui.toast', () => ({ value: undefined }))
+    await $.session.measure({ context: { window: 200_000 }, rateLimits: [{ kind: 'five_hour', percentUsed: 74 }], changed: ['rateLimits'] })
+    const warn = SKINS.midnight.colors.warn.bg
+    const drawnWith = async () => {
+      const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
+      const tree = JSON.stringify(await band.drawn())
+      await band.unmount()
+
+      return tree.includes(warn)
+    }
+    expect(await drawnWith()).toBe(true)
+    const settings = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'bar-settings',
+      props: { ...PANE_PROPS, title: 'Settings' },
+    })
+    await settings.press({ key: 'tab-alerts' })
+    await settings.press({ key: 'warn-colors-off' })
+    await settings.unmount()
+    expect(await drawnWith()).toBe(false)
   })
 })

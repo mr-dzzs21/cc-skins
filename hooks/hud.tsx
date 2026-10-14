@@ -1,6 +1,6 @@
 import type { BoxProps, ButtonProps, ElementConstructor, RenderElement, TextProps } from 'claude-code'
 
-import type { BarItem, BarStyle, Glyphs, Usage } from '../types'
+import type { BarItem, BarStyle, Glyphs, Usage, WarnColors } from '../types'
 import { bar, formatCost, formatDuration, formatElapsed, formatPercent, formatReset, formatTokens, prettyModel } from './format'
 import type { Paint, Skin } from './skins'
 import { displayWidth } from './text'
@@ -66,14 +66,17 @@ export type BarInput = {
   compactAt: number | null
   /** Whether the limit windows' reading may be behind (none this session, or older than ten minutes). */
   limitsStale?: boolean
+  /** When the context and limit blocks turn a warning color; left out, yellow and red. */
+  warnColors?: WarnColors
 }
 
 const LIMIT_LABELS: Record<string, string> = { five_hour: '5h', seven_day: '7d', spend_limit: 'spend' }
 
 type Alert = 'warn' | 'danger'
 
-export const alertFor = (percent: number): Alert | undefined =>
-  percent >= 85 ? 'danger' : percent >= 60 ? 'warn' : undefined
+/** The warning a fill level calls for, as the person set the warning colors: none while calm, or with them off. */
+export const alertFor = (percent: number, mode: WarnColors = 'all'): Alert | undefined =>
+  mode === 'off' ? undefined : percent >= 85 ? 'danger' : percent >= 60 && mode !== 'danger' ? 'warn' : undefined
 
 /** A block before its color: the bar paints by place in the gradient, an alert over it. */
 type Block = { key: string; text: string; isBold?: boolean; alert?: Alert; press?: BarPress }
@@ -130,7 +133,7 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     pills.push({
       key: 'context',
       text: `${isNerd ? ICONS.context : 'ctx'} ${context === null ? '–' : meter(context) + formatPercent(context)}`,
-      alert: context === null ? undefined : alertFor(context),
+      alert: context === null ? undefined : alertFor(context, input.warnColors),
       press: 'usage',
     })
   }
@@ -156,7 +159,7 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     pills.push({
       key: `limit-${limit.kind}`,
       text: `${label} ${meter(limit.percentUsed)}${input.limitsStale === true ? '~' : ''}${formatPercent(limit.percentUsed)}${reset === '' ? '' : isNerd ? ` ${ICONS.reset} ${reset}` : ` (${reset})`}`,
-      alert: alertFor(limit.percentUsed),
+      alert: alertFor(limit.percentUsed, input.warnColors),
       press: 'limits',
     })
   })
@@ -345,7 +348,7 @@ export const headerFor = (input: BarInput, columns: number): Header => {
     stats.push({
       key: 'context',
       text: `${isNerd ? ICONS.context : 'ctx'} ${formatPercent(usage.contextPercent)}${tokens}`,
-      color: alertColor(skin, usage.contextPercent) ?? chat.user,
+      color: alertColor(skin, usage.contextPercent, input.warnColors) ?? chat.user,
       press: 'usage',
     })
   }
@@ -362,7 +365,7 @@ export const headerFor = (input: BarInput, columns: number): Header => {
     .map(limit => ({
       key: `limit-${limit.kind}`,
       text: `● ${LIMIT_LABELS[limit.kind] ?? limit.kind} ${input.limitsStale === true ? '~' : ''}${formatPercent(limit.percentUsed)}`,
-      color: alertColor(skin, limit.percentUsed) ?? chat.muted,
+      color: alertColor(skin, limit.percentUsed, input.warnColors) ?? chat.muted,
       press: 'limits' as const,
     }))
   if (isCompactDue(input)) {
@@ -405,8 +408,8 @@ const removeKey = (items: HeaderItem[], key: string) => {
 }
 
 /** A fill level's alert color, as text; undefined while calm. */
-const alertColor = (skin: Skin, percent: number): string | undefined => {
-  const alert = alertFor(percent)
+const alertColor = (skin: Skin, percent: number, mode?: WarnColors): string | undefined => {
+  const alert = alertFor(percent, mode)
 
   return alert === undefined ? undefined : skin.colors[alert].bg
 }
