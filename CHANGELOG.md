@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.15.7
+
+- A branch name is checked part by part between its slashes, as git checks it: a part ending in `.lock` (`feature.lock/test`), starting with `.` or empty is refused anywhere in the name, not only at its end.
+
 ## 0.15.6
 
 After a second review:

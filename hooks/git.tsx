@@ -54,15 +54,17 @@ export const parseStatus = (status: string, shortstat = ''): GitChanges => {
 /**
  * Whether a branch name is one git takes and the bar may show: any script,
  * but no control, format or space character, none of git's forbidden
- * `~ ^ : ? * [ \\`, no `..`, `@{`, `//` or component starting with `.`, not
- * starting or ending with `/` or `.`, not ending in `.lock`, at most 100 cells.
+ * `~ ^ : ? * [ \\`, no `..` or `@{`, not ending in `.`, and no part between
+ * slashes empty, starting with `.` or ending in `.lock`; at most 100 cells.
  */
 export const isBranchName = (name: string): boolean =>
-  name !== '' &&
   name !== '@' &&
   displayWidth(name) <= 100 &&
   !/[\p{Cc}\p{Cf}\s~^:?*[\\]/u.test(name) &&
-  !/\.\.|@\{|\/\/|\/\.|^[/.]|[/.]$|\.lock$/.test(name)
+  !/\.\.|@\{|\.$/.test(name) &&
+  name
+    .split('/')
+    .every(part => part !== '' && !part.startsWith('.') && !part.endsWith('.lock'))
 
 /** The color a change's code reads in: added green, deleted red, modified amber, untracked quiet. */
 const codeColor = (skin: Skin, code: string): string =>

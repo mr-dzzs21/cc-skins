@@ -1856,7 +1856,7 @@ describe('second review', () => {
     for (const name of ['main', 'feature/über', '修正/ui', 'release/é', 'release/1.2', 'fix-123_x']) {
       expect(isBranchName(name)).toBe(true)
     }
-    for (const name of ['', '@', 'a..b', 'a b', 'x~1', 'a:b', 'what?', 'st*r', 'br[a', 'back\\slash', '/x', 'x/', 'x.lock', '.hidden', 'a/.b', 'a//b', 'a@{1}', `x${String.fromCharCode(27)}`, 'a'.repeat(101)]) {
+    for (const name of ['', '@', 'a..b', 'a b', 'x~1', 'a:b', 'what?', 'st*r', 'br[a', 'back\\slash', '/x', 'x/', 'x.lock', 'feature.lock/test', 'a/b.lock/c', '.hidden', 'a/.b', 'a//b', 'x.', 'a@{1}', `x${String.fromCharCode(27)}`, 'a'.repeat(101)]) {
       expect(isBranchName(name)).toBe(false)
     }
   })
