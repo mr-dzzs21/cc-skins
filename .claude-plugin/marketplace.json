@@ -11,7 +11,7 @@
       "source": {
         "source": "url",
         "url": "https://github.com/mr-dzzs21/cc-skins.git",
-        "ref": "cc-skins--v0.19.1"
+        "ref": "cc-skins--v0.20.0"
       },
       "description": "Skins, a usage bar and quick controls for Claude Code: 40 looks (Catppuccin, Tokyo Night, Dracula, Nord and more) plus your own, model and effort, context and limits, cost, alerts and a usage dashboard."
     }
