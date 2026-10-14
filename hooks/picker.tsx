@@ -7,6 +7,7 @@ import { drawBar, drawPowerline, turnPills } from './hud'
 import type { BarInput } from './hud'
 import type { SkinEntry } from './custom'
 import type { Skin } from './skins'
+import { displayWidth, truncateCells } from './text'
 
 /** The pane `/skin` and a click on the bar open. */
 export const PICKER = 'skin-picker'
@@ -19,6 +20,12 @@ const SWATCH = 4
 
 /** The preview's sample exchange. */
 const SAMPLE = { prompt: 'count slowly to 5', reply: '1… 2… 3… 4… 5.', durationMs: 4_000 }
+
+/** A row's cells besides its description: hotkey, swatch, name and the tick. */
+const LABEL_CELLS = 10
+const ROW_CELLS = 3 + SWATCH * 2 + 1 + LABEL_CELLS + 1 + 2 + 1
+
+const padCells = (text: string, cells: number) => `${text}${' '.repeat(Math.max(0, cells - displayWidth(text)))}`
 
 const GROUP_HEADINGS: Record<SkinEntry['group'], string | undefined> = {
   bright: undefined,
@@ -141,9 +148,9 @@ export const drawPicker = (elements: Elements, view: PickerView, choose: (id: st
               </Text>
             ))}
             <Text color={skin.colors.blocks[0]?.bg} bold>
-              {` ${skin.label.padEnd(10)}`}
+              {` ${padCells(truncateCells(skin.label, LABEL_CELLS), LABEL_CELLS)} `}
             </Text>
-            <Text dimColor>{skin.description}</Text>
+            <Text dimColor>{truncateCells(skin.description, Math.max(8, view.columns - ROW_CELLS))}</Text>
             {isCurrent && <Text color={skin.chat.success}> ✓</Text>}
           </Button>,
         ]

@@ -115,7 +115,7 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     pills.push({ key: 'model', text: isNerd ? `${ICONS.model} ${text}` : text, isBold: true, press: 'model' })
   }
   if (branch !== null && hasBranch) {
-    pills.push({ key: 'branch', text: `${isNerd ? ICONS.branch : '⎇'} ${branch}`, press: 'branch' })
+    pills.push({ key: 'branch', text: `${glyphs === 'plain' ? '⎇' : ICONS.branch} ${branch}`, press: 'branch' })
   }
 
   const meter = (percent: number) =>
@@ -182,7 +182,7 @@ const cells = (text: string) => displayWidth(text)
 /** Cells the bar takes: each block padded by a space a side, plus the caps and arrows (the ⚙ not counted). */
 export const barWidth = (pills: Pill[], glyphs: Glyphs): number =>
   pills.reduce((sum, pill) => sum + cells(pill.text) + 2, 0) +
-  (glyphs === 'nerd' && pills.length > 0 ? pills.length + 1 : 0)
+  (glyphs !== 'plain' && pills.length > 0 ? pills.length + 1 : 0)
 
 /** The richest blocks that fit in `columns`; the coarsest when none does. */
 export const fitPills = (input: BarInput, columns: number): Pill[] => {
@@ -246,12 +246,12 @@ export const drawPowerline = (
   gear?: string,
 ) => {
   const { Box, Text, Button } = elements
-  const isNerd = glyphs === 'nerd'
+  const hasArrows = glyphs !== 'plain'
   const first = pills[0]
 
   return (
     <Box flexDirection="row" flexWrap="nowrap" overflow="hidden">
-      {isNerd && first !== undefined && (
+      {hasArrows && first !== undefined && (
         <Text key="open" color={first.paint.bg}>
           {POWERLINE.open}
         </Text>
@@ -267,7 +267,7 @@ export const drawPowerline = (
             {` ${pill.text} `}
           </Text>,
         )
-        if (!isNerd) {
+        if (!hasArrows) {
           return [block]
         }
 
@@ -334,7 +334,7 @@ export const headerFor = (input: BarInput, columns: number): Header => {
     stats.push({ key: 'session', text: `● Session ${formatElapsed(usage.startedAt, now)}`, color: chat.user })
   }
   if (branch !== null && shows('branch')) {
-    stats.push({ key: 'branch', text: `${isNerd ? ICONS.branch : '⎇'} ${branch}`, color: chat.user, press: 'branch' })
+    stats.push({ key: 'branch', text: `${glyphs === 'plain' ? '⎇' : ICONS.branch} ${branch}`, color: chat.user, press: 'branch' })
   }
   if (usage.contextPercent !== null && shows('context')) {
     const tokens = usage.contextTokens === null ? '' : ` · ${formatTokens(usage.contextTokens)}`

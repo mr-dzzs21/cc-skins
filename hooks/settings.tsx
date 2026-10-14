@@ -105,12 +105,13 @@ const drawLookTab = (elements: Elements, skin: Skin, view: SettingsView, act: Se
     view.barStyle,
     act.style,
   ),
-  drawHeading(elements, skin, 'glyphs-heading', 'Icons', 'powerline arrows need a Nerd Font'),
+  drawHeading(elements, skin, 'glyphs-heading', 'Icons', 'boxes or ◆ instead of icons? Arrows only'),
   drawChoice(
     elements,
     'glyphs',
     [
       { value: 'nerd', label: 'Nerd Font' },
+      { value: 'powerline', label: 'Arrows only' },
       { value: 'plain', label: 'Plain' },
     ],
     view.glyphs,

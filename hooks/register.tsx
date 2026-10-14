@@ -133,7 +133,7 @@ const TICK_MS = 60_000
 const FRAME_MS = 150
 const MAX_PROMPTS = 200
 
-const isGlyphs = (value: unknown): value is Glyphs => value === 'nerd' || value === 'plain'
+const isGlyphs = (value: unknown): value is Glyphs => value === 'nerd' || value === 'powerline' || value === 'plain'
 const isBarStyle = (value: unknown): value is BarStyle => value === 'powerline' || value === 'header'
 
 /** The figures a measurement carries; `startedAt` only `$.session.usage()` has, so it stays otherwise. */
@@ -626,7 +626,7 @@ const listSkins = (current: string, customs: readonly CustomSkin[]): string => {
     `/${COMMAND} opens the picker (or click the bar's first block) · /${COMMAND} <name> · /${COMMAND} next · colors live in /theme`,
     `/${COMMAND} model (or click the model) · /${COMMAND} bar (or click ⚙) · /${COMMAND} usage (or click the context) · /${COMMAND} changes (or click the branch)`,
     `/${COMMAND} show|hide <item>`,
-    `/${COMMAND} bar powerline|header · /${COMMAND} chat on|off · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|plain`,
+    `/${COMMAND} bar powerline|header · /${COMMAND} chat on|off · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|powerline|plain`,
     `/${COMMAND} create [name] · /${COMMAND} edit|delete|export <skin> · /${COMMAND} import <json>`,
   ].join('\n')
 }
@@ -655,7 +655,7 @@ const setUp = async ($: EngineInterface) => {
   await $.command.register({
     name: 'skin',
     description: 'Pick a cc-skins skin, or switch its bar, chat cards and glyphs',
-    argumentHint: '[list|<skin>|next|bar powerline|header|chat on|off|hud on|off|glyphs nerd|plain]',
+    argumentHint: '[list|<skin>|next|bar powerline|header|chat on|off|hud on|off|glyphs nerd|powerline|plain]',
   })
 
   const storedSkin = await $.store.get(STORE.skin)
@@ -974,12 +974,19 @@ export const register: Register = on => {
     }
     if (first === 'glyphs') {
       if (!isGlyphs(second)) {
-        return { text: `Usage: /${COMMAND} glyphs nerd|plain (nerd needs a Nerd Font, plain works in any font)` }
+        return {
+          text: `Usage: /${COMMAND} glyphs nerd|powerline|plain (nerd: arrows and icons, needs a Nerd Font; powerline: arrows and words, for fonts with Powerline symbols; plain: any font)`,
+        }
       }
       await applyGlyphs($, second)
 
       return {
-        text: second === 'nerd' ? 'Glyphs → nerd: powerline arrows and icons.' : 'Glyphs → plain: no special characters.',
+        text:
+          second === 'nerd'
+            ? 'Glyphs → nerd: powerline arrows and icons.'
+            : second === 'powerline'
+              ? 'Glyphs → powerline: arrows, and short words where the icons were.'
+              : 'Glyphs → plain: no special characters.',
       }
     }
     if (first === 'next') {

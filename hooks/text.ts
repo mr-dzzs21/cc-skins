@@ -42,6 +42,22 @@ export const displayWidth = (text: string): number => {
   return width
 }
 
+/** The text cut to at most `cells` terminal cells, an ellipsis where it was cut. */
+export const truncateCells = (text: string, cells: number): string => {
+  if (displayWidth(text) <= cells) {
+    return text
+  }
+  let out = ''
+  for (const char of text) {
+    if (displayWidth(`${out}${char}`) > cells - 1) {
+      break
+    }
+    out += char
+  }
+
+  return cells <= 0 ? '' : `${out}…`
+}
+
 /** The text with its control and format characters taken out, nothing else changed (for text being typed). */
 export const stripControls = (text: string): string => text.replace(CONTROLS, '')
 

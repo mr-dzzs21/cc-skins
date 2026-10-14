@@ -26,8 +26,12 @@ export type SkinId =
   | 'peach'
   | 'snow'
 
-/** `nerd`: powerline arrows and icons (Nerd Font); `plain`: any monospace font. */
-export type Glyphs = 'nerd' | 'plain'
+/**
+ * `nerd`: powerline arrows and icons (a Nerd Font); `powerline`: the arrows
+ * and the branch mark with short words for the icons (a font with Powerline
+ * symbols, as Cascadia Code has); `plain`: any monospace font.
+ */
+export type Glyphs = 'nerd' | 'powerline' | 'plain'
 
 /** The band above the prompt: colored powerline blocks, or a quiet header line. */
 export type BarStyle = 'powerline' | 'header'

@@ -9,7 +9,7 @@
     {
       "name": "cc-skins",
       "source": "./",
-      "description": "Switchable skins for Claude Code in the terminal: color themes, themed spinner and turn lines, and a live usage HUD."
+      "description": "Skins, a usage bar and quick controls for Claude Code in the terminal: 26 looks plus your own, model and effort, context and limits, cost, alerts and a usage dashboard."
     }
   ]
 }

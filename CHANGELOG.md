@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.3
+
+- A third glyph mode, `powerline`: the arrows and the branch mark stay, short words (`ctx`, `5h`, `7d`) take the icons' place. For fonts with Powerline symbols but no Nerd Font icons, as Windows Terminal's Cascadia Code. In `/skin glyphs` and the Look tab (Arrows only).
+- The skin picker cuts names and descriptions to the pane's width, counted in terminal cells, instead of wrapping them onto the next row.
+- The plugin's description (as `/plugin install` shows it) says what it does now.
+
 ## 0.15.2
 
 After a review:

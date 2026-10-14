@@ -90,11 +90,11 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 | `/skin bar powerline` / `/skin bar header` | Colored powerline blocks, or a quiet header line (session time, context, cost, limit badges) |
 | `/skin chat off` / `/skin chat on` | Turns the chat cards off or on |
 | `/skin hud off` / `/skin hud on` | Hides or shows the usage bar |
-| `/skin glyphs nerd` / `/skin glyphs plain` | Powerline arrows and icons (needs a [Nerd Font](https://www.nerdfonts.com)), or plain blocks for any font |
+| `/skin glyphs nerd` / `powerline` / `plain` | Powerline arrows and icons (needs a [Nerd Font](https://www.nerdfonts.com)); arrows with short words for the icons (fonts with Powerline symbols, such as Cascadia Code on Windows); or plain blocks for any font |
 
 Your choice is remembered across sessions. Colors are picked in `/theme` (look for `cc-skins · …`): Claude Code keeps the theme yours to choose, so a plugin can't switch it for you. Skins and themes mix freely. The bar collapses with the `[-]` at its right edge.
 
-If you see boxes or question marks in the bar, your font has no powerline glyphs: run `/skin glyphs plain`, or install a Nerd Font (the MesloLGS NF that Powerlevel10k uses works).
+If the bar shows boxes, `◆` or question marks where icons should be, your font has the powerline arrows but no Nerd Font icons: run `/skin glyphs powerline` (or `plain` for no arrows either), or install a Nerd Font (MesloLGS NF, which Powerlevel10k uses, or CaskaydiaCove Nerd Font on Windows).
 
 The 5h and 7d meters show up on Pro and Max plans once the first response of a session arrives. With an API key you see context and cost.
 

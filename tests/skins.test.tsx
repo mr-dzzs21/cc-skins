@@ -17,7 +17,7 @@ import { sparkline, turnTotals } from '../hooks/dashboard'
 import { ACCENTS, buildSkin, parseRecipe, slugFor } from '../hooks/custom'
 import { contrast } from '../hooks/color'
 import { parseStatus } from '../hooks/git'
-import { cleanLine, displayWidth, stripControls } from '../hooks/text'
+import { cleanLine, displayWidth, stripControls, truncateCells } from '../hooks/text'
 import { todosOf } from '../hooks/chat'
 
 const MINUTE = 60_000
@@ -310,7 +310,7 @@ describe('glyphs', () => {
 
   test('/skin glyphs with no choice explains itself', async ($, on) => {
     mock.store(on)
-    expect((await runSkin($, 'glyphs')).text).toContain('nerd|plain')
+    expect((await runSkin($, 'glyphs')).text).toContain('nerd|powerline|plain')
   })
 })
 
@@ -1639,4 +1639,53 @@ describe('security', () => {
       await band.unmount()
     })
   }
+})
+
+describe('arrows without icons', () => {
+  test('powerline glyphs keep the arrows and the branch mark, and use words for the icons', () => {
+    const pills = barPills({ ...RING, glyphs: 'powerline' }, 0)
+    expect(pills.find(p => p.key === 'skin')?.text).toBe(`${SKINS.ring.glyph} RING`)
+    expect(pills.find(p => p.key === 'model')?.text).toBe('Opus 5.5')
+    expect(pills.find(p => p.key === 'context')?.text).toBe('ctx ■■□□□ 34%')
+    expect(pills.find(p => p.key === 'limit-five_hour')?.text).toMatch(/^5h /)
+    expect(pills.find(p => p.key === 'branch')?.text).toBe('\ue0a0 main')
+    expect(pills.every(p => !/[\uf000-\uf8ff]/.test(p.text))).toBe(true)
+    expect(barWidth(pills, 'powerline')).toBe(barWidth(pills, 'plain') + pills.length + 1)
+  })
+
+  test('/skin glyphs powerline draws arrows and words', async ($, on) => {
+    mock.store(on)
+    mock.clock(on, { now: 0 })
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    await $.session.measure({ context: { window: 200_000, tokens: 68_000, percent: 34 }, rateLimits: [], changed: ['context'] })
+    expect((await runSkin($, 'glyphs powerline')).text).toContain('Glyphs → powerline')
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await band.find({ type: 'Text', text: /\ue0b0|\ue0b4/ })).toBeDefined()
+    expect(await band.find({ type: 'Text', text: /ctx/ })).toBeDefined()
+    await band.unmount()
+  })
+})
+
+describe('picker rows', () => {
+  test('text is cut to its cells with an ellipsis', () => {
+    expect(truncateCells('Deep navy cards', 9)).toBe('Deep nav…')
+    expect(truncateCells('short', 9)).toBe('short')
+    expect(truncateCells('日本語のテキスト', 7)).toBe('日本語…')
+    expect(displayWidth(truncateCells('日本語のテキスト', 7))).toBeLessThanOrEqual(7)
+  })
+
+  test('a narrow picker cuts long descriptions instead of wrapping them', async ($, on) => {
+    mock.store(on)
+    const picker = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'skin-picker',
+      props: { ...PANE_PROPS, bodyColumns: 60, placement: 'dock' as const },
+    })
+    expect(await picker.find({ type: 'Text', text: /Deep navy cards, Claude in orange…/ })).toBeDefined()
+    expect(await picker.find({ type: 'Text', text: /^Deep navy cards, Claude in orange, you in blue$/ })).toBeUndefined()
+    await picker.unmount()
+  })
 })
