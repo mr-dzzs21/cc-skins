@@ -658,6 +658,19 @@ const listSkins = (current: string, customs: readonly CustomSkin[]): string => {
 let toolsThisTurn = 0
 let costAtTurnStart: number | null = null
 
+/**
+ * The glyphs to start with before the person picks: Windows Terminal's own
+ * font has the powerline arrows but no Nerd Font icons, so Windows starts
+ * with the arrows and words; elsewhere, with the icons.
+ */
+const defaultGlyphs = async ($: EngineInterface): Promise<Glyphs> => {
+  try {
+    return (await $.env.get('OS')) === 'Windows_NT' ? 'powerline' : 'nerd'
+  } catch {
+    return 'nerd'
+  }
+}
+
 /** Ticks the HUD's clock once a minute; one at a time, across set-ups. */
 let ticker: Timer | undefined
 /** The session the plugin last set itself up for. */
@@ -698,7 +711,8 @@ const setUp = async ($: EngineInterface) => {
   const hidden = Array.isArray(storedHidden) ? storedHidden.filter(isBarItem) : [...DEFAULT_HIDDEN]
   await update($, customSkinsAtom, () => customs)
   await update($, skinAtom, () => (isKnownSkin(storedSkin, customs) ? storedSkin : DEFAULT_SKIN))
-  await update($, glyphsAtom, () => (isGlyphs(storedGlyphs) ? storedGlyphs : 'nerd'))
+  const glyphs = isGlyphs(storedGlyphs) ? storedGlyphs : await defaultGlyphs($)
+  await update($, glyphsAtom, () => glyphs)
   await update($, barStyleAtom, () => (isBarStyle(storedBarStyle) ? storedBarStyle : 'powerline'))
   await update($, isChatStyledAtom, () => isChatStyled)
   await update($, isHudHiddenAtom, () => isHudHidden)

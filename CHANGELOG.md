@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.15.5
+
+- A limit's reset reads with the Nerd Font refresh icon in `nerd` glyphs, and in brackets in `powerline` and `plain` (`49% (2h11m)`): the ↻ arrow drew as an odd glyph in some fonts, as Cascadia Code.
+- On Windows, cc-skins starts with `powerline` glyphs until you pick: Windows Terminal's font has the arrows but no Nerd Font icons, which drew as question marks.
+
 ## 0.15.4
 
 - In the skin picker the arrow keys walk the skins (they used to scroll the pane, or the screen), each one previewing in the picker and the real bar; Enter picks it. Pages, Home and End still scroll, and the window follows the row walked onto.

@@ -123,7 +123,7 @@ describe('powerline bar', () => {
     expect(pills.find(p => p.key === 'branch')?.text).toBe('\ue0a0 main')
     expect(pills.find(p => p.key === 'skin')?.text).toBe('\uf255 RING')
     expect(pills.find(p => p.key === 'context')?.text).toBe('\uf1c0 ■■□□□ 34%')
-    expect(pills.find(p => p.key === 'limit-five_hour')?.text).toContain('↻2h13m')
+    expect(pills.find(p => p.key === 'limit-five_hour')?.text).toContain('\uf021 2h13m')
   })
 
   test('blocks follow the gradient, and turn warn and danger colors as they fill', () => {
@@ -271,7 +271,7 @@ describe('engine', () => {
       const band = await $.ui.mount({ plugin: 'cc-skins', surface, component: 'AbovePrompt', props: bandProps(140) })
       expect(await band.find({ type: 'Text', text: /Opus 5\.5/ })).toBeDefined()
       expect(await band.find({ type: 'Text', text: /34%/ })).toBeDefined()
-      expect(await band.find({ type: 'Text', text: /↻2h13m/ })).toBeDefined()
+      expect(await band.find({ type: 'Text', text: /\uf021 2h13m/ })).toBeDefined()
       expect(await band.find({ type: 'Text', text: /\$1\.24/ })).toBeDefined()
       await band.unmount()
     }
@@ -1650,7 +1650,7 @@ describe('arrows without icons', () => {
     expect(pills.find(p => p.key === 'skin')?.text).toBe(`${SKINS.ring.glyph} RING`)
     expect(pills.find(p => p.key === 'model')?.text).toBe('Opus 5.5')
     expect(pills.find(p => p.key === 'context')?.text).toBe('ctx ■■□□□ 34%')
-    expect(pills.find(p => p.key === 'limit-five_hour')?.text).toMatch(/^5h /)
+    expect(pills.find(p => p.key === 'limit-five_hour')?.text).toBe('5h ■■■■□ 72% (2h13m)')
     expect(pills.find(p => p.key === 'branch')?.text).toBe('\ue0a0 main')
     expect(pills.every(p => !/[\uf000-\uf8ff]/.test(p.text))).toBe(true)
     expect(barWidth(pills, 'powerline')).toBe(barWidth(pills, 'plain') + pills.length + 1)
@@ -1773,5 +1773,42 @@ describe('picker keys and clicks', () => {
     await picker.press({ key: 'lava' })
     await picker.unmount()
     expect((await runSkin($, 'list')).text).toContain('current: lava')
+  })
+})
+
+describe('glyphs to start with', () => {
+  for (const [os, expected] of [['Windows_NT', 'powerline'], [undefined, 'nerd']] as const) {
+    test(`with nothing picked, ${os ?? 'macOS and Linux'} starts with ${expected} glyphs`, async ($, on) => {
+      mock.store(on)
+      mock.env(on, os === undefined ? {} : { OS: os })
+      const clock = mock.clock(on, { now: 0 })
+      on('session.id', () => ({ value: 'new' }))
+      on('command.register', ($, e) => ({ value: { command: e.name } }))
+      on('session.end', ($, e) => ({ sessionId: e.sessionId }))
+      on('session.model', () => ({ value: 'claude-opus-5-5' }))
+      on('session.usage', () => ({ value: { startedAt: 0, rateLimits: [], context: { window: 200_000, percent: 34, tokens: 68_000 } } }) as never)
+      await $.session.end({ reason: 'resume', sessionId: 'old', resume: { id: 'old' } })
+      await clock.advance(200)
+      const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+      expect((await band.find({ type: 'Text', text: /ctx/ })) !== undefined).toBe(expected === 'powerline')
+      expect((await band.find({ type: 'Text', text: /\ue0b0|\ue0b4/ })) !== undefined).toBe(true)
+      await band.unmount()
+    })
+  }
+
+  test('a pick outlasts the default', async ($, on) => {
+    mock.store(on, { glyphs: 'nerd' })
+    mock.env(on, { OS: 'Windows_NT' })
+    const clock = mock.clock(on, { now: 0 })
+    on('session.id', () => ({ value: 'new' }))
+    on('command.register', ($, e) => ({ value: { command: e.name } }))
+    on('session.end', ($, e) => ({ sessionId: e.sessionId }))
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.usage', () => ({ value: { startedAt: 0, rateLimits: [], context: { window: 200_000, percent: 34, tokens: 68_000 } } }) as never)
+    await $.session.end({ reason: 'resume', sessionId: 'old', resume: { id: 'old' } })
+    await clock.advance(200)
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+    expect(await band.find({ type: 'Text', text: /ctx/ })).toBeUndefined()
+    await band.unmount()
   })
 })

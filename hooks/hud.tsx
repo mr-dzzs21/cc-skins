@@ -18,6 +18,7 @@ const ICONS = {
   spend_limit: '\uf155',
   gear: '\uf013',
   compact: '\uf066',
+  reset: '\uf021',
 } as const
 
 /** What a press on the bar opens: the skin picker, the model and effort picker, the bar's settings. */
@@ -151,7 +152,7 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     const reset = hasResets ? formatReset(limit.resetsAt, now) : ''
     pills.push({
       key: `limit-${limit.kind}`,
-      text: `${label} ${meter(limit.percentUsed)}${formatPercent(limit.percentUsed)}${reset === '' ? '' : ` ↻${reset}`}`,
+      text: `${label} ${meter(limit.percentUsed)}${formatPercent(limit.percentUsed)}${reset === '' ? '' : isNerd ? ` ${ICONS.reset} ${reset}` : ` (${reset})`}`,
       alert: alertFor(limit.percentUsed),
       press: 'usage',
     })

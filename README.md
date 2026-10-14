@@ -3,7 +3,7 @@
 Skins, a usage bar and quick controls for [Claude Code](https://code.claude.com) in the terminal. Twenty-six looks (eight dark, six for light terminals) plus any you build; a bar above the prompt that keeps model, context, limits and cost in view and opens what you need with a click.
 
 ```
- ◆  Opus 5.5 · xhigh   main   ■■□□□ 34%   ■■■■□ 72% ↻2h13m   ■■■■■ 91% ↻3d4h  $1.24  ⚙
+ ◆  Opus 5.5 · xhigh   main   ■■□□□ 34%   ■■■■□ 72% ⟳ 2h13m   ■■■■■ 91% ⟳ 3d4h  $1.24  ⚙
 ╭──────────────────────────────────────────────────────────────────────────────────────╮
 │ >                                                                                    │
 ╰──────────────────────────────────────────────────────────────────────────────────────╯
@@ -90,7 +90,7 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 | `/skin bar powerline` / `/skin bar header` | Colored powerline blocks, or a quiet header line (session time, context, cost, limit badges) |
 | `/skin chat off` / `/skin chat on` | Turns the chat cards off or on |
 | `/skin hud off` / `/skin hud on` | Hides or shows the usage bar |
-| `/skin glyphs nerd` / `powerline` / `plain` | Powerline arrows and icons (needs a [Nerd Font](https://www.nerdfonts.com)); arrows with short words for the icons (fonts with Powerline symbols, such as Cascadia Code on Windows); or plain blocks for any font |
+| `/skin glyphs nerd` / `powerline` / `plain` | Powerline arrows and icons (needs a [Nerd Font](https://www.nerdfonts.com)); arrows with short words for the icons and resets in brackets (fonts with Powerline symbols, such as Cascadia Code: the default on Windows until you pick); or plain blocks for any font |
 
 Your choice is remembered across sessions. Colors are picked in `/theme` (look for `cc-skins · …`): Claude Code keeps the theme yours to choose, so a plugin can't switch it for you. Skins and themes mix freely. The bar collapses with the `[-]` at its right edge.
 
