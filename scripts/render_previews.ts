@@ -1,10 +1,9 @@
 /**
- * Draws the README's pictures from the plugin's own code, so they show what
- * the bar really draws: `docs/hero.svg` (a terminal cycling through a few
- * skins: a chat, a turn line, the bar, the prompt) and `docs/skins.svg` (every
- * built-in skin's bar). Blocks, colors and text come from `barPills` and
- * `turnPills`; the powerline caps and arrows are drawn as shapes, so the
- * pictures need no Nerd Font.
+ * Draws the README's drawn pictures from the plugin's own code:
+ * `docs/skins.svg`, every built-in skin's bar from `barPills`, its caps and
+ * arrows drawn as shapes so it needs no Nerd Font, and `docs/banner.svg`, the
+ * wordmark in the skins' colors. (The screenshots come from a real session:
+ * scripts/screens/.)
  *
  *     npx -y tsx@4.19.2 scripts/render_previews.ts
  *
@@ -16,7 +15,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import type { BarInput, Pill } from '../hooks/hud'
-import { barPills, turnPills } from '../hooks/hud'
+import { barPills } from '../hooks/hud'
 import type { Skin } from '../hooks/skins'
 import { SKINS } from '../hooks/skins'
 import { displayWidth } from '../hooks/text'
@@ -111,99 +110,53 @@ const barInput = (skin: Skin, hidden: BarInput['hidden']): BarInput => ({
   compactAt: null,
 })
 
-/** A rounded card frame `cells` wide and `rows` high, as Ink draws `borderStyle="round"`. */
-const card = (x: number, y: number, cells: number, rows: number, color: string) =>
-  `<rect x="${px(x + CELL / 2)}" y="${px(y + ROW / 2)}" width="${px((cells - 1) * CELL)}" height="${px((rows - 1) * ROW)}" rx="7" fill="none" stroke="${color}" stroke-width="1.4"/>`
+/** The wordmark's letters, each on a block in a skin's color: Ring's gold to Nebula's violet to Aurora's teal. */
+const BANNER_BLOCKS: readonly (readonly [Skin['id'], number])[] = [
+  ['ring', 0], ['ring', 1], ['ring', 2], ['neon', 0], ['neon', 1], ['nebula', 0], ['abyss', 0], ['aurora', 0],
+]
 
-/** A card's head: an icon on a badge, a bold name, a quiet note. */
-const cardHead = (x: number, y: number, skin: Skin, head: { icon: string; name: string; color: string; note: string }) => {
-  const badge = ` ${head.icon} `
-  const badgeWidth = displayWidth(badge) * CELL
-
-  return [
-    `<rect x="${px(x)}" y="${y}" width="${px(badgeWidth)}" height="${ROW}" fill="${skin.chat.border}"/>`,
-    text(x, y, badge, head.color, true),
-    text(x + badgeWidth, y, ` ${head.name}`, head.color, true),
-    text(x + badgeWidth + displayWidth(` ${head.name}`) * CELL, y, `  ${head.note}`, skin.chat.muted),
-  ].join('')
-}
-
-/** One skin's frame of the hero: a short chat, its turn line, the bar, the prompt and its hint. */
-const heroFrame = (skin: Skin, columns: number, top: number, left: number): string => {
-  const theme = JSON.parse(readFileSync(join(ROOT, 'themes', `${skin.id}.json`), 'utf8')) as { overrides: Record<string, string> }
-  const promptBorder = theme.overrides.promptBorder ?? skin.chat.border
-  const { fg } = terminalOf(skin)
-  const width = columns - 2
-  const at = (row: number) => top + row * ROW
-  const inner = left + 2 * CELL
+/**
+ * The README's banner: `cc-skins` as a powerline of eight blocks in the
+ * skins' own colors, the tagline under it.
+ */
+const renderBanner = (): string => {
+  const width = 960
+  const height = 250
+  const block = 76
+  const arrow = 26
+  const tall = 84
+  const letters = [...'cc-skins']
+  const paints = BANNER_BLOCKS.map(([id, index]) => SKINS[id].colors.blocks[index] ?? { bg: '#444444', fg: '#ffffff' })
+  const total = letters.length * block + (letters.length + 1) * arrow
+  let x = (width - total) / 2
+  const y = 40
   const parts: string[] = []
-
-  parts.push(card(left, at(0), width, 4, skin.chat.border))
-  parts.push(cardHead(inner, at(1), skin, { icon: '❯', name: 'You', color: skin.chat.user, note: '14:23' }))
-  parts.push(text(inner + 4 * CELL, at(2), 'Add a dark mode switch to the settings page', fg))
-
-  parts.push(card(left, at(4), width, 5, skin.chat.border))
-  parts.push(cardHead(inner, at(5), skin, { icon: skin.glyph, name: 'CLAUDE', color: skin.chat.assistant, note: 'Opus 5.5' }))
-  parts.push(`<rect x="${px(inner + CELL)}" y="${at(6) + 2}" width="2.5" height="${ROW * 2 - 4}" fill="${skin.chat.assistant}"/>`)
-  parts.push(text(inner + 3 * CELL, at(6), 'Added the switch to Settings › Appearance; it follows', fg))
-  parts.push(text(inner + 3 * CELL, at(7), 'the system until you pick, and the choice is saved.', fg))
-
-  const word = skin.turn.words[0] ?? 'Done'
-  parts.push(powerline(turnPills(skin, word, 12_000, 'powerline', '$0.04 · 3 tools'), left, at(10)).svg)
-
-  parts.push(powerline(barPills(barInput(skin, []), 0), left, at(12)).svg)
-
-  parts.push(card(left, at(13), width, 3, promptBorder))
-  parts.push(text(inner, at(14), '>', fg, true))
-  parts.push(`<rect x="${px(inner + 2 * CELL)}" y="${at(14) + 3}" width="${px(CELL)}" height="${ROW - 6}" fill="${fg}" opacity=".75"/>`)
-  parts.push(text(left + CELL, at(16), '/ commands · @ files · ! shell · ↵ send · ? shortcuts', skin.chat.muted))
-
-  return parts.join('')
-}
-
-/** Skins the hero cycles through: a mix of vivid, dark and light. */
-const HERO_SKINS = ['ring', 'midnight', 'synthwave', 'nebula', 'paper', 'neon', 'aurora', 'peach'] as const
-const HERO_SECONDS = 3
-/** The rows a hero frame takes. */
-const HERO_ROWS = 17
-
-const renderHero = (): string => {
-  const columns = 112
-  const pad = 18
-  const titleBar = 30
-  const width = Math.round(columns * CELL + pad * 2)
-  const height = titleBar + 10 + HERO_ROWS * ROW + pad
-  const cycle = HERO_SKINS.length * HERO_SECONDS
-  /** Each skin's share of the cycle; it stays in until the next has faded in over it, so nothing shows through. */
-  const share = 100 / HERO_SKINS.length
-
-  const frames = HERO_SKINS.map((id, index) => {
-    const skin = SKINS[id]
-    const { bg, fg } = terminalOf(skin)
-
-    return [
-      `<g class="frame${index === 0 ? ' first' : ''}" style="animation-delay:${index * HERO_SECONDS}s">`,
-      `<rect width="${width}" height="${height}" rx="12" fill="${bg}"/>`,
-      `<path d="M0 12a12 12 0 0 1 12-12h${width - 24}a12 12 0 0 1 12 12v${titleBar - 12}H0Z" fill="${fg}" opacity=".08"/>`,
-      `<text x="${width / 2}" y="20" fill="${skin.chat.muted}" text-anchor="middle" font-size="12">claude · cc-skins · ${escape(skin.label)}</text>`,
-      heroFrame(skin, columns, titleBar + 10, pad),
-      `</g>`,
-    ].join('')
+  const first = paints[0]
+  if (first !== undefined) {
+    parts.push(`<path d="M${px(x + arrow)} ${y}A${arrow} ${tall / 2} 0 0 0 ${px(x + arrow)} ${y + tall}Z" fill="${first.bg}"/>`)
+  }
+  x += arrow
+  letters.forEach((letter, index) => {
+    const paint = paints[index] ?? { bg: '#444444', fg: '#ffffff' }
+    const next = paints[index + 1]
+    parts.push(`<rect x="${px(x)}" y="${y}" width="${block + 0.5}" height="${tall}" fill="${paint.bg}"/>`)
+    parts.push(`<text x="${px(x + block / 2)}" y="${y + 60}" fill="${paint.fg}" font-size="58" font-weight="800" text-anchor="middle">${escape(letter)}</text>`)
+    x += block
+    parts.push(
+      next === undefined
+        ? `<path d="M${px(x)} ${y}A${arrow} ${tall / 2} 0 0 1 ${px(x)} ${y + tall}Z" fill="${paint.bg}"/>`
+        : `<rect x="${px(x)}" y="${y}" width="${arrow + 0.5}" height="${tall}" fill="${next.bg}"/><path d="M${px(x)} ${y}L${px(x + arrow)} ${y + tall / 2}L${px(x)} ${y + tall}Z" fill="${paint.bg}"/>`,
+    )
+    x += arrow
   })
 
   return [
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" font-family="${FONTS}" font-size="${FONT}" role="img" aria-label="Claude Code with cc-skins: chat cards, a turn line and the usage bar, in ${HERO_SKINS.length} skins">`,
-    `<style>`,
-    `.frame{opacity:0;animation:show ${cycle}s infinite backwards}`,
-    `.first{opacity:1}`,
-    `@keyframes show{0%{opacity:0}1%{opacity:1}${px(share + 1)}%{opacity:1}${px(share + 1.5)}%{opacity:0}100%{opacity:0}}`,
-    `@media (prefers-reduced-motion:reduce){.frame{animation:none}}`,
-    `</style>`,
-    `<clipPath id="window"><rect width="${width}" height="${height}" rx="12"/></clipPath>`,
-    `<g clip-path="url(#window)">`,
-    ...frames,
-    `<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>`,
-    `</g>`,
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" font-family="${FONTS}" role="img" aria-label="cc-skins: skins and a clickable usage bar for Claude Code">`,
+    `<defs><linearGradient id="night" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0f1a"/><stop offset="1" stop-color="#1a0f2e"/></linearGradient></defs>`,
+    `<rect width="${width}" height="${height}" rx="18" fill="url(#night)"/>`,
+    ...parts,
+    `<text x="${width / 2}" y="${y + tall + 54}" fill="#e6edf3" font-size="25" font-weight="700" text-anchor="middle">Skins and a clickable usage bar for Claude Code</text>`,
+    `<text x="${width / 2}" y="${y + tall + 88}" fill="#8b949e" font-size="16" text-anchor="middle">${Object.keys(SKINS).length} skins · model, context, limits and cost a click away · no network, no credentials</text>`,
     `</svg>`,
     '',
   ].join('\n')
@@ -257,6 +210,6 @@ const renderGallery = (): string => {
 }
 
 mkdirSync(join(ROOT, 'docs'), { recursive: true })
-writeFileSync(join(ROOT, 'docs/hero.svg'), renderHero())
+writeFileSync(join(ROOT, 'docs/banner.svg'), renderBanner())
 writeFileSync(join(ROOT, 'docs/skins.svg'), renderGallery())
-console.log(`docs/hero.svg: ${HERO_SKINS.length} skins · docs/skins.svg: ${Object.keys(SKINS).length} skins`)
+console.log(`docs/banner.svg · docs/skins.svg: ${Object.keys(SKINS).length} skins`)

@@ -1,0 +1,41 @@
+name: Something doesn't work
+description: The bar, a pane, a skin or a command misbehaves
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what you expected
+      placeholder: "The 5h block shows 49% while /usage says 70%."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to make it happen
+      placeholder: "1. /skin ring\n2. click the model\n3. …"
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: "`claude --version` and the cc-skins version (`claude plugin list`)"
+      placeholder: "Claude Code 2.1.299, cc-skins 0.17.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: System
+      options: [macOS, Windows, Linux, other]
+    validations:
+      required: true
+  - type: input
+    id: terminal
+    attributes:
+      label: Terminal and font
+      placeholder: "Ghostty with MesloLGS NF; Windows Terminal with Cascadia Code"
+  - type: textarea
+    id: screen
+    attributes:
+      label: A screenshot, if it helps
+      description: Check it shows nothing private (paths, names, your chat).

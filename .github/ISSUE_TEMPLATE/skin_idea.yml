@@ -1,0 +1,29 @@
+name: A skin idea
+description: A look you'd like built in
+labels: [skin]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      placeholder: "matrix"
+    validations:
+      required: true
+  - type: textarea
+    id: look
+    attributes:
+      label: The look
+      description: Its colors (as `#rrggbb` where you have them), dark, vivid or light, and its mood.
+      placeholder: "Green rain on black: #00ff41 on #0d0208, dark."
+    validations:
+      required: true
+  - type: textarea
+    id: words
+    attributes:
+      label: Spinner and turn-line words (optional)
+      placeholder: "Spinner: Decoding, Tracing, Jacking in · turn line: Unplugged in 3s"
+  - type: textarea
+    id: export
+    attributes:
+      label: Built it already? (optional)
+      description: "Made it with `/skin create`? Paste what `/skin export` copies."

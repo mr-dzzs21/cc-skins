@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="637" height="510" viewBox="0 0 637 510" font-family="'JetBrains Mono','SF Mono','Cascadia Code',Menlo,Consolas,'DejaVu Sans Mono',monospace" font-size="14" role="img" aria-label="/skin usage">
+<rect width="637" height="510" rx="12" fill="#08050f"/>
+<path d="M0 12a12 12 0 0 1 12-12h613a12 12 0 0 1 12 12v18H0Z" fill="#ece2ff" opacity=".08"/>
+<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
+<text x="318" y="20" fill="#ece2ff" opacity=".6" text-anchor="middle" font-size="12">/skin usage</text>
+<rect x="16.0" y="38.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="604.0" y="52.0" fill="#999999" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✕</text>
+<rect x="16.0" y="57.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="71.0" fill="#c084fc" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✧</text>
+<text x="32.8" y="71.0" fill="#ece2ff" font-weight="700" textLength="193.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh · main</text>
+<rect x="16.0" y="76.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="90.0" fill="#c084fc" font-weight="700" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Context</text>
+<rect x="16.0" y="95.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="109.0" fill="#7d7391" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">used</text>
+<text x="100.0" y="109.0" fill="#c084fc" textLength="277.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱ 4%</text>
+<text x="394.0" y="109.0" fill="#7d7391" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">41k</text>
+<rect x="16.0" y="114.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="128.0" fill="#7d7391" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">trend</text>
+<text x="100.0" y="128.0" fill="#67e8f9" textLength="16.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">▁▁</text>
+<rect x="16.0" y="133.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="32.8" y="147.0" fill="#7d7391" textLength="84.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Free space</text>
+<text x="226.0" y="147.0" fill="#888888" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">■■■■■■■■■</text>
+<text x="326.8" y="147.0" fill="#7d7391" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">926k</text>
+<rect x="16.0" y="152.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="32.8" y="166.0" fill="#7d7391" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">System tools</text>
+<text x="226.0" y="166.0" fill="#999999" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">■</text>
+<text x="335.2" y="166.0" fill="#7d7391" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">33k</text>
+<rect x="16.0" y="171.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="32.8" y="185.0" fill="#7d7391" textLength="151.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Autocompact buffer</text>
+<text x="226.0" y="185.0" fill="#999999" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">■</text>
+<text x="335.2" y="185.0" fill="#7d7391" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">33k</text>
+<rect x="16.0" y="190.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="32.8" y="204.0" fill="#7d7391" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Skills</text>
+<text x="226.0" y="204.0" fill="#ffc107" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">■</text>
+<text x="326.8" y="204.0" fill="#7d7391" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">4.9k</text>
+<rect x="16.0" y="209.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="32.8" y="223.0" fill="#7d7391" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">System prompt</text>
+<text x="226.0" y="223.0" fill="#888888" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">■</text>
+<text x="326.8" y="223.0" fill="#7d7391" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">2.3k</text>
+<rect x="16.0" y="228.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="32.8" y="242.0" fill="#7d7391" textLength="184.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">MCP server instruction</text>
+<text x="226.0" y="242.0" fill="#16a34a" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">■</text>
+<text x="335.2" y="242.0" fill="#7d7391" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">735</text>
+<rect x="16.0" y="247.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="261.0" fill="#c084fc" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Limits</text>
+<rect x="16.0" y="266.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="280.0" fill="#7d7391" textLength="92.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">as of 13:59</text>
+<rect x="16.0" y="285.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="299.0" fill="#7d7391" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5-hour</text>
+<text x="100.0" y="299.0" fill="#c084fc" textLength="285.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱ 42%</text>
+<text x="402.4" y="299.0" fill="#7d7391" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">resets in 2h12m</text>
+<rect x="16.0" y="304.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="318.0" fill="#7d7391" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7-day</text>
+<text x="100.0" y="318.0" fill="#c084fc" textLength="285.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">▰▰▰▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱ 23%</text>
+<text x="402.4" y="318.0" fill="#7d7391" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">resets in 3d4h</text>
+<rect x="16.0" y="323.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="337.0" fill="#c084fc" font-weight="700" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Cost</text>
+<rect x="16.0" y="342.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="356.0" fill="#7d7391" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">session</text>
+<text x="100.0" y="356.0" fill="#4ade80" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
+<text x="158.8" y="356.0" fill="#7d7391" textLength="226.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⌀ $0.12 per turn  max $0.12</text>
+<rect x="16.0" y="361.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="375.0" fill="#7d7391" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">per turn</text>
+<text x="100.0" y="375.0" fill="#4ade80" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">█</text>
+<rect x="16.0" y="380.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="394.0" fill="#c084fc" font-weight="700" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Session</text>
+<rect x="16.0" y="399.0" width="596.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="413.0" fill="#7d7391" textLength="470.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">4m running · 1 turn · 1 tool call · 82k tokens · last 5s</text>
+<rect x="16.0" y="418.0" width="605.2" height="19.4" fill="#262626"/>
+<rect x="16.0" y="437.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="451.0" fill="#ece2ff" font-weight="700" textLength="92.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[ Refresh ]</text>
+<text x="116.8" y="451.0" fill="#ece2ff" font-weight="700" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[ Live limits ]</text>
+<text x="251.2" y="451.0" fill="#ece2ff" font-weight="700" textLength="92.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[ Compact ]</text>
+<rect x="16.0" y="456.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="470.0" fill="#7d7391" textLength="327.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Esc closes · /skin usage opens it again</text>
+<rect x="16.0" y="475.0" width="605.2" height="19.4" fill="#262626"/>
+</svg>

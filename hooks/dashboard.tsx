@@ -80,6 +80,22 @@ export const turnTotals = (turns: readonly TurnStat[]) => {
  * windows, the cost and its trend per turn, the session's totals, then a
  * refresh and a compact button.
  */
+/** The session's totals in one line: `4m running · 1 turn · 1 tool call · 82k tokens · last 5s`. */
+export const sessionLine = (startedAt: number | null, turns: readonly TurnStat[], now: number): string => {
+  const totals = turnTotals(turns)
+  const plural = (count: number, one: string) => `${count} ${one}${count === 1 ? '' : 's'}`
+
+  return [
+    startedAt === null ? undefined : `${formatElapsed(startedAt, now)} running`,
+    plural(totals.count, 'turn'),
+    plural(totals.tools, 'tool call'),
+    totals.tokens === 0 ? undefined : `${formatTokens(totals.tokens)} tokens`,
+    totals.count === 0 ? undefined : `last ${formatDuration(turns.at(-1)?.durationMs ?? 0)}`,
+  ]
+    .filter(part => part !== undefined)
+    .join(' · ')
+}
+
 export const drawDashboard = (elements: Elements, skin: Skin, view: DashboardView, act: DashboardActions) => {
   const { Box, Text, Button } = elements
   const { usage, now } = view
@@ -187,15 +203,7 @@ export const drawDashboard = (elements: Elements, skin: Skin, view: DashboardVie
 
       {section('session-title', 'Session')}
       <Text key="session-totals" color={chat.muted} wrap="truncate-end">
-        {[
-          usage.startedAt === null ? undefined : `${formatElapsed(usage.startedAt, now)} running`,
-          `${totals.count} ${totals.count === 1 ? 'turn' : 'turns'}`,
-          `${totals.tools} tool calls`,
-          totals.tokens === 0 ? undefined : `${formatTokens(totals.tokens)} tokens`,
-          totals.count === 0 ? undefined : `last ${formatDuration(view.turns.at(-1)?.durationMs ?? 0)}`,
-        ]
-          .filter(part => part !== undefined)
-          .join(' · ')}
+        {sessionLine(usage.startedAt, view.turns, now)}
       </Text>
 
       <Box key="actions" flexDirection="row" columnGap={1} marginTop={1}>

@@ -4,7 +4,8 @@
 - every iTerm2 scheme is a well-formed property list
 - every Python script compiles
 - every built-in skin has its theme, its Ghostty scheme and its iTerm2 scheme
-- the README's pictures exist, and the skin gallery has every built-in skin (scripts/render_previews.ts draws them)
+- the README's pictures exist, and the skin gallery has every built-in skin (scripts/render_previews.ts
+  draws the gallery and the banner, scripts/screens/ records the screenshots)
 - the manifest's version is the changelog's newest
 
     python3 scripts/check_assets.py
@@ -40,7 +41,7 @@ for path in sorted(glob.glob('extras/terminal/iterm2/*.itermcolors')):
     except Exception as error:
         problems.append(f'{path}: not a property list ({error})')
 
-for path in sorted(glob.glob('scripts/*.py')):
+for path in sorted(glob.glob('scripts/**/*.py', recursive=True)):
     try:
         py_compile.compile(path, doraise=True)
     except py_compile.PyCompileError as error:
@@ -54,7 +55,9 @@ for skin in skins:
         check(os.path.isfile(path), f'{skin}: {path} is missing')
 
 gallery = open('docs/skins.svg', encoding='utf-8').read() if os.path.isfile('docs/skins.svg') else ''
-check(os.path.isfile('docs/hero.svg'), 'docs/hero.svg is missing: run scripts/render_previews.ts')
+for picture in ['banner.svg', 'hero.svg', 'social-preview.png'] + [f'screens/{name}.svg' for name in
+                ('picker', 'model', 'settings', 'alerts', 'dashboard', 'builder', 'changes', 'bar-header', 'bar-alerts')]:
+    check(os.path.isfile(f'docs/{picture}'), f'docs/{picture} is missing: see scripts/screens/README.md')
 for skin in skins:
     check(f'data-skin="{skin}"' in gallery, f'{skin}: not in docs/skins.svg, run scripts/render_previews.ts')
 

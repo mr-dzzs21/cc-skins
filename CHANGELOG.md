@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.2
+
+- The dashboard counts "1 tool call", not "1 tool calls".
+- A new README: a banner, real screenshots (an animated session in nine skins, every pane, both bar styles, the warning colors), an install guide with update, turn-off and uninstall, and answers to the usual questions. The screenshots are recorded from a real session by the tools in `scripts/screens/`.
+- Issue forms for bugs, skin ideas and feature ideas, and a contributing guide.
+
 ## 0.16.1
 
 - Warning colors are yours to set in the Alerts tab: yellow at 60 % and red at 85 % (as before), red at 85 % only, or off, the context and limit blocks then keeping the skin's colors. The bar, the header and the dashboard follow it.

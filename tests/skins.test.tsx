@@ -13,7 +13,7 @@ import { alertsFor } from '../hooks/alerts'
 import { DEFAULT_PREFS, readPrefs } from '../hooks/prefs'
 import { findTurnStat, turnStatText } from '../hooks/turns'
 import { finishedText, soundFor } from '../hooks/sounds'
-import { sparkline, turnTotals } from '../hooks/dashboard'
+import { sessionLine, sparkline, turnTotals } from '../hooks/dashboard'
 import { ACCENTS, buildSkin, parseRecipe, slugFor } from '../hooks/custom'
 import { contrast } from '../hooks/color'
 import { isBranchName, parseStatus } from '../hooks/git'
@@ -1242,6 +1242,13 @@ describe('usage dashboard', () => {
     const totals = turnTotals([turn(0.1, 2), turn(0.3, 1), turn(null, 0)])
     expect(totals).toMatchObject({ count: 3, tools: 3, tokens: 3000, costs: [0.1, 0.3], priciest: 0.3 })
     expect(Math.round((totals.average ?? 0) * 1000)).toBe(200)
+  })
+
+  test('the session line counts in the singular for one', () => {
+    const turn = (tools: number, durationMs: number) => ({ durationMs, tokens: 41_000, tools, costUsd: 0.06, costAtStart: 0 })
+    expect(sessionLine(0, [turn(1, 5_000)], 240_000)).toBe('4m running · 1 turn · 1 tool call · 41k tokens · last 5s')
+    expect(sessionLine(0, [turn(2, 1_000), turn(0, 3_000)], 60_000)).toBe('1m running · 2 turns · 2 tool calls · 82k tokens · last 3s')
+    expect(sessionLine(null, [], 0)).toBe('0 turns · 0 tool calls')
   })
 
   test('/skin usage opens it with the breakdown; it draws the context, limits, cost and breakdown', async ($, on) => {

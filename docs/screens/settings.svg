@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="586" height="358" viewBox="0 0 586 358" font-family="'JetBrains Mono','SF Mono','Cascadia Code',Menlo,Consolas,'DejaVu Sans Mono',monospace" font-size="14" role="img" aria-label="/skin bar">
+<rect width="586" height="358" rx="12" fill="#08050f"/>
+<path d="M0 12a12 12 0 0 1 12-12h562a12 12 0 0 1 12 12v18H0Z" fill="#ece2ff" opacity=".08"/>
+<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
+<text x="293" y="20" fill="#ece2ff" opacity=".6" text-anchor="middle" font-size="12">/skin bar</text>
+<rect x="16.0" y="38.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="553.6" y="52.0" fill="#999999" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✕</text>
+<rect x="16.0" y="57.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="71.0" fill="#b1b9f9" font-weight="700" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[ Bar ]</text>
+<text x="83.2" y="71.0" fill="#ece2ff" font-weight="700" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[ Look ]</text>
+<text x="158.8" y="71.0" fill="#ece2ff" font-weight="700" textLength="84.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[ Alerts ]</text>
+<text x="251.2" y="71.0" fill="#ece2ff" font-weight="700" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[ Turn line ]</text>
+<text x="368.8" y="71.0" fill="#ece2ff" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[ Sound ]</text>
+<rect x="16.0" y="76.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="90.0" fill="#c084fc" font-weight="700" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Show in the bar</text>
+<text x="158.8" y="90.0" fill="#7d7391" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Enter turns one on or off</text>
+<rect x="16.0" y="95.0" width="109.6" height="19.4" fill="#7d7391"/>
+<rect x="125.2" y="95.0" width="445.6" height="19.4" fill="#262626"/>
+<text x="16.0" y="109.0" fill="#262626" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[ ] Skin name</text>
+<rect x="16.0" y="114.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="128.0" fill="#4ade80" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[✓]</text>
+<text x="49.6" y="128.0" fill="#ece2ff" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Model</text>
+<rect x="16.0" y="133.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="147.0" fill="#4ade80" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[✓]</text>
+<text x="49.6" y="147.0" fill="#ece2ff" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Effort</text>
+<rect x="16.0" y="152.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="166.0" fill="#4ade80" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[✓]</text>
+<text x="49.6" y="166.0" fill="#ece2ff" textLength="84.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Git branch</text>
+<rect x="16.0" y="171.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="185.0" fill="#4ade80" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[✓]</text>
+<text x="49.6" y="185.0" fill="#ece2ff" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Context window</text>
+<rect x="16.0" y="190.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="204.0" fill="#4ade80" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[✓]</text>
+<text x="49.6" y="204.0" fill="#ece2ff" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5-hour limit</text>
+<rect x="16.0" y="209.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="223.0" fill="#4ade80" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[✓]</text>
+<text x="49.6" y="223.0" fill="#ece2ff" textLength="92.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7-day limit</text>
+<rect x="16.0" y="228.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="242.0" fill="#4ade80" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[✓]</text>
+<text x="49.6" y="242.0" fill="#ece2ff" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Cost</text>
+<rect x="16.0" y="247.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="261.0" fill="#4ade80" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[✓]</text>
+<text x="49.6" y="261.0" fill="#ece2ff" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Meters</text>
+<rect x="16.0" y="266.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="280.0" fill="#4ade80" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[✓]</text>
+<text x="49.6" y="280.0" fill="#ece2ff" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Reset countdowns</text>
+<rect x="16.0" y="285.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="299.0" fill="#4ade80" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[✓]</text>
+<text x="49.6" y="299.0" fill="#ece2ff" textLength="142.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Settings button ⚙</text>
+<rect x="16.0" y="304.0" width="554.8" height="19.4" fill="#262626"/>
+<text x="16.0" y="318.0" fill="#7d7391" textLength="478.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">↑↓ Tab · Enter · Esc closes · also /skin show|hide &lt;item&gt;</text>
+<rect x="16.0" y="323.0" width="554.8" height="19.4" fill="#262626"/>
+</svg>

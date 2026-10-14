@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="250" viewBox="0 0 960 250" font-family="'JetBrains Mono','SF Mono','Cascadia Code',Menlo,Consolas,'DejaVu Sans Mono',monospace" role="img" aria-label="cc-skins: skins and a clickable usage bar for Claude Code">
+<defs><linearGradient id="night" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0f1a"/><stop offset="1" stop-color="#1a0f2e"/></linearGradient></defs>
+<rect width="960" height="250" rx="18" fill="url(#night)"/>
+<path d="M85 40A26 42 0 0 0 85 124Z" fill="#ffd166"/>
+<rect x="85" y="40" width="76.5" height="84" fill="#ffd166"/>
+<text x="123" y="100" fill="#2b1d0e" font-size="58" font-weight="800" text-anchor="middle">c</text>
+<rect x="161" y="40" width="26.5" height="84" fill="#f4a259"/><path d="M161 40L187 82L161 124Z" fill="#ffd166"/>
+<rect x="187" y="40" width="76.5" height="84" fill="#f4a259"/>
+<text x="225" y="100" fill="#2b1d0e" font-size="58" font-weight="800" text-anchor="middle">c</text>
+<rect x="263" y="40" width="26.5" height="84" fill="#e5604d"/><path d="M263 40L289 82L263 124Z" fill="#f4a259"/>
+<rect x="289" y="40" width="76.5" height="84" fill="#e5604d"/>
+<text x="327" y="100" fill="#1f0a05" font-size="58" font-weight="800" text-anchor="middle">-</text>
+<rect x="365" y="40" width="26.5" height="84" fill="#f72585"/><path d="M365 40L391 82L365 124Z" fill="#e5604d"/>
+<rect x="391" y="40" width="76.5" height="84" fill="#f72585"/>
+<text x="429" y="100" fill="#0b0221" font-size="58" font-weight="800" text-anchor="middle">s</text>
+<rect x="467" y="40" width="26.5" height="84" fill="#b5179e"/><path d="M467 40L493 82L467 124Z" fill="#f72585"/>
+<rect x="493" y="40" width="76.5" height="84" fill="#b5179e"/>
+<text x="531" y="100" fill="#ffffff" font-size="58" font-weight="800" text-anchor="middle">k</text>
+<rect x="569" y="40" width="26.5" height="84" fill="#7e22ce"/><path d="M569 40L595 82L569 124Z" fill="#b5179e"/>
+<rect x="595" y="40" width="76.5" height="84" fill="#7e22ce"/>
+<text x="633" y="100" fill="#ffffff" font-size="58" font-weight="800" text-anchor="middle">i</text>
+<rect x="671" y="40" width="26.5" height="84" fill="#0e6e7a"/><path d="M671 40L697 82L671 124Z" fill="#7e22ce"/>
+<rect x="697" y="40" width="76.5" height="84" fill="#0e6e7a"/>
+<text x="735" y="100" fill="#ffffff" font-size="58" font-weight="800" text-anchor="middle">n</text>
+<rect x="773" y="40" width="26.5" height="84" fill="#0f766e"/><path d="M773 40L799 82L773 124Z" fill="#0e6e7a"/>
+<rect x="799" y="40" width="76.5" height="84" fill="#0f766e"/>
+<text x="837" y="100" fill="#ffffff" font-size="58" font-weight="800" text-anchor="middle">s</text>
+<path d="M875 40A26 42 0 0 1 875 124Z" fill="#0f766e"/>
+<text x="480" y="178" fill="#e6edf3" font-size="25" font-weight="700" text-anchor="middle">Skins and a clickable usage bar for Claude Code</text>
+<text x="480" y="212" fill="#8b949e" font-size="16" text-anchor="middle">26 skins · model, context, limits and cost a click away · no network, no credentials</text>
+</svg>
