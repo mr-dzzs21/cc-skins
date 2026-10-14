@@ -876,9 +876,10 @@ const listSkins = (current: string, customs: readonly CustomSkin[]): string => {
     '',
     `/${COMMAND} opens the picker (or click the bar's first block) · /${COMMAND} <name> · /${COMMAND} next · colors live in /theme`,
     `/${COMMAND} model (or click the model) · /${COMMAND} bar (or click ⚙) · /${COMMAND} usage (or click the context) · /${COMMAND} changes (or click the branch)`,
-    `/${COMMAND} show|hide <item>`,
+    `/${COMMAND} show|hide <item> · /${COMMAND} limits (live, as /usage)`,
     `/${COMMAND} bar powerline|header · /${COMMAND} chat on|off · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|powerline|plain`,
-    `/${COMMAND} create [name] · /${COMMAND} edit|delete|export <skin> · /${COMMAND} import <json>`,
+    `/${COMMAND} create [name] · /${COMMAND} color <piece> <color> · /${COMMAND} edit|delete|export <skin> · /${COMMAND} import <json>`,
+    `/${COMMAND} doctor: what cc-skins sees, when something looks wrong`,
   ].join('\n')
 }
 
