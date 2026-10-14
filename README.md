@@ -159,7 +159,7 @@ cc-skins needs Claude Code 2.1.295 or newer, and tells you when yours is older. 
 
 ## Help
 
-- **Nothing shows?** In a Claude Code that was already open, type `/reload-plugins`.
+- **Nothing shows?** In a Claude Code that was already open, type `/reload-plugins`. In Claude Desktop, the session must run on your computer, not in the cloud.
 - **Boxes or question marks instead of icons?** Type `/skin glyphs powerline`.
 - **Anything else?** `/skin doctor` shows what's wrong. Still stuck? [Open an issue](https://github.com/mr-dzzs21/cc-skins/issues/new?template=bug_report.yml) with its output.
 

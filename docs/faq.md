@@ -2,6 +2,10 @@
 
 [← cc-skins](../README.md) · [All docs](README.md)
 
+## No skins in Claude Desktop, or in a session on claude.ai
+
+cc-skins runs where Claude Code runs on your own computer: in the terminal, and in a Claude Desktop or VS Code session that runs on this computer. A **cloud** session runs on Anthropic's servers, where nothing you installed is present, so it has no `/skin` and no skins. Start the session on your computer instead (in Claude Desktop, pick the local environment when you start it), and install cc-skins on that computer. A session you open from the list to read back, or follow from another device, shows its text only: the bar and the cards are drawn live, in the window the session runs in.
+
 ## The bar doesn't show
 
 First, `claude --version`: cc-skins needs 2.1.295 or newer, and says so when it starts on an older one. The stable update channel can be a week or two behind: `/config` → Auto-update channel → latest (with Homebrew: the `claude-code@latest` cask), or `claude install latest`.
