@@ -120,8 +120,41 @@ export type CustomSkin = {
   label: string
   base: SkinId
   accent: string
-  style: 'dark' | 'vivid' | 'light'
+  /** `dark`, `vivid` and `light` make every color from the accent; `base` keeps the base skin's own. */
+  style: 'dark' | 'vivid' | 'light' | 'base'
+  /** Pieces colored one by one, over what the style makes: `#rrggbb` each. */
+  colors?: Partial<Record<ColorPart, string>>
 }
+
+/**
+ * The pieces a skin of one's own colors one by one: the bar's blocks (their
+ * ground; the text on them stays readable by itself), its warning colors, the
+ * turn line's blocks, and the chat's colors.
+ */
+export type ColorPart =
+  | 'skin'
+  | 'model'
+  | 'branch'
+  | 'context'
+  | 'fiveHour'
+  | 'sevenDay'
+  | 'cost'
+  | 'session'
+  | 'clock'
+  | 'version'
+  | 'warn'
+  | 'danger'
+  | 'turnWord'
+  | 'turnTime'
+  | 'turnStats'
+  | 'frame'
+  | 'you'
+  | 'claude'
+  | 'quiet'
+  | 'done'
+
+/** The skin builder's tabs: the basics, the bar's colors, the turn line's and chat's. */
+export type BuilderTab = 'basics' | 'bar' | 'chat'
 
 /** One changed file, as `git status --porcelain` lists it: its two-letter code and its path. */
 export type ChangedFile = { code: string; path: string }
@@ -195,6 +228,7 @@ declare module 'claude-code' {
       customSkins: CustomSkin[]
       /** The skin the builder holds while it is open. */
       draft: CustomSkin | null
+      builderTab: BuilderTab
       /** The repository's changes as the changes pane last read them, or why it could not. */
       gitChanges: GitChanges | null
       gitError: string | null

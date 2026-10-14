@@ -19,6 +19,7 @@ HERO = ['ring', 'synthwave', 'nebula', 'midnight', 'abyss', 'sakura', 'emerald',
 PANES = [('picker', 'panes', 'nebula', '/skin'), ('model', 'panes', 'nebula', '/skin model'),
          ('settings', 'panes', 'nebula', '/skin bar'), ('alerts', 'panes', 'nebula', '/skin alerts'),
          ('dashboard', 'panes', 'nebula', '/skin usage'), ('builder', 'panes', 'nebula', '/skin create'),
+         ('builder-colors', 'panes', 'nebula', '/skin color'),
          ('changes', 'frames', 'ring', '/skin changes')]
 
 
@@ -72,7 +73,7 @@ subprocess.run([sys.executable, os.path.join(os.path.dirname(__file__), 'animate
                 '--title', 'claude · cc-skins · {skin}'], check=True)
 
 for name, run, skin, title in PANES:
-    shot = load(run, name)
+    shot = load(run, {'builder-colors': 'colors'}.get(name, name))
     write(os.path.join(DOCS, 'screens', f'{name}.svg'),
           render(shot, skin, None, (pane_left(shot), shot['cols']), (), title, trim=True))
 

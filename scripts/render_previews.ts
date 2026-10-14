@@ -76,6 +76,10 @@ const powerline = (pills: readonly Pill[], x0: number, y: number): { svg: string
     const following = pills[index + 1]
     if (following === undefined) {
       parts.push(`<path d="M${px(x)} ${y}A${CELL} ${ROW / 2} 0 0 1 ${px(x)} ${y + ROW}Z" fill="${pill.paint.bg}"/>`)
+    } else if (following.paint.bg === pill.paint.bg) {
+      // two blocks of one color: a thin arrow in the text's color, as the bar draws it
+      parts.push(`<rect x="${px(x)}" y="${y}" width="${px(CELL + 0.5)}" height="${ROW}" fill="${pill.paint.bg}"/>`)
+      parts.push(`<path d="M${px(x + 1)} ${y + 2}L${px(x + CELL - 1)} ${y + ROW / 2}L${px(x + 1)} ${y + ROW - 2}" stroke="${pill.paint.fg}" stroke-width="1.2" fill="none"/>`)
     } else {
       parts.push(`<rect x="${px(x)}" y="${y}" width="${px(CELL + 0.5)}" height="${ROW}" fill="${following.paint.bg}"/>`)
       parts.push(`<path d="M${px(x)} ${y}L${px(x + CELL)} ${y + ROW / 2}L${px(x)} ${y + ROW}Z" fill="${pill.paint.bg}"/>`)

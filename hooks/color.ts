@@ -89,3 +89,53 @@ export const turnHue = (hex: string, degrees: number): string => {
 
   return toHex([(r1 + m) * 255, (g1 + m) * 255, (b1 + m) * 255])
 }
+
+/** Color names a person may type for a piece, in English and German, as `#rrggbb`. */
+const NAMED: Readonly<Record<string, string>> = {
+  red: '#e5484d', rot: '#e5484d',
+  orange: '#f76b15',
+  yellow: '#f5d90a', gelb: '#f5d90a',
+  gold: '#ffc53d',
+  lime: '#99d52a',
+  green: '#30a46c', grün: '#30a46c', gruen: '#30a46c',
+  mint: '#3dd9b4',
+  teal: '#12a594', türkis: '#12a594', tuerkis: '#12a594', turquoise: '#12a594',
+  cyan: '#00c2d7',
+  sky: '#7ce2fe',
+  blue: '#0090ff', blau: '#0090ff',
+  navy: '#1e3a8a',
+  indigo: '#3e63dd',
+  purple: '#8e4ec6', lila: '#8e4ec6', violet: '#6e56cf', violett: '#6e56cf',
+  magenta: '#d6409f',
+  pink: '#e93d82', rosa: '#f4a6c4', rose: '#f4a6c4',
+  coral: '#ff7f50', salmon: '#fa8072', lachs: '#fa8072',
+  brown: '#a18072', braun: '#a18072',
+  white: '#ffffff', weiß: '#ffffff', weiss: '#ffffff',
+  black: '#111111', schwarz: '#111111',
+  gray: '#8b8d98', grey: '#8b8d98', grau: '#8b8d98',
+  silver: '#c0c0c0', silber: '#c0c0c0',
+}
+
+/** The color names `parseColor` knows, for a hint. */
+export const COLOR_NAMES: readonly string[] = Object.keys(NAMED)
+
+/**
+ * A color as typed: `#rrggbb`, `rrggbb`, `#rgb`, or a name (`red`, `blau`);
+ * as `#rrggbb`, or undefined for anything else.
+ */
+export const parseColor = (typed: string): string | undefined => {
+  const value = typed.trim().toLowerCase()
+  const named = NAMED[value]
+  if (named !== undefined) {
+    return named
+  }
+  const hex = value.startsWith('#') ? value.slice(1) : value
+  if (/^[0-9a-f]{6}$/.test(hex)) {
+    return `#${hex}`
+  }
+  if (/^[0-9a-f]{3}$/.test(hex)) {
+    return `#${[...hex].map(digit => digit + digit).join('')}`
+  }
+
+  return undefined
+}

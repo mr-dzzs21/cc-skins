@@ -59,6 +59,8 @@ def shape(ch, x, y, fg):
         return f'<rect x="{x + 1:.1f}" y="{y:.1f}" width="2.4" height="{RH + 0.2}" fill="{fg}"/>'
     if ch == '':
         return f'<path d="M{x:.1f} {y:.1f}L{x + CW:.1f} {my:.1f}L{x:.1f} {y + RH:.1f}Z" fill="{fg}"/>'
+    if ch == '':  # the thin arrow between two blocks of one color
+        return f'<path d="M{x + 1:.1f} {y + 1:.1f}L{x + CW - 1:.1f} {my:.1f}L{x + 1:.1f} {y + RH - 1:.1f}" stroke="{fg}" stroke-width="1.2" fill="none"/>'
     if ch == '':
         return f'<path d="M{x + CW:.1f} {y:.1f}L{x:.1f} {my:.1f}L{x + CW:.1f} {y + RH:.1f}Z" fill="{fg}"/>'
     if ch == '':

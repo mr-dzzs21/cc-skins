@@ -56,11 +56,26 @@ Each skin changes:
 
 ## Your own skins
 
-`/skin create [name]` opens the builder: a name, the skin it starts from (its words, icon and sound), an accent (a swatch or any `#rrggbb`), and a style: dark (the accent fading into black), vivid (the accent across nearby hues) or light (for light terminals). The rest of the colors follow from the accent, every text kept readable. Your skins list under **Yours** in the picker; `/skin edit` and `/skin delete` change or remove them.
+`/skin create [name]` opens the builder, starting from the skin you wear, in three tabs:
+
+- **Basics:** a name, the skin it starts from (its words, icon and sound), an accent (a swatch or any `#rrggbb`), and a style: dark (the accent fading into black), vivid (the accent across nearby hues), light (for light terminals), or as it is (the base skin's own colors, untouched).
+- **Bar colors:** every block of the bar in a row, drawn in its colors, with a field for its own: skin block, model, branch, context, 5-hour and 7-day limits, cost, session time, clock, version, and the warning and alarm colors.
+- **Turn line and chat:** the turn line's word, time and cost, the card frames, your name, Claude's, quiet text and done ticks.
+
+Type a color name (`red`, `blue`, `gold`, or in German `rot`, `blau`, `grün`…) or `#rrggbb` and press Enter; an empty field gives the piece back to the style, and *All back to the style* does that for the whole tab. Only the ground is yours to pick for a block: the text on it is chosen to read on it, and a chat color too dark or light for the terminal is lifted just far enough, so every text stays readable.
+
+Quicker, from the prompt: `/skin color clock red` colors one piece of the skin you wear, `/skin color clock reset` gives it back, `/skin color` alone opens the builder on the bar colors. Built-in skins stay as they are: on one, the first color makes your own copy, `My <Skin>`, looking the same but for that piece, and wears it.
+
+Your skins list under **Yours** in the picker; `/skin edit` and `/skin delete` change or remove them.
 
 `/skin export [skin]` copies a skin as one line of JSON; anyone with cc-skins wears it after `/skin import <json>`. A shared skin is data, not code: a name, a built-in base, an accent and a style.
 
-<p><img src="screens/builder.svg" alt="The skin builder" width="60%"></p>
+<table>
+<tr>
+<td width="50%"><img src="screens/builder.svg" alt="The skin builder's basics: a name, the skin to start from, an accent, the style, and a live preview" width="100%"></td>
+<td width="50%"><img src="screens/builder-colors.svg" alt="The skin builder's bar colors: every block in a row in its colors, the model set to blue and the clock to red" width="100%"></td>
+</tr>
+</table>
 
 ## Colors and fonts outside the bar
 

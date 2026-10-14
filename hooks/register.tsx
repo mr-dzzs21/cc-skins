@@ -4,6 +4,8 @@ import type { EngineInterface, Register, SessionUsage, Timer, UiOpenResult } fro
 import type {
   BarItem,
   BarStyle,
+  BuilderTab,
+  ColorPart,
   ContextBreakdown,
   Glyphs,
   ModelChoice,
@@ -55,7 +57,8 @@ import { DASHBOARD, DASHBOARD_COLUMNS, DASHBOARD_ROWS, MAX_HISTORY, drawDashboar
 import { GIT_PANE, GIT_ROWS, GIT_SHORTSTAT, GIT_STATUS, drawChanges, isBranchName, parseStatus } from './git'
 import { PICKER, PICKER_COLUMNS, drawPicker, pickerRowOf, pickerRows } from './picker'
 import { BUILDER, BUILDER_COLUMNS, BUILDER_ROWS, drawBuilder } from './builder'
-import { MAX_CUSTOM_SKINS, isKnownSkin, parseRecipe, resolveSkin, skinEntries, slugFor, themeName } from './custom'
+import { COLOR_PARTS, MAX_CUSTOM_SKINS, colorPartNamed, isKnownSkin, parseRecipe, resolveSkin, skinEntries, slugFor, themeName } from './custom'
+import { parseColor } from './color'
 import { cleanLine, stripControls } from './text'
 import { DEFAULT_SKIN, SKINS, isSkinId, pick } from './skins'
 
@@ -73,6 +76,7 @@ const skinAtom = atom({ plugin: 'cc-skins', key: 'skin' } as const, DEFAULT_SKIN
 /** The skins the person built, and the one the builder holds while open. */
 const customSkinsAtom = atom({ plugin: 'cc-skins', key: 'customSkins' } as const, [] as CustomSkin[])
 const draftAtom = atom({ plugin: 'cc-skins', key: 'draft' } as const, null as CustomSkin | null)
+const builderTabAtom = atom({ plugin: 'cc-skins', key: 'builderTab' } as const, 'basics' as BuilderTab)
 const glyphsAtom = atom({ plugin: 'cc-skins', key: 'glyphs' } as const, 'nerd' as Glyphs)
 const barStyleAtom = atom({ plugin: 'cc-skins', key: 'barStyle' } as const, 'powerline' as BarStyle)
 /** The skin the picker's focus rests on; the bar draws it until the picker closes. */
@@ -372,9 +376,10 @@ const saveCustoms = async ($: EngineInterface, customs: CustomSkin[]) => {
   await $.store.set(STORE.customSkins, customs)
 }
 
-/** Opens the builder on a skin: a new one from the current, or one of the person's own. */
-const openBuilder = async ($: EngineInterface, draft: CustomSkin) => {
+/** Opens the builder on a skin, a new one from the current or one of the person's own, at a tab. */
+const openBuilder = async ($: EngineInterface, draft: CustomSkin, tab: BuilderTab = 'basics') => {
   await update($, draftAtom, () => draft)
+  await update($, builderTabAtom, () => tab)
 
   return $.ui.open({
     id: BUILDER,
@@ -386,19 +391,88 @@ const openBuilder = async ($: EngineInterface, draft: CustomSkin) => {
   })
 }
 
-/** A new draft from the skin in use: its base, its first color, dark. */
+/** A new draft from the skin in use, looking as it does: a built-in one's own colors, or a skin of one's own copied. */
 const newDraft = async ($: EngineInterface, label: string): Promise<CustomSkin> => {
   const id = await read($, skinAtom)
   const custom = (await read($, customSkinsAtom)).find(one => one.id === id)
   const base: SkinId = custom?.base ?? (isSkinId(id) ? id : DEFAULT_SKIN)
-
-  return {
+  const draft: CustomSkin = {
     id: '',
     label: label === '' ? 'My skin' : label.slice(0, 32),
     base,
     accent: custom?.accent ?? SKINS[base].colors.blocks[0]?.bg ?? '#7aa2f7',
-    style: custom?.style ?? 'dark',
+    style: custom?.style ?? 'base',
   }
+
+  return custom?.colors === undefined ? draft : { ...draft, colors: { ...custom.colors } }
+}
+
+/** A recipe with one piece colored (a color) or given back to its style (none); no piece left, no colors at all. */
+const withColor = (recipe: CustomSkin, part: ColorPart, color: string | undefined): CustomSkin => {
+  const colors = { ...recipe.colors }
+  if (color === undefined) {
+    delete colors[part]
+  } else {
+    colors[part] = color
+  }
+  const { colors: _, ...rest } = recipe
+
+  return Object.keys(colors).length === 0 ? rest : { ...rest, colors }
+}
+
+/** Colors a piece in the builder's draft, as typed: empty gives it back, anything else must be a color. */
+const colorDraft = async ($: EngineInterface, part: ColorPart, typed: string) => {
+  const color = typed.trim() === '' ? undefined : parseColor(typed)
+  if (typed.trim() !== '' && color === undefined) {
+    $.ui.toast(`"${cleanLine(typed).slice(0, 24)}" isn't a color I know: a name such as red or blau, or #rrggbb`)
+
+    return
+  }
+  await update($, draftAtom, draft => (draft === null ? draft : withColor(draft, part, color)))
+}
+
+/**
+ * `/skin color`: with nothing more, the builder on its Bar colors tab for the
+ * skin in use; with a piece and a color, that piece colored at once; with a
+ * piece and `reset`, that piece given back to its style. A built-in skin
+ * stays as it is: the first color makes a skin of one's own from it, looking
+ * the same but for that piece, and wears it.
+ */
+const recolor = async ($: EngineInterface, words: readonly string[]): Promise<{ text?: string }> => {
+  const current = await read($, skinAtom)
+  const customs = await read($, customSkinsAtom)
+  const own = customs.find(one => one.id === current)
+  const copyLabel = `My ${resolveSkin(current, customs).label}`.slice(0, 32)
+  if (words.length === 0) {
+    const opened = await openBuilder($, own ?? (await newDraft($, copyLabel)), 'bar')
+
+    return unplaced(opened, 'The skin builder')
+  }
+  const pieces = COLOR_PARTS.map(({ part }) => part).join(', ')
+  const last = words[words.length - 1] ?? ''
+  const isReset = ['reset', 'default', 'none', 'off'].includes(last.toLowerCase())
+  const color = isReset ? undefined : parseColor(last)
+  const part = colorPartNamed(words.slice(0, -1).join(' '))
+  if (part === undefined) {
+    return { text: `Which piece? /${COMMAND} color <piece> <color>, as /${COMMAND} color clock red. The pieces: ${pieces}.` }
+  }
+  if (!isReset && color === undefined) {
+    return { text: `"${cleanLine(last).slice(0, 24)}" isn't a color I know: a name such as red or blau, or #rrggbb (reset gives the piece back).` }
+  }
+  if (own === undefined && customs.length >= MAX_CUSTOM_SKINS) {
+    return { text: `You keep ${MAX_CUSTOM_SKINS} skins at most: /${COMMAND} delete one first.` }
+  }
+  const recipe =
+    own ?? { ...(await newDraft($, copyLabel)), id: slugFor(copyLabel, customs.map(one => one.id)), label: copyLabel }
+  const next = withColor(recipe, part, color)
+  await saveCustoms($, own === undefined ? [...customs, next] : customs.map(one => (one.id === next.id ? next : one)))
+  if (own === undefined) {
+    await applySkin($, next.id)
+  }
+  const label = COLOR_PARTS.find(one => one.part === part)?.label ?? part
+  const made = own === undefined ? ` Built-in skins stay as they are, so this is ${next.label}, your own copy (/${COMMAND} ${next.id}).` : ''
+
+  return { text: `${next.label}: ${label} ${color === undefined ? 'back to its style' : color}.${made}` }
 }
 
 const editDraft = async ($: EngineInterface, patch: Partial<CustomSkin>) =>
@@ -1009,6 +1083,9 @@ export const register: Register = on => {
 
       return unplaced(opened, 'The skin builder')
     }
+    if (first === 'color' || first === 'colour' || first === 'farbe') {
+      return recolor($, rest.split(/\s+/).filter(word => word !== ''))
+    }
     if (first === 'edit') {
       const recipe = customs.find(one => one.id === (second || current))
       if (recipe === undefined) {
@@ -1298,6 +1375,14 @@ export const register: Register = on => {
       draft,
       await readSample($, e.props.bodyColumns, e.props.placement === 'dock'),
       {
+        tab: tab => void update($, builderTabAtom, () => tab),
+        color: (part, typed) => void colorDraft($, part, typed),
+        resetColors: tab =>
+          void update($, draftAtom, current =>
+            current === null
+              ? current
+              : COLOR_PARTS.filter(one => one.tab === tab).reduce((recipe, { part }) => withColor(recipe, part, undefined), current),
+          ),
         label: label => void editDraft($, { label: stripControls(label).slice(0, 32) }),
         base: base => void editDraft($, { base }),
         accent: accent => void editDraft($, { accent }),
@@ -1312,6 +1397,7 @@ export const register: Register = on => {
               })
           : undefined,
       },
+      await read($, builderTabAtom),
     )
   })
 

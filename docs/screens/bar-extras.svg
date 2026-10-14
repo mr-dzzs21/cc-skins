@@ -15,8 +15,10 @@
 <path d="M310.0 38.0L318.4 47.5L310.0 57.0Z" fill="#251640"/>
 <path d="M486.4 38.0L494.8 47.5L486.4 57.0Z" fill="#1e1235"/>
 <path d="M612.4 38.0L620.8 47.5L612.4 57.0Z" fill="#180e2b"/>
-<path d="M738.4 38.0L746.8 47.5L738.4 57.0Z" fill="#0d0718"/>
-<path d="M889.6 38.0L898.0 47.5L889.6 57.0Z" fill="#0d0718"/>
+<path d="M739.4 39.0L745.8 47.5L739.4 56.0" stroke="#f472b6" stroke-width="1.2" fill="none"/>
+<path d="M890.6 39.0L897.0 47.5L890.6 56.0" stroke="#f472b6" stroke-width="1.2" fill="none"/>
+<path d="M949.4 39.0L955.8 47.5L949.4 56.0" stroke="#f472b6" stroke-width="1.2" fill="none"/>
+<path d="M1016.6 39.0L1023.0 47.5L1016.6 56.0" stroke="#f472b6" stroke-width="1.2" fill="none"/>
 <path d="M1108.0 38.0A8.4 9.5 0 0 1 1108.0 57.0Z" fill="#0d0718"/>
 <text x="32.8" y="52.0" fill="#ffffff" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✧</text>
 <text x="66.4" y="52.0" fill="#f0d9ff" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
@@ -25,7 +27,9 @@
 <text x="503.2" y="52.0" fill="#cc99ff" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ▰▰▱▱▱ 42%</text>
 <text x="629.2" y="52.0" fill="#f472b6" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ▰▱▱▱▱ 23%</text>
 <text x="755.2" y="52.0" fill="#f472b6" font-weight="700" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.14 · $1.61/h</text>
-<text x="906.4" y="52.0" fill="#f472b6" textLength="193.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◷ 5m · 13:07 · v2.1.299</text>
+<text x="906.4" y="52.0" fill="#f472b6" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◷ 5m</text>
+<text x="965.2" y="52.0" fill="#f472b6" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">13:42</text>
+<text x="1032.4" y="52.0" fill="#f472b6" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">v2.1.299</text>
 <text x="1124.8" y="52.0" fill="#7d7391" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
 <text x="1242.4" y="52.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
 </svg>

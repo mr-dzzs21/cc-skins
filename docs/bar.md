@@ -31,7 +31,7 @@ Off until you turn them on, in the ⚙'s Bar tab or with `/skin show <item>`:
 | `clock` | The time |
 | `version` | The Claude Code version |
 
-The session time, clock and version share one info block. The extras are the first thing the bar drops when it runs out of room. A bar you set up before an extra existed keeps its look: new items stay off until you turn them on.
+The session time, clock and version each have a block of their own; where two neighbors share a color, a thin arrow parts them. The extras are the first thing the bar drops when it runs out of room. A bar you set up before an extra existed keeps its look: new items stay off until you turn them on.
 
 <p><img src="screens/bar-extras.svg" alt="The bar with every extra on" width="100%"></p>
 

@@ -1,13 +1,13 @@
 import type { BoxProps, ButtonProps, ElementConstructor, RenderElement, TextProps } from 'claude-code'
 
-import type { BarItem, BarStyle, Glyphs, Usage, WarnColors } from '../types'
+import type { BarItem, BarStyle, ColorPart, Glyphs, Usage, WarnColors } from '../types'
 import { formatClock } from './chat'
 import { bar, formatCost, formatDuration, formatElapsed, formatPercent, formatReset, formatTokens, prettyModel } from './format'
 import type { Paint, Skin } from './skins'
 import { displayWidth } from './text'
 
-/** Powerline separators (Nerd Fonts and Powerline-patched fonts). */
-const POWERLINE = { open: '\ue0b6', arrow: '\ue0b0', close: '\ue0b4' }
+/** Powerline separators (Nerd Fonts and Powerline-patched fonts); `thin` between two blocks of one color. */
+const POWERLINE = { open: '\ue0b6', arrow: '\ue0b0', thin: '\ue0b1', close: '\ue0b4' }
 
 /** Font Awesome icons, at the same code points in every Nerd Font. */
 const ICONS = {
@@ -89,8 +89,32 @@ type Alert = 'warn' | 'danger'
 export const alertFor = (percent: number, mode: WarnColors = 'all'): Alert | undefined =>
   mode === 'off' ? undefined : percent >= 85 ? 'danger' : percent >= 60 && mode !== 'danger' ? 'warn' : undefined
 
-/** A block before its color: the bar paints by place in the gradient, an alert over it. */
+/** A block before its color: the bar paints by place in the gradient, a piece's own color over that, an alert over both. */
 type Block = { key: string; text: string; isBold?: boolean; alert?: Alert; press?: BarPress }
+
+/** The piece of a skin of one's own that colors a block, by the block's key. */
+const PART_OF: Readonly<Record<string, ColorPart>> = {
+  skin: 'skin',
+  model: 'model',
+  branch: 'branch',
+  context: 'context',
+  'limit-five_hour': 'fiveHour',
+  'limit-seven_day': 'sevenDay',
+  cost: 'cost',
+  session: 'session',
+  clock: 'clock',
+  version: 'version',
+  word: 'turnWord',
+  duration: 'turnTime',
+  stats: 'turnStats',
+}
+
+/** A block's paint: its piece's own color where the skin gives one, else its step of the gradient. */
+const paintOf = (skin: Skin, key: string, index: number): Paint => {
+  const part = PART_OF[key]
+
+  return (part === undefined ? undefined : skin.colors.byPart?.[part]) ?? gradientAt(skin, index)
+}
 
 /** The gradient's step for a block's place; past its end, the last step. */
 const gradientAt = (skin: Skin, index: number): Paint => {
@@ -190,21 +214,20 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     pills.push({ key: 'cost', text: costParts.join(' · '), isBold: true, press: 'usage' })
   }
 
-  const infoParts = [
-    extra('session') && usage.startedAt !== null
-      ? `${isNerd ? ICONS.session : '◷'} ${formatElapsed(usage.startedAt, now)}`
-      : undefined,
-    extra('clock') ? `${isNerd ? `${ICONS.clock} ` : ''}${formatClock(now)}` : undefined,
-    extra('version') && input.version != null ? `${isNerd ? `${ICONS.version} ` : 'v'}${input.version}` : undefined,
-  ].filter(part => part !== undefined)
-  if (infoParts.length > 0) {
-    pills.push({ key: 'info', text: infoParts.join(' · '), press: 'usage' })
+  if (extra('session') && usage.startedAt !== null) {
+    pills.push({ key: 'session', text: `${isNerd ? ICONS.session : '◷'} ${formatElapsed(usage.startedAt, now)}`, press: 'usage' })
+  }
+  if (extra('clock')) {
+    pills.push({ key: 'clock', text: `${isNerd ? `${ICONS.clock} ` : ''}${formatClock(now)}`, press: 'usage' })
+  }
+  if (extra('version') && input.version != null) {
+    pills.push({ key: 'version', text: `${isNerd ? `${ICONS.version} ` : 'v'}${input.version}`, press: 'usage' })
   }
 
   const isPulsing = isWorking && Math.floor(frame / 4) % 2 === 1
 
   return pills.map(({ alert, ...block }, index) => {
-    const step = gradientAt(skin, index)
+    const step = paintOf(skin, block.key, index)
     const paint =
       alert !== undefined ? skin.colors[alert] : index === 0 && isPulsing ? { ...step, bg: skin.colors.pulse } : step
 
@@ -324,11 +347,20 @@ export const drawPowerline = (
           return [block]
         }
 
+        // two blocks of one color: a thin arrow in the text's color, as powerlevel10k draws it
+        const isSame = following !== undefined && following.paint.bg === pill.paint.bg
+
         return [
           block,
-          <Text key={`${pill.key}-edge`} color={pill.paint.bg} backgroundColor={following?.paint.bg}>
-            {following === undefined ? POWERLINE.close : POWERLINE.arrow}
-          </Text>,
+          isSame ? (
+            <Text key={`${pill.key}-edge`} color={pill.paint.fg} backgroundColor={pill.paint.bg}>
+              {POWERLINE.thin}
+            </Text>
+          ) : (
+            <Text key={`${pill.key}-edge`} color={pill.paint.bg} backgroundColor={following?.paint.bg}>
+              {following === undefined ? POWERLINE.close : POWERLINE.arrow}
+            </Text>
+          ),
         ]
       })}
       {gear !== undefined && onPress !== undefined && drawGear(elements, glyphs, gear, onPress)}
@@ -341,12 +373,25 @@ export const turnPills = (skin: Skin, word: string, durationMs: number, glyphs: 
   {
     key: 'word',
     text: `${glyphs === 'nerd' ? skin.icon : skin.glyph} ${word}`,
-    paint: gradientAt(skin, 0),
+    paint: paintOf(skin, 'word', 0),
     isBold: true,
   },
-  { key: 'duration', text: `${skin.turn.joiner} ${formatDuration(durationMs)}`, paint: gradientAt(skin, 2) },
-  ...(stats === '' ? [] : [{ key: 'stats', text: stats, paint: gradientAt(skin, 4) }]),
+  { key: 'duration', text: `${skin.turn.joiner} ${formatDuration(durationMs)}`, paint: paintOf(skin, 'duration', 2) },
+  ...(stats === '' ? [] : [{ key: 'stats', text: stats, paint: paintOf(skin, 'stats', 4) }]),
 ]
+
+/** The paint a piece's block would have in a skin, where it sits in the bar as the builder lists it. */
+export const blockPaint = (skin: Skin, part: ColorPart): Paint => {
+  const key = Object.keys(PART_OF).find(one => PART_OF[one] === part) ?? part
+  const places: Readonly<Record<string, number>> = {
+    skin: 0, model: 1, branch: 2, context: 3, 'limit-five_hour': 4, 'limit-seven_day': 5, cost: 6, session: 7, clock: 8, version: 9, word: 0, duration: 2, stats: 4,
+  }
+  if (part === 'warn' || part === 'danger') {
+    return skin.colors[part]
+  }
+
+  return paintOf(skin, key, places[key] ?? 0)
+}
 
 /** One piece of the header line: its text and its color. */
 export type HeaderItem = { key: string; text: string; color: string; isBold?: boolean; press?: BarPress }

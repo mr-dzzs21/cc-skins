@@ -85,7 +85,7 @@ Every picture here is a real Claude Code session, recorded in a terminal ([how](
 
 ### Make your own
 
-`/skin create` starts from any skin's words, icon and sound, takes one accent color (a swatch or any `#rrggbb`) and a style, and works out the rest, every text kept readable. `/skin export` shares it as one line of JSON.
+`/skin create` starts from the skin you wear. Make every color from one accent, or color each piece on its own: the model blue, the clock red, your name gold. Quicker: `/skin color clock red`. Every text stays readable, and `/skin export` shares your skin as one line of JSON.
 
 </td>
 </tr>
@@ -101,7 +101,7 @@ Every picture here is a real Claude Code session, recorded in a terminal ([how](
 <td width="50%"><b>Alerts</b>: when to warn, and in which colors<br><img src="docs/screens/alerts.svg" alt="The settings on the Alerts tab: warn at 70, 80 or 90 percent, the compact button, the warning colors" width="100%"></td>
 </tr>
 <tr>
-<td width="50%"><b>Skin builder</b>: <code>/skin create</code><br><img src="docs/screens/builder.svg" alt="The skin builder: a name, the skin to start from, an accent color from swatches, the style, and a live preview" width="100%"></td>
+<td width="50%"><b>Every piece its own color</b>: <code>/skin color</code><br><img src="docs/screens/builder-colors.svg" alt="The skin builder's bar colors: every block in a row in its colors, the model set to blue and the clock to red" width="100%"></td>
 <td width="50%"><b>Changed files</b>: a click on the branch<br><img src="docs/screens/changes.svg" alt="The changed files: the branch, the line totals, each changed file" width="100%"></td>
 </tr>
 </table>
@@ -137,6 +137,7 @@ Each skin's words, what a skin changes, and your own skins: [Skins](docs/skins.m
 | `/skin bar` | Settings: what the bar shows, its look, alerts, the turn line, sound |
 | `/skin usage` | Usage dashboard |
 | `/skin create` | Build your own skin |
+| `/skin color <piece> <color>` | One piece its own color, such as `/skin color clock red` |
 | `/skin show <item>` / `/skin hide <item>` | One piece of the bar on or off, such as `cost` or the extra `clock` |
 | `/skin hud off` / `/skin hud on` | Hide or show the bar |
 

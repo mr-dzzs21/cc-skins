@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.18.0
+
+- Every piece its own color. The skin builder has three tabs: **Basics** (as before), **Bar colors** (each block of the bar, and the warning and alarm colors) and **Turn line and chat** (the turn line's blocks, card frames, your name, Claude's, quiet text, done ticks). Each piece is a row drawn in its colors with a field for its own: a name (`red`, `blue`, `gold`, or in German `rot`, `blau`, `grün`…) or `#rrggbb`. The text on a block is picked to read on it, so every text stays readable.
+- `/skin color <piece> <color>` colors one piece at once (`/skin color clock red`), `reset` gives it back, `/skin color` alone opens the bar colors. On a built-in skin the first color makes your own copy, `My <Skin>`, and wears it.
+- A new style, **as it is**: the base skin's own colors, untouched, so your own skin can be a built-in one with a few pieces changed. `/skin create` now starts from the skin you wear, looking as it does.
+- The session time, clock and version are blocks of their own, so each can have its color. Two neighbors of one color are parted by a thin arrow, as powerlevel10k draws it.
+- Shared skins carry their piece colors; an import keeps only known pieces with `#rrggbb` colors.
+
 ## 0.17.0
 
 - Six extras for the bar, off until you turn them on (the ⚙'s Bar tab, or `/skin show <item>`), the first to go when the bar runs out of room:

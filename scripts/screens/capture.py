@@ -58,7 +58,11 @@ def panes():
     # every extra on (the reset countdowns off, for room), once the session is past the cost per hour's five minutes
     for text in ['/skin hide resets'] + [f'/skin show {item}' for item in EXTRAS]:
         steps += command(text, 2)
-    return steps + [['wait', 200], ['shot', 'extras']]
+    steps += [['wait', 200], ['shot', 'extras']]
+    # a copy of the skin with two pieces colored, then the builder's bar colors for it
+    for text in ['/skin color model blue', '/skin color clock red', '/skin color']:
+        steps += command(text, 2.5)
+    return steps + [['wait', 1], ['shot', 'colors'], ['key', 'esc'], ['wait', 1.5]]
 
 
 def frames():

@@ -1,4 +1,4 @@
-import type { CustomSkin, SkinId } from '../types'
+import type { BuilderTab, ColorPart, CustomSkin, SkinId } from '../types'
 import { isHex, mix, readableBlock, readableOn, turnHue } from './color'
 import { DEFAULT_SKIN, SKIN_IDS, SKINS, isSkinId } from './skins'
 import { cleanLine } from './text'
@@ -15,6 +15,40 @@ export const ACCENTS: readonly string[] = [
   '#e63946', '#ff6b35', '#f4a261', '#e9c46a', '#a7c957', '#2a9d8f', '#00b4d8', '#4361ee',
   '#7209b7', '#b5179e', '#f72585', '#ff99c8', '#8d99ae', '#c0c0c0', '#d4a373', '#06d6a0',
 ]
+
+/** The pieces a skin of one's own colors one by one, with the builder tab each is on, in the order listed. */
+export const COLOR_PARTS: readonly { part: ColorPart; label: string; tab: Exclude<BuilderTab, 'basics'> }[] = [
+  { part: 'skin', label: 'Skin block', tab: 'bar' },
+  { part: 'model', label: 'Model', tab: 'bar' },
+  { part: 'branch', label: 'Branch', tab: 'bar' },
+  { part: 'context', label: 'Context', tab: 'bar' },
+  { part: 'fiveHour', label: '5-hour limit', tab: 'bar' },
+  { part: 'sevenDay', label: '7-day limit', tab: 'bar' },
+  { part: 'cost', label: 'Cost', tab: 'bar' },
+  { part: 'session', label: 'Session time', tab: 'bar' },
+  { part: 'clock', label: 'Clock', tab: 'bar' },
+  { part: 'version', label: 'Version', tab: 'bar' },
+  { part: 'warn', label: 'Warning, 60 %', tab: 'bar' },
+  { part: 'danger', label: 'Alarm, 85 %', tab: 'bar' },
+  { part: 'turnWord', label: 'Turn word', tab: 'chat' },
+  { part: 'turnTime', label: 'Turn time', tab: 'chat' },
+  { part: 'turnStats', label: 'Turn cost', tab: 'chat' },
+  { part: 'frame', label: 'Card frames', tab: 'chat' },
+  { part: 'you', label: 'You', tab: 'chat' },
+  { part: 'claude', label: 'Claude', tab: 'chat' },
+  { part: 'quiet', label: 'Quiet text', tab: 'chat' },
+  { part: 'done', label: 'Done ticks', tab: 'chat' },
+]
+
+export const isColorPart = (value: unknown): value is ColorPart => COLOR_PARTS.some(({ part }) => part === value)
+
+/** What `/skin color <name>` takes: a part's key or its label, any case, spaces and dashes aside. */
+export const colorPartNamed = (name: string): ColorPart | undefined => {
+  const squash = (text: string) => text.toLowerCase().replace(/[\s,%-]+/g, '')
+  const wanted = squash(name)
+
+  return COLOR_PARTS.find(({ part, label }) => squash(part) === wanted || squash(label) === wanted)?.part
+}
 
 /** The grounds the chat's colors must read on: a dark terminal's, and a light one's for the light style. */
 const DARK_GROUND = '#111116'
@@ -34,20 +68,23 @@ const blocksFor = (accent: string, style: CustomSkin['style']): Paint[] =>
     ),
   )
 
-/**
- * The whole skin a recipe makes: the base skin's words, icon, glyph and
- * sound; blocks, pulse, alerts and chat colors from the accent, every text
- * readable on its ground.
- */
-export const buildSkin = (recipe: CustomSkin): Skin => {
+/** The bar's and turn line's pieces a recipe colors one by one, as the blocks they paint. */
+const BLOCK_PARTS: readonly ColorPart[] = [
+  'skin', 'model', 'branch', 'context', 'fiveHour', 'sevenDay', 'cost', 'session', 'clock', 'version', 'turnWord', 'turnTime', 'turnStats',
+]
+
+/** The skin a recipe's style makes, before any piece is colored one by one. */
+const styled = (recipe: CustomSkin): Skin => {
   const base = SKINS[recipe.base]
+  if (recipe.style === 'base') {
+    return { ...base, label: recipe.label, description: `Yours · ${base.label}'s colors` }
+  }
   const accent = isHex(recipe.accent) ? recipe.accent : base.colors.blocks[0]?.bg ?? '#7aa2f7'
   const isLight = recipe.style === 'light'
   const ground = isLight ? LIGHT_GROUND : DARK_GROUND
 
   return {
     ...base,
-    id: recipe.base,
     label: recipe.label,
     description: `Yours · ${accent} · ${recipe.style}, from ${base.label}`,
     isDark: recipe.style === 'dark' ? true : undefined,
@@ -64,6 +101,51 @@ export const buildSkin = (recipe: CustomSkin): Skin => {
       assistant: readableOn(accent, ground),
       muted: readableOn(mix(isLight ? '#6b6b78' : '#8b8b99', accent, 0.15), ground),
       success: readableOn(isLight ? '#15803d' : '#4ade80', ground),
+    },
+  }
+}
+
+/**
+ * The whole skin a recipe makes: the base skin's words, icon, glyph and
+ * sound; its colors as the style makes them (from the accent, or the base
+ * skin's own), then each piece colored one by one over them. A block's text
+ * is picked to read on the color given, and a chat color is lifted until it
+ * reads on the terminal's ground: every text stays readable.
+ */
+export const buildSkin = (recipe: CustomSkin): Skin => {
+  const skin = styled(recipe)
+  const colors = recipe.colors ?? {}
+  const ground = skin.isLight === true ? LIGHT_GROUND : DARK_GROUND
+  const byPart: Partial<Record<ColorPart, Paint>> = {}
+  for (const part of BLOCK_PARTS) {
+    const color = colors[part]
+    if (color !== undefined && isHex(color)) {
+      byPart[part] = readableBlock(color)
+    }
+  }
+  const block = (part: 'warn' | 'danger') => {
+    const color = colors[part]
+
+    return color !== undefined && isHex(color) ? readableBlock(color) : skin.colors[part]
+  }
+  const chat = (part: ColorPart, fallback: string) => {
+    const color = colors[part]
+
+    return color !== undefined && isHex(color) ? readableOn(color, ground) : fallback
+  }
+  const changed = Object.keys(colors).length
+
+  return {
+    ...skin,
+    id: recipe.base,
+    description: changed === 0 ? skin.description : `${skin.description} · ${changed} ${changed === 1 ? 'piece' : 'pieces'} recolored`,
+    colors: { ...skin.colors, warn: block('warn'), danger: block('danger'), byPart },
+    chat: {
+      border: colors.frame !== undefined && isHex(colors.frame) ? colors.frame : skin.chat.border,
+      user: chat('you', skin.chat.user),
+      assistant: chat('claude', skin.chat.assistant),
+      muted: chat('quiet', skin.chat.muted),
+      success: chat('done', skin.chat.success),
     },
   }
 }
@@ -90,7 +172,7 @@ export const parseRecipe = (value: unknown): CustomSkin | undefined => {
   if (typeof value !== 'object' || value === null) {
     return undefined
   }
-  const { id, label, base, accent, style } = value as Record<string, unknown>
+  const { id, label, base, accent, style, colors } = value as Record<string, unknown>
   if (
     typeof id !== 'string' ||
     !CUSTOM_ID.test(id) ||
@@ -99,12 +181,21 @@ export const parseRecipe = (value: unknown): CustomSkin | undefined => {
     !isSkinId(base) ||
     typeof accent !== 'string' ||
     !isHex(accent) ||
-    (style !== 'dark' && style !== 'vivid' && style !== 'light')
+    (style !== 'dark' && style !== 'vivid' && style !== 'light' && style !== 'base')
   ) {
     return undefined
   }
+  const parts =
+    typeof colors === 'object' && colors !== null
+      ? Object.fromEntries(
+          Object.entries(colors as Record<string, unknown>)
+            .filter((entry): entry is [ColorPart, string] => isColorPart(entry[0]) && typeof entry[1] === 'string' && isHex(entry[1]))
+            .map(([part, color]) => [part, color.toLowerCase()]),
+        )
+      : {}
+  const recipe: CustomSkin = { id, label: cleanLine(label).slice(0, 32) || 'My skin', base, accent: accent.toLowerCase(), style }
 
-  return { id, label: cleanLine(label).slice(0, 32) || 'My skin', base, accent: accent.toLowerCase(), style }
+  return Object.keys(parts).length === 0 ? recipe : { ...recipe, colors: parts }
 }
 
 /** Every skin as the picker lists it: the bright built-ins, the dark ones, the light ones, then the person's own. */

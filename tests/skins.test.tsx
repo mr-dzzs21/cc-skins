@@ -4,7 +4,7 @@ import type { Engine } from 'claude-code/testing'
 import type { Usage } from '../types'
 import { IDLE_HINT, formatClock, sentAt } from '../hooks/chat'
 import { bar, formatDuration, formatElapsed, formatReset, formatTokens, prettyModel } from '../hooks/format'
-import { MAX_LEVEL, alertFor, barPills, barWidth, burnRate, fitPills, gitMarks, headerFor } from '../hooks/hud'
+import { MAX_LEVEL, alertFor, barPills, barWidth, burnRate, fitPills, gitMarks, headerFor, turnPills } from '../hooks/hud'
 import type { BarInput } from '../hooks/hud'
 import { SKIN_IDS, SKINS, pick } from '../hooks/skins'
 import { hotkeyFor, hotkeyRange } from '../hooks/picker'
@@ -14,8 +14,8 @@ import { DEFAULT_PREFS, readPrefs } from '../hooks/prefs'
 import { findTurnStat, turnStatText } from '../hooks/turns'
 import { finishedText, soundFor } from '../hooks/sounds'
 import { sessionLine, sparkline, turnTotals } from '../hooks/dashboard'
-import { ACCENTS, buildSkin, parseRecipe, slugFor } from '../hooks/custom'
-import { contrast } from '../hooks/color'
+import { ACCENTS, COLOR_PARTS, buildSkin, colorPartNamed, parseRecipe, slugFor } from '../hooks/custom'
+import { contrast, parseColor } from '../hooks/color'
 import { isBranchName, parseStatus } from '../hooks/git'
 import { isStale, mergeLimits, parseUsageText } from '../hooks/limits'
 import { cleanLine, displayWidth, graphemes, stripControls, truncateCells } from '../hooks/text'
@@ -2082,26 +2082,31 @@ describe('bar extras', () => {
     expect(hiddenFrom(['clock'], everything)).toEqual(['clock'])
   })
 
-  test('each extra rides on its block, the session, clock and version in an info block', () => {
+  test('each extra rides on its block; session, clock and version have blocks of their own', () => {
     const pills = barPills(ALL, 0)
-    expect(pills.map(p => p.key)).toEqual(['skin', 'model', 'branch', 'context', 'limit-five_hour', 'limit-seven_day', 'cost', 'info'])
+    expect(pills.map(p => p.key)).toEqual(['skin', 'model', 'branch', 'context', 'limit-five_hour', 'limit-seven_day', 'cost', 'session', 'clock', 'version'])
     expect(pills.find(p => p.key === 'branch')?.text).toBe(' main ●3 ↑1')
     expect(pills.find(p => p.key === 'context')?.text).toBe(' ■■□□□ 34% · 68k')
     expect(pills.find(p => p.key === 'cost')?.text).toBe('$1.24 · $0.62/h')
-    const info = pills.find(p => p.key === 'info')
-    expect(info?.text).toBe(` 2h 00m ·  ${formatClock(NOW)} ·  2.1.299`)
-    expect(info?.press).toBe('usage')
+    const text = (drawn: ReturnType<typeof barPills>, key: string) => drawn.find(p => p.key === key)?.text
+    expect([text(pills, 'session'), text(pills, 'clock'), text(pills, 'version')]).toEqual([
+      '\uf1da 2h 00m',
+      `\uf017 ${formatClock(NOW)}`,
+      '\uf120 2.1.299',
+    ])
+    expect(pills.find(p => p.key === 'clock')?.press).toBe('usage')
     const plain = barPills({ ...ALL, glyphs: 'plain' }, 0)
-    expect(plain.find(p => p.key === 'info')?.text).toBe(`◷ 2h 00m · ${formatClock(NOW)} · v2.1.299`)
+    expect([text(plain, 'session'), text(plain, 'clock'), text(plain, 'version')]).toEqual(['◷ 2h 00m', formatClock(NOW), 'v2.1.299'])
     expect(plain.find(p => p.key === 'branch')?.text).toBe('⎇ main ●3 ↑1')
   })
 
   test('each one turns on alone, and the cost per hour shows with the cost off', () => {
     const only = (item: BarInput['hidden'][number]) => barPills({ ...ALL, hidden: EXTRA_ITEMS.filter(one => one !== item) }, 0)
-    expect(only('clock').find(p => p.key === 'info')?.text).toBe(` ${formatClock(NOW)}`)
-    expect(only('version').find(p => p.key === 'info')?.text).toBe(' 2.1.299')
-    expect(only('session').find(p => p.key === 'info')?.text).toBe(' 2h 00m')
-    expect(only('contextTokens').some(p => p.key === 'info')).toBe(false)
+    const own = ['session', 'clock', 'version']
+    expect(only('clock').filter(p => own.includes(p.key)).map(p => p.text)).toEqual([`\uf017 ${formatClock(NOW)}`])
+    expect(only('version').filter(p => own.includes(p.key)).map(p => p.text)).toEqual(['\uf120 2.1.299'])
+    expect(only('session').filter(p => own.includes(p.key)).map(p => p.text)).toEqual(['\uf1da 2h 00m'])
+    expect(only('contextTokens').some(p => own.includes(p.key))).toBe(false)
     expect(only('gitStatus').find(p => p.key === 'branch')?.text).toBe(' main ●3 ↑1')
     const rateAlone = barPills({ ...ALL, hidden: [...EXTRA_ITEMS.filter(one => one !== 'burnRate'), 'cost'] }, 0)
     expect(rateAlone.find(p => p.key === 'cost')?.text).toBe('$0.62/h')
@@ -2122,7 +2127,7 @@ describe('bar extras', () => {
 
   test('the extras are the first to go when the bar is narrow', () => {
     const pills = barPills(ALL, 1)
-    expect(pills.some(p => p.key === 'info')).toBe(false)
+    expect(pills.some(p => ['session', 'clock', 'version'].includes(p.key))).toBe(false)
     expect(pills.find(p => p.key === 'branch')?.text).toBe(' main')
     expect(pills.find(p => p.key === 'context')?.text).toBe(' ■■□□□ 34%')
     expect(pills.find(p => p.key === 'cost')?.text).toBe('$1.24')
@@ -2171,5 +2176,158 @@ describe('bar extras', () => {
     await runSkin($, 'hide gitStatus')
     await reply()
     expect(runs).toBe(2)
+  })
+})
+
+describe('every piece its own color', () => {
+  const RED = '#e5484d'
+  const BLUE = '#0090ff'
+  const mine = (colors: Record<string, string> = {}, style: 'base' | 'dark' = 'base') =>
+    buildSkin({ id: 'my-ring', label: 'My Ring', base: 'ring', accent: '#ffd166', style, colors })
+
+  test('a color as typed: a name in English or German, or hex in three forms', () => {
+    expect(parseColor('red')).toBe(RED)
+    expect(parseColor('Rot')).toBe(RED)
+    expect(parseColor(' blau ')).toBe(BLUE)
+    expect(parseColor('grün')).toBe(parseColor('green'))
+    expect(parseColor('#FF8800')).toBe('#ff8800')
+    expect(parseColor('ff8800')).toBe('#ff8800')
+    expect(parseColor('#f80')).toBe('#ff8800')
+    expect(parseColor('#ff88')).toBeUndefined()
+    expect(parseColor('reddish')).toBeUndefined()
+    expect(parseColor('')).toBeUndefined()
+  })
+
+  test('a piece by its key or its label', () => {
+    expect(colorPartNamed('clock')).toBe('clock')
+    expect(colorPartNamed('fiveHour')).toBe('fiveHour')
+    expect(colorPartNamed('5-hour limit')).toBe('fiveHour')
+    expect(colorPartNamed('Turn word')).toBe('turnWord')
+    expect(colorPartNamed('nope')).toBeUndefined()
+    expect(new Set(COLOR_PARTS.map(({ part }) => part)).size).toBe(COLOR_PARTS.length)
+  })
+
+  test('as it is: a copy of the base skin, colors and all', () => {
+    const copy = mine()
+    expect(copy.colors.blocks).toEqual(SKINS.ring.colors.blocks)
+    expect(copy.chat).toEqual(SKINS.ring.chat)
+    expect(copy.spinner).toEqual(SKINS.ring.spinner)
+    expect(barPills({ ...RING, skin: copy }, 0).map(p => p.paint)).toEqual(barPills(RING, 0).map(p => p.paint))
+  })
+
+  test('a colored piece paints its own block, its text kept readable, and an alert still wins', () => {
+    const skin = mine({ clock: RED, model: BLUE, context: '#30a46c' })
+    const pills = barPills({ ...RING, skin, hidden: [], now: 108 * MINUTE, version: '2.1.299' }, 0)
+    const paint = (key: string) => pills.find(p => p.key === key)?.paint
+    expect(paint('clock')?.bg).toBe(RED)
+    expect(paint('model')?.bg).toBe(BLUE)
+    for (const one of [paint('clock'), paint('model')]) {
+      expect(contrast(one?.bg ?? '', one?.fg ?? '')).toBeGreaterThanOrEqual(4.5)
+    }
+    // the session and version keep the gradient; the context's alert (72 % in RING's usage) is over its own color
+    expect(paint('session')).toEqual(SKINS.ring.colors.blocks[5])
+    expect(barPills({ ...RING, skin, usage: { ...USAGE, contextPercent: 72 } }, 0).find(p => p.key === 'context')?.paint).toEqual(skin.colors.warn)
+    // a ground no text reads on is moved just far enough
+    const grey = mine({ cost: '#777777' }).colors.byPart?.cost
+    expect(contrast(grey?.bg ?? '', grey?.fg ?? '')).toBeGreaterThanOrEqual(4.5)
+  })
+
+  test('warning colors, the turn line and the chat take theirs too', () => {
+    const skin = mine({ warn: '#f76b15', danger: RED, turnWord: BLUE, turnStats: RED, you: BLUE, frame: '#333333', claude: '#202020' })
+    expect(skin.colors.warn.bg).toBe('#f76b15')
+    expect(skin.colors.danger.bg).toBe(RED)
+    const turn = turnPills(skin, 'KO', 4000, 'nerd', '$0.04')
+    expect(turn.find(p => p.key === 'word')?.paint.bg).toBe(BLUE)
+    expect(turn.find(p => p.key === 'duration')?.paint).toEqual(SKINS.ring.colors.blocks[2])
+    expect(turn.find(p => p.key === 'stats')?.paint.bg).toBe(RED)
+    expect(skin.chat.user).toBe(BLUE)
+    expect(skin.chat.border).toBe('#333333')
+    // too dark to read on a dark terminal: lifted until it does
+    expect(contrast(skin.chat.assistant, '#111116')).toBeGreaterThanOrEqual(4.5)
+    expect(skin.description).toContain('7 pieces recolored')
+  })
+
+  test('a recipe keeps its colors through export and import, junk out', () => {
+    const recipe = { id: 'my-ring', label: 'My Ring', base: 'ring', accent: '#ffd166', style: 'base', colors: { clock: RED, nope: RED, model: 'blue', cost: '#ABCDEF' } }
+    expect(parseRecipe(recipe)).toEqual({ id: 'my-ring', label: 'My Ring', base: 'ring', accent: '#ffd166', style: 'base', colors: { clock: RED, cost: '#abcdef' } })
+    expect(parseRecipe({ ...recipe, colors: { nope: RED } })).toEqual({ id: 'my-ring', label: 'My Ring', base: 'ring', accent: '#ffd166', style: 'base' })
+    expect(parseRecipe({ ...recipe, colors: 'red' })?.colors).toBeUndefined()
+  })
+
+  test('two neighbors of one color part with a thin arrow', async ($, on) => {
+    mock.store(on)
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    on('ui.toast', () => ({ value: undefined }))
+    await $.session.measure({
+      context: { window: 200_000, tokens: 20_000, percent: 10 },
+      rateLimits: [{ kind: 'five_hour', percentUsed: 10 }, { kind: 'seven_day', percentUsed: 20 }],
+      cost: { usd: 1 },
+      changed: ['context'],
+    })
+    const drawn = async () => {
+      const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(200) })
+      const tree = JSON.stringify(await band.drawn())
+      await band.unmount()
+
+      return tree
+    }
+    expect(await drawn()).not.toContain('')
+    await runSkin($, 'show clock')
+    await runSkin($, 'glyphs nerd')
+    // the cost and the clock both take the gradient's last step
+    expect(await drawn()).toContain('')
+  })
+
+  test('/skin color colors a piece: a copy of a built-in skin first, then that copy', async ($, on) => {
+    mock.store(on)
+    on('ui.toast', () => ({ value: undefined }))
+    const said = (await runSkin($, 'color clock red')).text ?? ''
+    expect(said).toContain('My Midnight: Clock #e5484d')
+    expect(said).toContain('your own copy (/skin my-midnight)')
+    expect((await runSkin($, 'list')).text).toContain('current: my-midnight')
+
+    expect((await runSkin($, 'color model blau')).text).toBe('My Midnight: Model #0090ff.')
+    expect((await runSkin($, 'color 5-hour limit #f80')).text).toBe('My Midnight: 5-hour limit #ff8800.')
+    expect((await runSkin($, 'color model reset')).text).toBe('My Midnight: Model back to its style.')
+    const exported = JSON.parse(((await runSkin($, 'export my-midnight')).text ?? '').split('\n')[0] ?? '{}')
+    expect(exported).toEqual({ id: 'my-midnight', label: 'My Midnight', base: 'midnight', accent: SKINS.midnight.colors.blocks[0]?.bg, style: 'base', colors: { clock: RED, fiveHour: '#ff8800' } })
+    expect((await runSkin($, 'list')).text?.match(/my-midnight/g)).toHaveLength(2)
+
+    expect((await runSkin($, 'color nope red')).text).toContain('Which piece?')
+    expect((await runSkin($, 'color clock reddish')).text).toContain(`"reddish" isn't a color I know`)
+  })
+
+  test('/skin color alone opens the builder on the bar colors; a piece set there shows at once', async ($, on) => {
+    mock.store(on)
+    const opened: string[] = []
+    on('ui.open', ($, e) => {
+      opened.push(e.id)
+
+      return { value: { isPlaced: true as const } }
+    })
+    on('ui.close', () => ({ value: undefined }))
+    on('ui.toast', () => ({ value: undefined }))
+
+    expect(await runSkin($, 'color')).toEqual({})
+    expect(opened).toEqual(['skin-builder'])
+    const builder = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'skin-builder',
+      props: { ...PANE_PROPS, title: 'Build a skin', bodyColumns: 64, placement: 'dock' as const },
+    })
+    expect(await builder.find({ key: 'color-clock' })).toBeDefined()
+    expect(await builder.find({ key: 'color-you' })).toBeUndefined()
+    await builder.input({ key: 'color-clock', text: 'rot' })
+    expect(JSON.stringify(await builder.drawn())).toContain(RED)
+    await builder.press({ key: 'builder-tab-chat' })
+    expect(await builder.find({ key: 'color-you' })).toBeDefined()
+    await builder.press({ key: 'builder-save' })
+    await builder.unmount()
+
+    const exported = JSON.parse(((await runSkin($, 'export my-midnight')).text ?? '').split('\n')[0] ?? '{}')
+    expect(exported).toMatchObject({ label: 'My Midnight', style: 'base', colors: { clock: RED } })
   })
 })

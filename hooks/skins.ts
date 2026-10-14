@@ -1,4 +1,4 @@
-import type { SkinId, SoundName } from '../types'
+import type { ColorPart, SkinId, SoundName } from '../types'
 
 export type SpinnerMode = 'requesting' | 'responding' | 'thinking' | 'tool-input' | 'tool-use'
 
@@ -26,6 +26,8 @@ export type Skin = {
     /** A context or limit block at 60 % and up, then 85 % and up. */
     warn: Paint
     danger: Paint
+    /** Blocks colored one by one (a skin of one's own), over their place in the gradient. */
+    byPart?: Partial<Record<ColorPart, Paint>>
   }
   spinner: {
     words: readonly string[]
