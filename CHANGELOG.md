@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.15.6
+
+After a second review:
+
+- A subagent's turn no longer resets the main turn's tool count and cost, and one still running after the main turn ended no longer leaves the bar animating: Claude Code 2.1.299 raises `turn.start` for subagents too, with an `agentId` its declared input does not name yet (seen in a run with a real subagent).
+- Branch names in any script show (`feature/über`, `修正/ui`); what git forbids in a name still does not.
+- Widths count grapheme clusters: a family, a keycap, `©️`, a flag or a skin tone takes the two cells a terminal draws, and text is never cut inside one.
+- The picker's key hint stops at its 36 keys and points to the arrows for the rest.
+- The changes pane says its line totals count tracked files, and names the untracked ones apart.
+- A `.git` that is a link, or a `.git` file without a `gitdir:` line, is not followed.
+
 ## 0.15.5
 
 - A limit's reset reads with the Nerd Font refresh icon in `nerd` glyphs, and in brackets in `powerline` and `plain` (`49% (2h11m)`): the ↻ arrow drew as an odd glyph in some fonts, as Cascadia Code.

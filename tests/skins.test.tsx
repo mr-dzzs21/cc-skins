@@ -16,8 +16,8 @@ import { finishedText, soundFor } from '../hooks/sounds'
 import { sparkline, turnTotals } from '../hooks/dashboard'
 import { ACCENTS, buildSkin, parseRecipe, slugFor } from '../hooks/custom'
 import { contrast } from '../hooks/color'
-import { parseStatus } from '../hooks/git'
-import { cleanLine, displayWidth, stripControls, truncateCells } from '../hooks/text'
+import { isBranchName, parseStatus } from '../hooks/git'
+import { cleanLine, displayWidth, graphemes, stripControls, truncateCells } from '../hooks/text'
 import { todosOf } from '../hooks/chat'
 
 const MINUTE = 60_000
@@ -1614,6 +1614,9 @@ describe('security', () => {
     ['a HEAD that is no file (a pipe) is not read', { '/repo/.git': ['dir'], '/repo/.git/HEAD': ['other', ''] }, false],
     ['a branch name with odd characters is not shown', { '/repo/.git': ['dir'], '/repo/.git/HEAD': ['file', `ref: refs/heads/x${ESC}[2J\n`] }, false],
     ['a huge HEAD is not read', { '/repo/.git': ['dir'], '/repo/.git/HEAD': ['file', 'x'.repeat(5000)] }, false],
+    ['a branch in any script shows', { '/repo/.git': ['dir'], '/repo/.git/HEAD': ['file', 'ref: refs/heads/feature/über\n'] }, true],
+    ['a .git file without a gitdir line is not followed', { '/repo/.git': ['file', '../elsewhere\n'], '/repo/../elsewhere/HEAD': ['file', 'ref: refs/heads/main\n'] }, false],
+    ['a .git that is a link is not followed', { '/repo/.git': ['link'], '/repo/.git/HEAD': ['file', 'ref: refs/heads/main\n'] }, false],
   ] as const) {
     test(`branch: ${name}`, async ($, on) => {
       mock.store(on)
@@ -1810,5 +1813,91 @@ describe('glyphs to start with', () => {
     const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
     expect(await band.find({ type: 'Text', text: /ctx/ })).toBeUndefined()
     await band.unmount()
+  })
+})
+
+describe('second review', () => {
+  test('a subagent turn neither resets the main turn nor leaves the bar busy', async ($, on) => {
+    mock.store(on)
+    const clock = mock.clock(on, { now: 0 })
+    on('turn.start', ($, e) => ({ turnId: e.turnId }))
+    on('tool.call', () => ({ result: 'done' }) as never)
+    on('turn.complete', () => ({ text: '' }))
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    await runSkin($, 'show skinName')
+    const working = { ...bandProps(140), isWorking: false }
+    const sub = { agentId: 'sub-1' }
+
+    await $.session.measure({ context: { window: 200_000 }, rateLimits: [], cost: { usd: 1 }, changed: ['cost'] })
+    await $.turn.start({ text: 'go', turnId: 'main' })
+    await $.tool.call({ tool: 'Bash', command: 'true', description: 'one' } as never)
+    await $.session.measure({ context: { window: 200_000 }, rateLimits: [], cost: { usd: 1.1 }, changed: ['cost'] })
+    await $.turn.start({ text: '', turnId: 'sub', ...sub } as never)
+    await $.tool.call({ tool: 'Bash', command: 'true', description: 'by the subagent', ...sub } as never)
+    await $.tool.call({ tool: 'Bash', command: 'true', description: 'two' } as never)
+    await $.turn.complete({ turnId: 'sub', reason: 'answer', answer: '', durationMs: 5_000, isAborted: false, ...sub } as never)
+    await $.turn.complete({ turnId: 'main', reason: 'answer', answer: 'done', durationMs: 64_000, isAborted: false })
+    await $.session.measure({ context: { window: 200_000 }, rateLimits: [], cost: { usd: 1.25 }, changed: ['cost'] })
+
+    const line = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'TurnDuration', props: { word: 'Baked', durationMs: 64_000 } })
+    expect(await line.find({ type: 'Text', text: /\$0\.25 · 2 tools/ })).toBeDefined()
+    await line.unmount()
+
+    // A subagent still running after the main turn ended starts its own turn: the bar stays still.
+    await $.turn.start({ text: '', turnId: 'late', ...sub } as never)
+    await clock.advance(600)
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: working })
+    expect(await band.find({ type: 'Text', text: /MIDNIGHT [⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏]/ })).toBeUndefined()
+    await band.unmount()
+  })
+
+  test('branch names in any script pass; what git forbids does not', () => {
+    for (const name of ['main', 'feature/über', '修正/ui', 'release/é', 'release/1.2', 'fix-123_x']) {
+      expect(isBranchName(name)).toBe(true)
+    }
+    for (const name of ['', '@', 'a..b', 'a b', 'x~1', 'a:b', 'what?', 'st*r', 'br[a', 'back\\slash', '/x', 'x/', 'x.lock', '.hidden', 'a/.b', 'a//b', 'a@{1}', `x${String.fromCharCode(27)}`, 'a'.repeat(101)]) {
+      expect(isBranchName(name)).toBe(false)
+    }
+  })
+
+  test('emoji sequences count as the two cells a terminal draws, and are never cut in half', () => {
+    expect(graphemes('👨‍👩‍👧‍👦a')).toHaveLength(2)
+    expect(displayWidth('👨‍👩‍👧‍👦')).toBe(2)
+    expect(displayWidth('1️⃣')).toBe(2)
+    expect(displayWidth('©️')).toBe(2)
+    expect(displayWidth('✈️')).toBe(2)
+    expect(displayWidth('🇩🇪')).toBe(2)
+    expect(displayWidth('👍🏽')).toBe(2)
+    expect(displayWidth('e\u0301')).toBe(1)
+    expect(truncateCells('ab👨‍👩‍👧‍👦cd', 4)).toBe('ab…')
+    expect(truncateCells('ab👨‍👩‍👧‍👦cd', 5)).toBe('ab👨‍👩‍👧‍👦…')
+  })
+
+  test('the hotkey hint stops at its 36 keys and points to the arrows', () => {
+    expect(hotkeyRange(36)).toBe('1–9, 0, a–z')
+    expect(hotkeyRange(76)).toBe('1–9, 0, a–z (the rest: ↑↓)')
+    expect(hotkeyFor(36)).toBeUndefined()
+  })
+
+  test('the line totals say they count tracked files, and untracked ones are named apart', async ($, on) => {
+    mock.store(on)
+    on('ui.open', () => ({ value: { isPlaced: true as const } }))
+    on('process.run', ($, e) => ({
+      value: e.argv.includes('status')
+        ? { exitCode: 0, stdout: '## main\0 M a.ts\0?? new.ts\0?? other.ts\0', stderr: '', isStdoutTruncated: false, isStderrTruncated: false }
+        : { exitCode: 0, stdout: ' 1 file changed, 4 insertions(+), 1 deletion(-)\n', stderr: '', isStdoutTruncated: false, isStderrTruncated: false },
+    }))
+    await runSkin($, 'changes')
+    const changes = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'git-changes',
+      props: { ...PANE_PROPS, title: 'Changes' },
+    })
+    expect(await changes.find({ type: 'Text', text: /tracked/ })).toBeDefined()
+    expect(await changes.find({ type: 'Text', text: /2 untracked, not in the line count/ })).toBeDefined()
+    await changes.unmount()
   })
 })

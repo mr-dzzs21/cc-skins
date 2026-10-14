@@ -26,21 +26,41 @@ const isWide = (code: number) => WIDE.some(([from, to]) => code >= from && code 
 /** Marks drawn on the character before them, joiners and selectors: no cell of their own. */
 const ZERO_WIDTH = /[\p{M}\p{Cf}\u200b\ufe00-\ufe0f]/u
 
+/** Splits text into what a reader sees as single characters (grapheme clusters), where the runtime can. */
+const SEGMENTER =
+  typeof Intl !== 'undefined' && 'Segmenter' in Intl ? new Intl.Segmenter(undefined, { granularity: 'grapheme' }) : undefined
+
+export const graphemes = (text: string): string[] =>
+  SEGMENTER === undefined ? Array.from(text) : Array.from(SEGMENTER.segment(text), part => part.segment)
+
 /**
- * The cells a text takes in a terminal, as wcwidth counts them: a wide
- * character two, a combining mark or a joiner none, anything else one.
+ * A cluster a terminal draws as one emoji, two cells: a ZWJ sequence (a
+ * family), an emoji presentation selector (`©️`), a keycap (`1️⃣`), a skin
+ * tone, a flag's pair of regional indicators.
  */
-export const displayWidth = (text: string): number => {
-  let width = 0
-  for (const char of text) {
-    if (ZERO_WIDTH.test(char)) {
-      continue
+const EMOJI_SEQUENCE = /\u200d|\ufe0f|\u20e3|[\u{1f3fb}-\u{1f3ff}]|[\u{1f1e6}-\u{1f1ff}]{2}/u
+
+/** The cells one cluster takes: an emoji sequence two, else as its first visible code point. */
+const clusterWidth = (cluster: string): number => {
+  if (EMOJI_SEQUENCE.test(cluster)) {
+    return 2
+  }
+  for (const char of cluster) {
+    if (!ZERO_WIDTH.test(char)) {
+      return isWide(char.codePointAt(0) ?? 0) ? 2 : 1
     }
-    width += isWide(char.codePointAt(0) ?? 0) ? 2 : 1
   }
 
-  return width
+  return 0
 }
+
+/**
+ * The cells a text takes in a terminal, cluster by cluster as a terminal
+ * draws them: a wide character or an emoji sequence two, a combining mark or
+ * a joiner on its own none, anything else one.
+ */
+export const displayWidth = (text: string): number =>
+  graphemes(text).reduce((width, cluster) => width + clusterWidth(cluster), 0)
 
 /** The text cut to at most `cells` terminal cells, an ellipsis where it was cut. */
 export const truncateCells = (text: string, cells: number): string => {
@@ -48,11 +68,14 @@ export const truncateCells = (text: string, cells: number): string => {
     return text
   }
   let out = ''
-  for (const char of text) {
-    if (displayWidth(`${out}${char}`) > cells - 1) {
+  let width = 0
+  for (const cluster of graphemes(text)) {
+    const next = clusterWidth(cluster)
+    if (width + next > cells - 1) {
       break
     }
-    out += char
+    out += cluster
+    width += next
   }
 
   return cells <= 0 ? '' : `${out}…`

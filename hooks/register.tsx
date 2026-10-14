@@ -48,7 +48,7 @@ import { SETTINGS_ROWS, drawSettings, isSettingsTab } from './settings'
 import { MAX_TURN_STATS, findTurnStat, turnStatText } from './turns'
 import { finishedText, isSoundName, soundAsset, soundFor } from './sounds'
 import { DASHBOARD, DASHBOARD_COLUMNS, DASHBOARD_ROWS, MAX_HISTORY, drawDashboard } from './dashboard'
-import { GIT_PANE, GIT_ROWS, GIT_SHORTSTAT, GIT_STATUS, drawChanges, parseStatus } from './git'
+import { GIT_PANE, GIT_ROWS, GIT_SHORTSTAT, GIT_STATUS, drawChanges, isBranchName, parseStatus } from './git'
 import { PICKER, PICKER_COLUMNS, drawPicker, pickerRowOf, pickerRows } from './picker'
 import { BUILDER, BUILDER_COLUMNS, BUILDER_ROWS, drawBuilder } from './builder'
 import { MAX_CUSTOM_SKINS, isKnownSkin, parseRecipe, resolveSkin, skinEntries, slugFor, themeName } from './custom'
@@ -165,9 +165,6 @@ const HEAD_REF = 'ref: refs/heads/'
 /** The most a `.git` pointer or a HEAD may weigh; a real one is a line. */
 const MAX_POINTER_BYTES = 512
 
-/** What a branch name the bar shows may hold. */
-const BRANCH_NAME = /^[\w./-]{1,100}$/
-
 /**
  * The checked-out branch, read from the repository's HEAD (a worktree's `.git`
  * file points at its own); a detached HEAD reads as its short hash.
@@ -180,11 +177,17 @@ const readBranch = async ($: EngineInterface): Promise<string | null> => {
     }
     let gitDir = `${repo.root}/.git`
     const dotGit = await $.fs.stat(gitDir)
+    if (dotGit.isLink || (dotGit.kind !== 'file' && dotGit.kind !== 'dir')) {
+      return null
+    }
     if (dotGit.kind === 'file') {
-      if (dotGit.isLink || dotGit.size > MAX_POINTER_BYTES) {
+      if (dotGit.size > MAX_POINTER_BYTES) {
         return null
       }
-      const pointer = ((await $.fs.read(gitDir)).split('\n')[0] ?? '').replace(/^gitdir: /, '').trim()
+      const pointer = /^gitdir: (.+)$/.exec(((await $.fs.read(gitDir)).split('\n')[0] ?? '').trim())?.[1]?.trim()
+      if (pointer === undefined || pointer === '') {
+        return null
+      }
       gitDir = /^([A-Za-z]:)?[\\/]/.test(pointer) ? pointer : `${repo.root}/${pointer}`
     }
     const headPath = `${gitDir}/HEAD`
@@ -196,7 +199,7 @@ const readBranch = async ($: EngineInterface): Promise<string | null> => {
     if (line.startsWith(HEAD_REF)) {
       const name = line.slice(HEAD_REF.length)
 
-      return BRANCH_NAME.test(name) ? name : null
+      return isBranchName(name) ? name : null
     }
 
     return /^[0-9a-f]{7,64}$/.test(line) ? line.slice(0, 7) : null
@@ -803,6 +806,12 @@ export const register: Register = on => {
   }).catch(($, e, next) => next(e))
 
   on('turn.start', async ($, e, next) => {
+    // A subagent's turn starts here too, carrying its `agentId` (Claude Code
+    // 2.1.299 sends it, though the declared input does not name it yet). Only
+    // the main thread's turn counts, animates and ends the busy state.
+    if ((e as { agentId?: string }).agentId !== undefined) {
+      return next(e)
+    }
     await update($, busyAtom, () => true)
     toolsThisTurn = 0
     costAtTurnStart = (await read($, usageAtom)).costUsd

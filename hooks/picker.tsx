@@ -63,14 +63,20 @@ export const PICKER_COLUMNS = 64
 
 export const hotkeyFor = (index: number): string | undefined => HOTKEYS[index]
 
-/** The hotkeys of `count` rows as a hint reads them: `1–5`, `1–9, 0`, `1–9, 0, a–b`. */
+/**
+ * The hotkeys of `count` rows as a hint reads them: `1–5`, `1–9, 0`,
+ * `1–9, 0, a–b`; past the 36 keys there are, the rest by the arrows.
+ */
 export const hotkeyRange = (count: number): string => {
-  if (count <= 9) {
-    return `1–${count}`
-  }
-  const letters = count - 10
+  const keyed = Math.min(count, HOTKEYS.length)
+  const range =
+    keyed <= 9
+      ? `1–${keyed}`
+      : keyed === 10
+        ? '1–9, 0'
+        : `1–9, 0, a${keyed > 11 ? `–${hotkeyFor(keyed - 1) ?? ''}` : ''}`
 
-  return letters === 0 ? '1–9, 0' : `1–9, 0, a${letters > 1 ? `–${hotkeyFor(count - 1) ?? ''}` : ''}`
+  return count > HOTKEYS.length ? `${range} (the rest: ↑↓)` : range
 }
 
 type Elements = {

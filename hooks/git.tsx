@@ -1,7 +1,7 @@
 import type { GitChanges } from '../types'
 import type { Elements } from './panels'
 import type { Skin } from './skins'
-import { cleanLine } from './text'
+import { cleanLine, displayWidth } from './text'
 
 /** The pane a press on the bar's branch opens. */
 export const GIT_PANE = 'git-changes'
@@ -51,6 +51,19 @@ export const parseStatus = (status: string, shortstat = ''): GitChanges => {
   }
 }
 
+/**
+ * Whether a branch name is one git takes and the bar may show: any script,
+ * but no control, format or space character, none of git's forbidden
+ * `~ ^ : ? * [ \\`, no `..`, `@{`, `//` or component starting with `.`, not
+ * starting or ending with `/` or `.`, not ending in `.lock`, at most 100 cells.
+ */
+export const isBranchName = (name: string): boolean =>
+  name !== '' &&
+  name !== '@' &&
+  displayWidth(name) <= 100 &&
+  !/[\p{Cc}\p{Cf}\s~^:?*[\\]/u.test(name) &&
+  !/\.\.|@\{|\/\/|\/\.|^[/.]|[/.]$|\.lock$/.test(name)
+
 /** The color a change's code reads in: added green, deleted red, modified amber, untracked quiet. */
 const codeColor = (skin: Skin, code: string): string =>
   code.includes('A')
@@ -62,6 +75,9 @@ const codeColor = (skin: Skin, code: string): string =>
         : code.includes('R')
           ? skin.chat.user
           : skin.colors.warn.bg
+
+/** How many of the changes are files git does not track yet (`??`). */
+const untrackedCount = (changes: GitChanges) => changes.files.filter(file => file.code === '??').length
 
 /** The changes pane: the branch and how it stands to its upstream, the line totals, the changed files. */
 export const drawChanges = (
@@ -97,10 +113,11 @@ export const drawChanges = (
           : `${changes.files.length} ${changes.files.length === 1 ? 'file' : 'files'} changed`}
         {changes.added + changes.removed > 0 && (
           <Text>
-            {' · '}
+            {' · tracked '}
             <Text color={skin.chat.success}>{`+${changes.added}`}</Text> <Text color={skin.colors.danger.bg}>{`−${changes.removed}`}</Text>
           </Text>
         )}
+        {untrackedCount(changes) > 0 && <Text>{` · ${untrackedCount(changes)} untracked, not in the line count`}</Text>}
       </Text>
       {changes.files.slice(0, MAX_FILES).map(file => (
         <Text key={`file-${file.path}`} wrap="truncate-middle">
