@@ -29,8 +29,8 @@
 <rect x="799" y="40" width="76.5" height="84" fill="#0f766e"/>
 <text x="837" y="100" fill="#ffffff" font-size="58" font-weight="800" text-anchor="middle">s</text>
 <path d="M875 40A26 42 0 0 1 875 124Z" fill="#0f766e"/>
-<text x="480" y="178" fill="#e6edf3" font-size="25" font-weight="700" text-anchor="middle">Skins and a clickable usage bar for Claude Code</text>
-<text x="480" y="212" fill="#8b949e" font-size="16" text-anchor="middle">26 skins · model, context, limits and cost a click away · no network, no credentials</text>
+<text x="480" y="178" fill="#e6edf3" font-size="25" font-weight="700" text-anchor="middle">Your limits, your model, your look</text>
+<text x="480" y="212" fill="#8b949e" font-size="16" text-anchor="middle">A clickable bar and 26 skins for Claude Code · one command to install · no network</text>
 </svg>
 <svg x="66" y="264" width="1147" height="293" viewBox="0 0 956 244" font-family="'JetBrains Mono','SF Mono',Menlo,Consolas,monospace" font-size="14">
 <rect width="956" height="244" rx="12" fill="#1a1213"/>

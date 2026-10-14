@@ -155,12 +155,12 @@ const renderBanner = (): string => {
   })
 
   return [
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" font-family="${FONTS}" role="img" aria-label="cc-skins: skins and a clickable usage bar for Claude Code">`,
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" font-family="${FONTS}" role="img" aria-label="cc-skins: your limits, your model, your look. A clickable bar and skins for Claude Code">`,
     `<defs><linearGradient id="night" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0f1a"/><stop offset="1" stop-color="#1a0f2e"/></linearGradient></defs>`,
     `<rect width="${width}" height="${height}" rx="18" fill="url(#night)"/>`,
     ...parts,
-    `<text x="${width / 2}" y="${y + tall + 54}" fill="#e6edf3" font-size="25" font-weight="700" text-anchor="middle">Skins and a clickable usage bar for Claude Code</text>`,
-    `<text x="${width / 2}" y="${y + tall + 88}" fill="#8b949e" font-size="16" text-anchor="middle">${Object.keys(SKINS).length} skins · model, context, limits and cost a click away · no network, no credentials</text>`,
+    `<text x="${width / 2}" y="${y + tall + 54}" fill="#e6edf3" font-size="25" font-weight="700" text-anchor="middle">Your limits, your model, your look</text>`,
+    `<text x="${width / 2}" y="${y + tall + 88}" fill="#8b949e" font-size="16" text-anchor="middle">A clickable bar and ${Object.keys(SKINS).length} skins for Claude Code · one command to install · no network</text>`,
     `</svg>`,
     '',
   ].join('\n')

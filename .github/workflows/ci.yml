@@ -77,8 +77,8 @@ jobs:
         with:
           node-version: '22'
       - run: npm install --global @anthropic-ai/claude-code@latest
-      - run: claude plugin marketplace add ./
-      - run: claude plugin install cc-skins@cc-skins
+      # the one command the README gives, with this checkout as the marketplace
+      - run: claude plugin install cc-skins --marketplace ./
       - name: The plugin is installed and on
         run: |
           claude plugin list | tee list.txt
