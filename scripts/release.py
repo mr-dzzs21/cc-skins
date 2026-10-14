@@ -82,7 +82,9 @@ run('claude', 'plugin', 'tag', '.', '-m', 'cc-skins %s', '--push', capture=False
 data = json.load(open(MARKETPLACE, encoding='utf-8'))
 for plugin in data['plugins']:
     if plugin['name'] == 'cc-skins':
-        plugin['source'] = {'source': 'github', 'repo': REPO, 'ref': tag}
+        # an HTTPS address, never the github shorthand: that clones over SSH where SSH keys exist,
+        # and many company networks block SSH's port 22
+        plugin['source'] = {'source': 'url', 'url': f'https://github.com/{REPO}.git', 'ref': tag}
 open(MARKETPLACE, 'w', encoding='utf-8').write(json.dumps(data, indent=2, ensure_ascii=False) + '\n')
 run('git', 'add', MARKETPLACE)
 run('git', 'commit', '--quiet', '-m', f'Release {version}: the marketplace points at {tag}')

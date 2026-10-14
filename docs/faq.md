@@ -27,3 +27,21 @@ Those come from the color theme, which Claude Code keeps yours to choose: open `
 ## Does it slow Claude Code down, or send anything?
 
 No. It makes no network requests, and runs a command only when you ask: `git status` when you open the changed files (or after each reply, with the Git status extra on), `/usage` when you ask for live limits. Its figures come from Claude Code with each reply; the branch is read from `.git/HEAD` at the start and after each turn; once a minute it moves the reset countdowns on. See [Privacy and safety](privacy.md).
+
+## An update fails with `ssh: connect to host github.com port 22`
+
+Your network blocks SSH (port 22), as many company networks do, and an older copy of the marketplace told Claude Code to fetch cc-skins over SSH. The marketplace fetches it over HTTPS now; get that copy:
+
+```sh
+claude plugin marketplace update cc-skins
+claude plugin update cc-skins@cc-skins
+```
+
+If the first command fails the same way, add the marketplace again by its HTTPS address:
+
+```sh
+claude plugin marketplace remove cc-skins
+claude plugin marketplace add https://github.com/mr-dzzs21/cc-skins.git
+claude plugin install cc-skins@cc-skins
+```
+

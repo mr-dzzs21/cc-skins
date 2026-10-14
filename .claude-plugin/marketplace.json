@@ -9,8 +9,8 @@
     {
       "name": "cc-skins",
       "source": {
-        "source": "github",
-        "repo": "mr-dzzs21/cc-skins",
+        "source": "url",
+        "url": "https://github.com/mr-dzzs21/cc-skins.git",
         "ref": "cc-skins--v0.19.0"
       },
       "description": "Skins, a usage bar and quick controls for Claude Code in the terminal: 26 looks plus your own, model and effort, context and limits, cost, alerts and a usage dashboard."

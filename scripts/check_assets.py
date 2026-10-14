@@ -8,7 +8,7 @@
   draws the gallery and the banner, scripts/screens/ records the screenshots)
 - every relative link and picture in the README, the guides and docs/ points at a file
 - the manifest's version is the changelog's newest and hooks/doctor.ts's
-- the marketplace points at a release tag (scripts/release.py moves it), not ahead of the code
+- the marketplace points at a release tag over HTTPS (scripts/release.py moves it), not ahead of the code
 
     python3 scripts/check_assets.py
 """
@@ -84,8 +84,9 @@ semver = lambda text: tuple(int(n) for n in text.split('.'))
 entry = next((one for one in json.load(open('.claude-plugin/marketplace.json', encoding='utf-8')).get('plugins', []) if one.get('name') == 'cc-skins'), {})
 source = entry.get('source') if isinstance(entry.get('source'), dict) else {}
 pinned = re.fullmatch(r'cc-skins--v(\d+\.\d+\.\d+)', str(source.get('ref', '')))
-check(source.get('source') == 'github' and source.get('repo') == 'mr-dzzs21/cc-skins' and pinned is not None,
-      'marketplace.json: cc-skins must come from github mr-dzzs21/cc-skins at a cc-skins--v<version> tag (scripts/release.py sets it)')
+# over HTTPS: the github shorthand clones over SSH where SSH keys exist, and many company networks block port 22
+check(source.get('source') == 'url' and source.get('url') == 'https://github.com/mr-dzzs21/cc-skins.git' and pinned is not None,
+      'marketplace.json: cc-skins must come from https://github.com/mr-dzzs21/cc-skins.git at a cc-skins--v<version> tag (scripts/release.py sets it)')
 check(pinned is None or re.fullmatch(r'\d+\.\d+\.\d+', str(version)) is None or semver(pinned.group(1)) <= semver(version),
       f'marketplace.json points at {pinned and pinned.group(1)}, ahead of plugin.json {version}')
 
