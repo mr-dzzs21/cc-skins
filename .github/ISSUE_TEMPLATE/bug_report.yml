@@ -14,12 +14,12 @@ body:
     attributes:
       label: How to make it happen
       placeholder: "1. /skin ring\n2. click the model\n3. …"
-  - type: input
-    id: versions
+  - type: textarea
+    id: doctor
     attributes:
-      label: Versions
-      description: "`claude --version` and the cc-skins version (`claude plugin list`)"
-      placeholder: "Claude Code 2.1.299, cc-skins 0.17.0"
+      label: What /skin doctor says
+      description: Run `/skin doctor` in Claude Code and paste what it shows (versions, settings, hints).
+      render: text
     validations:
       required: true
   - type: dropdown

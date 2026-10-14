@@ -1,6 +1,6 @@
 {
   "name": "cc-skins",
-  "description": "Skins for Claude Code in the terminal.",
+  "description": "Skins and a clickable usage bar for Claude Code in the terminal.",
   "owner": {
     "name": "mr-dzzs21",
     "url": "https://github.com/mr-dzzs21"
@@ -8,7 +8,11 @@
   "plugins": [
     {
       "name": "cc-skins",
-      "source": "./",
+      "source": {
+        "source": "github",
+        "repo": "mr-dzzs21/cc-skins",
+        "ref": "cc-skins--v0.18.0"
+      },
       "description": "Skins, a usage bar and quick controls for Claude Code in the terminal: 26 looks plus your own, model and effort, context and limits, cost, alerts and a usage dashboard."
     }
   ]

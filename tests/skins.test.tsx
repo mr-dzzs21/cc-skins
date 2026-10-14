@@ -16,6 +16,8 @@ import { finishedText, soundFor } from '../hooks/sounds'
 import { sessionLine, sparkline, turnTotals } from '../hooks/dashboard'
 import { ACCENTS, COLOR_PARTS, buildSkin, colorPartNamed, parseRecipe, slugFor } from '../hooks/custom'
 import { contrast, parseColor } from '../hooks/color'
+import { CC_SKINS_VERSION, MIN_CLAUDE_CODE, doctorHints, doctorReport, isOlder } from '../hooks/doctor'
+import type { DoctorFacts } from '../hooks/doctor'
 import { isBranchName, parseStatus } from '../hooks/git'
 import { isStale, mergeLimits, parseUsageText } from '../hooks/limits'
 import { cleanLine, displayWidth, graphemes, stripControls, truncateCells } from '../hooks/text'
@@ -2329,5 +2331,174 @@ describe('every piece its own color', () => {
 
     const exported = JSON.parse(((await runSkin($, 'export my-midnight')).text ?? '').split('\n')[0] ?? '{}')
     expect(exported).toMatchObject({ label: 'My Midnight', style: 'base', colors: { clock: RED } })
+  })
+})
+
+describe('when things fail', () => {
+  /** Starts a session as Claude Code does: the plugin sets itself up there. */
+  const startSession = ($: Engine, on: Parameters<typeof mock.store>[0]) => {
+    on('session.start', ($, e) => ({ cwd: e.cwd }))
+
+    return $.session.start({ cwd: '/repo', surface: 'terminal', isInteractive: true })
+  }
+
+  test('with no store at all, /skin answers and the bar draws with the defaults', async ($, on) => {
+    // no mock.store: every store call fails, as a broken or read-only store would
+    const registered: string[] = []
+    on('command.register', ($, e) => {
+      registered.push(e.name)
+
+      return { value: { command: e.name } }
+    })
+    on('session.id', () => ({ value: 's1' }))
+    on('ui.toast', () => ({ value: undefined }))
+    await startSession($, on)
+    expect(registered).toEqual(['skin'])
+
+    expect((await runSkin($, 'list')).text).toContain('current: midnight')
+    expect((await runSkin($, 'ring')).text).toContain('Skin → Ring')
+    expect((await runSkin($, 'list')).text).toContain('current: ring')
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
+    expect(await band.find({ key: 'skin-button' })).toBeDefined()
+    await band.unmount()
+    expect((await runSkin($, 'doctor')).text).toContain('Store        not answering')
+  })
+
+  test('a /skin whose window will not open says so plainly', async ($, on) => {
+    mock.store(on)
+    on('ui.open', () => {
+      throw new Error('no window')
+    })
+    const said = (await runSkin($, '')).text ?? ''
+    expect(said).toContain('Something went wrong in cc-skins')
+    expect(said).toContain('/skin doctor')
+    expect(said).toContain('github.com/mr-dzzs21/cc-skins/issues')
+  })
+
+  test('git and the file system failing leave the branch out, never the bar', async ($, on) => {
+    mock.store(on)
+    on('ui.toast', () => ({ value: undefined }))
+    on('session.repo', () => ({ value: { root: '/repo', remote: null, internal: false, name: 'repo' } }) as never)
+    on('fs.stat', () => {
+      throw new Error('denied')
+    })
+    on('process.run', () => {
+      throw new Error('no git')
+    })
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    await runSkin($, 'show gitStatus')
+    await $.session.measure({ context: { window: 200_000, tokens: 20_000, percent: 10 }, rateLimits: [], cost: { usd: 1 }, changed: ['context'] })
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
+    expect(await band.find({ key: 'skin-button' })).toBeDefined()
+    expect(await band.find({ key: 'branch-button' })).toBeUndefined()
+    await band.unmount()
+  })
+
+  test('an older Claude Code is told what to do as the session starts, and the doctor says it too', async ($, on) => {
+    mock.store(on)
+    const toasts: string[] = []
+    on('ui.toast', ($, e) => {
+      toasts.push(e.text)
+
+      return { value: undefined }
+    })
+    on('command.register', ($, e) => ({ value: { command: e.name } }))
+    on('session.id', () => ({ value: 's1' }))
+    on('session.version', () => ({ value: { version: '2.1.287', versionBase: '2.1.287', buildTime: '' } }) as never)
+    await startSession($, on)
+    expect(toasts.some(text => text.includes(`needs Claude Code ${MIN_CLAUDE_CODE} or newer, and this is 2.1.287`))).toBe(true)
+    expect(toasts.some(text => text.includes('claude install latest'))).toBe(true)
+    expect((await runSkin($, 'doctor')).text).toContain(`2.1.287 ✗ too old, ${MIN_CLAUDE_CODE} or newer needed`)
+  })
+
+  test('a recent one is not', async ($, on) => {
+    mock.store(on)
+    const toasts: string[] = []
+    on('ui.toast', ($, e) => {
+      toasts.push(e.text)
+
+      return { value: undefined }
+    })
+    on('command.register', ($, e) => ({ value: { command: e.name } }))
+    on('session.id', () => ({ value: 's1' }))
+    on('session.version', () => ({ value: { version: '2.1.299', versionBase: '2.1.299', buildTime: '' } }) as never)
+    await startSession($, on)
+    expect(toasts.some(text => text.includes('needs Claude Code'))).toBe(false)
+    const report = (await runSkin($, 'doctor')).text ?? ''
+    expect(report).toContain(`cc-skins     ${CC_SKINS_VERSION}`)
+    expect(report).toContain('Claude Code  2.1.299 ✓')
+    expect(report).toContain('Store        ok')
+  })
+})
+
+describe('doctor', () => {
+  const FACTS: DoctorFacts = {
+    claudeCode: '2.1.299',
+    os: null,
+    terminal: 'ghostty',
+    colorTerm: 'truecolor',
+    skin: 'ring',
+    isOwnSkin: false,
+    glyphs: 'nerd',
+    barStyle: 'powerline',
+    isChatStyled: true,
+    isHudHidden: false,
+    hidden: ['skinName'],
+    model: 'Opus 5.5',
+    contextPercent: 34,
+    limitsAgeMin: 3,
+    costUsd: 1.24,
+    branch: 'main',
+    isGitStatusOn: false,
+    gitError: null,
+    isStoreOk: true,
+  }
+
+  test('versions compare by their numbers', () => {
+    expect(isOlder('2.1.287', '2.1.295')).toBe(true)
+    expect(isOlder('2.1.295', '2.1.295')).toBe(false)
+    expect(isOlder('2.1.299-dev.20261014.t1.sha1', '2.1.295')).toBe(false)
+    expect(isOlder('2.2.0', '2.1.295')).toBe(false)
+    expect(isOlder('1.9.999', '2.1.295')).toBe(true)
+    expect(isOlder('soon', '2.1.295')).toBe(false)
+  })
+
+  test('a healthy setup reads as one, every line there', () => {
+    const report = doctorReport(FACTS)
+    for (const line of [
+      'cc-skins doctor',
+      `cc-skins     ${CC_SKINS_VERSION}`,
+      'Claude Code  2.1.299 ✓',
+      'System       macOS or Linux · ghostty · truecolor',
+      'Skin         ring (built in) · icons nerd · bar powerline · chat cards on',
+      'Hidden       skinName',
+      'Session      Opus 5.5 · context 34% · limits read 3m ago · cost $1.24',
+      'Repository   main · git status off',
+      'Everything looks right.',
+    ]) {
+      expect(report).toContain(line)
+    }
+  })
+
+  test('what is off comes with what to do', () => {
+    const hints = doctorHints({
+      ...FACTS,
+      claudeCode: '2.1.290',
+      os: 'Windows',
+      colorTerm: null,
+      isHudHidden: true,
+      isStoreOk: false,
+      limitsAgeMin: null,
+      isGitStatusOn: true,
+      gitError: 'git: not found',
+    })
+    expect(hints[0]).toContain('claude install latest')
+    expect(hints.join('\n')).toContain('/skin hud on')
+    expect(hints.join('\n')).toContain('/skin glyphs powerline')
+    expect(hints.join('\n')).toContain('24-bit color')
+    expect(hints.join('\n')).toContain('git: not found')
+    expect(hints.join('\n')).toContain('/skin limits')
+    expect(hints).toHaveLength(7)
   })
 })

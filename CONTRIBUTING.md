@@ -32,4 +32,4 @@ To make it a built-in skin, describe it in a JSON file and run `python3 scripts/
 
 ## Releases
 
-A user-facing change bumps the version in `.claude-plugin/plugin.json` and adds a section at the top of `CHANGELOG.md` with the same version (`check_assets.py` checks the two agree).
+A user-facing change bumps the version in `.claude-plugin/plugin.json` and `hooks/doctor.ts` and adds a section at the top of `CHANGELOG.md` (`check_assets.py` checks the three agree). The maintainer releases with `scripts/release.py`, which only tags a commit CI passed on; people get it from the marketplace after that, never before. See [docs/development.md](docs/development.md#releases).

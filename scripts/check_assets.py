@@ -7,7 +7,8 @@
 - the README's pictures exist, and the skin gallery has every built-in skin (scripts/render_previews.ts
   draws the gallery and the banner, scripts/screens/ records the screenshots)
 - every relative link and picture in the README, the guides and docs/ points at a file
-- the manifest's version is the changelog's newest
+- the manifest's version is the changelog's newest and hooks/doctor.ts's
+- the marketplace points at a release tag (scripts/release.py moves it), not ahead of the code
 
     python3 scripts/check_assets.py
 """
@@ -75,6 +76,18 @@ for page in ['README.md', 'CONTRIBUTING.md', 'SECURITY.md'] + sorted(glob.glob('
 version = json.load(open('.claude-plugin/plugin.json', encoding='utf-8')).get('version')
 newest = re.search(r'^## (\S+)', open('CHANGELOG.md', encoding='utf-8').read(), re.M)
 check(newest is not None and newest.group(1) == version, f'plugin.json says {version}, CHANGELOG.md says {newest and newest.group(1)}')
+doctor = re.search(r"CC_SKINS_VERSION = '([^']+)'", open('hooks/doctor.ts', encoding='utf-8').read())
+check(doctor is not None and doctor.group(1) == version, f'plugin.json says {version}, hooks/doctor.ts says {doctor and doctor.group(1)}')
+
+# people get a release, not main: the marketplace points at a release tag, never one ahead of the code
+semver = lambda text: tuple(int(n) for n in text.split('.'))
+entry = next((one for one in json.load(open('.claude-plugin/marketplace.json', encoding='utf-8')).get('plugins', []) if one.get('name') == 'cc-skins'), {})
+source = entry.get('source') if isinstance(entry.get('source'), dict) else {}
+pinned = re.fullmatch(r'cc-skins--v(\d+\.\d+\.\d+)', str(source.get('ref', '')))
+check(source.get('source') == 'github' and source.get('repo') == 'mr-dzzs21/cc-skins' and pinned is not None,
+      'marketplace.json: cc-skins must come from github mr-dzzs21/cc-skins at a cc-skins--v<version> tag (scripts/release.py sets it)')
+check(pinned is None or re.fullmatch(r'\d+\.\d+\.\d+', str(version)) is None or semver(pinned.group(1)) <= semver(version),
+      f'marketplace.json points at {pinned and pinned.group(1)}, ahead of plugin.json {version}')
 
 for problem in problems:
     print(f'✘ {problem}')

@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.19.0
+
+Stability:
+
+- **Releases only after tests.** The marketplace now points at a release tag, not at main: `claude plugin update` brings the newest release, and a release is tagged only once CI passed for that exact commit (`scripts/release.py`).
+- **Tested where it's used.** CI runs the tests and a strict validation on macOS, Windows and Linux, with the oldest supported Claude Code and the newest, installs the plugin through the marketplace on all three, and tests the release people have.
+- **Every morning too**, so a new Claude Code that breaks something is found before the people using it find it.
+- **The real minimum is 2.1.295** (tested against every release from 2.1.287 on: older ones lack what the bar's buttons need). On an older Claude Code, cc-skins now says so as the session starts and what to do.
+- **Failures stay small.** Without its store cc-skins runs on the defaults; set-up goes on step by step when a part of Claude Code doesn't answer; a `/skin` command that fails says so plainly and points to `/skin doctor`. Each case has a test.
+- **`/skin doctor`**: versions, system, settings, the repository and the store, with hints for what looks off, to paste into a bug report (the bug form asks for it).
+- docs/stability.md says all of this.
+
 ## 0.18.0
 
 - Every piece its own color. The skin builder has three tabs: **Basics** (as before), **Bar colors** (each block of the bar, and the warning and alarm colors) and **Turn line and chat** (the turn line's blocks, card frames, your name, Claude's, quiet text, done ticks). Each piece is a row drawn in its colors with a field for its own: a name (`red`, `blue`, `gold`, or in German `rot`, `blau`, `grün`…) or `#rrggbb`. The text on a block is picked to read on it, so every text stays readable.

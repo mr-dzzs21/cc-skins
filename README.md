@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://github.com/mr-dzzs21/cc-skins/actions/workflows/ci.yml"><img src="https://github.com/mr-dzzs21/cc-skins/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <img src="https://img.shields.io/badge/Claude_Code-2.1.296%2B-d97757.svg" alt="Claude Code 2.1.296 or newer">
+  <img src="https://img.shields.io/badge/Claude_Code-2.1.295%2B-d97757.svg" alt="Claude Code 2.1.295 or newer">
   <img src="https://img.shields.io/badge/macOS_·_Windows_·_Linux-555.svg" alt="macOS, Windows, Linux">
   <img src="https://img.shields.io/badge/network-none-2ea043.svg" alt="No network">
 </p>
@@ -25,7 +25,7 @@ Your chat as cards, a bar that keeps model, context, limits and cost in view, on
 
 ## Install
 
-**1. Get Claude Code** 2.1.296 or newer ([setup guide](https://code.claude.com/docs)). Already have it? `claude update`.
+**1. Get Claude Code** 2.1.295 or newer ([setup guide](https://code.claude.com/docs)). Already have it? `claude update`, and `claude --version` tells which you have. The stable update channel can be a week or two behind: switch to latest in `/config` → Auto-update channel (with Homebrew: the `claude-code@latest` cask).
 
 | macOS, Linux | Windows (PowerShell) |
 |---|---|
@@ -148,12 +148,13 @@ All of them: [Commands](docs/commands.md).
 - **The bar doesn't show:** in a Claude Code that was already running, type `/reload-plugins`. Still nothing: `claude plugin enable cc-skins@cc-skins`.
 - **Boxes or question marks instead of icons:** your font has no Nerd Font icons. Type `/skin glyphs powerline` (arrows only) or `/skin glyphs plain`, or set up a Nerd Font (step 4).
 - **Claude Code's own colors didn't change:** `/theme` → `cc-skins · <your skin>`.
+- **Anything else:** `/skin doctor` shows what cc-skins sees and what to do; paste it into a [bug report](https://github.com/mr-dzzs21/cc-skins/issues/new?template=bug_report.yml).
 
-More: [Questions and fixes](docs/faq.md).
+More: [Questions and fixes](docs/faq.md) · [How cc-skins stays working](docs/stability.md).
 
 ## More
 
-[Docs](docs/README.md) · [Privacy and safety](docs/privacy.md) · [cc-skins and status line tools](docs/comparison.md) · [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
+[Docs](docs/README.md) · [Stability](docs/stability.md) · [Privacy and safety](docs/privacy.md) · [cc-skins and status line tools](docs/comparison.md) · [Development](docs/development.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
 
 ## License
 

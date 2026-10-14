@@ -13,6 +13,6 @@ Claude Code's status line shows the output of a command you configure, below the
 | Install | `/plugin install`, nothing else | The tool, plus a `statusLine` entry in `settings.json` (some tools write it for you) |
 | Network and credentials | None | Depends on the tool: live usage figures may come from Anthropic's API with your stored login |
 | What it shows | Model, effort, branch, context, 5h and 7d limits with resets, cost, a compact button; as extras git status, context tokens, cost per hour, session time, clock, Claude Code version | Often much more: ccstatusline alone has dozens of widgets |
-| Claude Code | 2.1.296 or newer: function-hook plugins are new and may still change | Any version with a status line |
+| Claude Code | 2.1.295 or newer: function-hook plugins are new and may still change | Any version with a status line |
 
 They don't get in each other's way: keep your status line below the prompt and cc-skins above it.

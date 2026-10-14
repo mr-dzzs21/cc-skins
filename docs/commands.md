@@ -4,6 +4,7 @@
 
 | Command | Does |
 |---|---|
+| `/skin doctor` | What cc-skins sees (versions, settings, repository, store) with hints for what looks off: paste it into a bug report |
 | `/skin` | Opens the skin picker: ↑↓ previews and Enter picks; a key (1–9, 0, a–p) or a click previews and the same again picks; Esc closes. A click on the bar's first block opens it too (then click into the picker once, so it has the keys) |
 | `/skin list` | Lists the skins as text, marks the current one |
 | `/skin model` | Opens the model and effort picker (or click the model in the bar). A model pick is saved as your default, as `/model` does; effort holds for the session, as `/effort` does |

@@ -22,7 +22,13 @@ claude plugin test .             # run tests/*.test.tsx against the engine
 python3 scripts/check_assets.py  # JSON, schemes, scripts, one theme and scheme per skin, the pictures, versions
 ```
 
-CI runs the last three on every push and pull request, with Claude Code pinned, no login and no secrets (nothing calls a model).
+CI runs them on every push, every pull request and every morning, on macOS, Windows and Linux, with the oldest Claude Code cc-skins supports and the newest; it also installs the plugin through the marketplace and tests the release people have. No login and no secrets: nothing calls a model. See [How cc-skins stays working](stability.md).
+
+## Releases
+
+People install from the marketplace, which points at a release tag, not at main. To release: bump the version in `.claude-plugin/plugin.json`, `hooks/doctor.ts` (`CC_SKINS_VERSION`) and a new top section of `CHANGELOG.md`, push, then `python3 scripts/release.py`. It checks the versions agree, waits for CI on that commit and stops unless it passed, tags it, points the marketplace at the tag and publishes the GitHub release. Until then, a push reaches nobody.
+
+To try unreleased code yourself: `claude --plugin-dir .` from the clone.
 
 Once Claude Code has loaded the folder, it writes the API types to `.claude-plugin/types/` and a `tsconfig.json`, so `tsc -p .` type-checks the plugin.
 

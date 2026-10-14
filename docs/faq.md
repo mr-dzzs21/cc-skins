@@ -4,6 +4,8 @@
 
 ## The bar doesn't show
 
+First, `claude --version`: cc-skins needs 2.1.295 or newer, and says so when it starts on an older one. The stable update channel can be a week or two behind: `/config` → Auto-update channel → latest (with Homebrew: the `claude-code@latest` cask), or `claude install latest`.
+
 Check that the plugin is on: `claude plugin list` should list `cc-skins@cc-skins` as enabled; if not, `claude plugin enable cc-skins@cc-skins`. A Claude Code that was already running when you installed or updated (background sessions too) needs `/reload-plugins`. `/skin hud on` brings back a bar you hid.
 
 ## Boxes or question marks where icons should be

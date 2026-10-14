@@ -59,6 +59,8 @@ import { PICKER, PICKER_COLUMNS, drawPicker, pickerRowOf, pickerRows } from './p
 import { BUILDER, BUILDER_COLUMNS, BUILDER_ROWS, drawBuilder } from './builder'
 import { COLOR_PARTS, MAX_CUSTOM_SKINS, colorPartNamed, isKnownSkin, parseRecipe, resolveSkin, skinEntries, slugFor, themeName } from './custom'
 import { parseColor } from './color'
+import { MIN_CLAUDE_CODE, ISSUES, doctorReport, isOlder, tooOldText } from './doctor'
+import type { DoctorFacts } from './doctor'
 import { cleanLine, stripControls } from './text'
 import { DEFAULT_SKIN, SKINS, isSkinId, pick } from './skins'
 
@@ -134,6 +136,71 @@ const STORE = {
 } as const
 
 const COMMAND = 'skin'
+
+/** What `/skin` answers when something in it failed: the engine has skipped it, so say so plainly. */
+const COMMAND_FAILED = `Something went wrong in cc-skins. /${COMMAND} doctor shows what it sees; if it keeps happening, please report it: ${ISSUES}`
+
+/** An environment variable's value as read, or null where it is unset or unreadable. */
+const envValue = (value: unknown): string | null => (typeof value === 'string' && value !== '' ? value : null)
+
+/** What `/skin doctor` reports, read fresh. */
+const readDoctorFacts = async ($: EngineInterface): Promise<DoctorFacts> => {
+  const usage = await read($, usageAtom)
+  const limitsAt = await read($, limitsAtAtom)
+  const now = await $.clock.now().catch(() => Date.now())
+  const hidden = await read($, hiddenAtom)
+  const skin = await read($, skinAtom)
+  const isStoreOk = await $.store.get(STORE.skin).then(
+    () => true,
+    () => false,
+  )
+  // each variable named as it is, so the validator lists what the plugin reads
+  const os = await $.env.get('OS').then(envValue, () => null)
+  const termProgram = await $.env.get('TERM_PROGRAM').then(envValue, () => null)
+  const windowsTerminal = (await $.env.get('WT_SESSION').then(envValue, () => null)) === null ? null : 'Windows Terminal'
+  const colorTerm = await $.env.get('COLORTERM').then(envValue, () => null)
+
+  return {
+    claudeCode: await read($, versionAtom),
+    os: os === 'Windows_NT' ? 'Windows' : null,
+    terminal: termProgram ?? windowsTerminal,
+    colorTerm,
+    skin,
+    isOwnSkin: !isSkinId(skin),
+    glyphs: await read($, glyphsAtom),
+    barStyle: await read($, barStyleAtom),
+    isChatStyled: await read($, isChatStyledAtom),
+    isHudHidden: await read($, isHudHiddenAtom),
+    hidden,
+    model: usage.model === null ? null : prettyModel(usage.model),
+    contextPercent: usage.contextPercent,
+    limitsAgeMin: limitsAt === null ? null : Math.max(0, Math.round((now - limitsAt) / 60_000)),
+    costUsd: usage.costUsd,
+    branch: await read($, branchAtom),
+    isGitStatusOn: !hidden.includes('gitStatus'),
+    gitError: await read($, gitErrorAtom),
+    isStoreOk,
+  }
+}
+
+/** A stored choice, or undefined where the store would not answer: the defaults then stand. */
+const recall = async ($: EngineInterface, key: string): Promise<unknown> => {
+  try {
+    return await $.store.get(key)
+  } catch {
+    return undefined
+  }
+}
+
+/** Keeps a choice; where the store would not take it, the choice still holds for this session. */
+const keep = async ($: EngineInterface, key: string, value: Parameters<EngineInterface['store']['set']>[1]) => {
+  try {
+    await $.store.set(key, value)
+  } catch {
+    // Nothing to undo: the session goes on with it, the next one starts from what was kept.
+  }
+}
+
 
 /** What a command answers when its pane could not show: nothing once it shows, else why not and what does the same. */
 const unplaced = (opened: UiOpenResult, what: string, instead = ''): { text?: string } => {
@@ -237,13 +304,13 @@ const tick = async ($: EngineInterface) => {
 const keepLimits = async ($: EngineInterface, reading: LimitReading) => {
   await update($, usageAtom, usage => ({ ...usage, rateLimits: mergeLimits(usage.rateLimits, reading.rateLimits) }))
   await update($, limitsAtAtom, () => reading.at)
-  await $.store.set(STORE.limits, reading)
+  await keep($, STORE.limits, reading)
 }
 
 /** Takes the limit reading another session on this machine stored, where it is newer than this one's. */
 const adoptSharedLimits = async ($: EngineInterface) => {
   try {
-    const shared = (await $.store.get(STORE.limits)) as LimitReading | undefined
+    const shared = (await recall($, STORE.limits)) as LimitReading | undefined
     if (shared === undefined || !Array.isArray(shared.rateLimits) || typeof shared.at !== 'number') {
       return
     }
@@ -290,7 +357,7 @@ const refreshLimits = ($: EngineInterface) => {
  */
 const applySkin = async ($: EngineInterface, id: string): Promise<string> => {
   await update($, skinAtom, () => id)
-  await $.store.set(STORE.skin, id)
+  await keep($, STORE.skin, id)
   const skin = resolveSkin(id, await read($, customSkinsAtom))
   const theme = themeName(id)
 
@@ -373,7 +440,7 @@ const readSample = async ($: EngineInterface, columns: number, isRoomy: boolean)
 /** Keeps the person's own skins. */
 const saveCustoms = async ($: EngineInterface, customs: CustomSkin[]) => {
   await update($, customSkinsAtom, () => customs)
-  await $.store.set(STORE.customSkins, customs)
+  await keep($, STORE.customSkins, customs)
 }
 
 /** Opens the builder on a skin, a new one from the current or one of the person's own, at a tab. */
@@ -521,17 +588,17 @@ const deleteCustom = async ($: EngineInterface, id: string) => {
 /** Keeps the bar's style, its icons, the chat cards: in this session's state and for the next. */
 const applyBarStyle = async ($: EngineInterface, style: BarStyle) => {
   await update($, barStyleAtom, () => style)
-  await $.store.set(STORE.barStyle, style)
+  await keep($, STORE.barStyle, style)
 }
 
 const applyGlyphs = async ($: EngineInterface, glyphs: Glyphs) => {
   await update($, glyphsAtom, () => glyphs)
-  await $.store.set(STORE.glyphs, glyphs)
+  await keep($, STORE.glyphs, glyphs)
 }
 
 const applyChat = async ($: EngineInterface, isOn: boolean) => {
   await update($, isChatStyledAtom, () => isOn)
-  await $.store.set(STORE.isChatStyled, isOn)
+  await keep($, STORE.isChatStyled, isOn)
 }
 
 /** Shows or hides one thing in the bar, and keeps the choice. */
@@ -539,8 +606,8 @@ const showItem = async ($: EngineInterface, item: BarItem, isShown: boolean) => 
   const hidden = (await read($, hiddenAtom)).filter(one => one !== item)
   const next = isShown ? hidden : [...hidden, item]
   await update($, hiddenAtom, () => next)
-  await $.store.set(STORE.hidden, next)
-  await $.store.set(STORE.known, BAR_ITEMS.map(({ item: one }) => one))
+  await keep($, STORE.hidden, next)
+  await keep($, STORE.known, BAR_ITEMS.map(({ item: one }) => one))
   if (item === 'gitStatus' && isShown) {
     await readChanges($)
   }
@@ -568,7 +635,7 @@ const toggleItem = async ($: EngineInterface, item: BarItem) =>
 
 /** The models picks have shown aliases to name, kept across sessions. */
 const readLearnedModels = async ($: EngineInterface): Promise<Record<string, string>> => {
-  const stored = await $.store.get(STORE.models)
+  const stored = await recall($, STORE.models)
   if (typeof stored !== 'object' || stored === null || Array.isArray(stored)) {
     return {}
   }
@@ -615,7 +682,7 @@ const pickModel = async ($: EngineInterface, value: string) => {
   }
   const model = await readModel($)
   if (model !== null) {
-    await $.store.set(STORE.models, { ...(await readLearnedModels($)), [value]: model })
+    await keep($, STORE.models, { ...(await readLearnedModels($)), [value]: model })
   }
   await update($, modelChoiceAtom, choice => ({
     ...choice,
@@ -646,7 +713,7 @@ const openSettings = ($: EngineInterface) =>
 const setPrefs = async ($: EngineInterface, patch: Partial<Prefs>) => {
   const prefs = { ...(await read($, prefsAtom)), ...patch }
   await update($, prefsAtom, () => prefs)
-  await $.store.set(STORE.prefs, prefs)
+  await keep($, STORE.prefs, prefs)
 }
 
 /** Where the bar offers to compact, by the person's choices; null with the button off. */
@@ -848,28 +915,31 @@ let setUpFor: string | undefined
  * so directly, but it never reaches a plugin of the user tier.)
  */
 const setUp = async ($: EngineInterface) => {
-  setUpFor = await $.session.id()
-  await $.command.register({
-    name: 'skin',
-    description: 'Pick a cc-skins skin, or switch its bar, chat cards and glyphs',
-    argumentHint: '[list|<skin>|next|bar powerline|header|chat on|off|hud on|off|glyphs nerd|powerline|plain]',
-  })
+  // each step on its own: whatever fails, /skin is there and the bar draws with what could be read
+  setUpFor = await $.session.id().catch(() => setUpFor)
+  await $.command
+    .register({
+      name: 'skin',
+      description: 'Pick a cc-skins skin, or switch its bar, chat cards and glyphs',
+      argumentHint: '[list|<skin>|next|color|bar|chat on|off|hud on|off|glyphs nerd|powerline|plain|doctor]',
+    })
+    .catch(() => undefined)
 
-  const storedSkin = await $.store.get(STORE.skin)
-  const storedCustoms = await $.store.get(STORE.customSkins)
+  const storedSkin = await recall($, STORE.skin)
+  const storedCustoms = await recall($, STORE.customSkins)
   const customs = Array.isArray(storedCustoms)
     ? storedCustoms
         .map(parseRecipe)
         .filter((recipe): recipe is CustomSkin => recipe !== undefined)
         .slice(0, MAX_CUSTOM_SKINS)
     : []
-  const storedGlyphs = await $.store.get(STORE.glyphs)
-  const storedBarStyle = await $.store.get(STORE.barStyle)
-  const isChatStyled = (await $.store.get(STORE.isChatStyled)) !== false
-  const isHudHidden = (await $.store.get(STORE.isHudHidden)) === true
-  const storedHidden = await $.store.get(STORE.hidden)
-  const storedPrefs = await $.store.get(STORE.prefs)
-  const hidden = hiddenFrom(storedHidden, await $.store.get(STORE.known))
+  const storedGlyphs = await recall($, STORE.glyphs)
+  const storedBarStyle = await recall($, STORE.barStyle)
+  const isChatStyled = (await recall($, STORE.isChatStyled)) !== false
+  const isHudHidden = (await recall($, STORE.isHudHidden)) === true
+  const storedHidden = await recall($, STORE.hidden)
+  const storedPrefs = await recall($, STORE.prefs)
+  const hidden = hiddenFrom(storedHidden, await recall($, STORE.known))
   const version = await $.session.version().then(
     ({ version: full }) => full,
     () => null,
@@ -885,16 +955,22 @@ const setUp = async ($: EngineInterface) => {
   await update($, versionAtom, () => version)
   await update($, prefsAtom, () => readPrefs(storedPrefs))
   await update($, previewAtom, () => null)
-  await tick($)
+  await tick($).catch(() => undefined)
 
-  const usage = await $.session.usage()
+  const usage = await $.session.usage().catch(() => undefined)
   const model = await readModel($)
-  await update($, usageAtom, previous => toUsage(model, usage, previous))
+  if (usage !== undefined) {
+    await update($, usageAtom, previous => toUsage(model, usage, previous))
+  }
   await refreshBranch($)
   await refreshGitStatus($)
 
-  ticker?.cancel()
-  ticker = $.clock.every(TICK_MS, () => void tick($))
+  try {
+    ticker?.cancel()
+    ticker = $.clock.every(TICK_MS, () => void tick($).catch(() => undefined))
+  } catch {
+    // No clock: the countdowns move with each reply instead of each minute.
+  }
 }
 
 /** How often, and how many times, to look for the next session after one ends. */
@@ -933,10 +1009,14 @@ export const register: Register = on => {
   let animation: Timer | undefined
 
   on('session.start', async ($, e, next) => {
-    await setUp($)
+    await setUp($).catch(() => undefined)
+    const version = await read($, versionAtom)
+    if (version !== null && isOlder(version, MIN_CLAUDE_CODE)) {
+      $.ui.toast(tooOldText(version), { timeoutMs: 15_000 })
+    }
 
-    if ((await $.store.get(STORE.hasWelcomed)) !== true) {
-      await $.store.set(STORE.hasWelcomed, true)
+    if ((await recall($, STORE.hasWelcomed)) !== true) {
+      await keep($, STORE.hasWelcomed, true)
       $.ui.toast(`cc-skins is on · /${COMMAND} or a click on the bar picks a skin`)
     }
 
@@ -1083,6 +1163,9 @@ export const register: Register = on => {
 
       return unplaced(opened, 'The skin builder')
     }
+    if (first === 'doctor') {
+      return { text: doctorReport(await readDoctorFacts($)) }
+    }
     if (first === 'color' || first === 'colour' || first === 'farbe') {
       return recolor($, rest.split(/\s+/).filter(word => word !== ''))
     }
@@ -1133,7 +1216,7 @@ export const register: Register = on => {
       }
       const isHidden = second === 'off'
       await update($, isHudHiddenAtom, () => isHidden)
-      await $.store.set(STORE.isHudHidden, isHidden)
+      await keep($, STORE.isHudHidden, isHidden)
 
       return { text: isHidden ? 'Usage HUD hidden.' : 'Usage HUD shown.' }
     }
@@ -1222,7 +1305,7 @@ export const register: Register = on => {
     }
 
     return { text: `No skin "${first}".\n\n${listSkins(current, customs)}` }
-  })
+  }).catch(() => ({ text: COMMAND_FAILED }))
 
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
     if (e.props.hasSurvey || (await read($, isHudHiddenAtom))) {
