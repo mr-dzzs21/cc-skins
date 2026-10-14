@@ -40,7 +40,7 @@ Your chat as cards, a bar that keeps model, context, limits and cost in view, on
 Answer `y` to add the marketplace and pick the **user** scope, so every project gets it. Or from a terminal:
 
 ```sh
-claude plugin marketplace add mr-dzzs21/cc-skins
+claude plugin marketplace add https://github.com/mr-dzzs21/cc-skins.git
 claude plugin install cc-skins@cc-skins
 ```
 
