@@ -1,0 +1,22 @@
+# cc-skins · Kanagawa — Ghostty theme
+background = #1f1f28
+foreground = #dcd7ba
+cursor-color = #ffa066
+selection-background = #6d4c3e
+selection-foreground = #dcd7ba
+palette = 0=#1f1f28
+palette = 1=#e46876
+palette = 2=#98bb6c
+palette = 3=#e6c384
+palette = 4=#7e9cd8
+palette = 5=#ffa066
+palette = 6=#7aa89f
+palette = 7=#dcd7ba
+palette = 8=#686874
+palette = 9=#ec959f
+palette = 10=#b7cf98
+palette = 11=#eed5a9
+palette = 12=#a5bae4
+palette = 13=#ffbc94
+palette = 14=#a2c2bc
+palette = 15=#ffffff

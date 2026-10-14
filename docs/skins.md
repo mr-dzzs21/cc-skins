@@ -2,9 +2,9 @@
 
 [← cc-skins](../README.md) · [All docs](README.md)
 
-<p><img src="skins.svg" alt="The usage bar in each of the 26 built-in skins" width="100%"></p>
+<p><img src="skins.svg" alt="The usage bar in each of the 40 built-in skins" width="100%"></p>
 
-Twenty-six built in: twelve vivid, eight dark, six for light terminals. `/skin` opens the picker: ↑↓ previews each skin as you land on it, in the picker and in the real bar; Enter picks. A skin's key or a click previews it too, and the same again picks it (the terminal doesn't tell plugins where the mouse hovers, so a click stands in). Esc goes back to the one you had.
+Forty built in: twelve vivid, eight dark, six for light terminals, and fourteen popular themes. `/skin` opens the picker: ↑↓ previews each skin as you land on it, in the picker and in the real bar; Enter picks. A skin's key or a click previews it too, and the same again picks it (the terminal doesn't tell plugins where the mouse hovers, so a click stands in). Esc goes back to the one you had.
 
 | Skin | Look | Spinner | Turn line |
 |---|---|---|---|
@@ -34,6 +34,28 @@ Twenty-six built in: twelve vivid, eight dark, six for light terminals. `/skin` 
 | `mint` | Fresh mint and soft sage | `Refreshing ❦`, `Muddling ❦` | `❦ Fresh in 3s` |
 | `peach` | Peach sorbet and rosy coral | `Blending ❁`, `Whisking ❁` | `❁ Ripe in 3s` |
 | `snow` | Bright white and quiet grey, nothing more | `Working…`, `Reading…` | `◇ Done in 3s` |
+| `catppuccin-mocha` | Catppuccin Mocha: soothing pastels on a warm dark base | `Purring…`, `Stretching…` | `♡ Purred in 3s` |
+| `catppuccin-latte` | Catppuccin Latte: the pastel theme for light terminals | `Purring…`, `Stretching…` | `♡ Purred in 3s` |
+| `tokyo-night` | Tokyo Night: neon blues and violets over a night city | `Neon-lit…`, `Glowing…` | `☾ Arrived in 3s` |
+| `dracula` | Dracula: purple and pink on a dark, bloodless night | `Lurking…`, `Shapeshifting…` | `☽ Bitten in 3s` |
+| `nord` | Nord: arctic frost blues on polar night | `Drifting…`, `Gliding…` | `❆ Settled in 3s` |
+| `gruvbox` | Gruvbox: retro groove, warm yellows and oranges | `Grooving…`, `Spinning vinyl…` | `♫ Grooved in 3s` |
+| `rose-pine` | Rosé Pine: soho vibes, rose and iris on deep pine | `Pining…`, `Petal-pressing…` | `✾ Bloomed in 3s` |
+| `rose-pine-dawn` | Rosé Pine Dawn: soft rose and pine for light terminals | `Pining…`, `Petal-pressing…` | `✾ Bloomed in 3s` |
+| `one-dark` | One Dark: the Atom classic, calm blues and purples | `Compiling…`, `Indexing…` | `◉ Shipped in 3s` |
+| `solarized-dark` | Solarized Dark: the precise, low-contrast classic | `Calibrating…`, `Tuning…` | `☀ Balanced in 3s` |
+| `solarized-light` | Solarized Light: the precise classic, on paper | `Calibrating…`, `Tuning…` | `☀ Balanced in 3s` |
+| `everforest` | Everforest: green, warm and easy on the eyes | `Growing…`, `Mossing…` | `❧ Grown in 3s` |
+| `kanagawa` | Kanagawa: Hokusai’s great wave, ink and old paper | `Brushing…`, `Inking…` | `≋ Painted in 3s` |
+| `monokai` | Monokai: the vivid classic, pink, green and gold | `Hacking…`, `Tinkering…` | `▲ Done in 3s` |
+
+## Popular themes
+
+Fourteen well-known color schemes as skins, each in its own palette: Catppuccin Mocha and Latte, Tokyo Night, Dracula, Nord, Gruvbox, Rosé Pine and Rosé Pine Dawn, One Dark, Solarized Dark and Light, Everforest, Kanagawa and Monokai. Their names take dashes: `/skin catppuccin-mocha`, `/skin tokyo-night`, `/skin rose-pine-dawn`. In the picker they are listed under **Popular themes**.
+
+They keep their themes' colors. Where a text would not read on a block (WCAG contrast 4.5), its ink or ground moves just far enough; that touched a few blocks of Catppuccin Latte, Rosé Pine Dawn, Solarized, Nord and Monokai. If you already use one of these themes in your terminal, keep its own terminal colors: the skin is made to sit on them.
+
+The palettes come from their projects, with thanks to their authors: [Catppuccin](https://catppuccin.com), [Tokyo Night](https://github.com/enkia/tokyo-night-vscode-theme), [Dracula](https://draculatheme.com), [Nord](https://www.nordtheme.com), [Gruvbox](https://github.com/morhetz/gruvbox), [Rosé Pine](https://rosepinetheme.com), [One Dark](https://github.com/atom/one-dark-syntax), [Solarized](https://ethanschoonover.com/solarized/), [Everforest](https://github.com/sainnhe/everforest), [Kanagawa](https://github.com/rebelot/kanagawa.nvim) and [Monokai](https://monokai.pro). cc-skins is not affiliated with any of them. The skins are made from [`scripts/skins/popular.json`](../scripts/skins/popular.json).
 
 ## What a skin changes
 

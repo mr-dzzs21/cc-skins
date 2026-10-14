@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Nord",
+  "base": "dark",
+  "overrides": {
+    "claude": "#88c0d0",
+    "claudeShimmer": "#acd3de",
+    "text": "#d8dee9",
+    "inactive": "#949cae",
+    "subtle": "#434c5e",
+    "suggestion": "#81a1c1",
+    "permission": "#81a1c1",
+    "permissionShimmer": "#adc2d7",
+    "promptBorder": "#5a6171",
+    "promptBorderShimmer": "#7b828e",
+    "planMode": "#81a1c1",
+    "autoAccept": "#a3be8c",
+    "bashBorder": "#ebcb8b",
+    "success": "#a3be8c",
+    "error": "#a2525a",
+    "warning": "#ebcb8b",
+    "diffAdded": "#2e5441",
+    "diffRemoved": "#6b3d43",
+    "diffAddedDimmed": "#2e4440",
+    "diffRemovedDimmed": "#4c3841",
+    "diffAddedWord": "#2e6f42",
+    "diffRemovedWord": "#9d4445",
+    "userMessageBackground": "#3b4252",
+    "userMessageBackgroundHover": "#414a5b",
+    "selectionBg": "#4e6572",
+    "rate_limit_fill": "#88c0d0",
+    "rate_limit_empty": "#434c5e"
+  }
+}

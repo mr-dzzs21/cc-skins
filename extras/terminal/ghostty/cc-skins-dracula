@@ -1,0 +1,22 @@
+# cc-skins · Dracula — Ghostty theme
+background = #282a36
+foreground = #f8f8f2
+cursor-color = #bd93f9
+selection-background = #5c4f7a
+selection-foreground = #f8f8f2
+palette = 0=#282a36
+palette = 1=#ff5555
+palette = 2=#50fa7b
+palette = 3=#f1fa8c
+palette = 4=#bd93f9
+palette = 5=#bd93f9
+palette = 6=#8be9fd
+palette = 7=#f8f8f2
+palette = 8=#737583
+palette = 9=#ff8888
+palette = 10=#84fca3
+palette = 11=#f5fcae
+palette = 12=#d1b3fb
+palette = 13=#d1b3fb
+palette = 14=#aef0fe
+palette = 15=#ffffff

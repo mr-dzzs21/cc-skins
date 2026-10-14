@@ -1,0 +1,22 @@
+# cc-skins · Monokai — Ghostty theme
+background = #272822
+foreground = #f8f8f2
+cursor-color = #fa4989
+selection-background = #713446
+selection-foreground = #f8f8f2
+palette = 0=#272822
+palette = 1=#f92672
+palette = 2=#a6e22e
+palette = 3=#e6db74
+palette = 4=#66d9ef
+palette = 5=#fa4989
+palette = 6=#a6e22e
+palette = 7=#f8f8f2
+palette = 8=#76766e
+palette = 9=#fb679c
+palette = 10=#c1eb6d
+palette = 11=#eee69e
+palette = 12=#94e4f4
+palette = 13=#fc80ac
+palette = 14=#c1eb6d
+palette = 15=#ffffff

@@ -1,7 +1,7 @@
 {
   "name": "cc-skins",
-  "version": "0.19.1",
-  "description": "Skins, a usage bar and quick controls for Claude Code in the terminal: 26 looks plus your own, model and effort, context and limits, cost, alerts and a usage dashboard.",
+  "version": "0.20.0",
+  "description": "Skins, a usage bar and quick controls for Claude Code: 40 looks (Catppuccin, Tokyo Night, Dracula, Nord and more) plus your own, model and effort, context and limits, cost, alerts and a usage dashboard.",
   "author": {
     "name": "mr-dzzs21",
     "url": "https://github.com/mr-dzzs21"

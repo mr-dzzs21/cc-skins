@@ -1,0 +1,22 @@
+# cc-skins · Rosé Pine — Ghostty theme
+background = #191724
+foreground = #e0def4
+cursor-color = #ebbcba
+selection-background = #625158
+selection-foreground = #e0def4
+palette = 0=#191724
+palette = 1=#eb6f92
+palette = 2=#528aa1
+palette = 3=#f6c177
+palette = 4=#31748f
+palette = 5=#ebbcba
+palette = 6=#9ccfd8
+palette = 7=#e0def4
+palette = 8=#706e7d
+palette = 9=#f19ab3
+palette = 10=#86adbd
+palette = 11=#f9d4a0
+palette = 12=#6f9eb1
+palette = 13=#f1d0cf
+palette = 14=#badde4
+palette = 15=#ffffff

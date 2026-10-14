@@ -1,5 +1,5 @@
 /** This release of cc-skins; check_assets.py checks it is the manifest's version. */
-export const CC_SKINS_VERSION = '0.19.1'
+export const CC_SKINS_VERSION = '0.20.0'
 
 /** The oldest Claude Code cc-skins works on: the tests pass from here (CI runs them on it and on the newest). */
 export const MIN_CLAUDE_CODE = '2.1.295'

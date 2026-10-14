@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Tokyo Night",
+  "base": "dark",
+  "overrides": {
+    "claude": "#bb9af7",
+    "claudeShimmer": "#cfb8f9",
+    "text": "#c0caf5",
+    "inactive": "#7b82a3",
+    "subtle": "#292e42",
+    "suggestion": "#7aa2f7",
+    "permission": "#7aa2f7",
+    "permissionShimmer": "#a9c3fa",
+    "promptBorder": "#434759",
+    "promptBorderShimmer": "#696d7b",
+    "planMode": "#7aa2f7",
+    "autoAccept": "#9ece6a",
+    "bashBorder": "#e0af68",
+    "success": "#9ece6a",
+    "error": "#f7768e",
+    "warning": "#e0af68",
+    "diffAdded": "#20432f",
+    "diffRemoved": "#5d2b30",
+    "diffAddedDimmed": "#1d2f2a",
+    "diffRemovedDimmed": "#3b232b",
+    "diffAddedWord": "#256436",
+    "diffRemovedWord": "#943939",
+    "userMessageBackground": "#232637",
+    "userMessageBackgroundHover": "#282c3f",
+    "selectionBg": "#52476f",
+    "rate_limit_fill": "#bb9af7",
+    "rate_limit_empty": "#292e42"
+  }
+}

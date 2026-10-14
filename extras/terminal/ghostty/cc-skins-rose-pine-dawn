@@ -1,0 +1,22 @@
+# cc-skins · Rosé Pine Dawn — Ghostty theme
+background = #faf4ed
+foreground = #575279
+cursor-color = #a2596e
+selection-background = #e4cdcd
+selection-foreground = #575279
+palette = 0=#575279
+palette = 1=#b4637a
+palette = 2=#45767f
+palette = 3=#f2c485
+palette = 4=#286983
+palette = 5=#a2596e
+palette = 6=#56949f
+palette = 7=#dcd7d1
+palette = 8=#928fa8
+palette = 9=#904f62
+palette = 10=#375e66
+palette = 11=#c29d6a
+palette = 12=#205469
+palette = 13=#824758
+palette = 14=#45767f
+palette = 15=#f0eae4

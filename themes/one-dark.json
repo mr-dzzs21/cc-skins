@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · One Dark",
+  "base": "dark",
+  "overrides": {
+    "claude": "#c678dd",
+    "claudeShimmer": "#d7a0e7",
+    "text": "#abb2bf",
+    "inactive": "#90959e",
+    "subtle": "#3e4451",
+    "suggestion": "#61afef",
+    "permission": "#61afef",
+    "permissionShimmer": "#98cbf5",
+    "promptBorder": "#555a66",
+    "promptBorderShimmer": "#787c85",
+    "planMode": "#61afef",
+    "autoAccept": "#98c379",
+    "bashBorder": "#e5c07b",
+    "success": "#98c379",
+    "error": "#e06c75",
+    "warning": "#e5c07b",
+    "diffAdded": "#2a4f38",
+    "diffRemoved": "#66373a",
+    "diffAddedDimmed": "#293d36",
+    "diffRemovedDimmed": "#473237",
+    "diffAddedWord": "#2b6c3c",
+    "diffRemovedWord": "#9a4040",
+    "userMessageBackground": "#353a45",
+    "userMessageBackgroundHover": "#3c424e",
+    "selectionBg": "#5f476f",
+    "rate_limit_fill": "#c678dd",
+    "rate_limit_empty": "#3e4451"
+  }
+}

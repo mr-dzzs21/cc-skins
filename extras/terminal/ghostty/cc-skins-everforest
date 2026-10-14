@@ -1,0 +1,22 @@
+# cc-skins · Everforest — Ghostty theme
+background = #2d353b
+foreground = #d3c6aa
+cursor-color = #a7c080
+selection-background = #586653
+selection-foreground = #d3c6aa
+palette = 0=#2d353b
+palette = 1=#e67e80
+palette = 2=#83c092
+palette = 3=#dbbc7f
+palette = 4=#7fbbb3
+palette = 5=#a7c080
+palette = 6=#83c092
+palette = 7=#d3c6aa
+palette = 8=#757d82
+palette = 9=#eea5a6
+palette = 10=#a8d3b3
+palette = 11=#e6d0a5
+palette = 12=#a5cfca
+palette = 13=#c1d3a6
+palette = 14=#a8d3b3
+palette = 15=#ffffff

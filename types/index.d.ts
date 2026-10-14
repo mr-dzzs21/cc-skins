@@ -25,6 +25,20 @@ export type SkinId =
   | 'mint'
   | 'peach'
   | 'snow'
+  | 'catppuccin-mocha'
+  | 'catppuccin-latte'
+  | 'tokyo-night'
+  | 'dracula'
+  | 'nord'
+  | 'gruvbox'
+  | 'rose-pine'
+  | 'rose-pine-dawn'
+  | 'one-dark'
+  | 'solarized-dark'
+  | 'solarized-light'
+  | 'everforest'
+  | 'kanagawa'
+  | 'monokai'
 
 /**
  * `nerd`: powerline arrows and icons (a Nerd Font); `powerline`: the arrows

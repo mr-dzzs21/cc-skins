@@ -14,7 +14,7 @@ import { DEFAULT_PREFS, readPrefs } from '../hooks/prefs'
 import { findTurnStat, turnStatText } from '../hooks/turns'
 import { finishedText, soundFor } from '../hooks/sounds'
 import { sessionLine, sparkline, turnTotals } from '../hooks/dashboard'
-import { ACCENTS, COLOR_PARTS, buildSkin, colorPartNamed, parseRecipe, slugFor } from '../hooks/custom'
+import { ACCENTS, COLOR_PARTS, buildSkin, colorPartNamed, parseRecipe, skinEntries, slugFor } from '../hooks/custom'
 import { contrast, parseColor } from '../hooks/color'
 import { CC_SKINS_VERSION, MIN_CLAUDE_CODE, doctorHints, doctorReport, isOlder } from '../hooks/doctor'
 import type { DoctorFacts } from '../hooks/doctor'
@@ -661,8 +661,10 @@ const focusRow = ($: Engine, element: string) =>
   $.ui.focus({ component: 'Pane', requestId: 'skin-picker', plugin: 'cc-skins', element, origin: { kind: 'person' } })
 
 describe('preview', () => {
-  test('every skin has a hotkey, read back in the hint', () => {
-    expect(SKIN_IDS.every((id, index) => hotkeyFor(index) !== undefined)).toBe(true)
+  test('the first 36 skins have a hotkey, the rest are a scroll away, and the hint says both', () => {
+    expect(SKIN_IDS.slice(0, 36).every((id, index) => hotkeyFor(index) !== undefined)).toBe(true)
+    expect(hotkeyFor(36)).toBeUndefined()
+    expect(hotkeyRange(SKIN_IDS.length)).toContain('(the rest: ↑↓)')
     expect(hotkeyRange(5)).toBe('1–5')
     expect(hotkeyRange(10)).toBe('1–9, 0')
     expect(hotkeyRange(11)).toBe('1–9, 0, a')
@@ -797,7 +799,8 @@ describe('dark skins', () => {
 
       return 0.2126 * r + 0.7152 * g + 0.0722 * b
     }
-    const dark = SKIN_IDS.filter(id => SKINS[id].isDark === true)
+    // the Dark group's own skins; a popular theme keeps its own bright accents
+    const dark = SKIN_IDS.filter(id => SKINS[id].isDark === true && SKINS[id].isPopular !== true)
     expect(dark.length).toBeGreaterThanOrEqual(8)
     for (const id of dark) {
       for (const block of SKINS[id].colors.blocks) {
@@ -1553,7 +1556,7 @@ describe('panes that cannot show', () => {
 
 describe('light skins', () => {
   test('six light skins: their chat reads on a light terminal, every block reads, their bars stay light', () => {
-    const light = SKIN_IDS.filter(id => SKINS[id].isLight === true)
+    const light = SKIN_IDS.filter(id => SKINS[id].isLight === true && SKINS[id].isPopular !== true)
     expect(light).toEqual(['paper', 'latte', 'sky', 'mint', 'peach', 'snow'])
     for (const id of light) {
       const { chat, colors } = SKINS[id]
@@ -1714,7 +1717,7 @@ describe('picker rows', () => {
       requestId: 'skin-picker',
       props: { ...PANE_PROPS, bodyColumns: 60, placement: 'dock' as const },
     })
-    expect(await picker.find({ type: 'Text', text: /Deep navy cards, Claude in orange…/ })).toBeDefined()
+    expect(await picker.find({ type: 'Text', text: /^Deep navy cards, .*…$/ })).toBeDefined()
     expect(await picker.find({ type: 'Text', text: /^Deep navy cards, Claude in orange, you in blue$/ })).toBeUndefined()
     await picker.unmount()
   })
@@ -2587,5 +2590,59 @@ describe('Claude Desktop and VS Code', () => {
     await picker.unmount()
     expect(skins).toContain('Midnight ✓')
     expect(skins).toContain('Ring')
+  })
+})
+
+describe('popular themes', () => {
+  const POPULAR = SKIN_IDS.filter(id => SKINS[id].isPopular === true)
+
+  test('fourteen of them, listed together under Popular themes', () => {
+    expect(POPULAR).toEqual([
+      'catppuccin-mocha', 'catppuccin-latte', 'tokyo-night', 'dracula', 'nord', 'gruvbox', 'rose-pine',
+      'rose-pine-dawn', 'one-dark', 'solarized-dark', 'solarized-light', 'everforest', 'kanagawa', 'monokai',
+    ])
+    expect(skinEntries([]).filter(entry => entry.group === 'popular').map(entry => entry.id)).toEqual(POPULAR)
+  })
+
+  /** Each theme's own terminal background, as its terminal schemes in extras/terminal set it. */
+  const GROUND: Record<string, string> = {
+    'catppuccin-mocha': '#1e1e2e', 'catppuccin-latte': '#eff1f5', 'tokyo-night': '#1a1b26', dracula: '#282a36',
+    nord: '#2e3440', gruvbox: '#282828', 'rose-pine': '#191724', 'rose-pine-dawn': '#faf4ed', 'one-dark': '#282c34',
+    'solarized-dark': '#002b36', 'solarized-light': '#fdf6e3', everforest: '#2d353b', kanagawa: '#1f1f28', monokai: '#272822',
+  }
+
+  test('their chat reads on their own terminal, every block reads, light ones are made for light terminals', () => {
+    for (const id of POPULAR) {
+      const { chat, colors } = SKINS[id]
+      const ground = GROUND[id] ?? '#000000'
+      for (const color of [chat.user, chat.assistant, chat.muted, chat.success]) {
+        expect(contrast(color, ground)).toBeGreaterThanOrEqual(4.5)
+      }
+      for (const paint of [...colors.blocks, colors.warn, colors.danger]) {
+        expect(contrast(paint.bg, paint.fg)).toBeGreaterThanOrEqual(4.5)
+      }
+    }
+    expect(POPULAR.filter(id => SKINS[id].isLight === true)).toEqual(['catppuccin-latte', 'rose-pine-dawn', 'solarized-light'])
+  })
+
+  test('they keep their own signature colors', () => {
+    expect(SKINS['catppuccin-mocha'].colors.blocks[0]?.bg).toBe('#cba6f7')
+    expect(SKINS['tokyo-night'].colors.blocks[0]?.bg).toBe('#7aa2f7')
+    expect(SKINS.dracula.colors.blocks[0]?.bg).toBe('#bd93f9')
+    expect(SKINS.nord.colors.blocks[0]?.bg).toBe('#88c0d0')
+    expect(SKINS.gruvbox.colors.blocks[0]?.bg).toBe('#fabd2f')
+    expect(SKINS['rose-pine'].colors.blocks[0]?.bg).toBe('#ebbcba')
+  })
+
+  test('/skin takes their names with dashes, and the picker shows the whole name', async ($, on) => {
+    mock.store(on)
+    on('ui.toast', () => ({ value: undefined }))
+    on('ui.open', () => ({ value: { isPlaced: true as const } }))
+    expect((await runSkin($, 'catppuccin-mocha')).text).toContain('Skin → Catppuccin Mocha')
+    expect((await runSkin($, 'list')).text).toContain('▸ catppuccin-mocha')
+    const picker = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'Pane', requestId: 'skin-picker', props: { ...PANE_PROPS, bodyColumns: 90 } })
+    expect(await picker.find({ type: 'Text', text: /── Popular themes ──/ })).toBeDefined()
+    expect(await picker.find({ type: 'Text', text: /Solarized Light/ })).toBeDefined()
+    await picker.unmount()
   })
 })

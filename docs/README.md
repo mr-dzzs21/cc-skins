@@ -5,7 +5,7 @@
 | Page | What's in it |
 |---|---|
 | [The bar](bar.md) | Every block, what a click on it opens, the extras, warning colors, the two styles, how current the limits are |
-| [Skins](skins.md) | All 26 skins with their spinner and turn-line words, what a skin changes, your own skins, themes and terminal colors |
+| [Skins](skins.md) | All 40 skins with their spinner and turn-line words, what a skin changes, your own skins, themes and terminal colors |
 | [Commands](commands.md) | Every `/skin` command |
 | [Questions and fixes](faq.md) | When something doesn't show or look right |
 | [How cc-skins stays working](stability.md) | Releases only after tests, CI on macOS, Windows and Linux, the daily check, what happens when something fails, `/skin doctor` |

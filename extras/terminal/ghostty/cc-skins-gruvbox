@@ -1,0 +1,22 @@
+# cc-skins · Gruvbox — Ghostty theme
+background = #282828
+foreground = #ebdbb2
+cursor-color = #fe8019
+selection-background = #734723
+selection-foreground = #ebdbb2
+palette = 0=#282828
+palette = 1=#fb4934
+palette = 2=#b8bb26
+palette = 3=#d79921
+palette = 4=#83a598
+palette = 5=#fe8019
+palette = 6=#8ec07c
+palette = 7=#ebdbb2
+palette = 8=#7c7674
+palette = 9=#fc8071
+palette = 10=#cdcf67
+palette = 11=#e3b864
+palette = 12=#a8c0b7
+palette = 13=#fea65e
+palette = 14=#b0d3a3
+palette = 15=#ffffff

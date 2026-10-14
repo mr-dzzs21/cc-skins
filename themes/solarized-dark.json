@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Solarized Dark",
+  "base": "dark",
+  "overrides": {
+    "claude": "#b58900",
+    "claudeShimmer": "#cbac4c",
+    "text": "#839496",
+    "inactive": "#809196",
+    "subtle": "#073642",
+    "suggestion": "#3794d6",
+    "permission": "#3794d6",
+    "permissionShimmer": "#7db9e4",
+    "promptBorder": "#254e59",
+    "promptBorderShimmer": "#51727b",
+    "planMode": "#3794d6",
+    "autoAccept": "#859900",
+    "bashBorder": "#b58900",
+    "success": "#859900",
+    "error": "#d1302d",
+    "warning": "#b58900",
+    "diffAdded": "#0e4e3a",
+    "diffRemoved": "#4a363c",
+    "diffAddedDimmed": "#073d38",
+    "diffRemovedDimmed": "#253139",
+    "diffAddedWord": "#196b3d",
+    "diffRemovedWord": "#884040",
+    "userMessageBackground": "#04323d",
+    "userMessageBackgroundHover": "#063541",
+    "selectionBg": "#3f4c23",
+    "rate_limit_fill": "#b58900",
+    "rate_limit_empty": "#073642"
+  }
+}

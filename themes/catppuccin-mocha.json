@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Catppuccin Mocha",
+  "base": "dark",
+  "overrides": {
+    "claude": "#cba6f7",
+    "claudeShimmer": "#dbc1f9",
+    "text": "#cdd6f4",
+    "inactive": "#82869e",
+    "subtle": "#45475a",
+    "suggestion": "#89b4fa",
+    "permission": "#89b4fa",
+    "permissionShimmer": "#b2cefc",
+    "promptBorder": "#5b5d6e",
+    "promptBorderShimmer": "#7d7e8c",
+    "planMode": "#89b4fa",
+    "autoAccept": "#a6e3a1",
+    "bashBorder": "#f9e2af",
+    "success": "#a6e3a1",
+    "error": "#f38ba8",
+    "warning": "#f9e2af",
+    "diffAdded": "#234534",
+    "diffRemoved": "#5f2d36",
+    "diffAddedDimmed": "#203231",
+    "diffRemovedDimmed": "#3f2632",
+    "diffAddedWord": "#27663a",
+    "diffRemovedWord": "#963a3d",
+    "userMessageBackground": "#353748",
+    "userMessageBackgroundHover": "#414356",
+    "selectionBg": "#5b4e74",
+    "rate_limit_fill": "#cba6f7",
+    "rate_limit_empty": "#45475a"
+  }
+}

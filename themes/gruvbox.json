@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Gruvbox",
+  "base": "dark",
+  "overrides": {
+    "claude": "#fe8019",
+    "claudeShimmer": "#fea65e",
+    "text": "#ebdbb2",
+    "inactive": "#9b8d7f",
+    "subtle": "#504945",
+    "suggestion": "#83a598",
+    "permission": "#83a598",
+    "permissionShimmer": "#aec4bc",
+    "promptBorder": "#655f5b",
+    "promptBorderShimmer": "#84807d",
+    "planMode": "#83a598",
+    "autoAccept": "#b8bb26",
+    "bashBorder": "#d79921",
+    "success": "#b8bb26",
+    "error": "#cc241d",
+    "warning": "#d79921",
+    "diffAdded": "#2a4c30",
+    "diffRemoved": "#663432",
+    "diffAddedDimmed": "#293a2c",
+    "diffRemovedDimmed": "#472e2d",
+    "diffAddedWord": "#2b6a37",
+    "diffRemovedWord": "#9a3f3a",
+    "userMessageBackground": "#403c39",
+    "userMessageBackgroundHover": "#4c4642",
+    "selectionBg": "#734723",
+    "rate_limit_fill": "#fe8019",
+    "rate_limit_empty": "#504945"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Everforest",
+  "base": "dark",
+  "overrides": {
+    "claude": "#a7c080",
+    "claudeShimmer": "#c1d3a6",
+    "text": "#d3c6aa",
+    "inactive": "#949f97",
+    "subtle": "#475258",
+    "suggestion": "#7fbbb3",
+    "permission": "#7fbbb3",
+    "permissionShimmer": "#acd3ce",
+    "promptBorder": "#5d676c",
+    "promptBorderShimmer": "#7e868a",
+    "planMode": "#7fbbb3",
+    "autoAccept": "#83c092",
+    "bashBorder": "#dbbc7f",
+    "success": "#83c092",
+    "error": "#e67e80",
+    "warning": "#dbbc7f",
+    "diffAdded": "#2d553d",
+    "diffRemoved": "#6a3d3f",
+    "diffAddedDimmed": "#2d453c",
+    "diffRemovedDimmed": "#4b393d",
+    "diffAddedWord": "#2e703f",
+    "diffRemovedWord": "#9d4443",
+    "userMessageBackground": "#3d464c",
+    "userMessageBackgroundHover": "#444f55",
+    "selectionBg": "#586653",
+    "rate_limit_fill": "#a7c080",
+    "rate_limit_empty": "#475258"
+  }
+}

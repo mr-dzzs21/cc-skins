@@ -1,0 +1,22 @@
+# cc-skins · Catppuccin Mocha — Ghostty theme
+background = #1e1e2e
+foreground = #cdd6f4
+cursor-color = #cba6f7
+selection-background = #5b4e74
+selection-foreground = #cdd6f4
+palette = 0=#1e1e2e
+palette = 1=#f38ba8
+palette = 2=#a6e3a1
+palette = 3=#f9e2af
+palette = 4=#89b4fa
+palette = 5=#cba6f7
+palette = 6=#94e2d5
+palette = 7=#cdd6f4
+palette = 8=#747583
+palette = 9=#f7aec2
+palette = 10=#c1ebbd
+palette = 11=#fbebc7
+palette = 12=#accafc
+palette = 13=#dbc1f9
+palette = 14=#b4ebe2
+palette = 15=#ffffff

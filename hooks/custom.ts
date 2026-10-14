@@ -198,11 +198,11 @@ export const parseRecipe = (value: unknown): CustomSkin | undefined => {
   return Object.keys(parts).length === 0 ? recipe : { ...recipe, colors: parts }
 }
 
-/** Every skin as the picker lists it: the bright built-ins, the dark ones, the light ones, then the person's own. */
-export type SkinEntry = { id: string; skin: Skin; group: 'bright' | 'dark' | 'light' | 'yours' }
+/** Every skin as the picker lists it: the bright built-ins, the dark ones, the light ones, the popular themes, then the person's own. */
+export type SkinEntry = { id: string; skin: Skin; group: 'bright' | 'dark' | 'light' | 'popular' | 'yours' }
 
 const groupOf = (skin: Skin): SkinEntry['group'] =>
-  skin.isLight === true ? 'light' : skin.isDark === true ? 'dark' : 'bright'
+  skin.isPopular === true ? 'popular' : skin.isLight === true ? 'light' : skin.isDark === true ? 'dark' : 'bright'
 
 export const skinEntries = (customs: readonly CustomSkin[]): SkinEntry[] => [
   ...SKIN_IDS.map(id => ({ id, skin: SKINS[id], group: groupOf(SKINS[id]) })),

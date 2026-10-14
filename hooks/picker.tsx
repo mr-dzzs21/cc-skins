@@ -22,7 +22,7 @@ const SWATCH = 4
 const SAMPLE = { prompt: 'count slowly to 5', reply: '1… 2… 3… 4… 5.', durationMs: 4_000 }
 
 /** A row's cells besides its description: hotkey, swatch, name and the tick. */
-const LABEL_CELLS = 10
+const LABEL_CELLS = 16
 const ROW_CELLS = 3 + SWATCH * 2 + 1 + LABEL_CELLS + 1 + 2 + 1
 
 /** The row a skin's entry takes in the picker's list, its group headings counted. */
@@ -51,6 +51,7 @@ const GROUP_HEADINGS: Record<SkinEntry['group'], string | undefined> = {
   bright: undefined,
   dark: '── Dark ──',
   light: '── Light ──',
+  popular: '── Popular themes ──',
   yours: '── Yours ──',
 }
 

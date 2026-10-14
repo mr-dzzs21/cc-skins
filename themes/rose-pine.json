@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Rosé Pine",
+  "base": "dark",
+  "overrides": {
+    "claude": "#ebbcba",
+    "claudeShimmer": "#f1d0cf",
+    "text": "#e0def4",
+    "inactive": "#827f97",
+    "subtle": "#403d52",
+    "suggestion": "#9ccfd8",
+    "permission": "#9ccfd8",
+    "permissionShimmer": "#bfe0e6",
+    "promptBorder": "#575467",
+    "promptBorderShimmer": "#797786",
+    "planMode": "#9ccfd8",
+    "autoAccept": "#528aa1",
+    "bashBorder": "#f6c177",
+    "success": "#528aa1",
+    "error": "#eb6f92",
+    "warning": "#f6c177",
+    "diffAdded": "#1f402d",
+    "diffRemoved": "#5c282f",
+    "diffAddedDimmed": "#1c2c29",
+    "diffRemovedDimmed": "#3a202a",
+    "diffAddedWord": "#256235",
+    "diffRemovedWord": "#943738",
+    "userMessageBackground": "#302e40",
+    "userMessageBackgroundHover": "#3c394d",
+    "selectionBg": "#625158",
+    "rate_limit_fill": "#ebbcba",
+    "rate_limit_empty": "#403d52"
+  }
+}

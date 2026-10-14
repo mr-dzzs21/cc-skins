@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Monokai",
+  "base": "dark",
+  "overrides": {
+    "claude": "#fa4989",
+    "claudeShimmer": "#fc80ac",
+    "text": "#f8f8f2",
+    "inactive": "#939081",
+    "subtle": "#49483e",
+    "suggestion": "#66d9ef",
+    "permission": "#66d9ef",
+    "permissionShimmer": "#9ce6f5",
+    "promptBorder": "#5f5e55",
+    "promptBorderShimmer": "#807f78",
+    "planMode": "#66d9ef",
+    "autoAccept": "#a6e22e",
+    "bashBorder": "#e6db74",
+    "success": "#a6e22e",
+    "error": "#f93179",
+    "warning": "#e6db74",
+    "diffAdded": "#294c2c",
+    "diffRemoved": "#66342e",
+    "diffAddedDimmed": "#283a27",
+    "diffRemovedDimmed": "#462e28",
+    "diffAddedWord": "#2b6a34",
+    "diffRemovedWord": "#9a3f37",
+    "userMessageBackground": "#3b3b33",
+    "userMessageBackgroundHover": "#46453b",
+    "selectionBg": "#713446",
+    "rate_limit_fill": "#fa4989",
+    "rate_limit_empty": "#49483e"
+  }
+}

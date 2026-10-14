@@ -18,6 +18,7 @@ import type { BarInput, Pill } from '../hooks/hud'
 import { barPills } from '../hooks/hud'
 import type { Skin } from '../hooks/skins'
 import { SKINS } from '../hooks/skins'
+import { EXTRA_ITEMS } from '../hooks/panels'
 import { displayWidth } from '../hooks/text'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -170,14 +171,16 @@ const renderBanner = (): string => {
 const renderGallery = (): string => {
   const all = Object.values(SKINS)
   const groups: [string, Skin[]][] = [
-    ['Vivid', all.filter(skin => skin.isDark !== true && skin.isLight !== true)],
-    ['Dark', all.filter(skin => skin.isDark === true)],
-    ['Light', all.filter(skin => skin.isLight === true)],
+    ['Vivid', all.filter(skin => skin.isDark !== true && skin.isLight !== true && skin.isPopular !== true)],
+    ['Dark', all.filter(skin => skin.isDark === true && skin.isPopular !== true)],
+    ['Light', all.filter(skin => skin.isLight === true && skin.isPopular !== true)],
+    ['Popular themes', all.filter(skin => skin.isPopular === true)],
   ]
   const pad = 14
   const gap = 6
   const heading = 34
-  const label = 12
+  // room for the longest name (catppuccin-mocha, solarized-light) and two cells after it
+  const label = Math.max(...all.map(skin => displayWidth(skin.id))) + 2
   const rows: string[] = []
   let y = 0
   let widest = 0
@@ -188,7 +191,8 @@ const renderGallery = (): string => {
     for (const skin of skins) {
       const { bg, fg } = terminalOf(skin)
       const height = ROW + pad
-      const bar = powerline(barPills(barInput(skin, ['resets']), 0), pad + label * CELL, y + pad / 2)
+      // the bar as it first shows (the extras off), reset countdowns left out for room
+      const bar = powerline(barPills(barInput(skin, ['resets', ...EXTRA_ITEMS]), 0), pad + label * CELL, y + pad / 2)
       const rowWidth = pad * 2 + (label + bar.cells) * CELL
       widest = Math.max(widest, rowWidth)
       rows.push(

@@ -1,0 +1,22 @@
+# cc-skins · Catppuccin Latte — Ghostty theme
+background = #eff1f5
+foreground = #4c4f69
+cursor-color = #8839ef
+selection-background = #d5c3f4
+selection-foreground = #4c4f69
+palette = 0=#4c4f69
+palette = 1=#d20f39
+palette = 2=#327d22
+palette = 3=#ecbb77
+palette = 4=#1e66f5
+palette = 5=#8839ef
+palette = 6=#179299
+palette = 7=#d2d4d8
+palette = 8=#8b8d9e
+palette = 9=#a80c2e
+palette = 10=#28641b
+palette = 11=#bd965f
+palette = 12=#1852c4
+palette = 13=#6d2ebf
+palette = 14=#12757a
+palette = 15=#e5e7eb

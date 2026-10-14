@@ -32,6 +32,20 @@ whole window fits, not just Claude Code's parts.
 | mint | `ghostty/cc-skins-mint` | `iterm2/cc-skins-mint.itermcolors` | Iosevka or Fira Code |
 | peach | `ghostty/cc-skins-peach` | `iterm2/cc-skins-peach.itermcolors` | Victor Mono or Recursive Mono |
 | snow | `ghostty/cc-skins-snow` | `iterm2/cc-skins-snow.itermcolors` | Geist Mono or SF Mono |
+| catppuccin-mocha | `ghostty/cc-skins-catppuccin-mocha` | `iterm2/cc-skins-catppuccin-mocha.itermcolors` | JetBrains Mono or Maple Mono |
+| catppuccin-latte | `ghostty/cc-skins-catppuccin-latte` | `iterm2/cc-skins-catppuccin-latte.itermcolors` | JetBrains Mono or Maple Mono |
+| tokyo-night | `ghostty/cc-skins-tokyo-night` | `iterm2/cc-skins-tokyo-night.itermcolors` | JetBrains Mono or Iosevka |
+| dracula | `ghostty/cc-skins-dracula` | `iterm2/cc-skins-dracula.itermcolors` | Fira Code or JetBrains Mono |
+| nord | `ghostty/cc-skins-nord` | `iterm2/cc-skins-nord.itermcolors` | JetBrains Mono or Iosevka |
+| gruvbox | `ghostty/cc-skins-gruvbox` | `iterm2/cc-skins-gruvbox.itermcolors` | Iosevka or IBM Plex Mono |
+| rose-pine | `ghostty/cc-skins-rose-pine` | `iterm2/cc-skins-rose-pine.itermcolors` | Victor Mono or JetBrains Mono |
+| rose-pine-dawn | `ghostty/cc-skins-rose-pine-dawn` | `iterm2/cc-skins-rose-pine-dawn.itermcolors` | Victor Mono or JetBrains Mono |
+| one-dark | `ghostty/cc-skins-one-dark` | `iterm2/cc-skins-one-dark.itermcolors` | Fira Code or Source Code Pro |
+| solarized-dark | `ghostty/cc-skins-solarized-dark` | `iterm2/cc-skins-solarized-dark.itermcolors` | Source Code Pro or Inconsolata |
+| solarized-light | `ghostty/cc-skins-solarized-light` | `iterm2/cc-skins-solarized-light.itermcolors` | Source Code Pro or Inconsolata |
+| everforest | `ghostty/cc-skins-everforest` | `iterm2/cc-skins-everforest.itermcolors` | IBM Plex Mono or JetBrains Mono |
+| kanagawa | `ghostty/cc-skins-kanagawa` | `iterm2/cc-skins-kanagawa.itermcolors` | Iosevka or JetBrains Mono |
+| monokai | `ghostty/cc-skins-monokai` | `iterm2/cc-skins-monokai.itermcolors` | Fira Code or Monaco |
 
 With `/skin glyphs plain`, cc-skins draws only standard Unicode characters,
 so any monospace font works. The default powerline look needs a

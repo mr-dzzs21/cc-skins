@@ -1,0 +1,22 @@
+# cc-skins · Solarized Light — Ghostty theme
+background = #fdf6e3
+foreground = #657b83
+cursor-color = #8d6b00
+selection-background = #e1d3aa
+selection-foreground = #657b83
+palette = 0=#657b83
+palette = 1=#dc322f
+palette = 2=#687700
+palette = 3=#bc951a
+palette = 4=#268bd2
+palette = 5=#8d6b00
+palette = 6=#2aa198
+palette = 7=#dfd8c8
+palette = 8=#9ba9ae
+palette = 9=#b02826
+palette = 10=#535f00
+palette = 11=#967715
+palette = 12=#1e6fa8
+palette = 13=#715600
+palette = 14=#22817a
+palette = 15=#f3ecda

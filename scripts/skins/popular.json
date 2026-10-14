@@ -1,0 +1,1024 @@
+[
+  {
+    "id": "catppuccin-mocha",
+    "label": "Catppuccin Mocha",
+    "desc": "Catppuccin Mocha: soothing pastels on a warm dark base",
+    "tone": "dark",
+    "popular": true,
+    "glyph": "♡",
+    "icon": "\\uf0f4",
+    "meter": "●○",
+    "sound": "pop",
+    "words": [
+      "Purring",
+      "Kneading",
+      "Pawing",
+      "Stretching"
+    ],
+    "thinking": "Purring",
+    "turn": [
+      "Purred",
+      "Brewed"
+    ],
+    "joiner": "in",
+    "font": "JetBrains Mono or Maple Mono",
+    "blocks": [
+      [
+        "#cba6f7",
+        "#11111b"
+      ],
+      [
+        "#b4befe",
+        "#11111b"
+      ],
+      [
+        "#89b4fa",
+        "#11111b"
+      ],
+      [
+        "#45475a",
+        "#cdd6f4"
+      ],
+      [
+        "#313244",
+        "#cdd6f4"
+      ],
+      [
+        "#181825",
+        "#cdd6f4"
+      ]
+    ],
+    "pulse": "#f5c2e7",
+    "warn": [
+      "#f9e2af",
+      "#11111b"
+    ],
+    "danger": [
+      "#f38ba8",
+      "#11111b"
+    ],
+    "chat": {
+      "border": "#45475a",
+      "user": "#89b4fa",
+      "assistant": "#cba6f7",
+      "muted": "#7f849c",
+      "success": "#a6e3a1"
+    },
+    "term": {
+      "bg": "#1e1e2e",
+      "fg": "#cdd6f4",
+      "red": "#f38ba8",
+      "blue": "#89b4fa",
+      "cyan": "#94e2d5"
+    }
+  },
+  {
+    "id": "catppuccin-latte",
+    "label": "Catppuccin Latte",
+    "desc": "Catppuccin Latte: the pastel theme for light terminals",
+    "tone": "light",
+    "popular": true,
+    "glyph": "♡",
+    "icon": "\\uf0f4",
+    "meter": "●○",
+    "sound": "pop",
+    "words": [
+      "Purring",
+      "Kneading",
+      "Pawing",
+      "Stretching"
+    ],
+    "thinking": "Purring",
+    "turn": [
+      "Purred",
+      "Brewed"
+    ],
+    "joiner": "in",
+    "font": "JetBrains Mono or Maple Mono",
+    "blocks": [
+      [
+        "#8839ef",
+        "#eff1f5"
+      ],
+      [
+        "#1d63ef",
+        "#eff1f5"
+      ],
+      [
+        "#4c4f69",
+        "#eff1f5"
+      ],
+      [
+        "#ccd0da",
+        "#4c4f69"
+      ],
+      [
+        "#dce0e8",
+        "#4c4f69"
+      ],
+      [
+        "#e6e9ef",
+        "#4c4f69"
+      ]
+    ],
+    "pulse": "#ea76cb",
+    "warn": [
+      "#ecbb77",
+      "#4c4f69"
+    ],
+    "danger": [
+      "#d20f39",
+      "#eff1f5"
+    ],
+    "chat": {
+      "border": "#ccd0da",
+      "user": "#1e66f5",
+      "assistant": "#8839ef",
+      "muted": "#6c6f85",
+      "success": "#40a02b"
+    },
+    "term": {
+      "bg": "#eff1f5",
+      "fg": "#4c4f69",
+      "red": "#d20f39",
+      "blue": "#1e66f5",
+      "cyan": "#179299"
+    }
+  },
+  {
+    "id": "tokyo-night",
+    "label": "Tokyo Night",
+    "desc": "Tokyo Night: neon blues and violets over a night city",
+    "tone": "dark",
+    "popular": true,
+    "glyph": "☾",
+    "icon": "\\uf1ad",
+    "meter": "▰▱",
+    "sound": "chime",
+    "words": [
+      "Neon-lit",
+      "Night-riding",
+      "Drifting",
+      "Glowing"
+    ],
+    "thinking": "Dreaming",
+    "turn": [
+      "Arrived",
+      "Docked"
+    ],
+    "joiner": "in",
+    "font": "JetBrains Mono or Iosevka",
+    "blocks": [
+      [
+        "#7aa2f7",
+        "#16161e"
+      ],
+      [
+        "#bb9af7",
+        "#16161e"
+      ],
+      [
+        "#7dcfff",
+        "#16161e"
+      ],
+      [
+        "#414868",
+        "#c0caf5"
+      ],
+      [
+        "#292e42",
+        "#c0caf5"
+      ],
+      [
+        "#16161e",
+        "#c0caf5"
+      ]
+    ],
+    "pulse": "#7dcfff",
+    "warn": [
+      "#e0af68",
+      "#16161e"
+    ],
+    "danger": [
+      "#f7768e",
+      "#16161e"
+    ],
+    "chat": {
+      "border": "#292e42",
+      "user": "#7aa2f7",
+      "assistant": "#bb9af7",
+      "muted": "#565f89",
+      "success": "#9ece6a"
+    },
+    "term": {
+      "bg": "#1a1b26",
+      "fg": "#c0caf5",
+      "red": "#f7768e",
+      "blue": "#7aa2f7",
+      "cyan": "#7dcfff"
+    }
+  },
+  {
+    "id": "dracula",
+    "label": "Dracula",
+    "desc": "Dracula: purple and pink on a dark, bloodless night",
+    "tone": "dark",
+    "popular": true,
+    "glyph": "☽",
+    "icon": "\\uf0d0",
+    "meter": "■□",
+    "sound": "gong",
+    "words": [
+      "Lurking",
+      "Haunting",
+      "Hovering",
+      "Shapeshifting"
+    ],
+    "thinking": "Brooding",
+    "turn": [
+      "Bitten",
+      "Returned"
+    ],
+    "joiner": "in",
+    "font": "Fira Code or JetBrains Mono",
+    "blocks": [
+      [
+        "#bd93f9",
+        "#21222c"
+      ],
+      [
+        "#ff79c6",
+        "#21222c"
+      ],
+      [
+        "#8be9fd",
+        "#21222c"
+      ],
+      [
+        "#44475a",
+        "#f8f8f2"
+      ],
+      [
+        "#343746",
+        "#f8f8f2"
+      ],
+      [
+        "#21222c",
+        "#f8f8f2"
+      ]
+    ],
+    "pulse": "#ff79c6",
+    "warn": [
+      "#f1fa8c",
+      "#21222c"
+    ],
+    "danger": [
+      "#ff5555",
+      "#21222c"
+    ],
+    "chat": {
+      "border": "#44475a",
+      "user": "#8be9fd",
+      "assistant": "#bd93f9",
+      "muted": "#6272a4",
+      "success": "#50fa7b"
+    },
+    "term": {
+      "bg": "#282a36",
+      "fg": "#f8f8f2",
+      "red": "#ff5555",
+      "blue": "#bd93f9",
+      "cyan": "#8be9fd"
+    }
+  },
+  {
+    "id": "nord",
+    "label": "Nord",
+    "desc": "Nord: arctic frost blues on polar night",
+    "tone": "dark",
+    "popular": true,
+    "glyph": "❆",
+    "icon": "\\uf2dc",
+    "meter": "━─",
+    "sound": "chime",
+    "words": [
+      "Drifting",
+      "Frosting",
+      "Charting",
+      "Gliding"
+    ],
+    "thinking": "Contemplating",
+    "turn": [
+      "Settled",
+      "Charted"
+    ],
+    "joiner": "in",
+    "font": "JetBrains Mono or Iosevka",
+    "blocks": [
+      [
+        "#88c0d0",
+        "#2e3440"
+      ],
+      [
+        "#8fbcbb",
+        "#2e3440"
+      ],
+      [
+        "#81a1c1",
+        "#2e3440"
+      ],
+      [
+        "#4c566a",
+        "#eceff4"
+      ],
+      [
+        "#434c5e",
+        "#eceff4"
+      ],
+      [
+        "#3b4252",
+        "#eceff4"
+      ]
+    ],
+    "pulse": "#8fbcbb",
+    "warn": [
+      "#ebcb8b",
+      "#2e3440"
+    ],
+    "danger": [
+      "#a2525a",
+      "#eceff4"
+    ],
+    "chat": {
+      "border": "#434c5e",
+      "user": "#81a1c1",
+      "assistant": "#88c0d0",
+      "muted": "#616e88",
+      "success": "#a3be8c"
+    },
+    "term": {
+      "bg": "#2e3440",
+      "fg": "#d8dee9",
+      "red": "#bf616a",
+      "blue": "#81a1c1",
+      "cyan": "#88c0d0"
+    }
+  },
+  {
+    "id": "gruvbox",
+    "label": "Gruvbox",
+    "desc": "Gruvbox: retro groove, warm yellows and oranges",
+    "tone": "dark",
+    "popular": true,
+    "glyph": "♫",
+    "icon": "\\uf001",
+    "meter": "■□",
+    "sound": "blip",
+    "words": [
+      "Grooving",
+      "Jamming",
+      "Mixing",
+      "Spinning vinyl"
+    ],
+    "thinking": "Tuning",
+    "turn": [
+      "Grooved",
+      "Dropped"
+    ],
+    "joiner": "in",
+    "font": "Iosevka or IBM Plex Mono",
+    "blocks": [
+      [
+        "#fabd2f",
+        "#282828"
+      ],
+      [
+        "#fe8019",
+        "#282828"
+      ],
+      [
+        "#8ec07c",
+        "#282828"
+      ],
+      [
+        "#504945",
+        "#fbf1c7"
+      ],
+      [
+        "#3c3836",
+        "#fbf1c7"
+      ],
+      [
+        "#32302f",
+        "#fbf1c7"
+      ]
+    ],
+    "pulse": "#fe8019",
+    "warn": [
+      "#d79921",
+      "#282828"
+    ],
+    "danger": [
+      "#cc241d",
+      "#fbf1c7"
+    ],
+    "chat": {
+      "border": "#504945",
+      "user": "#83a598",
+      "assistant": "#fe8019",
+      "muted": "#928374",
+      "success": "#b8bb26"
+    },
+    "term": {
+      "bg": "#282828",
+      "fg": "#ebdbb2",
+      "red": "#fb4934",
+      "blue": "#83a598",
+      "cyan": "#8ec07c"
+    }
+  },
+  {
+    "id": "rose-pine",
+    "label": "Rosé Pine",
+    "desc": "Rosé Pine: soho vibes, rose and iris on deep pine",
+    "tone": "dark",
+    "popular": true,
+    "glyph": "✾",
+    "icon": "\\uf1bb",
+    "meter": "●○",
+    "sound": "chime",
+    "words": [
+      "Pining",
+      "Swaying",
+      "Unfurling",
+      "Petal-pressing"
+    ],
+    "thinking": "Daydreaming",
+    "turn": [
+      "Bloomed",
+      "Pressed"
+    ],
+    "joiner": "in",
+    "font": "Victor Mono or JetBrains Mono",
+    "blocks": [
+      [
+        "#ebbcba",
+        "#191724"
+      ],
+      [
+        "#c4a7e7",
+        "#191724"
+      ],
+      [
+        "#9ccfd8",
+        "#191724"
+      ],
+      [
+        "#403d52",
+        "#e0def4"
+      ],
+      [
+        "#26233a",
+        "#e0def4"
+      ],
+      [
+        "#1f1d2e",
+        "#e0def4"
+      ]
+    ],
+    "pulse": "#f6c177",
+    "warn": [
+      "#f6c177",
+      "#191724"
+    ],
+    "danger": [
+      "#eb6f92",
+      "#191724"
+    ],
+    "chat": {
+      "border": "#403d52",
+      "user": "#9ccfd8",
+      "assistant": "#ebbcba",
+      "muted": "#6e6a86",
+      "success": "#31748f"
+    },
+    "term": {
+      "bg": "#191724",
+      "fg": "#e0def4",
+      "red": "#eb6f92",
+      "blue": "#31748f",
+      "cyan": "#9ccfd8"
+    }
+  },
+  {
+    "id": "rose-pine-dawn",
+    "label": "Rosé Pine Dawn",
+    "desc": "Rosé Pine Dawn: soft rose and pine for light terminals",
+    "tone": "light",
+    "popular": true,
+    "glyph": "✾",
+    "icon": "\\uf1bb",
+    "meter": "●○",
+    "sound": "chime",
+    "words": [
+      "Pining",
+      "Swaying",
+      "Unfurling",
+      "Petal-pressing"
+    ],
+    "thinking": "Daydreaming",
+    "turn": [
+      "Bloomed",
+      "Pressed"
+    ],
+    "joiner": "in",
+    "font": "Victor Mono or JetBrains Mono",
+    "blocks": [
+      [
+        "#286983",
+        "#faf4ed"
+      ],
+      [
+        "#575279",
+        "#faf4ed"
+      ],
+      [
+        "#7a6890",
+        "#faf4ed"
+      ],
+      [
+        "#dfdad9",
+        "#575279"
+      ],
+      [
+        "#f2e9e1",
+        "#575279"
+      ],
+      [
+        "#fffaf3",
+        "#575279"
+      ]
+    ],
+    "pulse": "#d7827e",
+    "warn": [
+      "#f2c485",
+      "#575279"
+    ],
+    "danger": [
+      "#a2596e",
+      "#faf4ed"
+    ],
+    "chat": {
+      "border": "#dfdad9",
+      "user": "#286983",
+      "assistant": "#b4637a",
+      "muted": "#797593",
+      "success": "#56949f"
+    },
+    "term": {
+      "bg": "#faf4ed",
+      "fg": "#575279",
+      "red": "#b4637a",
+      "blue": "#286983",
+      "cyan": "#56949f"
+    }
+  },
+  {
+    "id": "one-dark",
+    "label": "One Dark",
+    "desc": "One Dark: the Atom classic, calm blues and purples",
+    "tone": "dark",
+    "popular": true,
+    "glyph": "◉",
+    "icon": "\\uf121",
+    "meter": "━─",
+    "sound": "blip",
+    "words": [
+      "Compiling",
+      "Linting",
+      "Refactoring",
+      "Indexing"
+    ],
+    "thinking": "Reasoning",
+    "turn": [
+      "Shipped",
+      "Built"
+    ],
+    "joiner": "in",
+    "font": "Fira Code or Source Code Pro",
+    "blocks": [
+      [
+        "#61afef",
+        "#21252b"
+      ],
+      [
+        "#c678dd",
+        "#21252b"
+      ],
+      [
+        "#98c379",
+        "#21252b"
+      ],
+      [
+        "#3e4451",
+        "#dcdfe4"
+      ],
+      [
+        "#2c313a",
+        "#dcdfe4"
+      ],
+      [
+        "#21252b",
+        "#dcdfe4"
+      ]
+    ],
+    "pulse": "#56b6c2",
+    "warn": [
+      "#e5c07b",
+      "#21252b"
+    ],
+    "danger": [
+      "#e06c75",
+      "#21252b"
+    ],
+    "chat": {
+      "border": "#3e4451",
+      "user": "#61afef",
+      "assistant": "#c678dd",
+      "muted": "#5c6370",
+      "success": "#98c379"
+    },
+    "term": {
+      "bg": "#282c34",
+      "fg": "#abb2bf",
+      "red": "#e06c75",
+      "blue": "#61afef",
+      "cyan": "#56b6c2"
+    }
+  },
+  {
+    "id": "solarized-dark",
+    "label": "Solarized Dark",
+    "desc": "Solarized Dark: the precise, low-contrast classic",
+    "tone": "dark",
+    "popular": true,
+    "glyph": "☀",
+    "icon": "\\uf185",
+    "meter": "■□",
+    "sound": "chime",
+    "words": [
+      "Calibrating",
+      "Balancing",
+      "Aligning",
+      "Tuning"
+    ],
+    "thinking": "Measuring",
+    "turn": [
+      "Balanced",
+      "Aligned"
+    ],
+    "joiner": "in",
+    "font": "Source Code Pro or Inconsolata",
+    "blocks": [
+      [
+        "#b58900",
+        "#002b36"
+      ],
+      [
+        "#2aa198",
+        "#002b36"
+      ],
+      [
+        "#3694d5",
+        "#002b36"
+      ],
+      [
+        "#586e75",
+        "#fdf6e3"
+      ],
+      [
+        "#073642",
+        "#fdf6e3"
+      ],
+      [
+        "#00212b",
+        "#fdf6e3"
+      ]
+    ],
+    "pulse": "#cb4b16",
+    "warn": [
+      "#b58900",
+      "#002b36"
+    ],
+    "danger": [
+      "#d1302d",
+      "#fdf6e3"
+    ],
+    "chat": {
+      "border": "#073642",
+      "user": "#268bd2",
+      "assistant": "#b58900",
+      "muted": "#586e75",
+      "success": "#859900"
+    },
+    "term": {
+      "bg": "#002b36",
+      "fg": "#839496",
+      "red": "#dc322f",
+      "blue": "#268bd2",
+      "cyan": "#2aa198"
+    }
+  },
+  {
+    "id": "solarized-light",
+    "label": "Solarized Light",
+    "desc": "Solarized Light: the precise classic, on paper",
+    "tone": "light",
+    "popular": true,
+    "glyph": "☀",
+    "icon": "\\uf185",
+    "meter": "■□",
+    "sound": "chime",
+    "words": [
+      "Calibrating",
+      "Balancing",
+      "Aligning",
+      "Tuning"
+    ],
+    "thinking": "Measuring",
+    "turn": [
+      "Balanced",
+      "Aligned"
+    ],
+    "joiner": "in",
+    "font": "Source Code Pro or Inconsolata",
+    "blocks": [
+      [
+        "#4c9fda",
+        "#073642"
+      ],
+      [
+        "#6469b5",
+        "#fdf6e3"
+      ],
+      [
+        "#073642",
+        "#fdf6e3"
+      ],
+      [
+        "#eee8d5",
+        "#073642"
+      ],
+      [
+        "#e4ddc8",
+        "#073642"
+      ],
+      [
+        "#fdf6e3",
+        "#073642"
+      ]
+    ],
+    "pulse": "#cb4b16",
+    "warn": [
+      "#bc951a",
+      "#073642"
+    ],
+    "danger": [
+      "#d1302d",
+      "#fdf6e3"
+    ],
+    "chat": {
+      "border": "#eee8d5",
+      "user": "#268bd2",
+      "assistant": "#b58900",
+      "muted": "#93a1a1",
+      "success": "#859900"
+    },
+    "term": {
+      "bg": "#fdf6e3",
+      "fg": "#657b83",
+      "red": "#dc322f",
+      "blue": "#268bd2",
+      "cyan": "#2aa198"
+    }
+  },
+  {
+    "id": "everforest",
+    "label": "Everforest",
+    "desc": "Everforest: green, warm and easy on the eyes",
+    "tone": "dark",
+    "popular": true,
+    "glyph": "❧",
+    "icon": "\\uf06c",
+    "meter": "━─",
+    "sound": "chime",
+    "words": [
+      "Growing",
+      "Rustling",
+      "Wandering",
+      "Mossing"
+    ],
+    "thinking": "Listening",
+    "turn": [
+      "Grown",
+      "Rooted"
+    ],
+    "joiner": "in",
+    "font": "IBM Plex Mono or JetBrains Mono",
+    "blocks": [
+      [
+        "#a7c080",
+        "#2d353b"
+      ],
+      [
+        "#83c092",
+        "#2d353b"
+      ],
+      [
+        "#7fbbb3",
+        "#2d353b"
+      ],
+      [
+        "#475258",
+        "#d3c6aa"
+      ],
+      [
+        "#3d484d",
+        "#d3c6aa"
+      ],
+      [
+        "#343f44",
+        "#d3c6aa"
+      ]
+    ],
+    "pulse": "#dbbc7f",
+    "warn": [
+      "#dbbc7f",
+      "#2d353b"
+    ],
+    "danger": [
+      "#e67e80",
+      "#2d353b"
+    ],
+    "chat": {
+      "border": "#475258",
+      "user": "#7fbbb3",
+      "assistant": "#a7c080",
+      "muted": "#859289",
+      "success": "#83c092"
+    },
+    "term": {
+      "bg": "#2d353b",
+      "fg": "#d3c6aa",
+      "red": "#e67e80",
+      "blue": "#7fbbb3",
+      "cyan": "#83c092"
+    }
+  },
+  {
+    "id": "kanagawa",
+    "label": "Kanagawa",
+    "desc": "Kanagawa: Hokusai’s great wave, ink and old paper",
+    "tone": "dark",
+    "popular": true,
+    "glyph": "≋",
+    "icon": "\\uf043",
+    "meter": "▰▱",
+    "sound": "gong",
+    "words": [
+      "Brushing",
+      "Rolling",
+      "Cresting",
+      "Inking"
+    ],
+    "thinking": "Meditating",
+    "turn": [
+      "Painted",
+      "Crested"
+    ],
+    "joiner": "in",
+    "font": "Iosevka or JetBrains Mono",
+    "blocks": [
+      [
+        "#7e9cd8",
+        "#1f1f28"
+      ],
+      [
+        "#957fb8",
+        "#1f1f28"
+      ],
+      [
+        "#e6c384",
+        "#1f1f28"
+      ],
+      [
+        "#54546d",
+        "#dcd7ba"
+      ],
+      [
+        "#363646",
+        "#dcd7ba"
+      ],
+      [
+        "#2a2a37",
+        "#dcd7ba"
+      ]
+    ],
+    "pulse": "#ffa066",
+    "warn": [
+      "#e6c384",
+      "#1f1f28"
+    ],
+    "danger": [
+      "#e46876",
+      "#1f1f28"
+    ],
+    "chat": {
+      "border": "#363646",
+      "user": "#7e9cd8",
+      "assistant": "#ffa066",
+      "muted": "#727169",
+      "success": "#98bb6c"
+    },
+    "term": {
+      "bg": "#1f1f28",
+      "fg": "#dcd7ba",
+      "red": "#e46876",
+      "blue": "#7e9cd8",
+      "cyan": "#7aa89f"
+    }
+  },
+  {
+    "id": "monokai",
+    "label": "Monokai",
+    "desc": "Monokai: the vivid classic, pink, green and gold",
+    "tone": "dark",
+    "popular": true,
+    "glyph": "▲",
+    "icon": "\\uf0e7",
+    "meter": "■□",
+    "sound": "blip",
+    "words": [
+      "Hacking",
+      "Highlighting",
+      "Typing",
+      "Tinkering"
+    ],
+    "thinking": "Thinking",
+    "turn": [
+      "Done",
+      "Shipped"
+    ],
+    "joiner": "in",
+    "font": "Fira Code or Monaco",
+    "blocks": [
+      [
+        "#a6e22e",
+        "#1e1f1c"
+      ],
+      [
+        "#66d9ef",
+        "#1e1f1c"
+      ],
+      [
+        "#ae81ff",
+        "#1e1f1c"
+      ],
+      [
+        "#49483e",
+        "#f8f8f2"
+      ],
+      [
+        "#3e3d32",
+        "#f8f8f2"
+      ],
+      [
+        "#1e1f1c",
+        "#f8f8f2"
+      ]
+    ],
+    "pulse": "#f92672",
+    "warn": [
+      "#e6db74",
+      "#1e1f1c"
+    ],
+    "danger": [
+      "#f93179",
+      "#1e1f1c"
+    ],
+    "chat": {
+      "border": "#49483e",
+      "user": "#66d9ef",
+      "assistant": "#f92672",
+      "muted": "#75715e",
+      "success": "#a6e22e"
+    },
+    "term": {
+      "bg": "#272822",
+      "fg": "#f8f8f2",
+      "red": "#f92672",
+      "blue": "#66d9ef",
+      "cyan": "#a6e22e"
+    }
+  }
+]

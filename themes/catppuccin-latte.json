@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Catppuccin Latte",
+  "base": "light",
+  "overrides": {
+    "claude": "#8839ef",
+    "claudeShimmer": "#5f28a7",
+    "text": "#4c4f69",
+    "inactive": "#6a6d82",
+    "subtle": "#ccd0da",
+    "suggestion": "#1d62eb",
+    "permission": "#1d62eb",
+    "permissionShimmer": "#134099",
+    "promptBorder": "#b4b7c0",
+    "promptBorderShimmer": "#8f9299",
+    "planMode": "#1d62eb",
+    "autoAccept": "#327d22",
+    "bashBorder": "#ecbb77",
+    "success": "#327d22",
+    "error": "#d20f39",
+    "warning": "#ecbb77",
+    "diffAdded": "#b5d9c0",
+    "diffRemoved": "#f2c1c1",
+    "diffAddedDimmed": "#d2e5da",
+    "diffRemovedDimmed": "#f0d9db",
+    "diffAddedWord": "#85c493",
+    "diffRemovedWord": "#f49996",
+    "userMessageBackground": "#dadde5",
+    "userMessageBackgroundHover": "#d0d3dd",
+    "selectionBg": "#d5c3f4",
+    "rate_limit_fill": "#8839ef",
+    "rate_limit_empty": "#ccd0da"
+  }
+}

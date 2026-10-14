@@ -70,6 +70,8 @@ out = []
 for s in NEW:
     tone = s.get('tone', 'bright')
     flag = '    isDark: true,\n' if tone == 'dark' else '    isLight: true,\n' if tone == 'light' else ''
+    if s.get('popular') is True:
+        flag += '    isPopular: true,\n'
     blocks = '\n'.join(f"        {{ bg: {q(bg)}, fg: {q(fg)} }}," for bg, fg in s['blocks'])
     suffix = f"\n      suffix: {q(s['suffix'])}," if s.get('suffix') else ''
     c = s['chat']
@@ -103,7 +105,7 @@ assert src.count(marker) == 1
 open('hooks/skins.ts', 'w').write(src.replace(marker, "\n" + "\n".join(out) + marker))
 
 t = open('types/index.d.ts').read()
-m = re.search(r"export type SkinId =\n((?:  \| '[a-z]+'\n)+)", t)
+m = re.search(r"export type SkinId =\n((?:  \| '[a-z][a-z0-9-]*'\n)+)", t)
 open('types/index.d.ts', 'w').write(t.replace(m.group(0), m.group(0) + ''.join(f"  | '{s['id']}'\n" for s in NEW)))
 
 for s in NEW:
@@ -153,7 +155,7 @@ open('extras/terminal/README.md', 'w').write(r.replace(last, last + ''.join(
     f"| {s['id']} | `ghostty/cc-skins-{s['id']}` | `iterm2/cc-skins-{s['id']}.itermcolors` | {s['font']} |\n" for s in NEW)))
 
 R = open('docs/skins.md').read()
-last = [l for l in R.splitlines() if re.match(r"^\| `[a-z]+` \|", l)][-1] + '\n'
+last = [l for l in R.splitlines() if re.match(r"^\| `[a-z][a-z0-9-]*` \|", l)][-1] + '\n'
 def spin(s):
     w = s['words']; suf = s.get('suffix') or '…'
     return f"`{w[0]}{suf}`, `{w[min(3, len(w) - 1)]}{suf}`"

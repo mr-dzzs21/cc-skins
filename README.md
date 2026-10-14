@@ -10,7 +10,7 @@
 <h3 align="center">See your limits. Switch models in a click. Make Claude Code yours.</h3>
 
 <p align="center"><img src="docs/hero.svg" alt="A real Claude Code session with cc-skins: your message and Claude's reply as framed cards, the turn line with its cost, and the usage bar above the prompt, fading through nine skins" width="100%"></p>
-<p align="center"><sub>A real session, in nine of the 26 skins.</sub></p>
+<p align="center"><sub>A real session, in nine of the 40 skins.</sub></p>
 
 ## Install
 
@@ -54,7 +54,7 @@ Then open Claude Code and type **`/skin`** to pick a look. That's it. Works in t
 
 ### 🎨 Look
 
-- **26 skins**, dark, vivid and light
+- **40 skins**, with **Catppuccin, Tokyo Night, Dracula, Nord, Gruvbox, Rosé Pine** and more
 - Your chat as **cards**, a spinner with its own words
 - **Build your own**: every piece its own color
 - **Share** a skin as one line
@@ -106,7 +106,9 @@ Extras when you want more: git status, tokens, cost per hour, session time, cloc
 
 ## Skins
 
-<p align="center"><img src="docs/skins.svg" alt="The usage bar in each of the 26 built-in skins: twelve vivid, eight dark, six light" width="100%"></p>
+Twelve vivid, eight dark, six light, and fourteen popular themes: **Catppuccin** Mocha and Latte, **Tokyo Night**, **Dracula**, **Nord**, **Gruvbox**, **Rosé Pine** and Dawn, **One Dark**, **Solarized** Dark and Light, **Everforest**, **Kanagawa** and **Monokai**. Try one with `/skin tokyo-night`.
+
+<p align="center"><img src="docs/skins.svg" alt="The usage bar in each of the 40 built-in skins: twelve vivid, eight dark, six light, fourteen popular themes" width="100%"></p>
 
 All of them with their words, and how to build your own: [Skins](docs/skins.md).
 

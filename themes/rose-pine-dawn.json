@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Rosé Pine Dawn",
+  "base": "light",
+  "overrides": {
+    "claude": "#a2596e",
+    "claudeShimmer": "#713e4d",
+    "text": "#575279",
+    "inactive": "#6f6c87",
+    "subtle": "#dfdad9",
+    "suggestion": "#286983",
+    "permission": "#286983",
+    "permissionShimmer": "#1a4455",
+    "promptBorder": "#c4c0bf",
+    "promptBorderShimmer": "#9c9998",
+    "planMode": "#286983",
+    "autoAccept": "#45767f",
+    "bashBorder": "#f2c485",
+    "success": "#45767f",
+    "error": "#a2596e",
+    "warning": "#f2c485",
+    "diffAdded": "#bddbba",
+    "diffRemoved": "#f9c3bc",
+    "diffAddedDimmed": "#dbe7d4",
+    "diffRemovedDimmed": "#fadcd4",
+    "diffAddedWord": "#8ac690",
+    "diffRemovedWord": "#f99a93",
+    "userMessageBackground": "#eae4e1",
+    "userMessageBackgroundHover": "#e2dddb",
+    "selectionBg": "#e4cdcd",
+    "rate_limit_fill": "#a2596e",
+    "rate_limit_empty": "#dfdad9"
+  }
+}

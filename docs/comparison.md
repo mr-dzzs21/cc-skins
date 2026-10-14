@@ -8,7 +8,7 @@ Claude Code's status line shows the output of a command you configure, below the
 |---|---|---|
 | Where | A bar above the prompt, plus the chat, spinner, turn line and theme | One or more lines below the prompt |
 | Clicks | Each block opens something inside Claude Code: model and effort picker, usage dashboard, changed files, live limits, settings | Links to open elsewhere, where the tool draws them (ccstatusline has branch, PR and editor links) |
-| Look | Skins for the whole UI: 26 built in, your own from one color | Colors, themes and powerline styles for the line |
+| Look | Skins for the whole UI: 40 built in (Catppuccin, Tokyo Night, Dracula, Nord…), your own from one color | Colors, themes and powerline styles for the line |
 | Settings | Inside Claude Code: `/skin bar`, in tabs | A config file or the tool's own setup screen |
 | Install | `/plugin install`, nothing else | The tool, plus a `statusLine` entry in `settings.json` (some tools write it for you) |
 | Network and credentials | None | Depends on the tool: live usage figures may come from Anthropic's API with your stored login |

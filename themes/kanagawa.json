@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Kanagawa",
+  "base": "dark",
+  "overrides": {
+    "claude": "#ffa066",
+    "claudeShimmer": "#ffbc94",
+    "text": "#dcd7ba",
+    "inactive": "#898881",
+    "subtle": "#363646",
+    "suggestion": "#7e9cd8",
+    "permission": "#7e9cd8",
+    "permissionShimmer": "#abbfe6",
+    "promptBorder": "#4e4e5c",
+    "promptBorderShimmer": "#72727e",
+    "planMode": "#7e9cd8",
+    "autoAccept": "#98bb6c",
+    "bashBorder": "#e6c384",
+    "success": "#98bb6c",
+    "error": "#e46876",
+    "warning": "#e6c384",
+    "diffAdded": "#244630",
+    "diffRemoved": "#602e32",
+    "diffAddedDimmed": "#21322c",
+    "diffRemovedDimmed": "#40262d",
+    "diffAddedWord": "#276637",
+    "diffRemovedWord": "#963a3a",
+    "userMessageBackground": "#2d2d3a",
+    "userMessageBackgroundHover": "#343443",
+    "selectionBg": "#6d4c3e",
+    "rate_limit_fill": "#ffa066",
+    "rate_limit_empty": "#363646"
+  }
+}

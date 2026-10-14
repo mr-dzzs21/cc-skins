@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.20.0
+
+- **Fourteen popular themes as skins:** Catppuccin Mocha and Latte, Tokyo Night, Dracula, Nord, Gruvbox, Rosé Pine and Rosé Pine Dawn, One Dark, Solarized Dark and Light, Everforest, Kanagawa and Monokai. Each in its theme's own palette, with its own spinner and turn-line words, a `/theme` color theme and Ghostty and iTerm2 schemes. Forty skins in all.
+- They are listed under **Popular themes** in the picker and the gallery, and their names take dashes: `/skin tokyo-night`.
+- The picker shows names up to 16 characters whole.
+- `/skin list` names `/skin doctor`, `/skin color` and `/skin limits` in its help.
+- The FAQ explains why a cloud session (Claude Desktop, claude.ai) shows no skins.
+- The skin gallery shows the bar as it first appears, the extras off.
+
 ## 0.19.1
 
 - **The bar reads right in Claude Desktop and VS Code.** cc-skins runs there too, and those draw a button by its label, not by the colored text inside it: the bar showed "Pick a skin · Model and effort · Usage dashboard · Live limits · Live limits…" instead of its figures. Each block's label is now what it shows (`Opus 5.5 · xhigh`, `ctx 34%`, `5h 42% (2h13m)`, `$1.24`), icons as words. The terminal looks as before.

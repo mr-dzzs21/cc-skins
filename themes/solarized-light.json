@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Solarized Light",
+  "base": "light",
+  "overrides": {
+    "claude": "#8d6b00",
+    "claudeShimmer": "#634b00",
+    "text": "#657b83",
+    "inactive": "#677171",
+    "subtle": "#eee8d5",
+    "suggestion": "#2075b0",
+    "permission": "#2075b0",
+    "permissionShimmer": "#154c72",
+    "promptBorder": "#d1ccbb",
+    "promptBorderShimmer": "#a7a295",
+    "planMode": "#2075b0",
+    "autoAccept": "#687700",
+    "bashBorder": "#bc951a",
+    "success": "#687700",
+    "error": "#d1302d",
+    "warning": "#bc951a",
+    "diffAdded": "#bfdcb3",
+    "diffRemoved": "#fcc4b5",
+    "diffAddedDimmed": "#dee9cb",
+    "diffRemovedDimmed": "#fcddcc",
+    "diffAddedWord": "#8bc78b",
+    "diffRemovedWord": "#fa9b8e",
+    "userMessageBackground": "#f4eedb",
+    "userMessageBackgroundHover": "#f0e9d6",
+    "selectionBg": "#e1d3aa",
+    "rate_limit_fill": "#8d6b00",
+    "rate_limit_empty": "#eee8d5"
+  }
+}

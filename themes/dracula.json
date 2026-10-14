@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Dracula",
+  "base": "dark",
+  "overrides": {
+    "claude": "#bd93f9",
+    "claudeShimmer": "#d1b3fb",
+    "text": "#f8f8f2",
+    "inactive": "#8591b8",
+    "subtle": "#44475a",
+    "suggestion": "#8be9fd",
+    "permission": "#8be9fd",
+    "permissionShimmer": "#b4f1fe",
+    "promptBorder": "#5a5d6e",
+    "promptBorderShimmer": "#7c7e8c",
+    "planMode": "#8be9fd",
+    "autoAccept": "#50fa7b",
+    "bashBorder": "#f1fa8c",
+    "success": "#50fa7b",
+    "error": "#ff5555",
+    "warning": "#f1fa8c",
+    "diffAdded": "#2a4d3a",
+    "diffRemoved": "#66363c",
+    "diffAddedDimmed": "#293c38",
+    "diffRemovedDimmed": "#473039",
+    "diffAddedWord": "#2b6b3d",
+    "diffRemovedWord": "#9a3f40",
+    "userMessageBackground": "#393b4c",
+    "userMessageBackgroundHover": "#414456",
+    "selectionBg": "#5c4f7a",
+    "rate_limit_fill": "#bd93f9",
+    "rate_limit_empty": "#44475a"
+  }
+}
