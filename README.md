@@ -1,5 +1,7 @@
 # cc-skins
 
+[![CI](https://github.com/mr-dzzs21/cc-skins/actions/workflows/ci.yml/badge.svg)](https://github.com/mr-dzzs21/cc-skins/actions/workflows/ci.yml)
+
 Skins, a usage bar and quick controls for [Claude Code](https://code.claude.com) in the terminal. Twenty-six looks (eight dark, six for light terminals) plus any you build; a bar above the prompt that keeps model, context, limits and cost in view and opens what you need with a click.
 
 ```
@@ -130,7 +132,10 @@ git clone https://github.com/mr-dzzs21/cc-skins && cd cc-skins
 claude --plugin-dir .          # run Claude Code with the plugin loaded; edits hot-reload
 claude plugin validate .       # check manifest, hooks and state contract
 claude plugin test .           # run tests/*.test.tsx against the engine
+python3 scripts/check_assets.py  # JSON, schemes, scripts, one theme and scheme per skin, versions
 ```
+
+CI runs the last three on every push and pull request, with Claude Code pinned, no login and no secrets (nothing calls a model).
 
 Once Claude Code has loaded the folder, it writes the API types to `.claude-plugin/types/` and a `tsconfig.json`, so `tsc -p .` type-checks the plugin.
 
