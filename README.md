@@ -106,6 +106,10 @@ As a limit or the context fills up, its block turns warning-colored at 60 % and 
 
 <p><img src="docs/screens/bar-alerts.svg" alt="The bar with the 5-hour limit at 72 percent in yellow and the 7-day limit at 91 percent in red" width="100%"></p>
 
+And the extras, off until you turn them on: git status on the branch, context tokens, cost per hour, and session time, clock and Claude Code version:
+
+<p><img src="docs/screens/bar-extras.svg" alt="The bar with every extra on: the branch with files changed, the context with its tokens, the cost with its rate per hour, and an info block with session time, clock and version" width="100%"></p>
+
 ## Skins
 
 Twenty-six built in: twelve vivid, eight dark, six for light terminals. Here is each one's bar:
@@ -162,7 +166,7 @@ Each skin changes:
 - **Turn line**: its own closing line, with what the turn cost (`◆ KO in 12s · $0.04 · 3 tools`). Cost, tokens and tool calls each turn on or off in the settings' Turn line tab.
 - **Alerts**: a toast as the context or a limit window reaches 80 % (or 70, 90, or off), once more at 95 %. When the context is that full, a **compact** button in the bar compacts the conversation with one click.
 - **Sound and notification** (off until you turn them on): when a turn of 30 s or more ends, the skin's own sound (the ring skin rings a boxing bell; others chime, beep, blip, gong or pop) and a notification saying how long the turn took (with the answer's first line, if you turn that on too). Sound, loudness, notification, its preview and the minimum length are yours to set in the Sound tab.
-- **Usage bar**: model and effort, git branch, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 % (or only at 85 %, or never: the Alerts tab's Warning colors). While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block. Click the skin's icon to switch skins, the model to switch model or effort, the context, a limit or the cost for the usage dashboard, the branch for its changed files, the ⚙ to choose what the bar shows (the skin's name is off by default). The Look tab's Clickable bar switch turns the pieces' clicks off; the ⚙ stays clickable so the settings stay in reach (`/skin hide gear` hides it, `/skin bar` opens the settings either way).
+- **Usage bar**: model and effort, git branch, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 % (or only at 85 %, or never: the Alerts tab's Warning colors). While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block. Click the skin's icon to switch skins, the model to switch model or effort, the context, a limit or the cost for the usage dashboard, the branch for its changed files, the ⚙ to choose what the bar shows (the skin's name is off by default). Extras, off until you turn them on in the ⚙ or with `/skin show`: git status on the branch (`main ●3 ↑1`: files changed, commits ahead and behind; it runs `git status` after each reply), context tokens (`34% · 68k`), cost per hour (`$1.24 · $0.62/h`), and an info block with session time, clock and Claude Code version; they are the first to go when the bar runs out of room. The Look tab's Clickable bar switch turns the pieces' clicks off; the ⚙ stays clickable so the settings stay in reach (`/skin hide gear` hides it, `/skin bar` opens the settings either way).
 
 ## Commands
 
@@ -179,7 +183,7 @@ Each skin changes:
 | `/skin edit <skin>` / `/skin delete <skin>` | Changes or deletes one of your own skins |
 | `/skin export [skin]` / `/skin import <json>` | Shares a skin as one line of JSON (copied to the clipboard); anyone with cc-skins wears it after importing |
 | `/skin usage` | Opens the usage dashboard: the context with its trend and a /context-style breakdown, the limit windows, the cost overall and per turn, the session's totals, with Refresh and Compact buttons |
-| `/skin show <item>` / `/skin hide <item>` | Shows or hides one piece: `skinName`, `model`, `effort`, `branch`, `context`, `fiveHour`, `sevenDay`, `cost`, `meters`, `resets`, `gear` |
+| `/skin show <item>` / `/skin hide <item>` | Shows or hides one piece: `skinName`, `model`, `effort`, `branch`, `context`, `fiveHour`, `sevenDay`, `cost`, `meters`, `resets`, `gear`, and the extras, off until you turn them on: `gitStatus`, `contextTokens`, `burnRate`, `session`, `clock`, `version` |
 | `/skin <name>` | Switches the spinner, turn line and HUD, and names the matching color theme |
 | `/skin next` | Cycles to the next skin |
 | `/skin bar powerline` / `/skin bar header` | Colored powerline blocks, or a quiet header line (session time, context, cost, limit badges) |
@@ -201,7 +205,7 @@ Claude Code's status line shows the output of a command you configure, below the
 | Settings | Inside Claude Code: `/skin bar`, in tabs | A config file or the tool's own setup screen |
 | Install | `/plugin install`, nothing else | The tool, plus a `statusLine` entry in `settings.json` (some tools write it for you) |
 | Network and credentials | None | Depends on the tool: live usage figures may come from Anthropic's API with your stored login |
-| What it shows | Model, effort, branch, context, 5h and 7d limits with resets, cost, a compact button | Often much more: ccstatusline alone has dozens of widgets |
+| What it shows | Model, effort, branch, context, 5h and 7d limits with resets, cost, a compact button; as extras git status, context tokens, cost per hour, session time, clock, Claude Code version | Often much more: ccstatusline alone has dozens of widgets |
 | Claude Code | 2.1.296 or newer: function-hook plugins are new and may still change | Any version with a status line |
 
 They don't get in each other's way: keep your status line below the prompt and cc-skins above it.
@@ -241,7 +245,7 @@ Those come from the color theme, which Claude Code keeps yours to choose: open `
 <details>
 <summary><b>Does it slow Claude Code down, or send anything?</b></summary>
 
-No. It makes no network requests, and runs a command only when you ask: `git status` when you open the changed files, `/usage` when you ask for live limits. Its figures come from Claude Code with each reply; the branch is read from `.git/HEAD` at the start and after each turn; once a minute it moves the reset countdowns on. See [Privacy and safety](#privacy-and-safety).
+No. It makes no network requests, and runs a command only when you ask: `git status` when you open the changed files (or after each reply, with the Git status extra on), `/usage` when you ask for live limits. Its figures come from Claude Code with each reply; the branch is read from `.git/HEAD` at the start and after each turn; once a minute it moves the reset countdowns on. See [Privacy and safety](#privacy-and-safety).
 </details>
 
 ## Privacy and safety
@@ -249,7 +253,7 @@ No. It makes no network requests, and runs a command only when you ask: `git sta
 cc-skins runs inside Claude Code on your machine and keeps to what it needs:
 
 - **No network.** It makes no requests of its own and sends nothing anywhere.
-- **Reads:** the session's usage figures, model and effort (from Claude Code), your repository's current branch (`.git/HEAD`, a small plain file only), and, when you click the branch or run `/skin changes`, `git status` and `git diff --shortstat` (run without a shell, without optional locks, fsmonitor, external diff or textconv).
+- **Reads:** the session's usage figures, model and effort (from Claude Code), your repository's current branch (`.git/HEAD`, a small plain file only), and, when you click the branch or run `/skin changes` (or after each reply, with the Git status extra on), `git status` and `git diff --shortstat` (run without a shell, without optional locks, fsmonitor, external diff or textconv).
 - **Writes:** nothing to your files or projects. Your choices and your own skins are kept through Claude Code's local plugin store on your machine.
 - **Acts only when you ask:** a model pick (saved as your default, as `/model` does), an effort pick (`/effort`), a compact, a copy on `/skin export`. Unasked, it shows a welcome toast and the usage alerts.
 - **Sound and notifications are off** until you turn them on. A notification says how long a turn took; the answer's first line goes along only if you turn that on, cleaned of control characters.

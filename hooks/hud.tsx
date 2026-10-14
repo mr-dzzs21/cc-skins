@@ -1,6 +1,7 @@
 import type { BoxProps, ButtonProps, ElementConstructor, RenderElement, TextProps } from 'claude-code'
 
 import type { BarItem, BarStyle, Glyphs, Usage, WarnColors } from '../types'
+import { formatClock } from './chat'
 import { bar, formatCost, formatDuration, formatElapsed, formatPercent, formatReset, formatTokens, prettyModel } from './format'
 import type { Paint, Skin } from './skins'
 import { displayWidth } from './text'
@@ -19,6 +20,9 @@ const ICONS = {
   gear: '\uf013',
   compact: '\uf066',
   reset: '\uf021',
+  session: '\uf1da',
+  clock: '\uf017',
+  version: '\uf120',
 } as const
 
 /** What a press on the bar opens: the skin picker, the model and effort picker, the bar's settings. */
@@ -44,7 +48,10 @@ const FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '
 const METER_WIDTH = 5
 
 /** How many times coarser the bar can get; the richest that fits is drawn. */
-export const MAX_LEVEL = 7
+export const MAX_LEVEL = 8
+
+/** Cost per hour waits for this much session, so a first minute's spend does not read as a rate. */
+const BURN_AFTER_MS = 5 * 60_000
 
 export type Pill = { key: string; text: string; paint: Paint; isBold?: boolean; press?: BarPress }
 
@@ -68,6 +75,10 @@ export type BarInput = {
   limitsStale?: boolean
   /** When the context and limit blocks turn a warning color; left out, yellow and red. */
   warnColors?: WarnColors
+  /** The Claude Code version, for the info block; left out or null, none. */
+  version?: string | null
+  /** The repository's state as git status last read it, for the branch block; left out or null, none. */
+  git?: { files: number; ahead: number; behind: number } | null
 }
 
 const LIMIT_LABELS: Record<string, string> = { five_hour: '5h', seven_day: '7d', spend_limit: 'spend' }
@@ -90,7 +101,8 @@ const gradientAt = (skin: Skin, index: number): Paint => {
 
 /**
  * The bar's blocks at one level of detail: 0 is everything the person kept,
- * and each level up drops one thing, in this order: meters, reset countdowns,
+ * and each level up drops one thing, in this order: the extras (git status,
+ * context tokens, cost per hour, the info block), meters, reset countdowns,
  * cost, the 7-day window, the branch, the skin's name and the effort, the
  * 5-hour window. The skin's block always stays: it opens the skin picker.
  */
@@ -98,14 +110,16 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
   const { skin, usage, branch, now, glyphs, isWorking, frame, hidden, effort, compactAt } = input
   const isNerd = glyphs === 'nerd'
   const shows = (item: BarItem) => !hidden.includes(item)
-  const hasMeters = level < 1 && shows('meters')
-  const hasResets = level < 2 && shows('resets')
-  const hasCost = level < 3 && shows('cost')
-  const hasSevenDay = level < 4
-  const hasBranch = level < 5 && shows('branch')
-  const hasSkinName = level < 6 && shows('skinName')
-  const hasEffort = level < 6 && shows('effort') && effort !== null
-  const hasLimits = level < 7
+  const hasExtras = level < 1
+  const extra = (item: BarItem) => hasExtras && shows(item)
+  const hasMeters = level < 2 && shows('meters')
+  const hasResets = level < 3 && shows('resets')
+  const hasCost = level < 4 && shows('cost')
+  const hasSevenDay = level < 5
+  const hasBranch = level < 6 && shows('branch')
+  const hasSkinName = level < 7 && shows('skinName')
+  const hasEffort = level < 7 && shows('effort') && effort !== null
+  const hasLimits = level < 8
   const pills: Block[] = []
 
   const skinText = [
@@ -122,7 +136,8 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     pills.push({ key: 'model', text: isNerd ? `${ICONS.model} ${text}` : text, isBold: true, press: 'model' })
   }
   if (branch !== null && hasBranch) {
-    pills.push({ key: 'branch', text: `${glyphs === 'plain' ? '⎇' : ICONS.branch} ${branch}`, press: 'branch' })
+    const status = extra('gitStatus') && input.git != null ? ` ${gitMarks(input.git)}` : ''
+    pills.push({ key: 'branch', text: `${glyphs === 'plain' ? '⎇' : ICONS.branch} ${branch}${status}`, press: 'branch' })
   }
 
   const meter = (percent: number) =>
@@ -132,7 +147,9 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
   if (shows('context')) {
     pills.push({
       key: 'context',
-      text: `${isNerd ? ICONS.context : 'ctx'} ${context === null ? '–' : meter(context) + formatPercent(context)}`,
+      text: `${isNerd ? ICONS.context : 'ctx'} ${context === null ? '–' : meter(context) + formatPercent(context)}${
+        extra('contextTokens') && usage.contextTokens !== null ? ` · ${formatTokens(usage.contextTokens)}` : ''
+      }`,
       alert: context === null ? undefined : alertFor(context, input.warnColors),
       press: 'usage',
     })
@@ -164,8 +181,24 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     })
   })
 
-  if (usage.costUsd !== null && hasCost) {
-    pills.push({ key: 'cost', text: formatCost(usage.costUsd), isBold: true, press: 'usage' })
+  const burn = extra('burnRate') ? burnRate(usage, now) : null
+  const costParts = [
+    usage.costUsd !== null && hasCost ? formatCost(usage.costUsd) : undefined,
+    burn === null ? undefined : `${formatCost(burn)}/h`,
+  ].filter(part => part !== undefined)
+  if (costParts.length > 0) {
+    pills.push({ key: 'cost', text: costParts.join(' · '), isBold: true, press: 'usage' })
+  }
+
+  const infoParts = [
+    extra('session') && usage.startedAt !== null
+      ? `${isNerd ? ICONS.session : '◷'} ${formatElapsed(usage.startedAt, now)}`
+      : undefined,
+    extra('clock') ? `${isNerd ? `${ICONS.clock} ` : ''}${formatClock(now)}` : undefined,
+    extra('version') && input.version != null ? `${isNerd ? `${ICONS.version} ` : 'v'}${input.version}` : undefined,
+  ].filter(part => part !== undefined)
+  if (infoParts.length > 0) {
+    pills.push({ key: 'info', text: infoParts.join(' · '), press: 'usage' })
   }
 
   const isPulsing = isWorking && Math.floor(frame / 4) % 2 === 1
@@ -177,6 +210,19 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
 
     return { ...block, paint }
   })
+}
+
+/** The repository's state in marks: `●3` files changed, `↑1` ahead, `↓2` behind; `✓` when clean and even. */
+export const gitMarks = ({ files, ahead, behind }: { files: number; ahead: number; behind: number }): string =>
+  [files > 0 ? `●${files}` : '', ahead > 0 ? `↑${ahead}` : '', behind > 0 ? `↓${behind}` : ''].filter(mark => mark !== '').join(' ') || '✓'
+
+/** What the session costs an hour so far; null before five minutes or without a cost. */
+export const burnRate = (usage: Usage, now: number): number | null => {
+  if (usage.costUsd === null || usage.startedAt === null || now - usage.startedAt < BURN_AFTER_MS) {
+    return null
+  }
+
+  return usage.costUsd / ((now - usage.startedAt) / 3_600_000)
 }
 
 /** Whether the bar offers to compact: the context is that full, between turns. */

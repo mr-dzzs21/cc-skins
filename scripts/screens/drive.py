@@ -4,7 +4,8 @@ pyte (a terminal emulator in Python), saving screens as JSON cells.
     drive.py <cols> <rows> <cwd> <steps.json> <outdir> -- <argv...>
 
 steps: ["wait", secs] | ["until", text, secs] | ["until_re", regex, secs] |
-       ["send", text] | ["key", name] | ["seed", store, {key: value}] | ["shot", name]
+       ["send", text] | ["key", name] | ["seed", store, {key: value}] | ["shot", name] |
+       ["if", text, [steps...]] (those steps only while the screen shows the text)
 
 `seed` merges keys into a plugin's store file, as another session on this
 machine would; a `limitReading` gets `at` = now, and each window's
@@ -69,44 +70,52 @@ def shot(name):
     json.dump({'cols': cols, 'rows': rows, 'cells': cells}, open(os.path.join(outdir, f'{name}.json'), 'w'))
     open(os.path.join(outdir, f'{name}.txt'), 'w').write(text())
 
-for step in steps:
-    kind = step[0]
-    if kind == 'wait':
-        pump(step[1])
-    elif kind == 'until':
-        end = time.time() + step[2]
-        while step[1] not in text() and time.time() < end:
-            pump(0.3)
-        print(('found ' if step[1] in text() else 'MISSING ') + repr(step[1]), flush=True)
-    elif kind == 'send':
-        for ch in step[1]:
-            os.write(fd, ch.encode()); pump(0.02)
-    elif kind == 'key':
-        os.write(fd, KEYS[step[1]].encode())
-    elif kind == 'until_re':
-        end = time.time() + step[2]
-        while not re.search(step[1], text()) and time.time() < end:
-            pump(0.3)
-        print(('found ' if re.search(step[1], text()) else 'MISSING ') + repr(step[1]), flush=True)
-    elif kind == 'seed':
-        # merges keys into the plugin's store file, as another session on this machine would
-        path = step[1]
-        data = json.load(open(path))
-        now_ms = time.time() * 1000
-        for key, value in step[2].items():
-            data[key] = json.loads(json.dumps(value))
-        reading = data.get('limitReading')
-        if isinstance(reading, dict):
-            reading['at'] = now_ms
-            for limit in reading.get('rateLimits', []):
-                hours = limit.pop('resetsInHours', None)
-                if hours is not None:
-                    limit['resetsAt'] = time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.time() + hours * 3600))
-        tmp = path + '.tmp'
-        json.dump(data, open(tmp, 'w')); os.replace(tmp, path)
-        print('seeded', list(step[2]), flush=True)
-    elif kind == 'shot':
-        pump(0.5); shot(step[1]); print('shot', step[1], flush=True)
+def run(steps):
+    for step in steps:
+        kind = step[0]
+        if kind == 'wait':
+            pump(step[1])
+        elif kind == 'until':
+            end = time.time() + step[2]
+            while step[1] not in text() and time.time() < end:
+                pump(0.3)
+            print(('found ' if step[1] in text() else 'MISSING ') + repr(step[1]), flush=True)
+        elif kind == 'send':
+            for ch in step[1]:
+                os.write(fd, ch.encode()); pump(0.02)
+        elif kind == 'key':
+            os.write(fd, KEYS[step[1]].encode())
+        elif kind == 'until_re':
+            end = time.time() + step[2]
+            while not re.search(step[1], text()) and time.time() < end:
+                pump(0.3)
+            print(('found ' if re.search(step[1], text()) else 'MISSING ') + repr(step[1]), flush=True)
+        elif kind == 'seed':
+            # merges keys into the plugin's store file, as another session on this machine would
+            path = step[1]
+            data = json.load(open(path))
+            now_ms = time.time() * 1000
+            for key, value in step[2].items():
+                data[key] = json.loads(json.dumps(value))
+            reading = data.get('limitReading')
+            if isinstance(reading, dict):
+                reading['at'] = now_ms
+                for limit in reading.get('rateLimits', []):
+                    hours = limit.pop('resetsInHours', None)
+                    if hours is not None:
+                        limit['resetsAt'] = time.strftime('%Y-%m-%dT%H:%M:%S.000Z', time.gmtime(time.time() + hours * 3600))
+            tmp = path + '.tmp'
+            json.dump(data, open(tmp, 'w')); os.replace(tmp, path)
+            print('seeded', list(step[2]), flush=True)
+        elif kind == 'shot':
+            pump(0.5); shot(step[1]); print('shot', step[1], flush=True)
+        elif kind == 'if':
+            # steps for a screen that may or may not come (a trust prompt in a new folder)
+            if step[1] in text():
+                run(step[2])
+
+
+run(steps)
 
 try:
     os.kill(pid, 9)

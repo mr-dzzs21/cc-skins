@@ -4,11 +4,11 @@ import type { Engine } from 'claude-code/testing'
 import type { Usage } from '../types'
 import { IDLE_HINT, formatClock, sentAt } from '../hooks/chat'
 import { bar, formatDuration, formatElapsed, formatReset, formatTokens, prettyModel } from '../hooks/format'
-import { MAX_LEVEL, alertFor, barPills, barWidth, fitPills, headerFor } from '../hooks/hud'
+import { MAX_LEVEL, alertFor, barPills, barWidth, burnRate, fitPills, gitMarks, headerFor } from '../hooks/hud'
 import type { BarInput } from '../hooks/hud'
 import { SKIN_IDS, SKINS, pick } from '../hooks/skins'
 import { hotkeyFor, hotkeyRange } from '../hooks/picker'
-import { modelLabel } from '../hooks/panels'
+import { DEFAULT_HIDDEN, EXTRA_ITEMS, hiddenFrom, modelLabel } from '../hooks/panels'
 import { alertsFor } from '../hooks/alerts'
 import { DEFAULT_PREFS, readPrefs } from '../hooks/prefs'
 import { findTurnStat, turnStatText } from '../hooks/turns'
@@ -112,7 +112,7 @@ const RING: BarInput = {
   glyphs: 'nerd',
   isWorking: false,
   frame: 0,
-  hidden: [],
+  hidden: [...EXTRA_ITEMS],
   effort: null,
   compactAt: null,
 }
@@ -823,14 +823,14 @@ describe('bar contents', () => {
   })
 
   test('hidden items leave the bar; the effort rides on the model', () => {
-    const keys = barPills({ ...RING, hidden: ['cost', 'branch', 'sevenDay'] }, 0).map(p => p.key)
+    const keys = barPills({ ...RING, hidden: [...EXTRA_ITEMS, 'cost', 'branch', 'sevenDay'] }, 0).map(p => p.key)
     expect(keys).toEqual(['skin', 'model', 'context', 'limit-five_hour'])
 
     const model = barPills({ ...RING, effort: 'xhigh' }, 0).find(p => p.key === 'model')
     expect(model?.text).toBe('\uf2db Opus 5.5 · xhigh')
     expect(model?.press).toBe('model')
 
-    const effortAlone = barPills({ ...RING, effort: 'high', hidden: ['model'] }, 0).find(p => p.key === 'model')
+    const effortAlone = barPills({ ...RING, effort: 'high', hidden: [...EXTRA_ITEMS, 'model'] }, 0).find(p => p.key === 'model')
     expect(effortAlone?.text).toBe('\uf2db high')
     expect(barPills({ ...RING, hidden: ['model', 'effort'] }, 0).some(p => p.key === 'model')).toBe(false)
   })
@@ -2063,5 +2063,113 @@ describe('warning colors', () => {
     await settings.press({ key: 'warn-colors-off' })
     await settings.unmount()
     expect(await drawnWith()).toBe(false)
+  })
+})
+
+describe('bar extras', () => {
+  const NOW = 108 * MINUTE
+  const ALL: BarInput = { ...RING, hidden: [], now: NOW, version: '2.1.299', git: { files: 3, ahead: 1, behind: 0 } }
+
+  test('off by default, and a list saved before them keeps them off', () => {
+    expect(hiddenFrom(undefined, undefined)).toEqual([...DEFAULT_HIDDEN])
+    expect(DEFAULT_HIDDEN).toEqual(['skinName', ...EXTRA_ITEMS])
+    // saved before the extras existed: what was hidden stays hidden, the extras come in off
+    expect(hiddenFrom(['skinName'], undefined)).toEqual(['skinName', ...EXTRA_ITEMS])
+    expect(hiddenFrom([], undefined)).toEqual([...EXTRA_ITEMS])
+    // saved knowing them: the list is the person's own, junk out
+    const everything = [...EXTRA_ITEMS, 'skinName', 'model', 'effort', 'branch', 'context', 'fiveHour', 'sevenDay', 'cost', 'meters', 'resets', 'gear']
+    expect(hiddenFrom(['cost', 'nope', 7], everything)).toEqual(['cost'])
+    expect(hiddenFrom(['clock'], everything)).toEqual(['clock'])
+  })
+
+  test('each extra rides on its block, the session, clock and version in an info block', () => {
+    const pills = barPills(ALL, 0)
+    expect(pills.map(p => p.key)).toEqual(['skin', 'model', 'branch', 'context', 'limit-five_hour', 'limit-seven_day', 'cost', 'info'])
+    expect(pills.find(p => p.key === 'branch')?.text).toBe(' main ●3 ↑1')
+    expect(pills.find(p => p.key === 'context')?.text).toBe(' ■■□□□ 34% · 68k')
+    expect(pills.find(p => p.key === 'cost')?.text).toBe('$1.24 · $0.62/h')
+    const info = pills.find(p => p.key === 'info')
+    expect(info?.text).toBe(` 2h 00m ·  ${formatClock(NOW)} ·  2.1.299`)
+    expect(info?.press).toBe('usage')
+    const plain = barPills({ ...ALL, glyphs: 'plain' }, 0)
+    expect(plain.find(p => p.key === 'info')?.text).toBe(`◷ 2h 00m · ${formatClock(NOW)} · v2.1.299`)
+    expect(plain.find(p => p.key === 'branch')?.text).toBe('⎇ main ●3 ↑1')
+  })
+
+  test('each one turns on alone, and the cost per hour shows with the cost off', () => {
+    const only = (item: BarInput['hidden'][number]) => barPills({ ...ALL, hidden: EXTRA_ITEMS.filter(one => one !== item) }, 0)
+    expect(only('clock').find(p => p.key === 'info')?.text).toBe(` ${formatClock(NOW)}`)
+    expect(only('version').find(p => p.key === 'info')?.text).toBe(' 2.1.299')
+    expect(only('session').find(p => p.key === 'info')?.text).toBe(' 2h 00m')
+    expect(only('contextTokens').some(p => p.key === 'info')).toBe(false)
+    expect(only('gitStatus').find(p => p.key === 'branch')?.text).toBe(' main ●3 ↑1')
+    const rateAlone = barPills({ ...ALL, hidden: [...EXTRA_ITEMS.filter(one => one !== 'burnRate'), 'cost'] }, 0)
+    expect(rateAlone.find(p => p.key === 'cost')?.text).toBe('$0.62/h')
+    // no version, no git reading yet: those parts stay out
+    expect(barPills({ ...ALL, version: null, git: null }, 0).find(p => p.key === 'branch')?.text).toBe(' main')
+  })
+
+  test('git marks, and a cost per hour only after five minutes', () => {
+    expect(gitMarks({ files: 0, ahead: 0, behind: 0 })).toBe('✓')
+    expect(gitMarks({ files: 0, ahead: 0, behind: 2 })).toBe('↓2')
+    expect(gitMarks({ files: 12, ahead: 3, behind: 4 })).toBe('●12 ↑3 ↓4')
+    const usage = { ...USAGE, startedAt: 0, costUsd: 1.5 }
+    expect(burnRate(usage, 4 * MINUTE)).toBeNull()
+    expect(burnRate(usage, 30 * MINUTE)).toBe(3)
+    expect(burnRate({ ...usage, costUsd: null }, 30 * MINUTE)).toBeNull()
+    expect(burnRate({ ...usage, startedAt: null }, 30 * MINUTE)).toBeNull()
+  })
+
+  test('the extras are the first to go when the bar is narrow', () => {
+    const pills = barPills(ALL, 1)
+    expect(pills.some(p => p.key === 'info')).toBe(false)
+    expect(pills.find(p => p.key === 'branch')?.text).toBe(' main')
+    expect(pills.find(p => p.key === 'context')?.text).toBe(' ■■□□□ 34%')
+    expect(pills.find(p => p.key === 'cost')?.text).toBe('$1.24')
+    const least = barWidth(barPills(ALL, MAX_LEVEL), 'nerd')
+    for (let columns = least; columns <= 220; columns += 3) {
+      expect(barWidth(fitPills(ALL, columns), 'nerd')).toBeLessThanOrEqual(columns)
+    }
+  })
+
+  test('Git status, turned on, reads git at once and after each reply; off, never', async ($, on) => {
+    mock.store(on)
+    mock.clock(on, { now: 0 })
+    let runs = 0
+    on('ui.toast', () => ({ value: undefined }))
+    on('session.repo', () => ({ value: { root: '/repo', remote: null, internal: false, name: 'repo' } }) as never)
+    on('fs.stat', ($, e) =>
+      ({ value: { kind: e.path.endsWith('/HEAD') ? 'file' : 'dir', size: 21, mtimeMs: 0, isLink: false } }) as never)
+    on('fs.read', () => ({ value: 'ref: refs/heads/main\n' }) as never)
+    on('process.run', ($, e) => {
+      if (e.argv.includes('status')) {
+        runs += 1
+      }
+
+      return {
+        value: e.argv.includes('status')
+          ? { exitCode: 0, stdout: '## main...origin/main [ahead 2]\0 M a.ts\0?? b.ts\0', stderr: '', isStdoutTruncated: false, isStderrTruncated: false }
+          : { exitCode: 0, stdout: '', stderr: '', isStdoutTruncated: false, isStderrTruncated: false },
+      }
+    })
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    const reply = () =>
+      $.session.measure({ context: { window: 200_000, tokens: 68_000, percent: 34 }, rateLimits: [], cost: { usd: 1 }, changed: ['context'] })
+
+    await reply()
+    expect(runs).toBe(0)
+
+    await runSkin($, 'show gitStatus')
+    expect(runs).toBe(1)
+    await reply()
+    expect(runs).toBe(2)
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
+    expect(await band.find({ type: 'Text', text: /main ●2 ↑2/ })).toBeDefined()
+    await band.unmount()
+
+    await runSkin($, 'hide gitStatus')
+    await reply()
+    expect(runs).toBe(2)
   })
 })

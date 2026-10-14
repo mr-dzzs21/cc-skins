@@ -32,8 +32,8 @@
 <text x="480" y="178" fill="#e6edf3" font-size="25" font-weight="700" text-anchor="middle">Skins and a clickable usage bar for Claude Code</text>
 <text x="480" y="212" fill="#8b949e" font-size="16" text-anchor="middle">26 skins · model, context, limits and cost a click away · no network, no credentials</text>
 </svg>
-<svg x="66" y="264" width="1147" height="316" viewBox="0 0 956 263" font-family="'JetBrains Mono','SF Mono',Menlo,Consolas,monospace" font-size="14">
-<rect width="956" height="263" rx="12" fill="#1a1213"/>
+<svg x="66" y="264" width="1147" height="293" viewBox="0 0 956 244" font-family="'JetBrains Mono','SF Mono',Menlo,Consolas,monospace" font-size="14">
+<rect width="956" height="244" rx="12" fill="#1a1213"/>
 <path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#f1e9da" opacity=".08"/>
 <circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
 <text x="478" y="20" fill="#f1e9da" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · ring</text>
@@ -52,58 +52,55 @@
 <path d="M935.8 95.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <text x="58.0" y="109.0" fill="#f1e9da" textLength="436.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app, started with</text>
 <text x="503.2" y="109.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
-<text x="578.8" y="109.0" fill="#f1e9da" textLength="243.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">, and so far its only code is</text>
+<text x="578.8" y="109.0" fill="#f1e9da" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
+<text x="797.2" y="109.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
+<text x="898.0" y="109.0" fill="#f1e9da" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
 <path d="M20.2 114.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <rect x="42.2" y="114.0" width="2.4" height="19.2" fill="#e5604d"/>
 <path d="M935.8 114.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="128.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
-<text x="158.8" y="128.0" fill="#f1e9da" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">, which exports</text>
-<text x="293.2" y="128.0" fill="#b1b9f9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">greet</text>
-<text x="343.6" y="128.0" fill="#f1e9da" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">and</text>
-<text x="377.2" y="128.0" fill="#b1b9f9" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">bye</text>
-<text x="410.8" y="128.0" fill="#f1e9da" textLength="436.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">functions that return "Hello, name!" and "Bye, name"</text>
+<text x="58.0" y="128.0" fill="#f1e9da" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports</text>
+<text x="175.6" y="128.0" fill="#b1b9f9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">greet</text>
+<text x="226.0" y="128.0" fill="#f1e9da" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">and</text>
+<text x="259.6" y="128.0" fill="#b1b9f9" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">bye</text>
+<text x="293.2" y="128.0" fill="#f1e9da" textLength="520.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">functions that return "Hello, name!" and "Bye, name" messages.</text>
 <path d="M20.2 133.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="133.0" width="2.4" height="19.2" fill="#e5604d"/>
 <path d="M935.8 133.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="147.0" fill="#f1e9da" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">strings.</text>
-<path d="M20.2 152.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<path d="M935.8 152.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<path d="M24.4 180.5h907.4" stroke="#7a1f2b" stroke-width="1.3"/>
-<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<path d="M931.4 180.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<rect x="24.4" y="190.0" width="50.8" height="19.4" fill="#ffd166"/>
-<rect x="74.8" y="190.0" width="67.6" height="19.4" fill="#e5604d"/>
-<rect x="142.0" y="190.0" width="143.2" height="19.4" fill="#7a1f2b"/>
-<path d="M24.4 190.0A8.4 9.5 0 0 0 24.4 209.0Z" fill="#ffd166"/>
-<path d="M74.8 190.0L83.2 199.5L74.8 209.0Z" fill="#ffd166"/>
-<path d="M142.0 190.0L150.4 199.5L142.0 209.0Z" fill="#e5604d"/>
-<path d="M284.8 190.0A8.4 9.5 0 0 1 284.8 209.0Z" fill="#7a1f2b"/>
-<text x="32.8" y="204.0" fill="#2b1d0e" font-weight="700" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◆ KO</text>
-<text x="91.6" y="204.0" fill="#1f0a05" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 8s</text>
-<text x="158.8" y="204.0" fill="#fff5eb" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12 · 1 tool</text>
-<rect x="24.4" y="228.0" width="25.6" height="19.4" fill="#ffd166"/>
-<rect x="49.6" y="228.0" width="160.0" height="19.4" fill="#f4a259"/>
-<rect x="209.2" y="228.0" width="76.0" height="19.4" fill="#e5604d"/>
-<rect x="284.8" y="228.0" width="126.4" height="19.4" fill="#b8323f"/>
-<rect x="410.8" y="228.0" width="193.6" height="19.4" fill="#7a1f2b"/>
-<rect x="604.0" y="228.0" width="252.4" height="19.4" fill="#4a1520"/>
-<path d="M24.4 228.0A8.4 9.5 0 0 0 24.4 247.0Z" fill="#ffd166"/>
-<path d="M49.6 228.0L58.0 237.5L49.6 247.0Z" fill="#ffd166"/>
-<path d="M209.2 228.0L217.6 237.5L209.2 247.0Z" fill="#f4a259"/>
-<path d="M284.8 228.0L293.2 237.5L284.8 247.0Z" fill="#e5604d"/>
-<path d="M410.8 228.0L419.2 237.5L410.8 247.0Z" fill="#b8323f"/>
-<path d="M604.0 228.0L612.4 237.5L604.0 247.0Z" fill="#7a1f2b"/>
-<path d="M788.8 228.0L797.2 237.5L788.8 247.0Z" fill="#4a1520"/>
-<path d="M856.0 228.0A8.4 9.5 0 0 1 856.0 247.0Z" fill="#4a1520"/>
-<text x="32.8" y="242.0" fill="#2b1d0e" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◆</text>
-<text x="66.4" y="242.0" fill="#2b1d0e" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
-<text x="226.0" y="242.0" fill="#1f0a05" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
-<text x="301.6" y="242.0" fill="#fff5eb" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ■□□□□ 4%</text>
-<text x="427.6" y="242.0" fill="#fff5eb" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ■■□□□ 42% (2h11m)</text>
-<text x="620.8" y="242.0" fill="#ffd166" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ■□□□□ 23% (3d4h)</text>
-<text x="805.6" y="242.0" fill="#ffd166" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
-<text x="872.8" y="242.0" fill="#8a7f6e" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
-<text x="906.4" y="242.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
+<path d="M24.4 161.5h907.4" stroke="#7a1f2b" stroke-width="1.3"/>
+<path d="M20.2 151.8V157.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
+<path d="M931.4 161.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V151.8" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
+<rect x="24.4" y="171.0" width="50.8" height="19.4" fill="#ffd166"/>
+<rect x="74.8" y="171.0" width="67.6" height="19.4" fill="#e5604d"/>
+<rect x="142.0" y="171.0" width="143.2" height="19.4" fill="#7a1f2b"/>
+<path d="M24.4 171.0A8.4 9.5 0 0 0 24.4 190.0Z" fill="#ffd166"/>
+<path d="M74.8 171.0L83.2 180.5L74.8 190.0Z" fill="#ffd166"/>
+<path d="M142.0 171.0L150.4 180.5L142.0 190.0Z" fill="#e5604d"/>
+<path d="M284.8 171.0A8.4 9.5 0 0 1 284.8 190.0Z" fill="#7a1f2b"/>
+<text x="32.8" y="185.0" fill="#2b1d0e" font-weight="700" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◆ KO</text>
+<text x="91.6" y="185.0" fill="#1f0a05" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 5s</text>
+<text x="158.8" y="185.0" fill="#fff5eb" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12 · 1 tool</text>
+<rect x="24.4" y="209.0" width="25.6" height="19.4" fill="#ffd166"/>
+<rect x="49.6" y="209.0" width="160.0" height="19.4" fill="#f4a259"/>
+<rect x="209.2" y="209.0" width="76.0" height="19.4" fill="#e5604d"/>
+<rect x="284.8" y="209.0" width="126.4" height="19.4" fill="#b8323f"/>
+<rect x="410.8" y="209.0" width="193.6" height="19.4" fill="#7a1f2b"/>
+<rect x="604.0" y="209.0" width="252.4" height="19.4" fill="#4a1520"/>
+<path d="M24.4 209.0A8.4 9.5 0 0 0 24.4 228.0Z" fill="#ffd166"/>
+<path d="M49.6 209.0L58.0 218.5L49.6 228.0Z" fill="#ffd166"/>
+<path d="M209.2 209.0L217.6 218.5L209.2 228.0Z" fill="#f4a259"/>
+<path d="M284.8 209.0L293.2 218.5L284.8 228.0Z" fill="#e5604d"/>
+<path d="M410.8 209.0L419.2 218.5L410.8 228.0Z" fill="#b8323f"/>
+<path d="M604.0 209.0L612.4 218.5L604.0 228.0Z" fill="#7a1f2b"/>
+<path d="M788.8 209.0L797.2 218.5L788.8 228.0Z" fill="#4a1520"/>
+<path d="M856.0 209.0A8.4 9.5 0 0 1 856.0 228.0Z" fill="#4a1520"/>
+<text x="32.8" y="223.0" fill="#2b1d0e" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◆</text>
+<text x="66.4" y="223.0" fill="#2b1d0e" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
+<text x="226.0" y="223.0" fill="#1f0a05" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
+<text x="301.6" y="223.0" fill="#fff5eb" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ■□□□□ 4%</text>
+<text x="427.6" y="223.0" fill="#fff5eb" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ■■□□□ 42% (2h11m)</text>
+<text x="620.8" y="223.0" fill="#ffd166" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ■□□□□ 23% (3d4h)</text>
+<text x="805.6" y="223.0" fill="#ffd166" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
+<text x="872.8" y="223.0" fill="#8a7f6e" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
+<text x="906.4" y="223.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
 </svg>
 <text x="640" y="622" fill="#8b949e" font-size="18" text-anchor="middle">github.com/mr-dzzs21/cc-skins</text>
 </svg>

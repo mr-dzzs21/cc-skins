@@ -21,17 +21,44 @@ export const BAR_ITEMS: readonly { item: BarItem; label: string }[] = [
   { item: 'model', label: 'Model' },
   { item: 'effort', label: 'Effort' },
   { item: 'branch', label: 'Git branch' },
+  { item: 'gitStatus', label: 'Git status (runs git status after each reply)' },
   { item: 'context', label: 'Context window' },
+  { item: 'contextTokens', label: 'Context tokens' },
   { item: 'fiveHour', label: '5-hour limit' },
   { item: 'sevenDay', label: '7-day limit' },
   { item: 'cost', label: 'Cost' },
+  { item: 'burnRate', label: 'Cost per hour' },
+  { item: 'session', label: 'Session time' },
+  { item: 'clock', label: 'Clock' },
+  { item: 'version', label: 'Claude Code version' },
   { item: 'meters', label: 'Meters' },
   { item: 'resets', label: 'Reset countdowns' },
   { item: 'gear', label: 'Settings button ⚙' },
 ]
 
-/** Off until the person turns it on: the skin's icon says which skin it is. */
-export const DEFAULT_HIDDEN: readonly BarItem[] = ['skinName']
+/** The extras: details the bar adds only when asked, and drops first when narrow. */
+export const EXTRA_ITEMS: readonly BarItem[] = ['gitStatus', 'contextTokens', 'burnRate', 'session', 'clock', 'version']
+
+/** Off until the person turns it on: the skin's icon says which skin it is, and the extras are extra. */
+export const DEFAULT_HIDDEN: readonly BarItem[] = ['skinName', ...EXTRA_ITEMS]
+
+/** The items there were before the extras: a hidden list saved then knew of these alone. */
+const FIRST_ITEMS: readonly BarItem[] = ['skinName', 'model', 'effort', 'branch', 'context', 'fiveHour', 'sevenDay', 'cost', 'meters', 'resets', 'gear']
+
+/**
+ * What the bar hides, from what the person saved and the items known when
+ * they saved it: an item added since that is off by default stays off, so a
+ * new release never adds to someone's bar unasked. Nothing saved: the defaults.
+ */
+export const hiddenFrom = (stored: unknown, known: unknown): BarItem[] => {
+  if (!Array.isArray(stored)) {
+    return [...DEFAULT_HIDDEN]
+  }
+  const hidden = stored.filter(isBarItem)
+  const knew = Array.isArray(known) ? known.filter(isBarItem) : FIRST_ITEMS
+
+  return [...hidden, ...DEFAULT_HIDDEN.filter(item => !knew.includes(item) && !hidden.includes(item))]
+}
 
 export const isBarItem = (value: unknown): value is BarItem => BAR_ITEMS.some(({ item }) => item === value)
 

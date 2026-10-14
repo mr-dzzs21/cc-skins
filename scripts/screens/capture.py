@@ -1,12 +1,12 @@
 """Records the README's screenshots from a real Claude Code session with cc-skins.
 
 It makes a small demo repository, starts `claude` in a pseudo-terminal there
-(twice: 150 columns for the panes, 110 for the chat in ten skins), asks one
+(twice: 150 columns for the panes and the extras, 110 for the chat in ten skins), asks one
 short question so the context, cost and turn line have real figures, and
 saves each screen as JSON. build.py turns them into the pictures in docs/.
 
     python3 -m venv .work/venv && .work/venv/bin/pip install pyte==0.8.2
-    .work/venv/bin/python scripts/screens/capture.py .work/shots
+    .work/venv/bin/python scripts/screens/capture.py .work/shots [panes|frames]
     python3 scripts/screens/build.py .work/shots
 
 Needs a logged-in Claude Code with cc-skins installed; the two questions use a
@@ -19,6 +19,7 @@ import glob, json, os, shutil, subprocess, sys, tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else '.work/shots')
+ONLY = sys.argv[2:]  # run names to record again (panes, frames); none: both
 STORES = glob.glob(os.path.expanduser('~/.claude/plugins/store/cc-skins_*.json'))
 STORE = next((path for path in STORES if 'inline' not in path), None)
 if STORE is None:
@@ -31,6 +32,7 @@ CALM = {'limitReading': {'rateLimits': [
 HOT = {'limitReading': {'rateLimits': [
     {'kind': 'five_hour', 'percentUsed': 72, 'resetsInHours': 0.8},
     {'kind': 'seven_day', 'percentUsed': 91, 'resetsInHours': 30.5}]}}
+EXTRAS = ['gitStatus', 'contextTokens', 'burnRate', 'session', 'clock', 'version']
 # the picker's keys for the skins the hero shows
 FRAMES = [('synthwave', '6'), ('nebula', 'i'), ('midnight', '1'), ('abyss', 'e'), ('sakura', '8'),
           ('emerald', 'f'), ('neon', '3'), ('ocean', '7'), ('ring', '5')]
@@ -41,8 +43,9 @@ def command(text, settle=2.5):
 
 
 def ask():
-    """The question, then the wait for its turn line, then calm limits (taken at the next tick, within a minute)."""
-    return [['wait', 9], ['send', QUESTION], ['wait', 0.5], ['key', 'enter'],
+    """Past the trust prompt a new folder raises, the question, the wait for its turn line, then calm limits (taken at the next tick, within a minute)."""
+    trust = ['if', 'trust this folder', [['key', 'down'], ['wait', 0.5], ['key', 'enter'], ['wait', 9]]]
+    return [['wait', 9], trust, ['send', QUESTION], ['wait', 0.5], ['key', 'enter'],
             ['until_re', r'in \d+s', 150], ['wait', 3], ['seed', STORE, CALM], ['wait', 66]]
 
 
@@ -52,7 +55,10 @@ def panes():
     for name, text in [('model', '/skin model'), ('settings', '/skin bar'), ('alerts', '/skin alerts'),
                        ('dashboard', '/skin usage'), ('builder', '/skin create')]:
         steps += command(text, 3) + [['shot', name], ['key', 'esc'], ['wait', 1.5]]
-    return steps
+    # every extra on (the reset countdowns off, for room), once the session is past the cost per hour's five minutes
+    for text in ['/skin hide resets'] + [f'/skin show {item}' for item in EXTRAS]:
+        steps += command(text, 2)
+    return steps + [['wait', 200], ['shot', 'extras']]
 
 
 def frames():
@@ -95,7 +101,9 @@ root = tempfile.mkdtemp(prefix='cc-skins-demo-')
 try:
     repo = demo_repo(root)
     for skin, cols, rows, steps, name in [('nebula', 150, 46, panes(), 'panes'), ('ring', 110, 32, frames(), 'frames')]:
-        data = json.load(open(STORE))
+        if ONLY and name not in ONLY:
+            continue
+        data = json.load(open(backup))  # each run starts from your settings, not the last run's
         data.update(skin=skin, glyphs='powerline')
         json.dump(data, open(STORE, 'w'))
         run(repo, cols, rows, steps, name)

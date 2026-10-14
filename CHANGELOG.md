@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.17.0
+
+- Six extras for the bar, off until you turn them on (the ⚙'s Bar tab, or `/skin show <item>`), the first to go when the bar runs out of room:
+  - `gitStatus`: the branch's state, `main ●3 ↑1 ↓2` (files changed, commits ahead and behind) or `main ✓`; it runs `git status` after each reply, read-only as the changes pane does.
+  - `contextTokens`: the context's tokens beside its percent, `34% · 68k`.
+  - `burnRate`: what the session costs an hour, `$1.24 · $0.62/h`, from its fifth minute.
+  - `session`, `clock`, `version`: an info block with how long the session has run, the time and the Claude Code version.
+- A bar you set up before keeps its look: items added since your last change stay off until you turn them on.
+
 ## 0.16.2
 
 - The dashboard counts "1 tool call", not "1 tool calls".

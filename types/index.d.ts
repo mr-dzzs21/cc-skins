@@ -42,10 +42,16 @@ export type BarItem =
   | 'model'
   | 'effort'
   | 'branch'
+  | 'gitStatus'
   | 'context'
+  | 'contextTokens'
   | 'fiveHour'
   | 'sevenDay'
   | 'cost'
+  | 'burnRate'
+  | 'session'
+  | 'clock'
+  | 'version'
   | 'meters'
   | 'resets'
   | 'gear'
@@ -194,6 +200,8 @@ declare module 'claude-code' {
       gitError: string | null
       /** When the limit windows were last read (a reply, /usage, another session); null before any. */
       limitsAt: number | null
+      /** The Claude Code version the session runs on, for the bar's info block; null where it would not say. */
+      version: string | null
       /** Whether a main-thread turn runs now. */
       isBusy: boolean
       /** The context's breakdown as the dashboard last read it; null until then. */

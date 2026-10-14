@@ -2,7 +2,7 @@
 
 - docs/hero.svg: the chat, its turn line and the bar, fading through ten skins
 - docs/screens/<pane>.svg: each pane, cut to the pane
-- docs/screens/bar-header.svg, bar-alerts.svg: the quiet header, and the bar at 72 % and 91 %
+- docs/screens/bar-header.svg, bar-alerts.svg, bar-extras.svg: the quiet header, the bar at 72 % and 91 %, every extra on
 - docs/social-preview.svg (and .png, where rsvg-convert is installed): GitHub's link preview
 
     python3 scripts/screens/build.py .work/shots
@@ -76,10 +76,12 @@ for name, run, skin, title in PANES:
     write(os.path.join(DOCS, 'screens', f'{name}.svg'),
           render(shot, skin, None, (pane_left(shot), shot['cols']), (), title, trim=True))
 
-for name, shot_name, title in [('bar-header', 'header', '/skin bar header'), ('bar-alerts', 'hot', 'a limit at 72 % and one at 91 %')]:
-    shot = load('frames', shot_name)
+for name, run, shot_name, skin, title in [('bar-header', 'frames', 'header', 'ring', '/skin bar header'),
+                                          ('bar-alerts', 'frames', 'hot', 'ring', 'a limit at 72 % and one at 91 %'),
+                                          ('bar-extras', 'panes', 'extras', 'nebula', 'every extra on')]:
+    shot = load(run, shot_name)
     y = bar_row(shot)
-    write(os.path.join(DOCS, 'screens', f'{name}.svg'), render(shot, 'ring', (y, y + 1), None, (), title))
+    write(os.path.join(DOCS, 'screens', f'{name}.svg'), render(shot, skin, (y, y + 1), None, (), title))
 
 # the social preview: the banner over Claude's reply, its turn line and the bar
 ring = load('frames', 'frame-ring')

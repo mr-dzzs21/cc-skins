@@ -32,11 +32,13 @@ import { formatDuration, prettyModel } from './format'
 import { drawBar, drawPowerline, turnPills } from './hud'
 import type { BarPress } from './hud'
 import {
+  BAR_ITEMS,
   DEFAULT_HIDDEN,
   MODEL_PANE,
   SETTINGS_PANE,
   barItemNamed,
   drawModelPicker,
+  hiddenFrom,
   isBarItem,
   modelLabel,
   modelPaneRows,
@@ -98,6 +100,7 @@ const breakdownAtom = atom({ plugin: 'cc-skins', key: 'breakdown' } as const, nu
 const busyAtom = atom({ plugin: 'cc-skins', key: 'isBusy' } as const, false)
 const limitsAtAtom = atom({ plugin: 'cc-skins', key: 'limitsAt' } as const, null as number | null)
 const gitChangesAtom = atom({ plugin: 'cc-skins', key: 'gitChanges' } as const, null as GitChanges | null)
+const versionAtom = atom({ plugin: 'cc-skins', key: 'version' } as const, null as string | null)
 const gitErrorAtom = atom({ plugin: 'cc-skins', key: 'gitError' } as const, null as string | null)
 /** The Model row, as the model picker shows it. */
 const modelChoiceAtom = atom(
@@ -117,6 +120,8 @@ const STORE = {
   isChatStyled: 'isChatStyled',
   isHudHidden: 'isHudHidden',
   hidden: 'barHidden',
+  /** The bar items there were when `hidden` was saved, so an item added since keeps its default. */
+  known: 'barItemsKnown',
   models: 'aliasModels',
   prefs: 'prefs',
   limits: 'limitReading',
@@ -352,6 +357,7 @@ const readSample = async ($: EngineInterface, columns: number, isRoomy: boolean)
       effort: await read($, effortAtom),
       compactAt: null,
       warnColors: (await read($, prefsAtom)).warnColors,
+      ...(await readBarExtras($)),
     },
     barStyle: await read($, barStyleAtom),
     columns,
@@ -460,6 +466,27 @@ const showItem = async ($: EngineInterface, item: BarItem, isShown: boolean) => 
   const next = isShown ? hidden : [...hidden, item]
   await update($, hiddenAtom, () => next)
   await $.store.set(STORE.hidden, next)
+  await $.store.set(STORE.known, BAR_ITEMS.map(({ item: one }) => one))
+  if (item === 'gitStatus' && isShown) {
+    await readChanges($)
+  }
+}
+
+/** Reads git's state for the bar, where the person shows it: after each reply, and as the session starts. */
+const refreshGitStatus = async ($: EngineInterface) => {
+  if (!(await read($, hiddenAtom)).includes('gitStatus')) {
+    await readChanges($)
+  }
+}
+
+/** What the bar's extras need beyond the usage: the version, and git's state as last read. */
+const readBarExtras = async ($: EngineInterface) => {
+  const changes = await read($, gitChangesAtom)
+
+  return {
+    version: await read($, versionAtom),
+    git: changes === null ? null : { files: changes.files.length, ahead: changes.ahead, behind: changes.behind },
+  }
 }
 
 const toggleItem = async ($: EngineInterface, item: BarItem) =>
@@ -768,7 +795,11 @@ const setUp = async ($: EngineInterface) => {
   const isHudHidden = (await $.store.get(STORE.isHudHidden)) === true
   const storedHidden = await $.store.get(STORE.hidden)
   const storedPrefs = await $.store.get(STORE.prefs)
-  const hidden = Array.isArray(storedHidden) ? storedHidden.filter(isBarItem) : [...DEFAULT_HIDDEN]
+  const hidden = hiddenFrom(storedHidden, await $.store.get(STORE.known))
+  const version = await $.session.version().then(
+    ({ version: full }) => full,
+    () => null,
+  )
   await update($, customSkinsAtom, () => customs)
   await update($, skinAtom, () => (isKnownSkin(storedSkin, customs) ? storedSkin : DEFAULT_SKIN))
   const glyphs = isGlyphs(storedGlyphs) ? storedGlyphs : await defaultGlyphs($)
@@ -777,6 +808,7 @@ const setUp = async ($: EngineInterface) => {
   await update($, isChatStyledAtom, () => isChatStyled)
   await update($, isHudHiddenAtom, () => isHudHidden)
   await update($, hiddenAtom, () => hidden)
+  await update($, versionAtom, () => version)
   await update($, prefsAtom, () => readPrefs(storedPrefs))
   await update($, previewAtom, () => null)
   await tick($)
@@ -785,6 +817,7 @@ const setUp = async ($: EngineInterface) => {
   const model = await readModel($)
   await update($, usageAtom, previous => toUsage(model, usage, previous))
   await refreshBranch($)
+  await refreshGitStatus($)
 
   ticker?.cancel()
   ticker = $.clock.every(TICK_MS, () => void tick($))
@@ -942,6 +975,7 @@ export const register: Register = on => {
     await settleTurnCost($)
     await recordPoint($)
     await refreshBranch($)
+    await refreshGitStatus($)
     await tick($)
     await raiseAlerts($)
 
@@ -1131,6 +1165,7 @@ export const register: Register = on => {
       compactAt: await readCompactAt($),
       limitsStale: isStale(await read($, limitsAtAtom), await read($, nowAtom)),
       warnColors: (await read($, prefsAtom)).warnColors,
+      ...(await readBarExtras($)),
     }
 
     return drawBar(

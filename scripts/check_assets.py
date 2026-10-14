@@ -56,7 +56,7 @@ for skin in skins:
 
 gallery = open('docs/skins.svg', encoding='utf-8').read() if os.path.isfile('docs/skins.svg') else ''
 for picture in ['banner.svg', 'hero.svg', 'social-preview.png'] + [f'screens/{name}.svg' for name in
-                ('picker', 'model', 'settings', 'alerts', 'dashboard', 'builder', 'changes', 'bar-header', 'bar-alerts')]:
+                ('picker', 'model', 'settings', 'alerts', 'dashboard', 'builder', 'changes', 'bar-header', 'bar-alerts', 'bar-extras')]:
     check(os.path.isfile(f'docs/{picture}'), f'docs/{picture} is missing: see scripts/screens/README.md')
 for skin in skins:
     check(f'data-skin="{skin}"' in gallery, f'{skin}: not in docs/skins.svg, run scripts/render_previews.ts')

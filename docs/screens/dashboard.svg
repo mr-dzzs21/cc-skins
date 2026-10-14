@@ -44,11 +44,11 @@
 <rect x="16.0" y="247.0" width="605.2" height="19.4" fill="#262626"/>
 <text x="16.0" y="261.0" fill="#c084fc" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Limits</text>
 <rect x="16.0" y="266.0" width="605.2" height="19.4" fill="#262626"/>
-<text x="16.0" y="280.0" fill="#7d7391" textLength="92.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">as of 13:59</text>
+<text x="16.0" y="280.0" fill="#7d7391" textLength="92.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">as of 13:02</text>
 <rect x="16.0" y="285.0" width="605.2" height="19.4" fill="#262626"/>
 <text x="16.0" y="299.0" fill="#7d7391" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5-hour</text>
 <text x="100.0" y="299.0" fill="#c084fc" textLength="285.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱ 42%</text>
-<text x="402.4" y="299.0" fill="#7d7391" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">resets in 2h12m</text>
+<text x="402.4" y="299.0" fill="#7d7391" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">resets in 2h13m</text>
 <rect x="16.0" y="304.0" width="605.2" height="19.4" fill="#262626"/>
 <text x="16.0" y="318.0" fill="#7d7391" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7-day</text>
 <text x="100.0" y="318.0" fill="#c084fc" textLength="285.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">▰▰▰▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱ 23%</text>
@@ -57,15 +57,15 @@
 <text x="16.0" y="337.0" fill="#c084fc" font-weight="700" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Cost</text>
 <rect x="16.0" y="342.0" width="605.2" height="19.4" fill="#262626"/>
 <text x="16.0" y="356.0" fill="#7d7391" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">session</text>
-<text x="100.0" y="356.0" fill="#4ade80" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
-<text x="158.8" y="356.0" fill="#7d7391" textLength="226.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⌀ $0.12 per turn  max $0.12</text>
+<text x="100.0" y="356.0" fill="#4ade80" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.14</text>
+<text x="158.8" y="356.0" fill="#7d7391" textLength="226.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⌀ $0.14 per turn  max $0.14</text>
 <rect x="16.0" y="361.0" width="605.2" height="19.4" fill="#262626"/>
 <text x="16.0" y="375.0" fill="#7d7391" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">per turn</text>
 <text x="100.0" y="375.0" fill="#4ade80" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">█</text>
 <rect x="16.0" y="380.0" width="605.2" height="19.4" fill="#262626"/>
 <text x="16.0" y="394.0" fill="#c084fc" font-weight="700" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Session</text>
-<rect x="16.0" y="399.0" width="596.8" height="19.4" fill="#262626"/>
-<text x="16.0" y="413.0" fill="#7d7391" textLength="470.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">4m running · 1 turn · 1 tool call · 82k tokens · last 5s</text>
+<rect x="16.0" y="399.0" width="605.2" height="19.4" fill="#262626"/>
+<text x="16.0" y="413.0" fill="#7d7391" textLength="478.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">1m running · 1 turn · 2 tool calls · 83k tokens · last 5s</text>
 <rect x="16.0" y="418.0" width="605.2" height="19.4" fill="#262626"/>
 <rect x="16.0" y="437.0" width="605.2" height="19.4" fill="#262626"/>
 <text x="16.0" y="451.0" fill="#ece2ff" font-weight="700" textLength="92.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[ Refresh ]</text>
