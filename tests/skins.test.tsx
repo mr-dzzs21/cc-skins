@@ -622,6 +622,7 @@ describe('preview', () => {
     expect(await picker.find({ type: 'Text', text: /count slowly to 5/ })).toBeDefined()
     expect(await picker.find({ type: 'Text', text: /CLAUDE/ })).toBeDefined()
     expect(await picker.find({ type: 'Text', text: /── Dark ──/ })).toBeDefined()
+    expect(await picker.find({ type: 'Text', text: /── Light ──/ })).toBeDefined()
     await picker.unmount()
   })
 
@@ -1244,13 +1245,14 @@ describe('your own skins', () => {
 
   test('every swatch, in either style, makes a skin whose every text reads', () => {
     for (const accent of [...ACCENTS, '#000000', '#ffffff', '#777777']) {
-      for (const style of ['dark', 'vivid'] as const) {
+      for (const style of ['dark', 'vivid', 'light'] as const) {
         const skin = buildSkin({ ...recipe, accent, style })
         for (const paint of [...skin.colors.blocks, skin.colors.warn, skin.colors.danger]) {
           expect(contrast(paint.bg, paint.fg)).toBeGreaterThanOrEqual(4.5)
         }
-        for (const color of [skin.chat.user, skin.chat.assistant, skin.chat.muted]) {
-          expect(contrast(color, '#111116')).toBeGreaterThanOrEqual(4.5)
+        const ground = style === 'light' ? '#f6efe6' : '#111116'
+        for (const color of [skin.chat.user, skin.chat.assistant, skin.chat.muted, skin.chat.success]) {
+          expect(contrast(color, ground)).toBeGreaterThanOrEqual(4.5)
         }
       }
     }
@@ -1469,5 +1471,28 @@ describe('panes that cannot show', () => {
     expect((await runSkin($, 'usage')).text).toBe('The usage dashboard opens in the interactive terminal: /context and /cost say much of it')
     reason = 'narrow'
     expect((await runSkin($, 'model')).text).toBe('The model picker needs a wider terminal: /model and /effort do the same')
+  })
+})
+
+describe('light skins', () => {
+  test('six light skins: their chat reads on a light terminal, every block reads, their bars stay light', () => {
+    const light = SKIN_IDS.filter(id => SKINS[id].isLight === true)
+    expect(light).toEqual(['paper', 'latte', 'sky', 'mint', 'peach', 'snow'])
+    for (const id of light) {
+      const { chat, colors } = SKINS[id]
+      for (const color of [chat.user, chat.assistant, chat.muted, chat.success]) {
+        expect(contrast(color, '#f6efe6')).toBeGreaterThanOrEqual(4.5)
+      }
+      for (const paint of [...colors.blocks, colors.warn, colors.danger]) {
+        expect(contrast(paint.bg, paint.fg)).toBeGreaterThanOrEqual(4.5)
+      }
+      expect(colors.blocks.slice(1).every(block => contrast(block.bg, '#ffffff') < 1.5)).toBe(true)
+    }
+  })
+
+  test('a light recipe makes a light skin', () => {
+    const skin = buildSkin({ id: 'day', label: 'Day', base: 'snow', accent: '#0369a1', style: 'light' })
+    expect(skin.isLight).toBe(true)
+    expect(skin.isDark).toBeUndefined()
   })
 })

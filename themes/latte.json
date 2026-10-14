@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Latte",
+  "base": "light",
+  "overrides": {
+    "claude": "#8b5e3c",
+    "claudeShimmer": "#61422a",
+    "text": "#3e2c23",
+    "inactive": "#7a6656",
+    "subtle": "#e0cdb9",
+    "suggestion": "#2f6f6a",
+    "permission": "#2f6f6a",
+    "permissionShimmer": "#1f4845",
+    "promptBorder": "#c5b4a3",
+    "promptBorderShimmer": "#9d9082",
+    "planMode": "#2f6f6a",
+    "autoAccept": "#356b1a",
+    "bashBorder": "#b45309",
+    "success": "#356b1a",
+    "error": "#b91c1c",
+    "warning": "#b45309",
+    "diffAdded": "#bad7b5",
+    "diffRemoved": "#f7c0b7",
+    "diffAddedDimmed": "#d8e3ce",
+    "diffRemovedDimmed": "#f6d7ce",
+    "diffAddedWord": "#88c48c",
+    "diffRemovedWord": "#f79890",
+    "userMessageBackground": "#e9dbcb",
+    "userMessageBackgroundHover": "#e2d0be",
+    "selectionBg": "#dbcbbc",
+    "rate_limit_fill": "#8b5e3c",
+    "rate_limit_empty": "#e0cdb9"
+  }
+}

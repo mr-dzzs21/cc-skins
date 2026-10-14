@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Sky",
+  "base": "light",
+  "overrides": {
+    "claude": "#0369a1",
+    "claudeShimmer": "#024a71",
+    "text": "#0f2942",
+    "inactive": "#5b7083",
+    "subtle": "#cfe3f3",
+    "suggestion": "#b4235f",
+    "permission": "#b4235f",
+    "permissionShimmer": "#75173e",
+    "promptBorder": "#b6c8d6",
+    "promptBorderShimmer": "#919faa",
+    "planMode": "#b4235f",
+    "autoAccept": "#15803d",
+    "bashBorder": "#b45309",
+    "success": "#15803d",
+    "error": "#b91c1c",
+    "warning": "#b45309",
+    "diffAdded": "#b9dfc7",
+    "diffRemoved": "#f6c7c8",
+    "diffAddedDimmed": "#d7ece3",
+    "diffRemovedDimmed": "#f5e1e4",
+    "diffAddedWord": "#88c898",
+    "diffRemovedWord": "#f79d9b",
+    "userMessageBackground": "#deecf8",
+    "userMessageBackgroundHover": "#d3e5f4",
+    "selectionBg": "#b8d6e8",
+    "rate_limit_fill": "#0369a1",
+    "rate_limit_empty": "#cfe3f3"
+  }
+}

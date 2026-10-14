@@ -23,6 +23,7 @@ const SAMPLE = { prompt: 'count slowly to 5', reply: '1… 2… 3… 4… 5.', d
 const GROUP_HEADINGS: Record<SkinEntry['group'], string | undefined> = {
   bright: undefined,
   dark: '── Dark ──',
+  light: '── Light ──',
   yours: '── Yours ──',
 }
 

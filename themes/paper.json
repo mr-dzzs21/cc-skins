@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Paper",
+  "base": "light",
+  "overrides": {
+    "claude": "#1d4ed8",
+    "claudeShimmer": "#143797",
+    "text": "#2b2b2b",
+    "inactive": "#6b6459",
+    "subtle": "#d9d2c3",
+    "suggestion": "#b45309",
+    "permission": "#b45309",
+    "permissionShimmer": "#753606",
+    "promptBorder": "#bfb9ac",
+    "promptBorderShimmer": "#989388",
+    "planMode": "#b45309",
+    "autoAccept": "#15803d",
+    "bashBorder": "#b45309",
+    "success": "#15803d",
+    "error": "#b91c1c",
+    "warning": "#b45309",
+    "diffAdded": "#bedebd",
+    "diffRemoved": "#fac6bf",
+    "diffAddedDimmed": "#dcebd7",
+    "diffRemovedDimmed": "#fbdfd8",
+    "diffAddedWord": "#8ac891",
+    "diffRemovedWord": "#f99c95",
+    "userMessageBackground": "#e7e1d5",
+    "userMessageBackgroundHover": "#dcd6c8",
+    "selectionBg": "#c4ceeb",
+    "rate_limit_fill": "#1d4ed8",
+    "rate_limit_empty": "#d9d2c3"
+  }
+}

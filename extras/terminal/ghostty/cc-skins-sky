@@ -1,0 +1,22 @@
+# cc-skins · Sky — Ghostty theme
+background = #f5faff
+foreground = #0f2942
+cursor-color = #0369a1
+selection-background = #b8d6e8
+selection-foreground = #0f2942
+palette = 0=#0f2942
+palette = 1=#b91c1c
+palette = 2=#15803d
+palette = 3=#b45309
+palette = 4=#0369a1
+palette = 5=#0369a1
+palette = 6=#0e7490
+palette = 7=#d8dce0
+palette = 8=#637484
+palette = 9=#941616
+palette = 10=#116631
+palette = 11=#904207
+palette = 12=#025481
+palette = 13=#025481
+palette = 14=#0b5d73
+palette = 15=#ebf0f5

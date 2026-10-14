@@ -107,6 +107,7 @@ export const drawBuilder = (
         [
           { value: 'dark', label: 'Dark: the accent fading into black' },
           { value: 'vivid', label: 'Vivid: the accent across nearby hues' },
+          { value: 'light', label: 'Light: the accent on a pale ground, for light terminals' },
         ],
         draft.style,
         act.style,

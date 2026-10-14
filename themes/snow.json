@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Snow",
+  "base": "light",
+  "overrides": {
+    "claude": "#24292f",
+    "claudeShimmer": "#191d21",
+    "text": "#1f2328",
+    "inactive": "#59636e",
+    "subtle": "#d0d7de",
+    "suggestion": "#0969da",
+    "permission": "#0969da",
+    "permissionShimmer": "#06448e",
+    "promptBorder": "#b7bdc3",
+    "promptBorderShimmer": "#92969b",
+    "planMode": "#0969da",
+    "autoAccept": "#1a7f37",
+    "bashBorder": "#b45309",
+    "success": "#1a7f37",
+    "error": "#b91c1c",
+    "warning": "#b45309",
+    "diffAdded": "#c0e2c7",
+    "diffRemoved": "#fdcbc8",
+    "diffAddedDimmed": "#e0f1e3",
+    "diffRemovedDimmed": "#fee5e4",
+    "diffAddedWord": "#8ccb98",
+    "diffRemovedWord": "#fb9f9b",
+    "userMessageBackground": "#e3e7eb",
+    "userMessageBackgroundHover": "#d5dbe1",
+    "selectionBg": "#c8cacb",
+    "rate_limit_fill": "#24292f",
+    "rate_limit_empty": "#d0d7de"
+  }
+}

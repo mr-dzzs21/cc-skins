@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Mint",
+  "base": "light",
+  "overrides": {
+    "claude": "#047857",
+    "claudeShimmer": "#03543d",
+    "text": "#12352a",
+    "inactive": "#587166",
+    "subtle": "#cfe7dc",
+    "suggestion": "#6d28d9",
+    "permission": "#6d28d9",
+    "permissionShimmer": "#471a8d",
+    "promptBorder": "#b6cbc2",
+    "promptBorderShimmer": "#91a29a",
+    "planMode": "#6d28d9",
+    "autoAccept": "#047857",
+    "bashBorder": "#b45309",
+    "success": "#047857",
+    "error": "#b91c1c",
+    "warning": "#b45309",
+    "diffAdded": "#b8dfc0",
+    "diffRemoved": "#f4c7c2",
+    "diffAddedDimmed": "#d5ecdb",
+    "diffRemovedDimmed": "#f4e1dc",
+    "diffAddedWord": "#87c894",
+    "diffRemovedWord": "#f69d97",
+    "userMessageBackground": "#ddefe6",
+    "userMessageBackgroundHover": "#d3e9df",
+    "selectionBg": "#b7dace",
+    "rate_limit_fill": "#047857",
+    "rate_limit_empty": "#cfe7dc"
+  }
+}

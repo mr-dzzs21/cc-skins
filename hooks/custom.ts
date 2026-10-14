@@ -9,18 +9,21 @@ export const ACCENTS: readonly string[] = [
   '#7209b7', '#b5179e', '#f72585', '#ff99c8', '#8d99ae', '#c0c0c0', '#d4a373', '#06d6a0',
 ]
 
-/** The ground the chat's colors must read on: a dark terminal's. */
+/** The grounds the chat's colors must read on: a dark terminal's, and a light one's for the light style. */
 const DARK_GROUND = '#111116'
+const LIGHT_GROUND = '#f6efe6'
 
 /** The block colors a recipe's style makes from its accent: six, left to right. */
 const blocksFor = (accent: string, style: CustomSkin['style']): Paint[] =>
   Array.from({ length: 6 }, (_, index) =>
     readableBlock(
-      style === 'dark'
-        ? index === 0
-          ? accent
-          : mix(accent, '#0b0b10', 0.5 + index * 0.08)
-        : mix(turnHue(accent, index * 14), index < 3 ? '#ffffff' : '#000000', index < 3 ? index * 0.1 : (index - 2) * 0.14),
+      index === 0 && style !== 'vivid'
+        ? accent
+        : style === 'dark'
+          ? mix(accent, '#0b0b10', 0.5 + index * 0.08)
+          : style === 'light'
+            ? mix(accent, '#ffffff', 0.62 + index * 0.06)
+            : mix(turnHue(accent, index * 14), index < 3 ? '#ffffff' : '#000000', index < 3 ? index * 0.1 : (index - 2) * 0.14),
     ),
   )
 
@@ -32,6 +35,8 @@ const blocksFor = (accent: string, style: CustomSkin['style']): Paint[] =>
 export const buildSkin = (recipe: CustomSkin): Skin => {
   const base = SKINS[recipe.base]
   const accent = isHex(recipe.accent) ? recipe.accent : base.colors.blocks[0]?.bg ?? '#7aa2f7'
+  const isLight = recipe.style === 'light'
+  const ground = isLight ? LIGHT_GROUND : DARK_GROUND
 
   return {
     ...base,
@@ -39,6 +44,7 @@ export const buildSkin = (recipe: CustomSkin): Skin => {
     label: recipe.label,
     description: `Yours · ${accent} · ${recipe.style}, from ${base.label}`,
     isDark: recipe.style === 'dark' ? true : undefined,
+    isLight: isLight ? true : undefined,
     colors: {
       blocks: blocksFor(accent, recipe.style),
       pulse: mix(accent, '#ffffff', 0.35),
@@ -46,11 +52,11 @@ export const buildSkin = (recipe: CustomSkin): Skin => {
       danger: readableBlock('#e5484d'),
     },
     chat: {
-      border: mix(accent, '#0b0b10', 0.7),
-      user: readableOn(turnHue(accent, 180), DARK_GROUND),
-      assistant: readableOn(accent, DARK_GROUND),
-      muted: readableOn(mix('#8b8b99', accent, 0.15), DARK_GROUND),
-      success: '#4ade80',
+      border: isLight ? mix(accent, '#ffffff', 0.7) : mix(accent, '#0b0b10', 0.7),
+      user: readableOn(turnHue(accent, 180), ground),
+      assistant: readableOn(accent, ground),
+      muted: readableOn(mix(isLight ? '#6b6b78' : '#8b8b99', accent, 0.15), ground),
+      success: readableOn(isLight ? '#15803d' : '#4ade80', ground),
     },
   }
 }
@@ -84,7 +90,7 @@ export const parseRecipe = (value: unknown): CustomSkin | undefined => {
     !isSkinId(base) ||
     typeof accent !== 'string' ||
     !isHex(accent) ||
-    (style !== 'dark' && style !== 'vivid')
+    (style !== 'dark' && style !== 'vivid' && style !== 'light')
   ) {
     return undefined
   }
@@ -92,11 +98,14 @@ export const parseRecipe = (value: unknown): CustomSkin | undefined => {
   return { id, label: label.slice(0, 32), base, accent: accent.toLowerCase(), style }
 }
 
-/** Every skin as the picker lists it: the bright built-ins, the dark ones, then the person's own. */
-export type SkinEntry = { id: string; skin: Skin; group: 'bright' | 'dark' | 'yours' }
+/** Every skin as the picker lists it: the bright built-ins, the dark ones, the light ones, then the person's own. */
+export type SkinEntry = { id: string; skin: Skin; group: 'bright' | 'dark' | 'light' | 'yours' }
+
+const groupOf = (skin: Skin): SkinEntry['group'] =>
+  skin.isLight === true ? 'light' : skin.isDark === true ? 'dark' : 'bright'
 
 export const skinEntries = (customs: readonly CustomSkin[]): SkinEntry[] => [
-  ...SKIN_IDS.map(id => ({ id, skin: SKINS[id], group: SKINS[id].isDark === true ? ('dark' as const) : ('bright' as const) })),
+  ...SKIN_IDS.map(id => ({ id, skin: SKINS[id], group: groupOf(SKINS[id]) })),
   ...customs.map(recipe => ({ id: recipe.id, skin: buildSkin(recipe), group: 'yours' as const })),
 ]
 

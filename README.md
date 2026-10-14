@@ -1,6 +1,6 @@
 # cc-skins
 
-Skins for [Claude Code](https://code.claude.com) in the terminal. One plugin, twenty looks, eight of them dark: chat messages as cards, and a usage bar above the prompt that's always in view.
+Skins for [Claude Code](https://code.claude.com) in the terminal. One plugin, twenty-six looks (eight dark, six for light terminals), plus any you build: chat messages as cards, and a usage bar above the prompt that's always in view.
 
 ```
  RING   Opus 5.5   ■■□□□ 34%   ■■■■□ 72% ↻2h13m   ■■■■■ 91% ↻3d4h  $1.24 
@@ -43,6 +43,12 @@ Each skin changes:
 | `ember` | Charcoal with glowing orange embers | `Smoldering ✦`, `Crackling ✦` | `✦ Stoked in 3s` |
 | `nebula` | Deep space violet with a pink star | `Orbiting ✧`, `Coalescing ✧` | `✧ Landed in 3s` |
 | `aurora` | Northern lights over a night sky | `Shimmering ✺`, `Unfurling ✺` | `✺ Faded in 3s` |
+| `paper` | Warm paper with ink-blue accents | `Drafting ✎`, `Annotating ✎` | `✎ Signed in 3s` |
+| `latte` | Milky coffee and caramel | `Brewing…`, `Grinding…` | `◐ Served in 3s` |
+| `sky` | Clear blue sky and white clouds | `Floating…`, `Gliding…` | `○ Landed in 3s` |
+| `mint` | Fresh mint and soft sage | `Refreshing ❦`, `Muddling ❦` | `❦ Fresh in 3s` |
+| `peach` | Peach sorbet and rosy coral | `Blending ❁`, `Whisking ❁` | `❁ Ripe in 3s` |
+| `snow` | Bright white and quiet grey, nothing more | `Working…`, `Reading…` | `◇ Done in 3s` |
 
 ## Install
 
@@ -60,13 +66,13 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 
 | Command | Does |
 |---|---|
-| `/skin` | Opens the skin picker: ↑↓ previews, Enter or 1–9, 0, a–j picks, Esc closes. A click on the bar's first block opens it too |
+| `/skin` | Opens the skin picker: ↑↓ previews, Enter or 1–9, 0, a–p picks, Esc closes. A click on the bar's first block opens it too |
 | `/skin list` | Lists the skins as text, marks the current one |
 | `/skin model` | Opens the model and effort picker (or click the model in the bar). A model pick is saved as your default, as `/model` does; effort holds for the session, as `/effort` does |
 | `/skin bar` | Opens the settings (or click the ⚙ at the bar's end), in tabs: **Bar** (each piece on or off), **Look** (style, icons, chat cards), **Alerts** (when to warn, the compact button), **Turn line** (cost, tokens, tool calls), **Sound** (sound, loudness, notification) |
 | `/skin alerts` | Opens the settings on the Alerts tab |
 | `/skin changes` | Opens the changed files of the repository (or click the branch): the branch and how it stands to its upstream, the line totals, each changed file, read with `git status` |
-| `/skin create [name]` | Opens the skin builder: a name, the skin it starts from (words, icon, sound), an accent (a swatch or any `#rrggbb`), dark or vivid, with a live preview. The rest of the colors follow from the accent, every text kept readable. Your skins list under **Yours** in the picker |
+| `/skin create [name]` | Opens the skin builder: a name, the skin it starts from (words, icon, sound), an accent (a swatch or any `#rrggbb`), dark, vivid or light, with a live preview. The rest of the colors follow from the accent, every text kept readable. Your skins list under **Yours** in the picker |
 | `/skin edit <skin>` / `/skin delete <skin>` | Changes or deletes one of your own skins |
 | `/skin export [skin]` / `/skin import <json>` | Shares a skin as one line of JSON (copied to the clipboard); anyone with cc-skins wears it after importing |
 | `/skin usage` | Opens the usage dashboard: the context with its trend and a /context-style breakdown, the limit windows, the cost overall and per turn, the session's totals, with Refresh and Compact buttons |
@@ -112,6 +118,8 @@ Once Claude Code has loaded the folder, it writes the API types to `.claude-plug
 Contributions are welcome, especially new skins.
 
 The sounds in `sounds/` are synthesized by `scripts/make_sounds.py` (`python3 scripts/make_sounds.py sounds`), so they carry the project's license.
+
+New built-in skins go through `scripts/add_skins.py <skins.json>`: it writes the skin, its `/theme` theme, its terminal schemes and the README rows, and refuses a block whose text would not read.
 
 ## License
 

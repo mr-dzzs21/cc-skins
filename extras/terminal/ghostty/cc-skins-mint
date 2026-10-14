@@ -1,0 +1,22 @@
+# cc-skins · Mint — Ghostty theme
+background = #f3faf6
+foreground = #12352a
+cursor-color = #047857
+selection-background = #b7dace
+selection-foreground = #12352a
+palette = 0=#12352a
+palette = 1=#b91c1c
+palette = 2=#047857
+palette = 3=#b45309
+palette = 4=#1d4ed8
+palette = 5=#047857
+palette = 6=#0e7490
+palette = 7=#d6dcd8
+palette = 8=#657c75
+palette = 9=#941616
+palette = 10=#036046
+palette = 11=#904207
+palette = 12=#173ead
+palette = 13=#036046
+palette = 14=#0b5d73
+palette = 15=#e9f0ec

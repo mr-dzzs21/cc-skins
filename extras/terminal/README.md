@@ -26,6 +26,12 @@ whole window fits, not just Claude Code's parts.
 | ember | `ghostty/cc-skins-ember` | `iterm2/cc-skins-ember.itermcolors` | Iosevka or Fira Code |
 | nebula | `ghostty/cc-skins-nebula` | `iterm2/cc-skins-nebula.itermcolors` | Space Mono or Monaspace Radon |
 | aurora | `ghostty/cc-skins-aurora` | `iterm2/cc-skins-aurora.itermcolors` | JetBrains Mono or Recursive Mono |
+| paper | `ghostty/cc-skins-paper` | `iterm2/cc-skins-paper.itermcolors` | IBM Plex Mono or iA Writer Mono |
+| latte | `ghostty/cc-skins-latte` | `iterm2/cc-skins-latte.itermcolors` | Recursive Mono or JetBrains Mono |
+| sky | `ghostty/cc-skins-sky` | `iterm2/cc-skins-sky.itermcolors` | Geist Mono or JetBrains Mono |
+| mint | `ghostty/cc-skins-mint` | `iterm2/cc-skins-mint.itermcolors` | Iosevka or Fira Code |
+| peach | `ghostty/cc-skins-peach` | `iterm2/cc-skins-peach.itermcolors` | Victor Mono or Recursive Mono |
+| snow | `ghostty/cc-skins-snow` | `iterm2/cc-skins-snow.itermcolors` | Geist Mono or SF Mono |
 
 With `/skin glyphs plain`, cc-skins draws only standard Unicode characters,
 so any monospace font works. The default powerline look needs a

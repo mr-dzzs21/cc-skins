@@ -1,0 +1,22 @@
+# cc-skins · Paper — Ghostty theme
+background = #fbf8f1
+foreground = #2b2b2b
+cursor-color = #1d4ed8
+selection-background = #c4ceeb
+selection-foreground = #2b2b2b
+palette = 0=#2b2b2b
+palette = 1=#b91c1c
+palette = 2=#15803d
+palette = 3=#b45309
+palette = 4=#1d4ed8
+palette = 5=#1d4ed8
+palette = 6=#0e7490
+palette = 7=#dddad4
+palette = 8=#757575
+palette = 9=#941616
+palette = 10=#116631
+palette = 11=#904207
+palette = 12=#173ead
+palette = 13=#173ead
+palette = 14=#0b5d73
+palette = 15=#f1eee7

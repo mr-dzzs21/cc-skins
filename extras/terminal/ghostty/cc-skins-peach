@@ -1,0 +1,22 @@
+# cc-skins · Peach — Ghostty theme
+background = #fff6f2
+foreground = #3d1f1a
+cursor-color = #c2410c
+selection-background = #f0c9b8
+selection-foreground = #3d1f1a
+palette = 0=#3d1f1a
+palette = 1=#b91c1c
+palette = 2=#15803d
+palette = 3=#b45309
+palette = 4=#4338ca
+palette = 5=#c2410c
+palette = 6=#0e7490
+palette = 7=#e0d8d5
+palette = 8=#816d6a
+palette = 9=#941616
+palette = 10=#116631
+palette = 11=#904207
+palette = 12=#362da2
+palette = 13=#9b340a
+palette = 14=#0b5d73
+palette = 15=#f5ece8

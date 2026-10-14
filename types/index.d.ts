@@ -19,6 +19,12 @@ export type SkinId =
   | 'ember'
   | 'nebula'
   | 'aurora'
+  | 'paper'
+  | 'latte'
+  | 'sky'
+  | 'mint'
+  | 'peach'
+  | 'snow'
 
 /** `nerd`: powerline arrows and icons (Nerd Font); `plain`: any monospace font. */
 export type Glyphs = 'nerd' | 'plain'
@@ -97,7 +103,7 @@ export type CustomSkin = {
   label: string
   base: SkinId
   accent: string
-  style: 'dark' | 'vivid'
+  style: 'dark' | 'vivid' | 'light'
 }
 
 /** One changed file, as `git status --porcelain` lists it: its two-letter code and its path. */

@@ -1,0 +1,22 @@
+# cc-skins · Snow — Ghostty theme
+background = #ffffff
+foreground = #1f2328
+cursor-color = #24292f
+selection-background = #c8cacb
+selection-foreground = #1f2328
+palette = 0=#1f2328
+palette = 1=#cf222e
+palette = 2=#1a7f37
+palette = 3=#b45309
+palette = 4=#0969da
+palette = 5=#24292f
+palette = 6=#1b7c83
+palette = 7=#e0e0e0
+palette = 8=#6d7073
+palette = 9=#a61b25
+palette = 10=#15662c
+palette = 11=#904207
+palette = 12=#0754ae
+palette = 13=#1d2126
+palette = 14=#166369
+palette = 15=#f5f5f5

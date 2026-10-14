@@ -1,0 +1,22 @@
+# cc-skins · Latte — Ghostty theme
+background = #f6efe6
+foreground = #3e2c23
+cursor-color = #8b5e3c
+selection-background = #dbcbbc
+selection-foreground = #3e2c23
+palette = 0=#3e2c23
+palette = 1=#a8322d
+palette = 2=#356b1a
+palette = 3=#b45309
+palette = 4=#2f5f8a
+palette = 5=#8b5e3c
+palette = 6=#2f6f6a
+palette = 7=#d8d2ca
+palette = 8=#827670
+palette = 9=#862824
+palette = 10=#2a5615
+palette = 11=#904207
+palette = 12=#264c6e
+palette = 13=#6f4b30
+palette = 14=#265955
+palette = 15=#ece5dd

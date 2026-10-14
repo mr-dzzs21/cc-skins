@@ -1,0 +1,33 @@
+{
+  "name": "cc-skins · Peach",
+  "base": "light",
+  "overrides": {
+    "claude": "#c2410c",
+    "claudeShimmer": "#882e08",
+    "text": "#3d1f1a",
+    "inactive": "#7d625a",
+    "subtle": "#f6d6c8",
+    "suggestion": "#7c3aed",
+    "permission": "#7c3aed",
+    "permissionShimmer": "#51269a",
+    "promptBorder": "#d8bcb0",
+    "promptBorderShimmer": "#ac968c",
+    "planMode": "#7c3aed",
+    "autoAccept": "#15803d",
+    "bashBorder": "#b45309",
+    "success": "#15803d",
+    "error": "#b91c1c",
+    "warning": "#b45309",
+    "diffAdded": "#c0dcbe",
+    "diffRemoved": "#fdc4bf",
+    "diffAddedDimmed": "#e0e9d8",
+    "diffRemovedDimmed": "#feddd9",
+    "diffAddedWord": "#8cc792",
+    "diffRemovedWord": "#fb9b95",
+    "userMessageBackground": "#fae3d9",
+    "userMessageBackgroundHover": "#f7d9cc",
+    "selectionBg": "#f0c9b8",
+    "rate_limit_fill": "#c2410c",
+    "rate_limit_empty": "#f6d6c8"
+  }
+}

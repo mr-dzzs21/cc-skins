@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.0
+
+- Six skins for light terminals: paper, latte, sky, mint, peach and snow, listed under Light in the picker. Each bar opens on one accent block and fades into pale ones; every text reads on a light terminal (checked against the darkest of their grounds). Each has a light `/theme` theme and light Ghostty and iTerm2 schemes.
+- The skin builder makes light skins too: the accent on a pale ground, the chat's colors read on a light terminal.
+- `scripts/add_skins.py` adds skins from a JSON file: the skin, its theme, its terminal schemes, the README rows; it refuses unreadable blocks.
+
 ## 0.14.0
 
 - More of the bar opens something: the context, a limit or the cost opens the usage dashboard, the branch opens a pane of the repository's changes (`/skin changes`: branch, ahead and behind, line totals, each changed file, read with `git status`). Both bar styles; a Clickable bar switch in the Look tab turns it off (the ⚙ stays).
