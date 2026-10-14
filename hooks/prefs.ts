@@ -4,6 +4,7 @@ import type { Prefs } from '../types'
 export const DEFAULT_PREFS: Prefs = {
   alertAt: 80,
   compactButton: true,
+  clickable: true,
   turnCost: true,
   turnTokens: false,
   turnTools: true,

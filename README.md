@@ -19,7 +19,7 @@ Each skin changes:
 - **Turn line**: its own closing line, with what the turn cost (`◆ KO in 12s · $0.04 · 3 tools`). Cost, tokens and tool calls each turn on or off in the settings' Turn line tab.
 - **Alerts**: a toast as the context or a limit window reaches 80 % (or 70, 90, or off), once more at 95 %. When the context is that full, a **compact** button in the bar compacts the conversation with one click.
 - **Sound and notification** (off until you turn them on): when a turn of 30 s or more ends, the skin's own sound (the ring skin rings a boxing bell; others chime, beep, blip, gong or pop) and a notification with the answer's first line. Sound, loudness, notification and the minimum length are yours to set in the Sound tab.
-- **Usage bar**: model and effort, git branch, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 %. While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block. Click the skin's icon to switch skins, the model to switch model or effort, the ⚙ to choose what the bar shows (the skin's name is off by default).
+- **Usage bar**: model and effort, git branch, context window, 5-hour and 7-day limits with time to reset, and session cost, as colored powerline blocks. A block turns warning-colored at 60 % and alarm-colored at 85 %. While Claude works, the skin's block pulses and spins. Narrow terminals shed detail block by block. Click the skin's icon to switch skins, the model to switch model or effort, the context, a limit or the cost for the usage dashboard, the branch for its changed files, the ⚙ to choose what the bar shows (the skin's name is off by default). The Look tab turns the clicks off.
 
 | Skin | Look | Spinner | Turn line |
 |---|---|---|---|
@@ -65,6 +65,7 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 | `/skin model` | Opens the model and effort picker (or click the model in the bar). A model pick is saved as your default, as `/model` does; effort holds for the session, as `/effort` does |
 | `/skin bar` | Opens the settings (or click the ⚙ at the bar's end), in tabs: **Bar** (each piece on or off), **Look** (style, icons, chat cards), **Alerts** (when to warn, the compact button), **Turn line** (cost, tokens, tool calls), **Sound** (sound, loudness, notification) |
 | `/skin alerts` | Opens the settings on the Alerts tab |
+| `/skin changes` | Opens the changed files of the repository (or click the branch): the branch and how it stands to its upstream, the line totals, each changed file, read with `git status` |
 | `/skin create [name]` | Opens the skin builder: a name, the skin it starts from (words, icon, sound), an accent (a swatch or any `#rrggbb`), dark or vivid, with a live preview. The rest of the colors follow from the accent, every text kept readable. Your skins list under **Yours** in the picker |
 | `/skin edit <skin>` / `/skin delete <skin>` | Changes or deletes one of your own skins |
 | `/skin export [skin]` / `/skin import <json>` | Shares a skin as one line of JSON (copied to the clipboard); anyone with cc-skins wears it after importing |

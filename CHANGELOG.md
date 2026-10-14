@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.14.0
+
+- More of the bar opens something: the context, a limit or the cost opens the usage dashboard, the branch opens a pane of the repository's changes (`/skin changes`: branch, ahead and behind, line totals, each changed file, read with `git status`). Both bar styles; a Clickable bar switch in the Look tab turns it off (the ⚙ stays).
+- A pane that cannot show says why: no interactive terminal (as under `claude -p` since Claude Code 2.1.299) or too narrow, and what does the same.
+
 ## 0.13.0
 
 - Build your own skins: `/skin create` opens a builder with a name, the built-in skin to start from (its words, icon and sound), an accent (16 swatches or any `#rrggbb`) and a style (dark: the accent fading into black; vivid: the accent across nearby hues), previewed live. Every color follows from the accent with every text kept readable (contrast of at least 4.5, checked for every swatch in both styles).

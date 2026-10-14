@@ -1,5 +1,5 @@
 import { atom, read, update } from 'claude-code'
-import type { EngineInterface, Register, SessionUsage, Timer } from 'claude-code'
+import type { EngineInterface, Register, SessionUsage, Timer, UiOpenResult } from 'claude-code'
 
 import type {
   BarItem,
@@ -11,6 +11,7 @@ import type {
   SentPrompt,
   SettingsTab,
   CustomSkin,
+  GitChanges,
   SkinId,
   SoundName,
   TurnStat,
@@ -47,6 +48,7 @@ import { SETTINGS_ROWS, drawSettings, isSettingsTab } from './settings'
 import { MAX_TURN_STATS, findTurnStat, turnStatText } from './turns'
 import { finishedText, isSoundName, soundAsset, soundFor } from './sounds'
 import { DASHBOARD, DASHBOARD_COLUMNS, DASHBOARD_ROWS, MAX_HISTORY, drawDashboard } from './dashboard'
+import { GIT_PANE, GIT_ROWS, GIT_SHORTSTAT, GIT_STATUS, drawChanges, parseStatus } from './git'
 import { PICKER, PICKER_COLUMNS, drawPicker, pickerRows } from './picker'
 import { BUILDER, BUILDER_COLUMNS, BUILDER_ROWS, drawBuilder } from './builder'
 import { isKnownSkin, parseRecipe, resolveSkin, skinEntries, slugFor, themeName } from './custom'
@@ -88,6 +90,8 @@ const turnStatsAtom = atom({ plugin: 'cc-skins', key: 'turnStats' } as const, []
 const historyAtom = atom({ plugin: 'cc-skins', key: 'history' } as const, [] as UsagePoint[])
 const breakdownAtom = atom({ plugin: 'cc-skins', key: 'breakdown' } as const, null as ContextBreakdown | null)
 const busyAtom = atom({ plugin: 'cc-skins', key: 'isBusy' } as const, false)
+const gitChangesAtom = atom({ plugin: 'cc-skins', key: 'gitChanges' } as const, null as GitChanges | null)
+const gitErrorAtom = atom({ plugin: 'cc-skins', key: 'gitError' } as const, null as string | null)
 /** The Model row, as the model picker shows it. */
 const modelChoiceAtom = atom(
   { plugin: 'cc-skins', key: 'modelChoice' } as const,
@@ -113,6 +117,16 @@ const STORE = {
 } as const
 
 const COMMAND = 'skin'
+
+/** What a command answers when its pane could not show: nothing once it shows, else why not and what does the same. */
+const unplaced = (opened: UiOpenResult, what: string, instead = ''): { text?: string } => {
+  if (opened.isPlaced) {
+    return {}
+  }
+  const why = /no.surface/i.test(opened.reason) ? 'opens in the interactive terminal' : 'needs a wider terminal'
+
+  return { text: `${what} ${why}${instead === '' ? '.' : `: ${instead}`}` }
+}
 const TICK_MS = 60_000
 const FRAME_MS = 150
 const MAX_PROMPTS = 200
@@ -531,15 +545,45 @@ const raiseAlerts = async ($: EngineInterface) => {
   }
 }
 
+/** Reads the repository's changes with git (read-only; repo hooks off), or why it could not. */
+const readChanges = async ($: EngineInterface) => {
+  try {
+    const status = await $.process.run([...GIT_STATUS], { timeoutMs: 10_000 })
+    if (status.exitCode !== 0) {
+      const reason = status.stderr.trim().split('\n')[0]
+      await update($, gitChangesAtom, () => null)
+      await update($, gitErrorAtom, () => reason || 'Not inside a git repository.')
+
+      return
+    }
+    const shortstat = await $.process.run([...GIT_SHORTSTAT], { timeoutMs: 10_000 })
+    const changes = parseStatus(status.stdout, shortstat.exitCode === 0 ? shortstat.stdout : '')
+    await update($, gitChangesAtom, () => changes)
+    await update($, gitErrorAtom, () => null)
+  } catch {
+    await update($, gitChangesAtom, () => null)
+    await update($, gitErrorAtom, () => 'git could not run here.')
+  }
+}
+
+/** Opens the changed-files pane, read fresh. */
+const openChanges = async ($: EngineInterface) => {
+  await readChanges($)
+
+  return $.ui.open({ id: GIT_PANE, title: 'Changes', focus: true, closeOnEscape: true, rows: GIT_ROWS })
+}
+
 /** What a press on the bar opens or does. */
 const openFromBar = ($: EngineInterface, press: BarPress) => {
-  void (press === 'skin'
-    ? openPicker($)
-    : press === 'model'
-      ? openModelPicker($)
-      : press === 'compact'
-        ? compactNow($)
-        : openSettings($))
+  const actions: Record<BarPress, () => Promise<unknown>> = {
+    skin: () => openPicker($),
+    model: () => openModelPicker($),
+    compact: () => compactNow($),
+    usage: () => openDashboard($),
+    branch: () => openChanges($),
+    settings: () => openSettings($),
+  }
+  void actions[press]()
 }
 
 const listSkins = (current: string, customs: readonly CustomSkin[]): string => {
@@ -551,7 +595,8 @@ const listSkins = (current: string, customs: readonly CustomSkin[]): string => {
     ...entries.map(({ id, skin }) => `${id === current ? '▸' : ' '} ${id.padEnd(width)} ${skin.description}`),
     '',
     `/${COMMAND} opens the picker (or click the bar's first block) · /${COMMAND} <name> · /${COMMAND} next · colors live in /theme`,
-    `/${COMMAND} model (or click the model) · /${COMMAND} bar (or click ⚙) · /${COMMAND} usage · /${COMMAND} show|hide <item>`,
+    `/${COMMAND} model (or click the model) · /${COMMAND} bar (or click ⚙) · /${COMMAND} usage (or click the context) · /${COMMAND} changes (or click the branch)`,
+    `/${COMMAND} show|hide <item>`,
     `/${COMMAND} bar powerline|header · /${COMMAND} chat on|off · /${COMMAND} hud on|off · /${COMMAND} glyphs nerd|plain`,
     `/${COMMAND} create [name] · /${COMMAND} edit|delete|export <skin> · /${COMMAND} import <json>`,
   ].join('\n')
@@ -780,7 +825,7 @@ export const register: Register = on => {
     if (first === 'create' || first === 'new') {
       const opened = await openBuilder($, await newDraft($, rest))
 
-      return opened.isPlaced ? {} : { text: 'The skin builder needs a wider terminal.' }
+      return unplaced(opened, 'The skin builder')
     }
     if (first === 'edit') {
       const recipe = customs.find(one => one.id === (second || current))
@@ -789,7 +834,7 @@ export const register: Register = on => {
       }
       const opened = await openBuilder($, recipe)
 
-      return opened.isPlaced ? {} : { text: 'The skin builder needs a wider terminal.' }
+      return unplaced(opened, 'The skin builder')
     }
     if (first === 'delete') {
       return { text: (await deleteCustom($, second)) ? `Deleted ${second}.` : `No skin of yours is called "${second}".` }
@@ -830,15 +875,20 @@ export const register: Register = on => {
 
       return { text: isHidden ? 'Usage HUD hidden.' : 'Usage HUD shown.' }
     }
+    if (first === 'changes' || first === 'git') {
+      const opened = await openChanges($)
+
+      return unplaced(opened, 'The changes pane', 'git status says the same')
+    }
     if (first === 'usage' || first === 'dashboard') {
       const opened = await openDashboard($)
 
-      return opened.isPlaced ? {} : { text: 'The usage dashboard needs a wider terminal.' }
+      return unplaced(opened, 'The usage dashboard', '/context and /cost say much of it')
     }
     if (first === 'model') {
       const opened = await openModelPicker($)
 
-      return opened.isPlaced ? {} : { text: 'The model picker needs a wider terminal: /model and /effort do the same.' }
+      return unplaced(opened, 'The model picker', '/model and /effort do the same')
     }
     if ((first === 'bar' && second === '') || first === 'settings' || first === 'alerts') {
       const tab = first === 'alerts' ? 'alerts' : isSettingsTab(second) ? second : undefined
@@ -847,7 +897,7 @@ export const register: Register = on => {
       }
       const opened = await openSettings($)
 
-      return opened.isPlaced ? {} : { text: `The settings need a wider terminal: /${COMMAND} show|hide <item> does the same.` }
+      return unplaced(opened, 'The settings', `/${COMMAND} show|hide <item> does the same`)
     }
     if (first === 'show' || first === 'hide') {
       const item = barItemNamed(second)
@@ -918,7 +968,14 @@ export const register: Register = on => {
       compactAt: await readCompactAt($),
     }
 
-    return drawBar($.ui.resolve(e), input, await read($, barStyleAtom), e.props.bodyColumns, press => openFromBar($, press))
+    return drawBar(
+      $.ui.resolve(e),
+      input,
+      await read($, barStyleAtom),
+      e.props.bodyColumns,
+      press => openFromBar($, press),
+      (await read($, prefsAtom)).clickable,
+    )
   })
 
   on('ui.render', { component: 'Pane', requestId: MODEL_PANE }, async ($, e) =>
@@ -948,6 +1005,16 @@ export const register: Register = on => {
         isWorking: await read($, busyAtom),
       },
       { refresh: () => void readBreakdown($), compact: () => void compactNow($) },
+    ),
+  )
+
+  on('ui.render', { component: 'Pane', requestId: GIT_PANE }, async ($, e) =>
+    drawChanges(
+      $.ui.resolve(e),
+      await currentSkin($),
+      await read($, gitChangesAtom),
+      await read($, gitErrorAtom),
+      () => void readChanges($),
     ),
   )
 

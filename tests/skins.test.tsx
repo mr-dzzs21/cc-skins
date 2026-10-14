@@ -16,6 +16,7 @@ import { finishedText, soundFor } from '../hooks/sounds'
 import { sparkline, turnTotals } from '../hooks/dashboard'
 import { ACCENTS, buildSkin, parseRecipe, slugFor } from '../hooks/custom'
 import { contrast } from '../hooks/color'
+import { parseStatus } from '../hooks/git'
 
 const MINUTE = 60_000
 const at = (ms: number) => new Date(ms).toISOString()
@@ -1339,5 +1340,133 @@ describe('your own skins', () => {
     expect((await runSkin($, 'delete night-owl-2')).text).toBe('Deleted night-owl-2.')
     expect((await runSkin($, 'list')).text).toContain('current: midnight')
     expect((await runSkin($, 'export ring')).text).toContain('Export takes one of your own skins')
+  })
+})
+
+describe('clickable bar', () => {
+  test('git status reads into branch, tracking, files and totals', () => {
+    const changes = parseStatus(
+      '## release/1.2...origin/release/1.2 [ahead 1, behind 2]\n M hooks/a.ts\nA  new.ts\nR  old.ts -> renamed.ts\n?? notes.txt\n',
+      ' 3 files changed, 10 insertions(+), 3 deletions(-)\n',
+    )
+    expect(changes).toEqual({
+      branch: 'release/1.2',
+      upstream: 'origin/release/1.2',
+      ahead: 1,
+      behind: 2,
+      files: [
+        { code: 'M', path: 'hooks/a.ts' },
+        { code: 'A', path: 'new.ts' },
+        { code: 'R', path: 'renamed.ts' },
+        { code: '??', path: 'notes.txt' },
+      ],
+      added: 10,
+      removed: 3,
+    })
+    expect(parseStatus('## No commits yet on main\n').branch).toBe('main')
+    expect(parseStatus('## HEAD (no branch)\n').branch).toBeNull()
+    expect(parseStatus('## main\n')).toMatchObject({ branch: 'main', upstream: null, ahead: 0, behind: 0, files: [] })
+  })
+
+  test('a click on the context or the cost opens the dashboard; on the branch, the changes', async ($, on) => {
+    mock.store(on)
+    mock.clock(on, { now: 0 })
+    const opened: string[] = []
+    on('ui.open', ($, e) => {
+      opened.push(e.id)
+
+      return { value: { isPlaced: true as const } }
+    })
+    on('session.repo', () => ({ value: { root: '/repo', remote: null, internal: false, name: 'repo' } }) as never)
+    on('fs.stat', () => ({ value: { kind: 'dir', size: 0, mtimeMs: 0, isLink: false } }) as never)
+    on('fs.read', () => ({ value: 'ref: refs/heads/main\n' }) as never)
+    on('process.run', ($, e) => ({
+      value: e.argv.includes('status')
+        ? { exitCode: 0, stdout: '## main...origin/main [ahead 1]\n M a.ts\n?? b.ts\n', stderr: '', isStdoutTruncated: false, isStderrTruncated: false }
+        : { exitCode: 0, stdout: ' 2 files changed, 10 insertions(+), 3 deletions(-)\n', stderr: '', isStdoutTruncated: false, isStderrTruncated: false },
+    }))
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    await $.session.measure({
+      context: { window: 200_000, tokens: 68_000, percent: 34 },
+      rateLimits: USAGE.rateLimits,
+      cost: { usd: 1.237 },
+      changed: ['context', 'rateLimits', 'cost'],
+    })
+
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
+    await band.press({ key: 'context-button' })
+    await band.press({ key: 'cost-button' })
+    await band.press({ key: 'limit-five_hour-button' })
+    await band.press({ key: 'branch-button' })
+    await band.unmount()
+    expect(opened).toEqual(['usage-dashboard', 'usage-dashboard', 'usage-dashboard', 'git-changes'])
+
+    const changes = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'git-changes',
+      props: { ...PANE_PROPS, title: 'Changes' },
+    })
+    expect(await changes.find({ type: 'Text', text: /⎇ main/ })).toBeDefined()
+    expect(await changes.find({ type: 'Text', text: /↑1/ })).toBeDefined()
+    expect(await changes.find({ type: 'Text', text: /2 files changed/ })).toBeDefined()
+    expect(await changes.find({ type: 'Text', text: /\+10/ })).toBeDefined()
+    expect(await changes.find({ type: 'Text', text: /b\.ts/ })).toBeDefined()
+    await changes.unmount()
+  })
+
+  test('outside a repository the changes pane says why', async ($, on) => {
+    mock.store(on)
+    on('ui.open', () => ({ value: { isPlaced: true as const } }))
+    on('process.run', () => ({
+      value: { exitCode: 128, stdout: '', stderr: 'fatal: not a git repository\n', isStdoutTruncated: false, isStderrTruncated: false },
+    }))
+    expect(await runSkin($, 'changes')).toEqual({})
+    const changes = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'git-changes',
+      props: { ...PANE_PROPS, title: 'Changes' },
+    })
+    expect(await changes.find({ type: 'Text', text: /not a git repository/ })).toBeDefined()
+    await changes.unmount()
+  })
+
+  test('with the clickable bar off, only the ⚙ stays a button', async ($, on) => {
+    mock.store(on)
+    mock.clock(on, { now: 0 })
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    await $.session.measure({ context: { window: 200_000, tokens: 68_000, percent: 34 }, rateLimits: [], cost: { usd: 1 }, changed: ['context'] })
+    const settings = await $.ui.mount({
+      plugin: 'cc-skins',
+      surface: 'terminal',
+      component: 'Pane',
+      requestId: 'bar-settings',
+      props: { ...PANE_PROPS, title: 'Settings' },
+    })
+    await settings.press({ key: 'tab-look' })
+    await settings.press({ key: 'clickable-off' })
+    await settings.unmount()
+
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
+    expect(await band.find({ key: 'context-button' })).toBeUndefined()
+    expect(await band.find({ key: 'skin-button' })).toBeUndefined()
+    expect(await band.find({ key: 'settings-button' })).toBeDefined()
+    await band.unmount()
+  })
+})
+
+describe('panes that cannot show', () => {
+  test('a command says why: no terminal, or too narrow, and what does the same', async ($, on) => {
+    mock.store(on)
+    let reason = 'no-surface: no surface is attached'
+    on('ui.open', () => ({ value: { isPlaced: false as const, reason } }))
+    expect((await runSkin($, 'usage')).text).toBe('The usage dashboard opens in the interactive terminal: /context and /cost say much of it')
+    reason = 'narrow'
+    expect((await runSkin($, 'model')).text).toBe('The model picker needs a wider terminal: /model and /effort do the same')
   })
 })

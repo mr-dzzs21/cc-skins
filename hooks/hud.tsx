@@ -20,13 +20,15 @@ const ICONS = {
 } as const
 
 /** What a press on the bar opens: the skin picker, the model and effort picker, the bar's settings. */
-export type BarPress = 'skin' | 'model' | 'settings' | 'compact'
+export type BarPress = 'skin' | 'model' | 'settings' | 'compact' | 'usage' | 'branch'
 
 const PRESS_LABELS: Record<BarPress, string> = {
   skin: 'Pick a skin',
   model: 'Model and effort',
   settings: 'Bar settings',
   compact: 'Compact the conversation',
+  usage: 'Usage dashboard',
+  branch: 'Changed files',
 }
 
 /** The ⚙ after the bar, with the space before it. */
@@ -112,7 +114,7 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     pills.push({ key: 'model', text: isNerd ? `${ICONS.model} ${text}` : text, isBold: true, press: 'model' })
   }
   if (branch !== null && hasBranch) {
-    pills.push({ key: 'branch', text: `${isNerd ? ICONS.branch : '⎇'} ${branch}` })
+    pills.push({ key: 'branch', text: `${isNerd ? ICONS.branch : '⎇'} ${branch}`, press: 'branch' })
   }
 
   const meter = (percent: number) =>
@@ -124,6 +126,7 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
       key: 'context',
       text: `${isNerd ? ICONS.context : 'ctx'} ${context === null ? '–' : meter(context) + formatPercent(context)}`,
       alert: context === null ? undefined : alertFor(context),
+      press: 'usage',
     })
   }
   if (isCompactDue(input)) {
@@ -149,11 +152,12 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
       key: `limit-${limit.kind}`,
       text: `${label} ${meter(limit.percentUsed)}${formatPercent(limit.percentUsed)}${reset === '' ? '' : ` ↻${reset}`}`,
       alert: alertFor(limit.percentUsed),
+      press: 'usage',
     })
   })
 
   if (usage.costUsd !== null && hasCost) {
-    pills.push({ key: 'cost', text: formatCost(usage.costUsd), isBold: true })
+    pills.push({ key: 'cost', text: formatCost(usage.costUsd), isBold: true, press: 'usage' })
   }
 
   const isPulsing = isWorking && Math.floor(frame / 4) % 2 === 1
@@ -197,15 +201,16 @@ type Elements = {
   Button?: ElementConstructor<ButtonProps>
 }
 
-/** A bar piece as a button when it opens something and the surface draws buttons. */
+/** A bar piece as a button (keyed `<piece>-button`) when it opens something and the surface draws buttons. */
 const pressable = (
   Button: Elements['Button'],
+  piece: string,
   press: BarPress | undefined,
   onPress: ((press: BarPress) => void) | undefined,
   child: RenderElement,
 ): RenderElement =>
   press !== undefined && onPress !== undefined && Button !== undefined ? (
-    <Button key={`${press}-button`} label={PRESS_LABELS[press]} plain onPress={() => onPress(press)}>
+    <Button key={`${piece}-button`} label={PRESS_LABELS[press]} plain onPress={() => onPress(press)}>
       {child}
     </Button>
   ) : (
@@ -216,6 +221,7 @@ const pressable = (
 const drawGear = ({ Text, Button }: Elements, glyphs: Glyphs, color: string, onPress: (press: BarPress) => void) =>
   pressable(
     Button,
+    'settings',
     'settings',
     onPress,
     <Text key="gear" color={color}>
@@ -252,6 +258,7 @@ export const drawPowerline = (
         const following = pills[index + 1]
         const block = pressable(
           Button,
+          pill.key,
           pill.press,
           onPress,
           <Text key={pill.key} backgroundColor={pill.paint.bg} color={pill.paint.fg} bold={pill.isBold}>
@@ -310,7 +317,7 @@ export const headerFor = (input: BarInput, columns: number): Header => {
   const shows = (item: BarItem) => !hidden.includes(item)
   const { chat } = skin
   const brand: HeaderItem[] = [
-    { key: 'brand', text: `${isNerd ? skin.icon : skin.glyph} CLAUDE`, color: chat.assistant, isBold: true, press: 'skin' },
+    { key: 'skin', text: `${isNerd ? skin.icon : skin.glyph} CLAUDE`, color: chat.assistant, isBold: true, press: 'skin' },
   ]
   const modelParts = [
     usage.model !== null && shows('model') ? prettyModel(usage.model) : undefined,
@@ -325,7 +332,7 @@ export const headerFor = (input: BarInput, columns: number): Header => {
     stats.push({ key: 'session', text: `● Session ${formatElapsed(usage.startedAt, now)}`, color: chat.user })
   }
   if (branch !== null && shows('branch')) {
-    stats.push({ key: 'branch', text: `${isNerd ? ICONS.branch : '⎇'} ${branch}`, color: chat.user })
+    stats.push({ key: 'branch', text: `${isNerd ? ICONS.branch : '⎇'} ${branch}`, color: chat.user, press: 'branch' })
   }
   if (usage.contextPercent !== null && shows('context')) {
     const tokens = usage.contextTokens === null ? '' : ` · ${formatTokens(usage.contextTokens)}`
@@ -333,10 +340,11 @@ export const headerFor = (input: BarInput, columns: number): Header => {
       key: 'context',
       text: `${isNerd ? ICONS.context : 'ctx'} ${formatPercent(usage.contextPercent)}${tokens}`,
       color: alertColor(skin, usage.contextPercent) ?? chat.user,
+      press: 'usage',
     })
   }
   if (usage.costUsd !== null && shows('cost')) {
-    stats.push({ key: 'cost', text: formatCost(usage.costUsd), color: chat.user })
+    stats.push({ key: 'cost', text: formatCost(usage.costUsd), color: chat.user, press: 'usage' })
   }
 
   const badges: HeaderItem[] = usage.rateLimits
@@ -349,6 +357,7 @@ export const headerFor = (input: BarInput, columns: number): Header => {
       key: `limit-${limit.kind}`,
       text: `● ${LIMIT_LABELS[limit.kind] ?? limit.kind} ${formatPercent(limit.percentUsed)}`,
       color: alertColor(skin, limit.percentUsed) ?? chat.muted,
+      press: 'usage' as const,
     }))
   if (isCompactDue(input)) {
     badges.unshift({
@@ -414,6 +423,7 @@ export const drawHeader = (
       {header.brand.map((item, index) =>
         pressable(
           Button,
+          item.key,
           item.press,
           onPress,
           <Text key={item.key} color={item.color} bold={item.isBold}>
@@ -424,16 +434,17 @@ export const drawHeader = (
     </Box>
     <Box flexDirection="row">
       {header.stats.map((item, index) => (
-        <Text key={item.key}>
+        <Box key={item.key} flexDirection="row">
           {index > 0 && <Text color={skin.chat.border}>{HEADER_SEPARATOR}</Text>}
-          <Text color={item.color}>{item.text}</Text>
-        </Text>
+          {pressable(Button, item.key, item.press, onPress, <Text color={item.color}>{item.text}</Text>)}
+        </Box>
       ))}
     </Box>
     <Box flexDirection="row" gap={1}>
       {header.badges.map(item =>
         pressable(
           Button,
+          item.key,
           item.press,
           onPress,
           <Text key={item.key} color={item.color} bold>
@@ -458,11 +469,24 @@ export const drawBar = (
   style: BarStyle,
   columns: number,
   onPress?: (press: BarPress) => void,
+  isClickable = true,
 ) => {
   const gear = onPress !== undefined && !input.hidden.includes('gear') ? input.skin.chat.muted : undefined
   const room = columns - (gear === undefined ? 0 : GEAR_CELLS)
+  const unpress = <T extends { press?: BarPress }>(item: T): T => (isClickable ? item : { ...item, press: undefined })
+  if (style === 'header') {
+    const header = headerFor(input, room)
 
-  return style === 'header'
-    ? drawHeader(elements, headerFor(input, room), input.skin, columns, input.glyphs, onPress, gear)
-    : drawPowerline(elements, fitPills(input, room), input.glyphs, onPress, gear)
+    return drawHeader(
+      elements,
+      { brand: header.brand.map(unpress), stats: header.stats.map(unpress), badges: header.badges.map(unpress) },
+      input.skin,
+      columns,
+      input.glyphs,
+      onPress,
+      gear,
+    )
+  }
+
+  return drawPowerline(elements, fitPills(input, room).map(unpress), input.glyphs, onPress, gear)
 }

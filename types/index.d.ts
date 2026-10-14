@@ -46,6 +46,8 @@ export type Prefs = {
   alertAt: number
   /** A compact block in the bar once the context is that full, between turns. */
   compactButton: boolean
+  /** Whether the bar's pieces open what they show (the ⚙ always does). */
+  clickable: boolean
   /** What the line closing a turn adds after its duration. */
   turnCost: boolean
   turnTokens: boolean
@@ -96,6 +98,20 @@ export type CustomSkin = {
   base: SkinId
   accent: string
   style: 'dark' | 'vivid'
+}
+
+/** One changed file, as `git status --porcelain` lists it: its two-letter code and its path. */
+export type ChangedFile = { code: string; path: string }
+
+/** The repository's state as the changes pane shows it. */
+export type GitChanges = {
+  branch: string | null
+  upstream: string | null
+  ahead: number
+  behind: number
+  files: ChangedFile[]
+  added: number
+  removed: number
 }
 
 /** The settings pane's tabs. */
@@ -152,6 +168,9 @@ declare module 'claude-code' {
       customSkins: CustomSkin[]
       /** The skin the builder holds while it is open. */
       draft: CustomSkin | null
+      /** The repository's changes as the changes pane last read them, or why it could not. */
+      gitChanges: GitChanges | null
+      gitError: string | null
       /** Whether a main-thread turn runs now. */
       isBusy: boolean
       /** The context's breakdown as the dashboard last read it; null until then. */

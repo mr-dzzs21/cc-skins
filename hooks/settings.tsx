@@ -118,6 +118,8 @@ const drawLookTab = (elements: Elements, skin: Skin, view: SettingsView, act: Se
   ),
   drawHeading(elements, skin, 'chat-heading', 'Chat cards'),
   drawOnOff(elements, 'chat', view.isChatStyled, act.chat),
+  drawHeading(elements, skin, 'clickable-heading', 'Clickable bar', 'the model, context, limits, cost and branch open more'),
+  drawOnOff(elements, 'clickable', view.prefs.clickable, clickable => act.pref({ clickable })),
 ]
 
 /** The alerts tab: when a limit or the context warns, and the bar's compact button. */
