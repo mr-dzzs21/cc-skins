@@ -51,7 +51,8 @@ import { DASHBOARD, DASHBOARD_COLUMNS, DASHBOARD_ROWS, MAX_HISTORY, drawDashboar
 import { GIT_PANE, GIT_ROWS, GIT_SHORTSTAT, GIT_STATUS, drawChanges, parseStatus } from './git'
 import { PICKER, PICKER_COLUMNS, drawPicker, pickerRows } from './picker'
 import { BUILDER, BUILDER_COLUMNS, BUILDER_ROWS, drawBuilder } from './builder'
-import { isKnownSkin, parseRecipe, resolveSkin, skinEntries, slugFor, themeName } from './custom'
+import { MAX_CUSTOM_SKINS, isKnownSkin, parseRecipe, resolveSkin, skinEntries, slugFor, themeName } from './custom'
+import { cleanLine, stripControls } from './text'
 import { DEFAULT_SKIN, SKINS, isSkinId, pick } from './skins'
 
 const EMPTY_USAGE: Usage = {
@@ -158,6 +159,12 @@ const readModel = async ($: EngineInterface): Promise<string | null> => {
 
 const HEAD_REF = 'ref: refs/heads/'
 
+/** The most a `.git` pointer or a HEAD may weigh; a real one is a line. */
+const MAX_POINTER_BYTES = 512
+
+/** What a branch name the bar shows may hold. */
+const BRANCH_NAME = /^[\w./-]{1,100}$/
+
 /**
  * The checked-out branch, read from the repository's HEAD (a worktree's `.git`
  * file points at its own); a detached HEAD reads as its short hash.
@@ -169,12 +176,27 @@ const readBranch = async ($: EngineInterface): Promise<string | null> => {
       return null
     }
     let gitDir = `${repo.root}/.git`
-    if ((await $.fs.stat(gitDir)).kind === 'file') {
-      gitDir = (await $.fs.read(gitDir)).replace(/^gitdir: /, '').trim()
+    const dotGit = await $.fs.stat(gitDir)
+    if (dotGit.kind === 'file') {
+      if (dotGit.isLink || dotGit.size > MAX_POINTER_BYTES) {
+        return null
+      }
+      const pointer = ((await $.fs.read(gitDir)).split('\n')[0] ?? '').replace(/^gitdir: /, '').trim()
+      gitDir = /^([A-Za-z]:)?[\\/]/.test(pointer) ? pointer : `${repo.root}/${pointer}`
     }
-    const head = (await $.fs.read(`${gitDir}/HEAD`)).trim()
+    const headPath = `${gitDir}/HEAD`
+    const head = await $.fs.stat(headPath)
+    if (head.kind !== 'file' || head.isLink || head.size > MAX_POINTER_BYTES) {
+      return null
+    }
+    const line = ((await $.fs.read(headPath)).split('\n')[0] ?? '').trim()
+    if (line.startsWith(HEAD_REF)) {
+      const name = line.slice(HEAD_REF.length)
 
-    return head.startsWith(HEAD_REF) ? head.slice(HEAD_REF.length) : head.slice(0, 7)
+      return BRANCH_NAME.test(name) ? name : null
+    }
+
+    return /^[0-9a-f]{7,64}$/.test(line) ? line.slice(0, 7) : null
   } catch {
     return null
   }
@@ -301,9 +323,15 @@ const saveDraft = async ($: EngineInterface) => {
   }
   const customs = await read($, customSkinsAtom)
   const isExisting = customs.some(one => one.id === draft.id)
+  if (!isExisting && customs.length >= MAX_CUSTOM_SKINS) {
+    $.ui.toast(`You keep ${MAX_CUSTOM_SKINS} skins at most: /skin delete one first`)
+
+    return
+  }
+  const label = cleanLine(draft.label).slice(0, 32) || 'My skin'
   const recipe: CustomSkin = {
     ...draft,
-    label: draft.label.trim() === '' ? 'My skin' : draft.label.trim(),
+    label,
     id: isExisting ? draft.id : slugFor(draft.label, customs.map(one => one.id)),
   }
   await saveCustoms($, isExisting ? customs.map(one => (one.id === recipe.id ? recipe : one)) : [...customs, recipe])
@@ -471,7 +499,7 @@ const announceTurn = async ($: EngineInterface, durationMs: number, answer: stri
   }
   if (prefs.notify) {
     const word = skin.turn.words[0] ?? 'Done'
-    void $.ui.notify(finishedText(word, formatDuration(durationMs), answer), { title: 'Claude is done' }).catch(() => undefined)
+    void $.ui.notify(finishedText(word, formatDuration(durationMs), answer, prefs.notifyPreview), { title: 'Claude is done' }).catch(() => undefined)
   }
 }
 
@@ -632,7 +660,10 @@ const setUp = async ($: EngineInterface) => {
   const storedSkin = await $.store.get(STORE.skin)
   const storedCustoms = await $.store.get(STORE.customSkins)
   const customs = Array.isArray(storedCustoms)
-    ? storedCustoms.map(parseRecipe).filter((recipe): recipe is CustomSkin => recipe !== undefined)
+    ? storedCustoms
+        .map(parseRecipe)
+        .filter((recipe): recipe is CustomSkin => recipe !== undefined)
+        .slice(0, MAX_CUSTOM_SKINS)
     : []
   const storedGlyphs = await $.store.get(STORE.glyphs)
   const storedBarStyle = await $.store.get(STORE.barStyle)
@@ -856,6 +887,9 @@ export const register: Register = on => {
       } catch {
         parsed = undefined
       }
+      if (customs.length >= MAX_CUSTOM_SKINS) {
+        return { text: `You keep ${MAX_CUSTOM_SKINS} skins at most: /${COMMAND} delete one first.` }
+      }
       const recipe = parseRecipe(parsed)
       if (recipe === undefined) {
         return { text: `Usage: /${COMMAND} import {"id":…,"label":…,"base":…,"accent":"#rrggbb","style":"dark"|"vivid"}` }
@@ -1072,7 +1106,7 @@ export const register: Register = on => {
       draft,
       await readSample($, e.props.bodyColumns, e.props.placement === 'dock'),
       {
-        label: label => void editDraft($, { label: label.slice(0, 32) }),
+        label: label => void editDraft($, { label: stripControls(label).slice(0, 32) }),
         base: base => void editDraft($, { base }),
         accent: accent => void editDraft($, { accent }),
         style: style => void editDraft($, { style }),

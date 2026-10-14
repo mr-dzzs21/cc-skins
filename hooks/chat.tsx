@@ -100,6 +100,7 @@ export const todosOf = (input: unknown): Todo[] | undefined => {
       typeof todo === 'object' &&
       todo !== null &&
       typeof (todo as Todo).content === 'string' &&
+      ((todo as Todo).activeForm === undefined || typeof (todo as Todo).activeForm === 'string') &&
       ['pending', 'in_progress', 'completed'].includes((todo as Todo).status),
   )
 }

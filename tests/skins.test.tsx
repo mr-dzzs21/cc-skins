@@ -17,6 +17,8 @@ import { sparkline, turnTotals } from '../hooks/dashboard'
 import { ACCENTS, buildSkin, parseRecipe, slugFor } from '../hooks/custom'
 import { contrast } from '../hooks/color'
 import { parseStatus } from '../hooks/git'
+import { cleanLine, stripControls } from '../hooks/text'
+import { todosOf } from '../hooks/chat'
 
 const MINUTE = 60_000
 const at = (ms: number) => new Date(ms).toISOString()
@@ -1091,9 +1093,10 @@ describe('sound and notification', () => {
   })
 
   test('a notification says how long and what the answer begins with', () => {
-    expect(finishedText('KO', '1m 4s', '\nAll tests pass.\nMore below')).toBe('KO in 1m 4s · All tests pass.')
-    expect(finishedText('Done', '3s', '')).toBe('Done in 3s')
-    expect(finishedText('Done', '3s', 'x'.repeat(200)).length).toBeLessThan(110)
+    expect(finishedText('KO', '1m 4s', '\nAll tests pass.\nMore below')).toBe('KO in 1m 4s')
+    expect(finishedText('KO', '1m 4s', '\nAll tests pass.\nMore below', true)).toBe('KO in 1m 4s · All tests pass.')
+    expect(finishedText('Done', '3s', '', true)).toBe('Done in 3s')
+    expect(finishedText('Done', '3s', 'x'.repeat(200), true).length).toBeLessThan(110)
   })
 
   const finish = ($: Engine, durationMs: number) =>
@@ -1143,7 +1146,7 @@ describe('sound and notification', () => {
     await finish($, 64_000)
     expect(played).toHaveLength(1)
     expect(played[0]).toContain('sounds/bell.wav')
-    expect(notified).toEqual(['KO in 1m 4s · All done.'])
+    expect(notified).toEqual(['KO in 1m 4s'])
   })
 
   test('picking a sound in the settings plays it once', async ($, on) => {
@@ -1380,8 +1383,10 @@ describe('clickable bar', () => {
       return { value: { isPlaced: true as const } }
     })
     on('session.repo', () => ({ value: { root: '/repo', remote: null, internal: false, name: 'repo' } }) as never)
-    on('fs.stat', () => ({ value: { kind: 'dir', size: 0, mtimeMs: 0, isLink: false } }) as never)
+    on('fs.stat', ($, e) =>
+      ({ value: { kind: e.path.endsWith('/HEAD') ? 'file' : 'dir', size: 21, mtimeMs: 0, isLink: false } }) as never)
     on('fs.read', () => ({ value: 'ref: refs/heads/main\n' }) as never)
+    on('ui.toast', () => ({ value: undefined }))
     on('process.run', ($, e) => ({
       value: e.argv.includes('status')
         ? { exitCode: 0, stdout: '## main...origin/main [ahead 1]\n M a.ts\n?? b.ts\n', stderr: '', isStdoutTruncated: false, isStderrTruncated: false }
@@ -1495,4 +1500,83 @@ describe('light skins', () => {
     expect(skin.isLight).toBe(true)
     expect(skin.isDark).toBeUndefined()
   })
+})
+
+describe('security', () => {
+  const ESC = String.fromCharCode(27)
+  const BEL = String.fromCharCode(7)
+  const RLO = String.fromCharCode(0x202e)
+  const evil = `Pwned${ESC}]0;title${BEL}${RLO}txt.exe${ESC}[31m`
+
+  test('control and format characters never survive into drawn or sent text', () => {
+    expect(cleanLine(evil)).toBe('Pwned ]0;title txt.exe [31m')
+    expect(cleanLine(evil)).not.toMatch(/[\u0000-\u001f\u007f-\u009f\u200b-\u200f\u202a-\u202e\u2066-\u2069]/)
+    expect(stripControls('My  skin')).toBe('My  skin')
+  })
+
+  test('an imported skin keeps a clean label, a strict id, and nothing else', () => {
+    const recipe = { id: 'nice', label: evil, base: 'ring', accent: '#4361ee', style: 'dark' }
+    expect(parseRecipe(recipe)?.label).toBe('Pwned ]0;title txt.exe [31m'.slice(0, 32))
+    expect(parseRecipe({ ...recipe, label: `${ESC}${BEL}` })?.label).toBe('My skin')
+    for (const id of ['../x', 'Bad ID', 'ring', '', 'a'.repeat(40), `x${ESC}`]) {
+      expect(parseRecipe({ ...recipe, id })).toBeUndefined()
+    }
+  })
+
+  test('the notification never carries control characters, and the answer only when asked', () => {
+    const answer = `${evil}\nsecond line`
+    expect(finishedText('Done', '3s', answer)).toBe('Done in 3s')
+    expect(finishedText('Done', '3s', answer, true)).toBe('Done in 3s · Pwned ]0;title txt.exe [31m')
+  })
+
+  test('git output is drawn without control characters', () => {
+    const changes = parseStatus(`## ma${ESC}in\n M a${ESC}[2Jb.ts\n`)
+    expect(changes.branch).toBe('ma in')
+    expect(changes.files[0]?.path).toBe('a [2Jb.ts')
+  })
+
+  test('a todo whose activeForm is no string is left out', () => {
+    expect(todosOf({ todos: [{ content: 'a', status: 'pending', activeForm: 3 }, { content: 'b', status: 'pending' }] })).toEqual([
+      { content: 'b', status: 'pending' },
+    ])
+  })
+
+  for (const [name, files, expected] of [
+    ['a plain checkout shows its branch', { '/repo/.git': ['dir'], '/repo/.git/HEAD': ['file', 'ref: refs/heads/main\n'] }, true],
+    ['a worktree pointer is read relative to the repository', {
+      '/repo/.git': ['file', 'gitdir: ../main/.git/worktrees/w\n'],
+      '/repo/../main/.git/worktrees/w/HEAD': ['file', 'ref: refs/heads/feature\n'],
+    }, true],
+    ['a HEAD that is a link is not followed', { '/repo/.git': ['dir'], '/repo/.git/HEAD': ['link', 'ref: refs/heads/main\n'] }, false],
+    ['a HEAD that is no file (a pipe) is not read', { '/repo/.git': ['dir'], '/repo/.git/HEAD': ['other', ''] }, false],
+    ['a branch name with odd characters is not shown', { '/repo/.git': ['dir'], '/repo/.git/HEAD': ['file', `ref: refs/heads/x${ESC}[2J\n`] }, false],
+    ['a huge HEAD is not read', { '/repo/.git': ['dir'], '/repo/.git/HEAD': ['file', 'x'.repeat(5000)] }, false],
+  ] as const) {
+    test(`branch: ${name}`, async ($, on) => {
+      mock.store(on)
+      mock.clock(on, { now: 0 })
+      const table = files as Record<string, readonly [string, string?]>
+      on('session.repo', () => ({ value: { root: '/repo', remote: null, internal: false, name: 'repo' } }) as never)
+      /** A path with its `..` segments resolved, as the engine may resolve them first. */
+      const normal = (path: string) =>
+        path.split('/').reduce<string[]>((parts, part) => (part === '..' ? parts.slice(0, -1) : [...parts, part]), []).join('/')
+      const at = (path: string) => Object.entries(table).find(([key]) => normal(key) === normal(path))?.[1]
+      on('fs.stat', ($, e) => {
+        const entry = at(e.path)
+        if (entry === undefined) {
+          throw new Error('ENOENT')
+        }
+        const [kind, content = ''] = entry
+
+        return { value: { kind: kind === 'link' ? 'file' : kind, isLink: kind === 'link', size: content.length, mtimeMs: 0 } } as never
+      })
+      on('fs.read', ($, e) => ({ value: at(e.path)?.[1] ?? '' }) as never)
+      on('session.model', () => ({ value: 'claude-opus-5-5' }))
+      on('session.measure', ($, e) => ({ changed: e.changed }))
+      await $.session.measure({ context: { window: 200_000 }, rateLimits: [], changed: ['context'] })
+      const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
+      expect((await band.find({ key: 'branch-button' })) !== undefined).toBe(expected)
+      await band.unmount()
+    })
+  }
 })

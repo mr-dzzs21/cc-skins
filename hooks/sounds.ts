@@ -1,5 +1,6 @@
 import type { Prefs, SoundName } from '../types'
 import type { Skin } from './skins'
+import { cleanLine } from './text'
 
 /** The sounds in `sounds/`, as the settings list them. */
 export const SOUNDS: readonly { name: SoundName; label: string }[] = [
@@ -20,9 +21,13 @@ export const soundAsset = (name: SoundName) => `sounds/${name}.wav`
 export const soundFor = (skin: Skin, prefs: Prefs): SoundName =>
   isSoundName(prefs.soundName) ? prefs.soundName : skin.sound
 
-/** What a finished turn's notification says: how long it took, then the answer's first line. */
-export const finishedText = (word: string, duration: string, answer: string): string => {
-  const line = answer.split('\n').find(one => one.trim() !== '')?.trim() ?? ''
+/**
+ * What a finished turn's notification says: how long it took, and with
+ * `withAnswer` the answer's first line, its control characters taken out
+ * (the text goes to the person's notification hooks and channel as given).
+ */
+export const finishedText = (word: string, duration: string, answer: string, withAnswer = false): string => {
+  const line = withAnswer ? cleanLine(answer.split('\n').find(one => one.trim() !== '') ?? '') : ''
   const short = line.length > 90 ? `${line.slice(0, 89)}…` : line
 
   return short === '' ? `${word} in ${duration}` : `${word} in ${duration} · ${short}`

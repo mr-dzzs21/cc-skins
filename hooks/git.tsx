@@ -1,6 +1,7 @@
 import type { GitChanges } from '../types'
 import type { Elements } from './panels'
 import type { Skin } from './skins'
+import { cleanLine } from './text'
 
 /** The pane a press on the bar's branch opens. */
 export const GIT_PANE = 'git-changes'
@@ -10,8 +11,9 @@ export const GIT_ROWS = 18
 const MAX_FILES = 12
 
 /** What the commands behind the pane run: read-only, as the person's own git would. */
-export const GIT_STATUS = ['git', 'status', '--porcelain=v1', '--branch'] as const
-export const GIT_SHORTSTAT = ['git', 'diff', '--shortstat', 'HEAD'] as const
+const QUIET_GIT = ['git', '--no-optional-locks', '-c', 'core.fsmonitor=false'] as const
+export const GIT_STATUS = [...QUIET_GIT, 'status', '--porcelain=v1', '--branch'] as const
+export const GIT_SHORTSTAT = [...QUIET_GIT, 'diff', '--no-ext-diff', '--no-textconv', '--shortstat', 'HEAD'] as const
 
 /**
  * `git status --porcelain=v1 --branch`, read: the branch line
@@ -27,11 +29,11 @@ export const parseStatus = (status: string, shortstat = ''): GitChanges => {
   const [branch = '', upstream] = refs.split('...')
   const files = lines
     .filter(line => !line.startsWith('## '))
-    .map(line => ({ code: line.slice(0, 2).trim() || '?', path: line.slice(3).replace(/^.* -> /, '') }))
+    .map(line => ({ code: cleanLine(line.slice(0, 2)) || '?', path: cleanLine(line.slice(3).replace(/^.* -> /, '')) }))
 
   return {
-    branch: branch === '' || branch.startsWith('HEAD') ? null : branch,
-    upstream: upstream ?? null,
+    branch: branch === '' || branch.startsWith('HEAD') ? null : cleanLine(branch).slice(0, 100),
+    upstream: upstream === undefined ? null : cleanLine(upstream).slice(0, 100),
     ahead: Number(/ahead (\d+)/.exec(tracking)?.[1] ?? 0),
     behind: Number(/behind (\d+)/.exec(tracking)?.[1] ?? 0),
     files,

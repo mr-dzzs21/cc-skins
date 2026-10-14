@@ -184,6 +184,8 @@ const drawSoundTab = (elements: Elements, skin: Skin, view: SettingsView, act: S
     ),
     drawHeading(elements, skin, 'notify-heading', 'Notification', 'through your terminal'),
     drawOnOff(elements, 'notify', prefs.notify, notify => act.pref({ notify })),
+    drawHeading(elements, skin, 'preview-heading', 'Answer in the notification', "its first line goes to your notification channel"),
+    drawOnOff(elements, 'notify-preview', prefs.notifyPreview, notifyPreview => act.pref({ notifyPreview })),
     drawHeading(elements, skin, 'after-heading', 'Only after turns of'),
     drawChoice(
       elements,

@@ -66,6 +66,8 @@ export type Prefs = {
   soundGain: number
   /** A system notification when a turn ends, after `notifyAfterSec`. */
   notify: boolean
+  /** Whether it carries the answer's first line (cleaned); off, only how long the turn took. */
+  notifyPreview: boolean
   /** How long a turn must run before it sounds or notifies. */
   notifyAfterSec: number
 }

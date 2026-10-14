@@ -25,9 +25,41 @@ def readable(color, bg):
     t = 0.0
     while cr(mix(color, toward, t), bg) < 4.5 and t < 1: t += 0.02
     return mix(color, toward, t)
-q = lambda v: "'" + v.replace("'", "\\'") + "'"
+q = json.dumps  # a JSON string literal is a valid, fully escaped JavaScript one
 
 NEW = json.load(open(sys.argv[1]))
+
+# Everything below lands in hooks/skins.ts (code every user runs) and in file names, so a contributed
+# file is held to exact shapes first: ids and sounds from a fixed alphabet, colors as hex, strings
+# without control characters, written out as JSON string literals.
+HEX = re.compile(r'^#[0-9a-fA-F]{6}$')
+SAFE_ID = re.compile(r'^[a-z][a-z0-9-]{0,23}$')
+SOUND_NAMES = {'bell', 'chime', 'beep', 'blip', 'gong', 'pop'}
+CONTROL = re.compile(r'[\x00-\x1f\x7f-\x9f\u200b-\u200f\u202a-\u202e\u2066-\u2069]')
+
+def text(value, field, limit=80):
+    assert isinstance(value, str) and value != '' and len(value) <= limit and not CONTROL.search(value), f'{field}: a short plain string'
+    return value
+
+existing = set(re.findall(r"""^  ['"]?([a-z][a-z0-9-]*)['"]?: \{$""", open('hooks/skins.ts').read(), re.M))
+for s in NEW:
+    assert SAFE_ID.match(str(s.get('id', ''))), f"id {s.get('id')!r}: lowercase letters, digits and dashes"
+    assert s['id'] not in existing, f"id {s['id']!r} exists already"
+    sid = s['id']
+    for field in ('label', 'desc', 'thinking', 'joiner', 'font'):
+        text(s[field], f'{sid}.{field}')
+    for field in ('glyph', 'icon'):
+        value = s[field]
+        assert isinstance(value, str), f'{sid}.{field}: a string'
+        s[field] = chr(int(value[2:], 16)) if re.fullmatch(r'\\u[0-9a-fA-F]{4}', value) else value
+        assert len(s[field]) == 1 and not CONTROL.search(s[field]), f'{sid}.{field}: one character, or its \\uXXXX escape'
+    assert all(isinstance(c, str) and len(c) == 1 and not CONTROL.search(c) for c in s['meter']) and len(s['meter']) == 2, f'{sid}.meter: two characters'
+    assert s['sound'] in SOUND_NAMES, f'{sid}.sound: one of {sorted(SOUND_NAMES)}'
+    assert s.get('tone', 'bright') in ('bright', 'dark', 'light'), f'{sid}.tone: bright, dark or light'
+    assert s.get('suffix') is None or text(s['suffix'], f'{sid}.suffix', 4)
+    assert len(s['words']) >= 1 and all(text(w, f'{sid}.words', 40) for w in s['words'] + s['turn'])
+    colors = [c for pair in s['blocks'] + [s['warn'], s['danger']] for c in pair] + [s['pulse']] + list(s['chat'].values()) + list(s['term'].values())
+    assert len(s['blocks']) == 6 and all(HEX.match(str(c)) for c in colors), f'{sid}: six blocks, every color #rrggbb'
 for s in NEW:
     for key in ('user', 'assistant', 'muted', 'success'):
         s['chat'][key] = readable(s['chat'][key], s['term']['bg'])
@@ -38,31 +70,32 @@ out = []
 for s in NEW:
     tone = s.get('tone', 'bright')
     flag = '    isDark: true,\n' if tone == 'dark' else '    isLight: true,\n' if tone == 'light' else ''
-    blocks = '\n'.join(f"        {{ bg: '{bg}', fg: '{fg}' }}," for bg, fg in s['blocks'])
+    blocks = '\n'.join(f"        {{ bg: {q(bg)}, fg: {q(fg)} }}," for bg, fg in s['blocks'])
     suffix = f"\n      suffix: {q(s['suffix'])}," if s.get('suffix') else ''
     c = s['chat']
-    out.append(f"""  {s['id']}: {{
-    id: '{s['id']}',
-{flag}    sound: '{s['sound']}',
-    label: '{s['label']}',
+    key = s['id'] if re.fullmatch(r'[a-z][a-z0-9]*', s['id']) else q(s['id'])
+    out.append(f"""  {key}: {{
+    id: {q(s['id'])},
+{flag}    sound: {q(s['sound'])},
+    label: {q(s['label'])},
     description: {q(s['desc'])},
-    glyph: '{s['glyph']}',
-    icon: '{s['icon']}',
-    meter: {{ fill: '{s['meter'][0]}', empty: '{s['meter'][1]}' }},
+    glyph: {q(s['glyph'])},
+    icon: {q(s['icon'])},
+    meter: {{ fill: {q(s['meter'][0])}, empty: {q(s['meter'][1])} }},
     colors: {{
       blocks: [
 {blocks}
       ],
-      pulse: '{s['pulse']}',
-      warn: {{ bg: '{s['warn'][0]}', fg: '{s['warn'][1]}' }},
-      danger: {{ bg: '{s['danger'][0]}', fg: '{s['danger'][1]}' }},
+      pulse: {q(s['pulse'])},
+      warn: {{ bg: {q(s['warn'][0])}, fg: {q(s['warn'][1])} }},
+      danger: {{ bg: {q(s['danger'][0])}, fg: {q(s['danger'][1])} }},
     }},
     spinner: {{
       words: [{', '.join(q(w) for w in s['words'])}],
       byMode: {{ thinking: {q(s['thinking'])} }},{suffix}
     }},
-    turn: {{ words: [{', '.join(q(w) for w in s['turn'])}], joiner: '{s['joiner']}' }},
-    chat: {{ border: '{c['border']}', user: '{c['user']}', assistant: '{c['assistant']}', muted: '{c['muted']}', success: '{c['success']}' }},
+    turn: {{ words: [{', '.join(q(w) for w in s['turn'])}], joiner: {q(s['joiner'])} }},
+    chat: {{ border: {q(c['border'])}, user: {q(c['user'])}, assistant: {q(c['assistant'])}, muted: {q(c['muted'])}, success: {q(c['success'])} }},
   }},""")
 src = open('hooks/skins.ts').read()
 marker = "\n}\n\nexport const SKIN_IDS"

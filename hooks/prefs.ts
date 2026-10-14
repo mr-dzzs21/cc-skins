@@ -12,6 +12,7 @@ export const DEFAULT_PREFS: Prefs = {
   soundName: 'skin',
   soundGain: 1,
   notify: false,
+  notifyPreview: false,
   notifyAfterSec: 30,
 }
 

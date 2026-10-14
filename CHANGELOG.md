@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.15.1
+
+Hardening before going public, after an audit:
+
+- Notifications say only how long a turn took; the answer's first line is a separate switch (off), and loses every control character.
+- Text from outside (imported skin names, git branch and file names, the answer) loses control and format characters (ESC, BEL, C1, bidi, zero-width) before it is drawn or sent. Imported skins need a lowercase id; at most 50 skins of your own.
+- The branch is read only from a small plain `HEAD` (no links, no pipes, nothing large), a relative `gitdir:` resolved against the repository, the name checked.
+- `git status` and `git diff` run without optional locks, fsmonitor, external diff or textconv.
+- `scripts/add_skins.py` holds contributed JSON to exact shapes and writes every string as an escaped literal.
+- A todo whose `activeForm` is no string no longer breaks the plan card.
+- README: Privacy and safety.
+
 ## 0.15.0
 
 - Six skins for light terminals: paper, latte, sky, mint, peach and snow, listed under Light in the picker. Each bar opens on one accent block and fades into pale ones; every text reads on a light terminal (checked against the darkest of their grounds). Each has a light `/theme` theme and light Ghostty and iTerm2 schemes.

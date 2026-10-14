@@ -4,3 +4,11 @@ tsconfig.json
 .DS_Store
 node_modules/
 .work/
+# Never published: local backups, logs, editor and Python leftovers, environment files
+*.bundle
+*.log
+.env*
+__pycache__/
+*.pyc
+.vscode/
+.idea/

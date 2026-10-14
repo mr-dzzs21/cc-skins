@@ -1,7 +1,14 @@
 import type { CustomSkin, SkinId } from '../types'
 import { isHex, mix, readableBlock, readableOn, turnHue } from './color'
 import { DEFAULT_SKIN, SKIN_IDS, SKINS, isSkinId } from './skins'
+import { cleanLine } from './text'
 import type { Paint, Skin } from './skins'
+
+/** How many skins of their own a person keeps at most. */
+export const MAX_CUSTOM_SKINS = 50
+
+/** What a built skin's id may be: lowercase words joined by dashes, as `slugFor` makes them. */
+const CUSTOM_ID = /^[a-z0-9][a-z0-9-]{0,31}$/
 
 /** The accents the builder offers as swatches; any `#rrggbb` goes too. */
 export const ACCENTS: readonly string[] = [
@@ -86,6 +93,8 @@ export const parseRecipe = (value: unknown): CustomSkin | undefined => {
   const { id, label, base, accent, style } = value as Record<string, unknown>
   if (
     typeof id !== 'string' ||
+    !CUSTOM_ID.test(id) ||
+    isSkinId(id) ||
     typeof label !== 'string' ||
     !isSkinId(base) ||
     typeof accent !== 'string' ||
@@ -95,7 +104,7 @@ export const parseRecipe = (value: unknown): CustomSkin | undefined => {
     return undefined
   }
 
-  return { id, label: label.slice(0, 32), base, accent: accent.toLowerCase(), style }
+  return { id, label: cleanLine(label).slice(0, 32) || 'My skin', base, accent: accent.toLowerCase(), style }
 }
 
 /** Every skin as the picker lists it: the bright built-ins, the dark ones, the light ones, then the person's own. */
