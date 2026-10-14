@@ -17,6 +17,7 @@ import { sparkline, turnTotals } from '../hooks/dashboard'
 import { ACCENTS, buildSkin, parseRecipe, slugFor } from '../hooks/custom'
 import { contrast } from '../hooks/color'
 import { isBranchName, parseStatus } from '../hooks/git'
+import { isStale, mergeLimits, parseUsageText } from '../hooks/limits'
 import { cleanLine, displayWidth, graphemes, stripControls, truncateCells } from '../hooks/text'
 import { todosOf } from '../hooks/chat'
 
@@ -1467,10 +1468,9 @@ describe('clickable bar', () => {
     const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
     await band.press({ key: 'context-button' })
     await band.press({ key: 'cost-button' })
-    await band.press({ key: 'limit-five_hour-button' })
     await band.press({ key: 'branch-button' })
     await band.unmount()
-    expect(opened).toEqual(['usage-dashboard', 'usage-dashboard', 'usage-dashboard', 'git-changes'])
+    expect(opened).toEqual(['usage-dashboard', 'usage-dashboard', 'git-changes'])
 
     const changes = await $.ui.mount({
       plugin: 'cc-skins',
@@ -1899,5 +1899,114 @@ describe('second review', () => {
     expect(await changes.find({ type: 'Text', text: /tracked/ })).toBeDefined()
     expect(await changes.find({ type: 'Text', text: /2 untracked, not in the line count/ })).toBeDefined()
     await changes.unmount()
+  })
+})
+
+const USAGE_TEXT = `You are currently using your subscription to power your Claude Code usage
+
+Current session: 71% used · resets Oct 14 at 12:39pm (Europe/Berlin)
+Current week (all models): 73% used · resets Oct 16 at 11:59am (Europe/Berlin)
+
+What's contributing to your limits usage?`
+
+describe('limits kept current', () => {
+  const now = new Date(2026, 9, 14, 10, 0).getTime()
+
+  test('the text of /usage reads into the two windows with their resets', () => {
+    const windows = parseUsageText(USAGE_TEXT, now)
+    expect(windows.map(w => [w.kind, w.percentUsed])).toEqual([['five_hour', 71], ['seven_day', 73]])
+    expect(new Date(windows[0]?.resetsAt ?? '').getTime()).toBe(new Date(2026, 9, 14, 12, 39).getTime())
+    expect(new Date(windows[1]?.resetsAt ?? '').getTime()).toBe(new Date(2026, 9, 16, 11, 59).getTime())
+    expect(parseUsageText('Usage: no limits on this plan', now)).toEqual([])
+  })
+
+  test('a reset in early January read in late December is next year', () => {
+    const windows = parseUsageText('Current week (all models): 5% used · resets Jan 2 at 9am', new Date(2026, 11, 30).getTime())
+    expect(new Date(windows[0]?.resetsAt ?? '').getFullYear()).toBe(2027)
+  })
+
+  test('a newer reading lays over an older one and keeps a reset it lacks', () => {
+    const older = [{ kind: 'five_hour', percentUsed: 49, resetsAt: 'R1' }, { kind: 'seven_day', percentUsed: 69, resetsAt: 'R2' }]
+    expect(mergeLimits(older, [{ kind: 'five_hour', percentUsed: 71 }])).toEqual([
+      { kind: 'five_hour', percentUsed: 71, resetsAt: 'R1' },
+      { kind: 'seven_day', percentUsed: 69, resetsAt: 'R2' },
+    ])
+    expect(isStale(null, now)).toBe(true)
+    expect(isStale(now - 5 * 60_000, now)).toBe(false)
+    expect(isStale(now - 11 * 60_000, now)).toBe(true)
+  })
+
+  const limitsOn = (band: { find: (query: { type: 'Text'; text: RegExp }) => Promise<unknown> }, pattern: RegExp) =>
+    band.find({ type: 'Text', text: pattern })
+
+  test('a reading from before this session is marked; a reply makes it current; ten minutes on it is marked again', async ($, on) => {
+    mock.store(on)
+    const clock = mock.clock(on, { now })
+    const reading = [{ kind: 'five_hour', percentUsed: 49 }]
+    on('session.id', () => ({ value: 'new' }))
+    on('command.register', ($, e) => ({ value: { command: e.name } }))
+    on('session.end', ($, e) => ({ sessionId: e.sessionId }))
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.usage', () => ({ value: { startedAt: now, rateLimits: reading, context: { window: 200_000 } } }) as never)
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    on('ui.toast', () => ({ value: undefined }))
+    const shows = async (pattern: RegExp) => {
+      const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
+      const found = await limitsOn(band, pattern)
+      await band.unmount()
+
+      return found !== undefined
+    }
+
+    await $.session.end({ reason: 'resume', sessionId: 'old', resume: { id: 'old' } })
+    await clock.advance(200)
+    expect(await shows(/~49%/)).toBe(true)
+
+    await $.session.measure({ context: { window: 200_000 }, rateLimits: reading, changed: ['rateLimits'] })
+    expect(await shows(/~49%/)).toBe(false)
+    expect(await shows(/ 49%/)).toBe(true)
+
+    await clock.advance(11 * 60_000)
+    expect(await shows(/~49%/)).toBe(true)
+  })
+
+  test('a click on a limit reads them live with /usage and shows them at once', async ($, on) => {
+    mock.store(on)
+    const clock = mock.clock(on, { now })
+    const ran: string[] = []
+    on('command.run', { command: 'usage' }, ($, e) => {
+      ran.push(e.command)
+
+      return { text: USAGE_TEXT }
+    })
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    on('ui.toast', () => ({ value: undefined }))
+    await $.session.measure({ context: { window: 200_000 }, rateLimits: [{ kind: 'five_hour', percentUsed: 49 }], changed: ['rateLimits'] })
+    await clock.advance(30 * 60_000)
+
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
+    await band.press({ key: 'limit-five_hour-button' })
+    await clock.advance(1)
+    await band.unmount()
+    expect(ran).toEqual(['usage'])
+
+    const after = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
+    expect(await limitsOn(after, / 71%/)).toBeDefined()
+    expect(await limitsOn(after, / 73%/)).toBeDefined()
+    expect(await limitsOn(after, /~/)).toBeUndefined()
+    await after.unmount()
+  })
+
+  test('a fresher reading another session left is taken up', async ($, on) => {
+    mock.store(on, { limitReading: { rateLimits: [{ kind: 'five_hour', percentUsed: 80 }], at: now - 60_000 } })
+    mock.clock(on, { now })
+    on('session.model', () => ({ value: 'claude-opus-5-5' }))
+    on('session.measure', ($, e) => ({ changed: e.changed }))
+    on('ui.toast', () => ({ value: undefined }))
+    await $.session.measure({ context: { window: 200_000, percent: 5, tokens: 10_000 }, rateLimits: [], changed: ['context'] })
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(160) })
+    expect(await limitsOn(band, / 80%/)).toBeDefined()
+    await band.unmount()
   })
 })

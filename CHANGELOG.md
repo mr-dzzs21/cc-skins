@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.16.0
+
+- Limits that stay current: a reading that may be behind (none from this session yet, or older than ten minutes) is marked `~49%`; a click on a limit, `/skin limits` or the dashboard's Live limits button reads them live, as `/usage` does, and puts them in the bar at once; sessions on the same machine share their freshest reading within a minute. The dashboard says when the limits were read.
+
 ## 0.15.7
 
 - A branch name is checked part by part between its slashes, as git checks it: a part ending in `.lock` (`feature.lock/test`), starting with `.` or empty is refused anywhere in the name, not only at its end.

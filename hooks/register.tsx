@@ -46,6 +46,8 @@ import { alertsFor, compactAt } from './alerts'
 import { DEFAULT_PREFS, readPrefs } from './prefs'
 import { SETTINGS_ROWS, drawSettings, isSettingsTab } from './settings'
 import { MAX_TURN_STATS, findTurnStat, turnStatText } from './turns'
+import { isStale, mergeLimits, parseUsageText } from './limits'
+import type { LimitReading } from './limits'
 import { finishedText, isSoundName, soundAsset, soundFor } from './sounds'
 import { DASHBOARD, DASHBOARD_COLUMNS, DASHBOARD_ROWS, MAX_HISTORY, drawDashboard } from './dashboard'
 import { GIT_PANE, GIT_ROWS, GIT_SHORTSTAT, GIT_STATUS, drawChanges, isBranchName, parseStatus } from './git'
@@ -94,6 +96,7 @@ const turnStatsAtom = atom({ plugin: 'cc-skins', key: 'turnStats' } as const, []
 const historyAtom = atom({ plugin: 'cc-skins', key: 'history' } as const, [] as UsagePoint[])
 const breakdownAtom = atom({ plugin: 'cc-skins', key: 'breakdown' } as const, null as ContextBreakdown | null)
 const busyAtom = atom({ plugin: 'cc-skins', key: 'isBusy' } as const, false)
+const limitsAtAtom = atom({ plugin: 'cc-skins', key: 'limitsAt' } as const, null as number | null)
 const gitChangesAtom = atom({ plugin: 'cc-skins', key: 'gitChanges' } as const, null as GitChanges | null)
 const gitErrorAtom = atom({ plugin: 'cc-skins', key: 'gitError' } as const, null as string | null)
 /** The Model row, as the model picker shows it. */
@@ -116,6 +119,7 @@ const STORE = {
   hidden: 'barHidden',
   models: 'aliasModels',
   prefs: 'prefs',
+  limits: 'limitReading',
   customSkins: 'customSkins',
   hasWelcomed: 'hasWelcomed',
 } as const
@@ -213,10 +217,61 @@ const refreshBranch = async ($: EngineInterface) => {
   await update($, branchAtom, () => branch)
 }
 
-/** Moves the HUD's clock to now, so its reset countdowns redraw. */
+/** Moves the HUD's clock to now, so its reset countdowns redraw, and takes a fresher limit reading another session left. */
 const tick = async ($: EngineInterface) => {
   const now = await $.clock.now()
   await update($, nowAtom, () => now)
+  await adoptSharedLimits($)
+}
+
+/** Keeps a fresh limit reading, for this session's bar and for the other sessions on this machine. */
+const keepLimits = async ($: EngineInterface, reading: LimitReading) => {
+  await update($, usageAtom, usage => ({ ...usage, rateLimits: mergeLimits(usage.rateLimits, reading.rateLimits) }))
+  await update($, limitsAtAtom, () => reading.at)
+  await $.store.set(STORE.limits, reading)
+}
+
+/** Takes the limit reading another session on this machine stored, where it is newer than this one's. */
+const adoptSharedLimits = async ($: EngineInterface) => {
+  try {
+    const shared = (await $.store.get(STORE.limits)) as LimitReading | undefined
+    if (shared === undefined || !Array.isArray(shared.rateLimits) || typeof shared.at !== 'number') {
+      return
+    }
+    if (shared.at > ((await read($, limitsAtAtom)) ?? 0)) {
+      await update($, usageAtom, usage => ({ ...usage, rateLimits: mergeLimits(usage.rateLimits, shared.rateLimits) }))
+      await update($, limitsAtAtom, () => shared.at)
+    }
+  } catch {
+    // The next tick tries again.
+  }
+}
+
+/**
+ * Reads the limits live, as /usage reads them from the server (its answer
+ * shows in the transcript too), and puts them in the bar. Run apart from the
+ * hook that asked, which a command may not wait on.
+ */
+const fetchLiveLimits = async ($: EngineInterface) => {
+  try {
+    const { text = '' } = await $.command.run({ command: 'usage' })
+    const now = await $.clock.now()
+    const rateLimits = parseUsageText(text, now)
+    if (rateLimits.length === 0) {
+      $.ui.toast('/usage gave no limit figures: a plan without limits, or its wording changed')
+
+      return
+    }
+    await keepLimits($, { rateLimits, at: now })
+    await raiseAlerts($)
+    $.ui.toast(`Live limits: ${rateLimits.map(limit => `${limit.kind === 'five_hour' ? '5h' : '7d'} ${Math.round(limit.percentUsed)}%`).join(' · ')}`)
+  } catch {
+    $.ui.toast('Live limits need an idle session: try again once Claude is done')
+  }
+}
+
+const refreshLimits = ($: EngineInterface) => {
+  $.clock.after(0, () => void fetchLiveLimits($))
 }
 
 /**
@@ -636,6 +691,7 @@ const openFromBar = ($: EngineInterface, press: BarPress) => {
     compact: () => compactNow($),
     usage: () => openDashboard($),
     branch: () => openChanges($),
+    limits: async () => refreshLimits($),
     settings: () => openSettings($),
   }
   void actions[press]()
@@ -879,6 +935,9 @@ export const register: Register = on => {
     await setUpIfMoved($)
     const model = await readModel($)
     await update($, usageAtom, previous => toUsage(model, e, previous))
+    if (e.rateLimits.length > 0) {
+      await keepLimits($, { rateLimits: e.rateLimits.map(({ kind, percentUsed, resetsAt }) => ({ kind, percentUsed, resetsAt })), at: await $.clock.now() })
+    }
     await settleTurnCost($)
     await recordPoint($)
     await refreshBranch($)
@@ -965,6 +1024,11 @@ export const register: Register = on => {
       await $.store.set(STORE.isHudHidden, isHidden)
 
       return { text: isHidden ? 'Usage HUD hidden.' : 'Usage HUD shown.' }
+    }
+    if (first === 'limits') {
+      refreshLimits($)
+
+      return { text: 'Reading the limits live with /usage…' }
     }
     if (first === 'changes' || first === 'git') {
       const opened = await openChanges($)
@@ -1064,6 +1128,7 @@ export const register: Register = on => {
       hidden: await read($, hiddenAtom),
       effort: await read($, effortAtom),
       compactAt: await readCompactAt($),
+      limitsStale: isStale(await read($, limitsAtAtom), await read($, nowAtom)),
     }
 
     return drawBar(
@@ -1101,8 +1166,9 @@ export const register: Register = on => {
         breakdown: await read($, breakdownAtom),
         columns: e.props.bodyColumns,
         isWorking: await read($, busyAtom),
+        limitsAt: await read($, limitsAtAtom),
       },
-      { refresh: () => void readBreakdown($), compact: () => void compactNow($) },
+      { refresh: () => void readBreakdown($), compact: () => void compactNow($), liveLimits: () => refreshLimits($) },
     ),
   )
 

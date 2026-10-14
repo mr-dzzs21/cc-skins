@@ -187,6 +187,8 @@ declare module 'claude-code' {
       /** The repository's changes as the changes pane last read them, or why it could not. */
       gitChanges: GitChanges | null
       gitError: string | null
+      /** When the limit windows were last read (a reply, /usage, another session); null before any. */
+      limitsAt: number | null
       /** Whether a main-thread turn runs now. */
       isBusy: boolean
       /** The context's breakdown as the dashboard last read it; null until then. */

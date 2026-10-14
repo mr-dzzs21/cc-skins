@@ -1,6 +1,8 @@
 import type { ContextBreakdown, Glyphs, TurnStat, Usage, UsagePoint } from '../types'
 import { bar, formatCost, formatDuration, formatElapsed, formatPercent, formatReset, formatTokens, prettyModel } from './format'
 import { alertFor } from './hud'
+import { isStale } from './limits'
+import { formatClock } from './chat'
 import type { Elements } from './panels'
 import type { Skin } from './skins'
 
@@ -50,9 +52,11 @@ export type DashboardView = {
   breakdown: ContextBreakdown | null
   columns: number
   isWorking: boolean
+  /** When the limit windows were last read; null before any. */
+  limitsAt: number | null
 }
 
-export type DashboardActions = { refresh: () => void; compact: () => void }
+export type DashboardActions = { refresh: () => void; compact: () => void; liveLimits: () => void }
 
 const LIMIT_NAMES: Record<string, string> = { five_hour: '5-hour', seven_day: '7-day', spend_limit: 'Spend' }
 
@@ -145,6 +149,13 @@ export const drawDashboard = (elements: Elements, skin: Skin, view: DashboardVie
           })}
 
       {usage.rateLimits.length > 0 && section('limits-title', 'Limits')}
+      {usage.rateLimits.length > 0 && (
+        <Text key="limits-age" color={isStale(view.limitsAt, now) ? skin.colors.warn.bg : chat.muted} wrap="truncate-end">
+          {view.limitsAt === null
+            ? 'not read this session yet: Live limits reads them now'
+            : `as of ${formatClock(view.limitsAt)}${isStale(view.limitsAt, now) ? ', may be behind: Live limits reads them now' : ''}`}
+        </Text>
+      )}
       {usage.rateLimits.map(limit => {
         const reset = formatReset(limit.resetsAt, now)
 
@@ -188,6 +199,7 @@ export const drawDashboard = (elements: Elements, skin: Skin, view: DashboardVie
 
       <Box key="actions" flexDirection="row" columnGap={1} marginTop={1}>
         <Button key="dashboard-refresh" label="Refresh" onPress={act.refresh} />
+        <Button key="dashboard-limits" label="Live limits" onPress={act.liveLimits} />
         {!view.isWorking && usage.contextPercent !== null && <Button key="dashboard-compact" label="Compact" onPress={act.compact} />}
       </Box>
       <Text key="hint" color={chat.muted}>

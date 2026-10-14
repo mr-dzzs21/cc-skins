@@ -81,6 +81,7 @@ Requires Claude Code 2.1.296 or newer (function-hook plugins and custom themes).
 | `/skin model` | Opens the model and effort picker (or click the model in the bar). A model pick is saved as your default, as `/model` does; effort holds for the session, as `/effort` does |
 | `/skin bar` | Opens the settings (or click the ⚙ at the bar's end), in tabs: **Bar** (each piece on or off), **Look** (style, icons, chat cards), **Alerts** (when to warn, the compact button), **Turn line** (cost, tokens, tool calls), **Sound** (sound, loudness, notification) |
 | `/skin alerts` | Opens the settings on the Alerts tab |
+| `/skin limits` | Reads the 5-hour and 7-day limits live, as `/usage` does (its answer shows in the chat too), and puts them in the bar. A click on a limit in the bar does the same |
 | `/skin changes` | Opens the changed files of the repository (or click the branch): the branch and how it stands to its upstream, the line totals, each changed file, read with `git status` |
 | `/skin create [name]` | Opens the skin builder: a name, the skin it starts from (words, icon, sound), an accent (a swatch or any `#rrggbb`), dark, vivid or light, with a live preview. The rest of the colors follow from the accent, every text kept readable. Your skins list under **Yours** in the picker |
 | `/skin edit <skin>` / `/skin delete <skin>` | Changes or deletes one of your own skins |
@@ -98,7 +99,7 @@ Your choice is remembered across sessions. Colors are picked in `/theme` (look f
 
 If the bar shows boxes, `◆` or question marks where icons should be, your font has the powerline arrows but no Nerd Font icons: run `/skin glyphs powerline` (or `plain` for no arrows either), or install a Nerd Font (MesloLGS NF, which Powerlevel10k uses, or CaskaydiaCove Nerd Font on Windows).
 
-The 5h and 7d meters show up on Pro and Max plans once the first response of a session arrives. With an API key you see context and cost.
+The 5h and 7d meters show up on Pro, Max and Team plans. Claude Code learns them with each reply, so they are as current as this session's last reply: usage from another session or device shows up with the next reply, within a minute from another session on the same machine, or at once with a click on a limit (`/skin limits`). A reading that may be behind (none this session yet, or older than ten minutes) is marked `~49%`. With an API key you see context and cost.
 
 ## Privacy and safety
 

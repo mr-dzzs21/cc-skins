@@ -22,7 +22,7 @@ const ICONS = {
 } as const
 
 /** What a press on the bar opens: the skin picker, the model and effort picker, the bar's settings. */
-export type BarPress = 'skin' | 'model' | 'settings' | 'compact' | 'usage' | 'branch'
+export type BarPress = 'skin' | 'model' | 'settings' | 'compact' | 'usage' | 'branch' | 'limits'
 
 const PRESS_LABELS: Record<BarPress, string> = {
   skin: 'Pick a skin',
@@ -31,6 +31,7 @@ const PRESS_LABELS: Record<BarPress, string> = {
   compact: 'Compact the conversation',
   usage: 'Usage dashboard',
   branch: 'Changed files',
+  limits: 'Live limits (runs /usage)',
 }
 
 /** The ⚙ after the bar, with the space before it. */
@@ -63,6 +64,8 @@ export type BarInput = {
   effort: string | null
   /** The context percent from which a compact button shows between turns; null for none. */
   compactAt: number | null
+  /** Whether the limit windows' reading may be behind (none this session, or older than ten minutes). */
+  limitsStale?: boolean
 }
 
 const LIMIT_LABELS: Record<string, string> = { five_hour: '5h', seven_day: '7d', spend_limit: 'spend' }
@@ -152,9 +155,9 @@ export const barPills = (input: BarInput, level: number): Pill[] => {
     const reset = hasResets ? formatReset(limit.resetsAt, now) : ''
     pills.push({
       key: `limit-${limit.kind}`,
-      text: `${label} ${meter(limit.percentUsed)}${formatPercent(limit.percentUsed)}${reset === '' ? '' : isNerd ? ` ${ICONS.reset} ${reset}` : ` (${reset})`}`,
+      text: `${label} ${meter(limit.percentUsed)}${input.limitsStale === true ? '~' : ''}${formatPercent(limit.percentUsed)}${reset === '' ? '' : isNerd ? ` ${ICONS.reset} ${reset}` : ` (${reset})`}`,
       alert: alertFor(limit.percentUsed),
-      press: 'usage',
+      press: 'limits',
     })
   })
 
@@ -358,9 +361,9 @@ export const headerFor = (input: BarInput, columns: number): Header => {
     })
     .map(limit => ({
       key: `limit-${limit.kind}`,
-      text: `● ${LIMIT_LABELS[limit.kind] ?? limit.kind} ${formatPercent(limit.percentUsed)}`,
+      text: `● ${LIMIT_LABELS[limit.kind] ?? limit.kind} ${input.limitsStale === true ? '~' : ''}${formatPercent(limit.percentUsed)}`,
       color: alertColor(skin, limit.percentUsed) ?? chat.muted,
-      press: 'usage' as const,
+      press: 'limits' as const,
     }))
   if (isCompactDue(input)) {
     badges.unshift({
