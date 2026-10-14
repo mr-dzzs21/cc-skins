@@ -4,7 +4,7 @@ Each entry gives an id, label, description, glyph, Nerd Font icon, meter cells, 
 dark or light), six bar blocks as [bg, fg], pulse, warn and danger, spinner and turn words, chat colors
 and the terminal colors it is made for. The script writes the skin into hooks/skins.ts and
 types/index.d.ts, its /theme theme into themes/, its Ghostty and iTerm2 schemes into extras/terminal/,
-and its rows into both READMEs. Quiet chat text is lifted until it reads on the terminal's background.
+and its rows into docs/skins.md and extras/terminal/README.md. Quiet chat text is lifted until it reads on the terminal's background.
 
     python3 scripts/add_skins.py my-skins.json
 """
@@ -152,11 +152,11 @@ last = [l for l in r.splitlines() if l.startswith('| ') and '`ghostty/' in l][-1
 open('extras/terminal/README.md', 'w').write(r.replace(last, last + ''.join(
     f"| {s['id']} | `ghostty/cc-skins-{s['id']}` | `iterm2/cc-skins-{s['id']}.itermcolors` | {s['font']} |\n" for s in NEW)))
 
-R = open('README.md').read()
+R = open('docs/skins.md').read()
 last = [l for l in R.splitlines() if re.match(r"^\| `[a-z]+` \|", l)][-1] + '\n'
 def spin(s):
     w = s['words']; suf = s.get('suffix') or '…'
     return f"`{w[0]}{suf}`, `{w[min(3, len(w) - 1)]}{suf}`"
-open('README.md', 'w').write(R.replace(last, last + ''.join(
+open('docs/skins.md', 'w').write(R.replace(last, last + ''.join(
     f"| `{s['id']}` | {s['desc']} | {spin(s)} | `{s['glyph']} {s['turn'][0]} in 3s` |\n" for s in NEW)))
-print('added', ', '.join(s['id'] for s in NEW) + '; now redraw the README pictures: npx -y tsx@4.19.2 scripts/render_previews.ts')
+print('added', ', '.join(s['id'] for s in NEW) + '; now redraw the skin gallery: npx -y tsx@4.19.2 scripts/render_previews.ts')

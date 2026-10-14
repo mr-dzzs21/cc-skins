@@ -21,7 +21,7 @@ python3 scripts/check_assets.py
 
 The quickest way: build it with `/skin create`, then share what `/skin export` copies in a [skin idea](https://github.com/mr-dzzs21/cc-skins/issues/new?template=skin_idea.yml).
 
-To make it a built-in skin, describe it in a JSON file and run `python3 scripts/add_skins.py <file>`: it writes the skin into `hooks/skins.ts`, its `/theme` theme, its Ghostty and iTerm2 schemes and its README row, and refuses a block whose text would not read (WCAG contrast 4.5). Then `npx -y tsx@4.19.2 scripts/render_previews.ts` redraws the skin gallery.
+To make it a built-in skin, describe it in a JSON file and run `python3 scripts/add_skins.py <file>`: it writes the skin into `hooks/skins.ts`, its `/theme` theme, its Ghostty and iTerm2 schemes and its row in `docs/skins.md`, and refuses a block whose text would not read (WCAG contrast 4.5). Then `npx -y tsx@4.19.2 scripts/render_previews.ts` redraws the skin gallery.
 
 ## Code
 

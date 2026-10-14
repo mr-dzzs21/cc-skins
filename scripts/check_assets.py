@@ -6,6 +6,7 @@
 - every built-in skin has its theme, its Ghostty scheme and its iTerm2 scheme
 - the README's pictures exist, and the skin gallery has every built-in skin (scripts/render_previews.ts
   draws the gallery and the banner, scripts/screens/ records the screenshots)
+- every relative link and picture in the README, the guides and docs/ points at a file
 - the manifest's version is the changelog's newest
 
     python3 scripts/check_assets.py
@@ -60,6 +61,16 @@ for picture in ['banner.svg', 'hero.svg', 'social-preview.png'] + [f'screens/{na
     check(os.path.isfile(f'docs/{picture}'), f'docs/{picture} is missing: see scripts/screens/README.md')
 for skin in skins:
     check(f'data-skin="{skin}"' in gallery, f'{skin}: not in docs/skins.svg, run scripts/render_previews.ts')
+
+# every relative link and picture in the Markdown resolves to a file (pages moved into docs/ keep working)
+for page in ['README.md', 'CONTRIBUTING.md', 'SECURITY.md'] + sorted(glob.glob('docs/*.md')):
+    text = open(page, encoding='utf-8').read()
+    for target in re.findall(r'\]\(([^)\s]+)\)|src="([^"]+)"', text):
+        target = next(t for t in target if t)
+        if re.match(r'(https?:|mailto:|#)', target):
+            continue
+        path = os.path.normpath(os.path.join(os.path.dirname(page), target.split('#')[0]))
+        check(os.path.exists(path), f'{page}: links to {target}, which is not there')
 
 version = json.load(open('.claude-plugin/plugin.json', encoding='utf-8')).get('version')
 newest = re.search(r'^## (\S+)', open('CHANGELOG.md', encoding='utf-8').read(), re.M)
