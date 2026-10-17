@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="570" height="852" viewBox="0 0 570 852" font-family="'JetBrains Mono','SF Mono','Cascadia Code',Menlo,Consolas,'DejaVu Sans Mono',monospace" font-size="14" role="img" aria-label="/skin">
-<rect width="570" height="852" rx="12" fill="#08050f"/>
-<path d="M0 12a12 12 0 0 1 12-12h546a12 12 0 0 1 12 12v18H0Z" fill="#ece2ff" opacity=".08"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="570" height="1099" viewBox="0 0 570 1099" font-family="'JetBrains Mono','SF Mono','Cascadia Code',Menlo,Consolas,'DejaVu Sans Mono',monospace" font-size="14" role="img" aria-label="/skin">
+<rect width="570" height="1099" rx="12" fill="#1e1e2e"/>
+<path d="M0 12a12 12 0 0 1 12-12h546a12 12 0 0 1 12 12v18H0Z" fill="#cdd6f4" opacity=".08"/>
 <circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
-<text x="285" y="20" fill="#ece2ff" opacity=".6" text-anchor="middle" font-size="12">/skin</text>
+<text x="285" y="20" fill="#cdd6f4" opacity=".6" text-anchor="middle" font-size="12">/skin</text>
 <rect x="16.0" y="38.0" width="538.0" height="19.4" fill="#262626"/>
 <text x="536.8" y="52.0" fill="#999999" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✕</text>
 <rect x="16.0" y="57.0" width="25.6" height="19.4" fill="#262626"/>
@@ -12,9 +12,9 @@
 <rect x="91.6" y="57.0" width="17.2" height="19.4" fill="#1f2d4a"/>
 <rect x="108.4" y="57.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="71.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">1</text>
-<text x="24.4" y="71.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="71.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="71.0" fill="#f0883e" font-weight="700" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Midnight</text>
-<text x="209.2" y="71.0" fill="#999999" textLength="319.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Deep navy cards, Claude in orange, yo…</text>
+<text x="259.6" y="71.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Deep navy cards, Claude in oran…</text>
 <rect x="16.0" y="76.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="76.0" width="17.2" height="19.4" fill="#39ff14"/>
 <rect x="58.0" y="76.0" width="17.2" height="19.4" fill="#2bd92b"/>
@@ -22,9 +22,9 @@
 <rect x="91.6" y="76.0" width="17.2" height="19.4" fill="#16823a"/>
 <rect x="108.4" y="76.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="90.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">2</text>
-<text x="24.4" y="90.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="90.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="90.0" fill="#39ff14" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Retro</text>
-<text x="209.2" y="90.0" fill="#999999" textLength="294.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Phosphor green and amber, CRT vibes</text>
+<text x="259.6" y="90.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Phosphor green and amber, CRT v…</text>
 <rect x="16.0" y="95.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="95.0" width="17.2" height="19.4" fill="#f72585"/>
 <rect x="58.0" y="95.0" width="17.2" height="19.4" fill="#b5179e"/>
@@ -32,9 +32,9 @@
 <rect x="91.6" y="95.0" width="17.2" height="19.4" fill="#3f37c9"/>
 <rect x="108.4" y="95.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="109.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">3</text>
-<text x="24.4" y="109.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="109.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="109.0" fill="#f72585" font-weight="700" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Neon</text>
-<text x="209.2" y="109.0" fill="#999999" textLength="226.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Magenta and cyan, cyberpunk</text>
+<text x="259.6" y="109.0" fill="#999999" textLength="226.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Magenta and cyan, cyberpunk</text>
 <rect x="16.0" y="114.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="114.0" width="17.2" height="19.4" fill="#a3aed2"/>
 <rect x="58.0" y="114.0" width="17.2" height="19.4" fill="#769ff0"/>
@@ -42,9 +42,9 @@
 <rect x="91.6" y="114.0" width="17.2" height="19.4" fill="#2c3149"/>
 <rect x="108.4" y="114.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="128.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">4</text>
-<text x="24.4" y="128.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="128.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="128.0" fill="#a3aed2" font-weight="700" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Minimal</text>
-<text x="209.2" y="128.0" fill="#999999" textLength="319.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Muted grey with one calm accent, no g…</text>
+<text x="259.6" y="128.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Muted grey with one calm accent…</text>
 <rect x="16.0" y="133.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="133.0" width="17.2" height="19.4" fill="#ffd166"/>
 <rect x="58.0" y="133.0" width="17.2" height="19.4" fill="#f4a259"/>
@@ -52,9 +52,9 @@
 <rect x="91.6" y="133.0" width="17.2" height="19.4" fill="#b8323f"/>
 <rect x="108.4" y="133.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="147.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5</text>
-<text x="24.4" y="147.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="147.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="147.0" fill="#ffd166" font-weight="700" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Ring</text>
-<text x="209.2" y="147.0" fill="#999999" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Red and gold, boxing ring</text>
+<text x="259.6" y="147.0" fill="#999999" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Red and gold, boxing ring</text>
 <rect x="16.0" y="152.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="152.0" width="17.2" height="19.4" fill="#fede5d"/>
 <rect x="58.0" y="152.0" width="17.2" height="19.4" fill="#ff9e64"/>
@@ -62,9 +62,9 @@
 <rect x="91.6" y="152.0" width="17.2" height="19.4" fill="#a83cc9"/>
 <rect x="108.4" y="152.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="166.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">6</text>
-<text x="24.4" y="166.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="166.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="166.0" fill="#fede5d" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Synthwave</text>
-<text x="209.2" y="166.0" fill="#999999" textLength="277.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Sunset gold to violet, 80s outrun</text>
+<text x="259.6" y="166.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Sunset gold to violet, 80s outr…</text>
 <rect x="16.0" y="171.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="171.0" width="17.2" height="19.4" fill="#ff8c69"/>
 <rect x="58.0" y="171.0" width="17.2" height="19.4" fill="#90e0ef"/>
@@ -72,9 +72,9 @@
 <rect x="91.6" y="171.0" width="17.2" height="19.4" fill="#0077b6"/>
 <rect x="108.4" y="171.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="185.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7</text>
-<text x="24.4" y="185.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="185.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="185.0" fill="#ff8c69" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Ocean</text>
-<text x="209.2" y="185.0" fill="#999999" textLength="277.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Deep sea blues with a coral spark</text>
+<text x="259.6" y="185.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Deep sea blues with a coral spa…</text>
 <rect x="16.0" y="190.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="190.0" width="17.2" height="19.4" fill="#ffd6e5"/>
 <rect x="58.0" y="190.0" width="17.2" height="19.4" fill="#ffb3cc"/>
@@ -82,9 +82,9 @@
 <rect x="91.6" y="190.0" width="17.2" height="19.4" fill="#b04a7a"/>
 <rect x="108.4" y="190.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="204.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">8</text>
-<text x="24.4" y="204.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="204.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="204.0" fill="#ffd6e5" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Sakura</text>
-<text x="209.2" y="204.0" fill="#999999" textLength="277.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Cherry blossom pink and soft plum</text>
+<text x="259.6" y="204.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Cherry blossom pink and soft pl…</text>
 <rect x="16.0" y="209.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="209.0" width="17.2" height="19.4" fill="#c5e17a"/>
 <rect x="58.0" y="209.0" width="17.2" height="19.4" fill="#8fbc5a"/>
@@ -92,9 +92,9 @@
 <rect x="91.6" y="209.0" width="17.2" height="19.4" fill="#6b4f3a"/>
 <rect x="108.4" y="209.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="223.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">9</text>
-<text x="24.4" y="223.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="223.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="223.0" fill="#c5e17a" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Forest</text>
-<text x="209.2" y="223.0" fill="#999999" textLength="294.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Moss green and bark brown, woodland</text>
+<text x="259.6" y="223.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Moss green and bark brown, wood…</text>
 <rect x="16.0" y="228.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="228.0" width="17.2" height="19.4" fill="#88c0d0"/>
 <rect x="58.0" y="228.0" width="17.2" height="19.4" fill="#81a1c1"/>
@@ -102,9 +102,9 @@
 <rect x="91.6" y="228.0" width="17.2" height="19.4" fill="#4c566a"/>
 <rect x="108.4" y="228.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="242.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">0</text>
-<text x="24.4" y="242.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="242.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="242.0" fill="#88c0d0" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Arctic</text>
-<text x="209.2" y="242.0" fill="#999999" textLength="277.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Ice blue and frost, calm and cold</text>
+<text x="259.6" y="242.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Ice blue and frost, calm and co…</text>
 <rect x="16.0" y="247.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="247.0" width="17.2" height="19.4" fill="#ffea00"/>
 <rect x="58.0" y="247.0" width="17.2" height="19.4" fill="#ffb703"/>
@@ -112,9 +112,9 @@
 <rect x="91.6" y="247.0" width="17.2" height="19.4" fill="#d00000"/>
 <rect x="108.4" y="247.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="261.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">a</text>
-<text x="24.4" y="261.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="261.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="261.0" fill="#ffea00" font-weight="700" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Lava</text>
-<text x="209.2" y="261.0" fill="#999999" textLength="310.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Molten orange on black rock, volcanic</text>
+<text x="259.6" y="261.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Molten orange on black rock, vo…</text>
 <rect x="16.0" y="266.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="266.0" width="17.2" height="19.4" fill="#ff99c8"/>
 <rect x="58.0" y="266.0" width="17.2" height="19.4" fill="#fcf6bd"/>
@@ -122,9 +122,9 @@
 <rect x="91.6" y="266.0" width="17.2" height="19.4" fill="#a9def9"/>
 <rect x="108.4" y="266.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="280.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">b</text>
-<text x="24.4" y="280.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="280.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="280.0" fill="#ff99c8" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Candy</text>
-<text x="209.2" y="280.0" fill="#999999" textLength="277.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Pastel rainbow, sweet and playful</text>
+<text x="259.6" y="280.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Pastel rainbow, sweet and playf…</text>
 <rect x="16.0" y="285.0" width="538.0" height="19.4" fill="#262626"/>
 <path d="M16.0 294.5h17.0" stroke="#999999" stroke-width="1.3"/>
 <path d="M83.2 294.5h17.0" stroke="#999999" stroke-width="1.3"/>
@@ -136,9 +136,9 @@
 <rect x="91.6" y="304.0" width="17.2" height="19.4" fill="#261d3a"/>
 <rect x="108.4" y="304.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="318.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">c</text>
-<text x="24.4" y="318.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="318.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="318.0" fill="#5b3fa0" font-weight="700" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Obsidian</text>
-<text x="209.2" y="318.0" fill="#999999" textLength="285.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Volcanic glass with a violet glint</text>
+<text x="259.6" y="318.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Volcanic glass with a violet gl…</text>
 <rect x="16.0" y="323.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="323.0" width="17.2" height="19.4" fill="#8b0a1e"/>
 <rect x="58.0" y="323.0" width="17.2" height="19.4" fill="#5c0a14"/>
@@ -146,9 +146,9 @@
 <rect x="91.6" y="323.0" width="17.2" height="19.4" fill="#3a0710"/>
 <rect x="108.4" y="323.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="337.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">d</text>
-<text x="24.4" y="337.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="337.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="337.0" fill="#8b0a1e" font-weight="700" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Vampire</text>
-<text x="209.2" y="337.0" fill="#999999" textLength="226.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Blood red on midnight black</text>
+<text x="259.6" y="337.0" fill="#999999" textLength="226.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Blood red on midnight black</text>
 <rect x="16.0" y="342.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="342.0" width="17.2" height="19.4" fill="#0e6e7a"/>
 <rect x="58.0" y="342.0" width="17.2" height="19.4" fill="#0b3d4a"/>
@@ -156,9 +156,9 @@
 <rect x="91.6" y="342.0" width="17.2" height="19.4" fill="#072835"/>
 <rect x="108.4" y="342.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="356.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">e</text>
-<text x="24.4" y="356.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="356.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="356.0" fill="#0e6e7a" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Abyss</text>
-<text x="209.2" y="356.0" fill="#999999" textLength="319.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Pitch-black deep sea, bioluminescent …</text>
+<text x="259.6" y="356.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Pitch-black deep sea, biolumine…</text>
 <rect x="16.0" y="361.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="361.0" width="17.2" height="19.4" fill="#047857"/>
 <rect x="58.0" y="361.0" width="17.2" height="19.4" fill="#0f3d2e"/>
@@ -166,9 +166,9 @@
 <rect x="91.6" y="361.0" width="17.2" height="19.4" fill="#0a2a1f"/>
 <rect x="108.4" y="361.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="375.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">f</text>
-<text x="24.4" y="375.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="375.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="375.0" fill="#047857" font-weight="700" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Emerald</text>
-<text x="209.2" y="375.0" fill="#999999" textLength="226.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Dark jade with a gold spark</text>
+<text x="259.6" y="375.0" fill="#999999" textLength="226.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Dark jade with a gold spark</text>
 <rect x="16.0" y="380.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="380.0" width="17.2" height="19.4" fill="#3a3a3a"/>
 <rect x="58.0" y="380.0" width="17.2" height="19.4" fill="#2b2b2b"/>
@@ -176,9 +176,9 @@
 <rect x="91.6" y="380.0" width="17.2" height="19.4" fill="#1e1e1e"/>
 <rect x="108.4" y="380.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="394.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">g</text>
-<text x="24.4" y="394.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="394.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="394.0" fill="#3a3a3a" font-weight="700" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Noir</text>
-<text x="209.2" y="394.0" fill="#999999" textLength="218.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Black and white, film noir</text>
+<text x="259.6" y="394.0" fill="#999999" textLength="218.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Black and white, film noir</text>
 <rect x="16.0" y="399.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="399.0" width="17.2" height="19.4" fill="#c2410c"/>
 <rect x="58.0" y="399.0" width="17.2" height="19.4" fill="#3d1f0f"/>
@@ -186,9 +186,9 @@
 <rect x="91.6" y="399.0" width="17.2" height="19.4" fill="#2a1409"/>
 <rect x="108.4" y="399.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="413.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">h</text>
-<text x="24.4" y="413.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="413.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="413.0" fill="#c2410c" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Ember</text>
-<text x="209.2" y="413.0" fill="#999999" textLength="294.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Charcoal with glowing orange embers</text>
+<text x="259.6" y="413.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Charcoal with glowing orange em…</text>
 <rect x="16.0" y="418.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="418.0" width="17.2" height="19.4" fill="#7e22ce"/>
 <rect x="58.0" y="418.0" width="17.2" height="19.4" fill="#2d1b4e"/>
@@ -196,10 +196,9 @@
 <rect x="91.6" y="418.0" width="17.2" height="19.4" fill="#1e1235"/>
 <rect x="108.4" y="418.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="432.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">i</text>
-<text x="24.4" y="432.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="432.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="432.0" fill="#7e22ce" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Nebula</text>
-<text x="209.2" y="432.0" fill="#999999" textLength="285.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Deep space violet with a pink star</text>
-<text x="503.2" y="432.0" fill="#4ade80" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✓</text>
+<text x="259.6" y="432.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Deep space violet with a pink s…</text>
 <rect x="16.0" y="437.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="437.0" width="17.2" height="19.4" fill="#0f766e"/>
 <rect x="58.0" y="437.0" width="17.2" height="19.4" fill="#0d3b3b"/>
@@ -207,9 +206,9 @@
 <rect x="91.6" y="437.0" width="17.2" height="19.4" fill="#152f4d"/>
 <rect x="108.4" y="437.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="451.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">j</text>
-<text x="24.4" y="451.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="451.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="451.0" fill="#0f766e" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Aurora</text>
-<text x="209.2" y="451.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Northern lights over a night sky</text>
+<text x="259.6" y="451.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Northern lights over a night sky</text>
 <rect x="16.0" y="456.0" width="538.0" height="19.4" fill="#262626"/>
 <path d="M16.0 465.5h17.0" stroke="#999999" stroke-width="1.3"/>
 <path d="M91.6 465.5h17.0" stroke="#999999" stroke-width="1.3"/>
@@ -221,17 +220,19 @@
 <rect x="91.6" y="475.0" width="17.2" height="19.4" fill="#efeadf"/>
 <rect x="108.4" y="475.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="489.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">k</text>
-<text x="24.4" y="489.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="489.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="489.0" fill="#1d4ed8" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Paper</text>
-<text x="209.2" y="489.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Warm paper with ink-blue accents</text>
-<rect x="16.0" y="494.0" width="8.8" height="19.4" fill="#b1b9f9"/>
-<rect x="24.4" y="494.0" width="84.4" height="19.4" fill="#ece2ff"/>
-<rect x="108.4" y="494.0" width="101.2" height="19.4" fill="#8b5e3c"/>
-<rect x="209.2" y="494.0" width="202.0" height="19.4" fill="#999999"/>
-<rect x="410.8" y="494.0" width="143.2" height="19.4" fill="#262626"/>
-<text x="16.0" y="508.0" fill="#262626" textLength="16.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">l:</text>
-<text x="116.8" y="508.0" fill="#262626" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Latte</text>
-<text x="209.2" y="508.0" fill="#262626" textLength="201.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Milky coffee and caramel</text>
+<text x="259.6" y="489.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Warm paper with ink-blue accents</text>
+<rect x="16.0" y="494.0" width="25.6" height="19.4" fill="#262626"/>
+<rect x="41.2" y="494.0" width="17.2" height="19.4" fill="#8b5e3c"/>
+<rect x="58.0" y="494.0" width="17.2" height="19.4" fill="#e8d5c0"/>
+<rect x="74.8" y="494.0" width="17.2" height="19.4" fill="#eedfcf"/>
+<rect x="91.6" y="494.0" width="17.2" height="19.4" fill="#f2e6da"/>
+<rect x="108.4" y="494.0" width="445.6" height="19.4" fill="#262626"/>
+<text x="16.0" y="508.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">l</text>
+<text x="24.4" y="508.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="116.8" y="508.0" fill="#8b5e3c" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Latte</text>
+<text x="259.6" y="508.0" fill="#999999" textLength="201.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Milky coffee and caramel</text>
 <rect x="16.0" y="513.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="513.0" width="17.2" height="19.4" fill="#0369a1"/>
 <rect x="58.0" y="513.0" width="17.2" height="19.4" fill="#cfe8fb"/>
@@ -239,9 +240,9 @@
 <rect x="91.6" y="513.0" width="17.2" height="19.4" fill="#e7f4fd"/>
 <rect x="108.4" y="513.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="527.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">m</text>
-<text x="24.4" y="527.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="527.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="527.0" fill="#0369a1" font-weight="700" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Sky</text>
-<text x="209.2" y="527.0" fill="#999999" textLength="260.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Clear blue sky and white clouds</text>
+<text x="259.6" y="527.0" fill="#999999" textLength="260.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Clear blue sky and white clouds</text>
 <rect x="16.0" y="532.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="532.0" width="17.2" height="19.4" fill="#047857"/>
 <rect x="58.0" y="532.0" width="17.2" height="19.4" fill="#cdeee0"/>
@@ -249,9 +250,9 @@
 <rect x="91.6" y="532.0" width="17.2" height="19.4" fill="#e4f6ee"/>
 <rect x="108.4" y="532.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="546.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">n</text>
-<text x="24.4" y="546.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="546.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="546.0" fill="#047857" font-weight="700" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Mint</text>
-<text x="209.2" y="546.0" fill="#999999" textLength="201.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Fresh mint and soft sage</text>
+<text x="259.6" y="546.0" fill="#999999" textLength="201.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Fresh mint and soft sage</text>
 <rect x="16.0" y="551.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="551.0" width="17.2" height="19.4" fill="#c2410c"/>
 <rect x="58.0" y="551.0" width="17.2" height="19.4" fill="#fcd9c8"/>
@@ -259,9 +260,9 @@
 <rect x="91.6" y="551.0" width="17.2" height="19.4" fill="#feebe2"/>
 <rect x="108.4" y="551.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="565.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">o</text>
-<text x="24.4" y="565.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="565.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="565.0" fill="#c2410c" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Peach</text>
-<text x="209.2" y="565.0" fill="#999999" textLength="226.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Peach sorbet and rosy coral</text>
+<text x="259.6" y="565.0" fill="#999999" textLength="226.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Peach sorbet and rosy coral</text>
 <rect x="16.0" y="570.0" width="25.6" height="19.4" fill="#262626"/>
 <rect x="41.2" y="570.0" width="17.2" height="19.4" fill="#24292f"/>
 <rect x="58.0" y="570.0" width="17.2" height="19.4" fill="#e5e7eb"/>
@@ -269,73 +270,198 @@
 <rect x="91.6" y="570.0" width="17.2" height="19.4" fill="#f1f3f5"/>
 <rect x="108.4" y="570.0" width="445.6" height="19.4" fill="#262626"/>
 <text x="16.0" y="584.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">p</text>
-<text x="24.4" y="584.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="24.4" y="584.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
 <text x="116.8" y="584.0" fill="#24292f" font-weight="700" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Snow</text>
-<text x="209.2" y="584.0" fill="#999999" textLength="319.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Bright white and quiet grey, nothing …</text>
+<text x="259.6" y="584.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Bright white and quiet grey, no…</text>
 <rect x="16.0" y="589.0" width="538.0" height="19.4" fill="#262626"/>
-<text x="16.0" y="603.0" fill="#999999" textLength="537.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">↑↓, 1–9, 0, a–p or a click: preview · Enter or again: pick · Es…</text>
-<rect x="16.0" y="608.0" width="538.0" height="19.4" fill="#262626"/>
-<rect x="16.0" y="627.0" width="538.0" height="19.4" fill="#262626"/>
-<text x="16.0" y="641.0" fill="#8b5e3c" font-weight="700" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Preview · Latte</text>
-<text x="158.8" y="641.0" fill="#7a6656" font-weight="700" textLength="201.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Milky coffee and caramel</text>
-<rect x="16.0" y="646.0" width="8.8" height="19.4" fill="#262626"/>
-<rect x="24.4" y="646.0" width="25.6" height="19.4" fill="#8b5e3c"/>
-<rect x="49.6" y="646.0" width="160.0" height="19.4" fill="#e8d5c0"/>
-<rect x="209.2" y="646.0" width="76.0" height="19.4" fill="#eedfcf"/>
-<rect x="284.8" y="646.0" width="76.0" height="19.4" fill="#f2e6da"/>
-<rect x="360.4" y="646.0" width="76.0" height="19.4" fill="#f5ece2"/>
-<rect x="436.0" y="646.0" width="76.0" height="19.4" fill="#f8f2eb"/>
-<rect x="511.6" y="646.0" width="42.4" height="19.4" fill="#262626"/>
-<path d="M24.4 646.0A8.4 9.5 0 0 0 24.4 665.0Z" fill="#8b5e3c"/>
-<path d="M49.6 646.0L58.0 655.5L49.6 665.0Z" fill="#8b5e3c"/>
-<path d="M209.2 646.0L217.6 655.5L209.2 665.0Z" fill="#e8d5c0"/>
-<path d="M284.8 646.0L293.2 655.5L284.8 665.0Z" fill="#eedfcf"/>
-<path d="M360.4 646.0L368.8 655.5L360.4 665.0Z" fill="#f2e6da"/>
-<path d="M436.0 646.0L444.4 655.5L436.0 665.0Z" fill="#f5ece2"/>
-<path d="M511.6 646.0A8.4 9.5 0 0 1 511.6 665.0Z" fill="#f8f2eb"/>
-<text x="32.8" y="660.0" fill="#ffffff" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◐</text>
-<text x="66.4" y="660.0" fill="#3e2c23" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
-<text x="226.0" y="660.0" fill="#3e2c23" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
-<text x="301.6" y="660.0" fill="#4a3426" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx 4%</text>
-<text x="377.2" y="660.0" fill="#4a3426" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h 42%</text>
-<text x="452.8" y="660.0" fill="#8b5e3c" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d 23%</text>
-<rect x="16.0" y="665.0" width="538.0" height="19.4" fill="#262626"/>
-<path d="M24.4 674.5h521.0" stroke="#e0cdb9" stroke-width="1.3"/>
-<path d="M20.2 684.2V678.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<path d="M545.0 674.5H545.2a4.2 4.2 0 0 1 4.2 4.2V684.2" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<rect x="16.0" y="684.0" width="17.2" height="19.4" fill="#262626"/>
-<rect x="32.8" y="684.0" width="25.6" height="19.4" fill="#e0cdb9"/>
-<rect x="58.0" y="684.0" width="496.0" height="19.4" fill="#262626"/>
-<path d="M20.2 684.0v19.2" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<path d="M549.4 684.0v19.2" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="698.0" fill="#2f6f6a" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
-<text x="108.4" y="698.0" fill="#7a6656" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">13:38</text>
-<rect x="16.0" y="703.0" width="538.0" height="19.4" fill="#262626"/>
-<path d="M20.2 703.0v19.2" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<path d="M549.4 703.0v19.2" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<text x="66.4" y="717.0" fill="#ece2ff" textLength="142.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">count slowly to 5</text>
-<rect x="16.0" y="722.0" width="538.0" height="19.4" fill="#262626"/>
-<path d="M24.4 731.5h521.0" stroke="#e0cdb9" stroke-width="1.3"/>
-<path d="M20.2 721.8V727.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<path d="M545.0 731.5H545.2a4.2 4.2 0 0 0 4.2 -4.2V721.8" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<rect x="16.0" y="741.0" width="538.0" height="19.4" fill="#262626"/>
-<path d="M24.4 750.5h521.0" stroke="#e0cdb9" stroke-width="1.3"/>
-<path d="M20.2 760.2V754.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<path d="M545.0 750.5H545.2a4.2 4.2 0 0 1 4.2 4.2V760.2" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<rect x="16.0" y="760.0" width="17.2" height="19.4" fill="#262626"/>
-<rect x="32.8" y="760.0" width="25.6" height="19.4" fill="#e0cdb9"/>
-<rect x="58.0" y="760.0" width="496.0" height="19.4" fill="#262626"/>
-<path d="M20.2 760.0v19.2" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<path d="M549.4 760.0v19.2" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="774.0" fill="#8b5e3c" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◐  CLAUDE</text>
-<text x="133.6" y="774.0" fill="#7a6656" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
-<rect x="16.0" y="779.0" width="538.0" height="19.4" fill="#262626"/>
-<path d="M20.2 779.0v19.2" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<path d="M549.4 779.0v19.2" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<rect x="16.0" y="798.0" width="538.0" height="19.4" fill="#262626"/>
-<path d="M20.2 798.0v19.2" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="798.0" width="2.4" height="19.2" fill="#8b5e3c"/>
-<path d="M549.4 798.0v19.2" stroke="#e0cdb9" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="812.0" fill="#ece2ff" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">1… 2… 3… 4… 5.</text>
-<rect x="16.0" y="817.0" width="538.0" height="19.4" fill="#262626"/>
+<path d="M16.0 598.5h17.0" stroke="#999999" stroke-width="1.3"/>
+<path d="M167.2 598.5h17.0" stroke="#999999" stroke-width="1.3"/>
+<text x="41.2" y="603.0" fill="#999999" font-weight="700" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Popular themes</text>
+<rect x="16.0" y="608.0" width="25.6" height="19.4" fill="#262626"/>
+<rect x="41.2" y="608.0" width="17.2" height="19.4" fill="#cba6f7"/>
+<rect x="58.0" y="608.0" width="17.2" height="19.4" fill="#b4befe"/>
+<rect x="74.8" y="608.0" width="17.2" height="19.4" fill="#89b4fa"/>
+<rect x="91.6" y="608.0" width="17.2" height="19.4" fill="#45475a"/>
+<rect x="108.4" y="608.0" width="445.6" height="19.4" fill="#262626"/>
+<text x="16.0" y="622.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">q</text>
+<text x="24.4" y="622.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="116.8" y="622.0" fill="#cba6f7" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Catppuccin Mocha</text>
+<text x="259.6" y="622.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Catppuccin Mocha: soothing past…</text>
+<text x="536.8" y="622.0" fill="#a6e3a1" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✓</text>
+<rect x="16.0" y="627.0" width="25.6" height="19.4" fill="#262626"/>
+<rect x="41.2" y="627.0" width="17.2" height="19.4" fill="#8839ef"/>
+<rect x="58.0" y="627.0" width="17.2" height="19.4" fill="#1d63ef"/>
+<rect x="74.8" y="627.0" width="17.2" height="19.4" fill="#4c4f69"/>
+<rect x="91.6" y="627.0" width="17.2" height="19.4" fill="#ccd0da"/>
+<rect x="108.4" y="627.0" width="445.6" height="19.4" fill="#262626"/>
+<text x="16.0" y="641.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">r</text>
+<text x="24.4" y="641.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="116.8" y="641.0" fill="#8839ef" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Catppuccin Latte</text>
+<text x="259.6" y="641.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Catppuccin Latte: the pastel th…</text>
+<rect x="16.0" y="646.0" width="25.6" height="19.4" fill="#262626"/>
+<rect x="41.2" y="646.0" width="17.2" height="19.4" fill="#7aa2f7"/>
+<rect x="58.0" y="646.0" width="17.2" height="19.4" fill="#bb9af7"/>
+<rect x="74.8" y="646.0" width="17.2" height="19.4" fill="#7dcfff"/>
+<rect x="91.6" y="646.0" width="17.2" height="19.4" fill="#414868"/>
+<rect x="108.4" y="646.0" width="445.6" height="19.4" fill="#262626"/>
+<text x="16.0" y="660.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">s</text>
+<text x="24.4" y="660.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="116.8" y="660.0" fill="#7aa2f7" font-weight="700" textLength="92.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Tokyo Night</text>
+<text x="259.6" y="660.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Tokyo Night: neon blues and vio…</text>
+<rect x="16.0" y="665.0" width="8.8" height="19.4" fill="#b1b9f9"/>
+<rect x="24.4" y="665.0" width="84.4" height="19.4" fill="#cdd6f4"/>
+<rect x="108.4" y="665.0" width="151.6" height="19.4" fill="#bd93f9"/>
+<rect x="259.6" y="665.0" width="269.2" height="19.4" fill="#999999"/>
+<rect x="528.4" y="665.0" width="25.6" height="19.4" fill="#262626"/>
+<text x="16.0" y="679.0" fill="#262626" textLength="16.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">t:</text>
+<text x="116.8" y="679.0" fill="#262626" font-weight="700" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Dracula</text>
+<text x="259.6" y="679.0" fill="#262626" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Dracula: purple and pink on a d…</text>
+<rect x="16.0" y="684.0" width="25.6" height="19.4" fill="#262626"/>
+<rect x="41.2" y="684.0" width="17.2" height="19.4" fill="#88c0d0"/>
+<rect x="58.0" y="684.0" width="17.2" height="19.4" fill="#8fbcbb"/>
+<rect x="74.8" y="684.0" width="17.2" height="19.4" fill="#81a1c1"/>
+<rect x="91.6" y="684.0" width="17.2" height="19.4" fill="#4c566a"/>
+<rect x="108.4" y="684.0" width="445.6" height="19.4" fill="#262626"/>
+<text x="16.0" y="698.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">u</text>
+<text x="24.4" y="698.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="116.8" y="698.0" fill="#88c0d0" font-weight="700" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Nord</text>
+<text x="259.6" y="698.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Nord: arctic frost blues on pol…</text>
+<rect x="16.0" y="703.0" width="25.6" height="19.4" fill="#262626"/>
+<rect x="41.2" y="703.0" width="17.2" height="19.4" fill="#fabd2f"/>
+<rect x="58.0" y="703.0" width="17.2" height="19.4" fill="#fe8019"/>
+<rect x="74.8" y="703.0" width="17.2" height="19.4" fill="#8ec07c"/>
+<rect x="91.6" y="703.0" width="17.2" height="19.4" fill="#504945"/>
+<rect x="108.4" y="703.0" width="445.6" height="19.4" fill="#262626"/>
+<text x="16.0" y="717.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">v</text>
+<text x="24.4" y="717.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="116.8" y="717.0" fill="#fabd2f" font-weight="700" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Gruvbox</text>
+<text x="259.6" y="717.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Gruvbox: retro groove, warm yel…</text>
+<rect x="16.0" y="722.0" width="25.6" height="19.4" fill="#262626"/>
+<rect x="41.2" y="722.0" width="17.2" height="19.4" fill="#ebbcba"/>
+<rect x="58.0" y="722.0" width="17.2" height="19.4" fill="#c4a7e7"/>
+<rect x="74.8" y="722.0" width="17.2" height="19.4" fill="#9ccfd8"/>
+<rect x="91.6" y="722.0" width="17.2" height="19.4" fill="#403d52"/>
+<rect x="108.4" y="722.0" width="445.6" height="19.4" fill="#262626"/>
+<text x="16.0" y="736.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">w</text>
+<text x="24.4" y="736.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="116.8" y="736.0" fill="#ebbcba" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Rosé Pine</text>
+<text x="259.6" y="736.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Rosé Pine: soho vibes, rose and…</text>
+<rect x="16.0" y="741.0" width="25.6" height="19.4" fill="#262626"/>
+<rect x="41.2" y="741.0" width="17.2" height="19.4" fill="#286983"/>
+<rect x="58.0" y="741.0" width="17.2" height="19.4" fill="#575279"/>
+<rect x="74.8" y="741.0" width="17.2" height="19.4" fill="#7a6890"/>
+<rect x="91.6" y="741.0" width="17.2" height="19.4" fill="#dfdad9"/>
+<rect x="108.4" y="741.0" width="445.6" height="19.4" fill="#262626"/>
+<text x="16.0" y="755.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">x</text>
+<text x="24.4" y="755.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="116.8" y="755.0" fill="#286983" font-weight="700" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Rosé Pine Dawn</text>
+<text x="259.6" y="755.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Rosé Pine Dawn: soft rose and p…</text>
+<rect x="16.0" y="760.0" width="25.6" height="19.4" fill="#262626"/>
+<rect x="41.2" y="760.0" width="17.2" height="19.4" fill="#61afef"/>
+<rect x="58.0" y="760.0" width="17.2" height="19.4" fill="#c678dd"/>
+<rect x="74.8" y="760.0" width="17.2" height="19.4" fill="#98c379"/>
+<rect x="91.6" y="760.0" width="17.2" height="19.4" fill="#3e4451"/>
+<rect x="108.4" y="760.0" width="445.6" height="19.4" fill="#262626"/>
+<text x="16.0" y="774.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">y</text>
+<text x="24.4" y="774.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="116.8" y="774.0" fill="#61afef" font-weight="700" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">One Dark</text>
+<text x="259.6" y="774.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">One Dark: the Atom classic, cal…</text>
+<rect x="16.0" y="779.0" width="25.6" height="19.4" fill="#262626"/>
+<rect x="41.2" y="779.0" width="17.2" height="19.4" fill="#b58900"/>
+<rect x="58.0" y="779.0" width="17.2" height="19.4" fill="#2aa198"/>
+<rect x="74.8" y="779.0" width="17.2" height="19.4" fill="#3694d5"/>
+<rect x="91.6" y="779.0" width="17.2" height="19.4" fill="#586e75"/>
+<rect x="108.4" y="779.0" width="445.6" height="19.4" fill="#262626"/>
+<text x="16.0" y="793.0" fill="#b1b9f9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">z</text>
+<text x="24.4" y="793.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">:</text>
+<text x="116.8" y="793.0" fill="#b58900" font-weight="700" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Solarized Dark</text>
+<text x="259.6" y="793.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Solarized Dark: the precise, lo…</text>
+<rect x="16.0" y="798.0" width="17.2" height="19.4" fill="#4c9fda"/>
+<rect x="32.8" y="798.0" width="17.2" height="19.4" fill="#6469b5"/>
+<rect x="49.6" y="798.0" width="17.2" height="19.4" fill="#073642"/>
+<rect x="66.4" y="798.0" width="17.2" height="19.4" fill="#eee8d5"/>
+<rect x="83.2" y="798.0" width="470.8" height="19.4" fill="#262626"/>
+<text x="91.6" y="812.0" fill="#4c9fda" font-weight="700" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Solarized Light</text>
+<text x="234.4" y="812.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Solarized Light: the precise cl…</text>
+<rect x="16.0" y="817.0" width="17.2" height="19.4" fill="#a7c080"/>
+<rect x="32.8" y="817.0" width="17.2" height="19.4" fill="#83c092"/>
+<rect x="49.6" y="817.0" width="17.2" height="19.4" fill="#7fbbb3"/>
+<rect x="66.4" y="817.0" width="17.2" height="19.4" fill="#475258"/>
+<rect x="83.2" y="817.0" width="470.8" height="19.4" fill="#262626"/>
+<text x="91.6" y="831.0" fill="#a7c080" font-weight="700" textLength="84.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Everforest</text>
+<text x="234.4" y="831.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Everforest: green, warm and eas…</text>
+<rect x="16.0" y="836.0" width="17.2" height="19.4" fill="#7e9cd8"/>
+<rect x="32.8" y="836.0" width="17.2" height="19.4" fill="#957fb8"/>
+<rect x="49.6" y="836.0" width="17.2" height="19.4" fill="#e6c384"/>
+<rect x="66.4" y="836.0" width="17.2" height="19.4" fill="#54546d"/>
+<rect x="83.2" y="836.0" width="470.8" height="19.4" fill="#262626"/>
+<text x="91.6" y="850.0" fill="#7e9cd8" font-weight="700" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Kanagawa</text>
+<text x="234.4" y="850.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Kanagawa: Hokusai’s great wave,…</text>
+<rect x="16.0" y="855.0" width="17.2" height="19.4" fill="#a6e22e"/>
+<rect x="32.8" y="855.0" width="17.2" height="19.4" fill="#66d9ef"/>
+<rect x="49.6" y="855.0" width="17.2" height="19.4" fill="#ae81ff"/>
+<rect x="66.4" y="855.0" width="17.2" height="19.4" fill="#49483e"/>
+<rect x="83.2" y="855.0" width="470.8" height="19.4" fill="#262626"/>
+<text x="91.6" y="869.0" fill="#a6e22e" font-weight="700" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Monokai</text>
+<text x="234.4" y="869.0" fill="#999999" textLength="268.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Monokai: the vivid classic, pin…</text>
+<rect x="16.0" y="874.0" width="538.0" height="19.4" fill="#262626"/>
+<text x="16.0" y="888.0" fill="#999999" textLength="537.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">↑↓, 1–9, 0, a–z (the rest: ↑↓) or a click: preview · Enter or a…</text>
+<rect x="16.0" y="893.0" width="538.0" height="19.4" fill="#262626"/>
+<rect x="16.0" y="912.0" width="538.0" height="19.4" fill="#262626"/>
+<text x="16.0" y="926.0" fill="#bd93f9" font-weight="700" textLength="142.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Preview · Dracula</text>
+<text x="175.6" y="926.0" fill="#8591b8" font-weight="700" textLength="378.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Dracula: purple and pink on a dark, bloodles…</text>
+<rect x="16.0" y="931.0" width="8.8" height="19.4" fill="#262626"/>
+<rect x="24.4" y="931.0" width="25.6" height="19.4" fill="#bd93f9"/>
+<rect x="49.6" y="931.0" width="160.0" height="19.4" fill="#ff79c6"/>
+<rect x="209.2" y="931.0" width="76.0" height="19.4" fill="#8be9fd"/>
+<rect x="284.8" y="931.0" width="76.0" height="19.4" fill="#44475a"/>
+<rect x="360.4" y="931.0" width="76.0" height="19.4" fill="#343746"/>
+<rect x="436.0" y="931.0" width="76.0" height="19.4" fill="#21222c"/>
+<rect x="511.6" y="931.0" width="42.4" height="19.4" fill="#262626"/>
+<path d="M24.4 931.0A8.4 9.5 0 0 0 24.4 950.0Z" fill="#bd93f9"/>
+<path d="M49.6 931.0L58.0 940.5L49.6 950.0Z" fill="#bd93f9"/>
+<path d="M209.2 931.0L217.6 940.5L209.2 950.0Z" fill="#ff79c6"/>
+<path d="M284.8 931.0L293.2 940.5L284.8 950.0Z" fill="#8be9fd"/>
+<path d="M360.4 931.0L368.8 940.5L360.4 950.0Z" fill="#44475a"/>
+<path d="M436.0 931.0L444.4 940.5L436.0 950.0Z" fill="#343746"/>
+<path d="M511.6 931.0A8.4 9.5 0 0 1 511.6 950.0Z" fill="#21222c"/>
+<text x="32.8" y="945.0" fill="#21222c" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">☽</text>
+<text x="66.4" y="945.0" fill="#21222c" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
+<text x="226.0" y="945.0" fill="#21222c" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
+<text x="301.6" y="945.0" fill="#f8f8f2" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx 4%</text>
+<text x="377.2" y="945.0" fill="#f8f8f2" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h 42%</text>
+<text x="452.8" y="945.0" fill="#f8f8f2" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d 23%</text>
+<rect x="16.0" y="950.0" width="538.0" height="19.4" fill="#262626"/>
+<path d="M24.4 959.5h521.0" stroke="#44475a" stroke-width="1.3"/>
+<path d="M20.2 969.2V963.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M545.0 959.5H545.2a4.2 4.2 0 0 1 4.2 4.2V969.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<rect x="16.0" y="969.0" width="17.2" height="19.4" fill="#262626"/>
+<rect x="32.8" y="969.0" width="25.6" height="19.4" fill="#44475a"/>
+<rect x="58.0" y="969.0" width="496.0" height="19.4" fill="#262626"/>
+<path d="M20.2 969.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M549.4 969.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="983.0" fill="#8be9fd" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
+<text x="108.4" y="983.0" fill="#8591b8" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">19:13</text>
+<rect x="16.0" y="988.0" width="538.0" height="19.4" fill="#262626"/>
+<path d="M20.2 988.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M549.4 988.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<text x="66.4" y="1002.0" fill="#cdd6f4" textLength="142.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">count slowly to 5</text>
+<rect x="16.0" y="1007.0" width="538.0" height="19.4" fill="#262626"/>
+<path d="M24.4 1016.5h521.0" stroke="#44475a" stroke-width="1.3"/>
+<path d="M20.2 1006.8V1012.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M545.0 1016.5H545.2a4.2 4.2 0 0 0 4.2 -4.2V1006.8" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<rect x="16.0" y="1026.0" width="538.0" height="19.4" fill="#262626"/>
+<path d="M24.4 1035.5h521.0" stroke="#44475a" stroke-width="1.3"/>
+<path d="M20.2 1045.2V1039.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M545.0 1035.5H545.2a4.2 4.2 0 0 1 4.2 4.2V1045.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<rect x="16.0" y="1045.0" width="17.2" height="19.4" fill="#262626"/>
+<rect x="32.8" y="1045.0" width="25.6" height="19.4" fill="#44475a"/>
+<rect x="58.0" y="1045.0" width="496.0" height="19.4" fill="#262626"/>
+<path d="M20.2 1045.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M549.4 1045.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="1059.0" fill="#bd93f9" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">☽  CLAUDE</text>
+<text x="133.6" y="1059.0" fill="#8591b8" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
+<rect x="16.0" y="1064.0" width="538.0" height="19.4" fill="#262626"/>
+<path d="M20.2 1064.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M549.4 1064.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
 </svg>

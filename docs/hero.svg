@@ -6,6 +6,288 @@
 @media (prefers-reduced-motion:reduce){.frame{animation:none}}
 </style>
 <g class="frame first" style="animation-delay:0s">
+<rect width="956" height="472" rx="12" fill="#1a1b26"/>
+<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#c0caf5" opacity=".08"/>
+<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
+<text x="478" y="20" fill="#c0caf5" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · tokyo-night</text>
+<path d="M24.4 47.5h907.4" stroke="#292e42" stroke-width="1.3"/>
+<path d="M20.2 57.2V51.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M931.4 47.5H931.6a4.2 4.2 0 0 1 4.2 4.2V57.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<rect x="32.8" y="57.0" width="25.6" height="19.4" fill="#292e42"/>
+<path d="M20.2 57.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M935.8 57.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="71.0" fill="#7aa2f7" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
+<text x="108.4" y="71.0" fill="#7b82a3" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">19:06</text>
+<path d="M20.2 76.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M935.8 76.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<text x="66.4" y="90.0" fill="#c0caf5" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
+<path d="M24.4 104.5h907.4" stroke="#292e42" stroke-width="1.3"/>
+<path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M24.4 123.5h143.0" stroke="#292e42" stroke-width="1.3"/>
+<path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M167.0 123.5H167.2a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M20.2 133.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M171.4 133.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M20.2 152.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M171.4 152.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
+<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">2</text>
+<text x="108.4" y="166.0" fill="#999999" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">files</text>
+<path d="M24.4 180.5h143.0" stroke="#292e42" stroke-width="1.3"/>
+<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M167.0 180.5H167.2a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M24.4 199.5h907.4" stroke="#292e42" stroke-width="1.3"/>
+<path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<rect x="32.8" y="209.0" width="25.6" height="19.4" fill="#292e42"/>
+<path d="M20.2 209.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M935.8 209.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="223.0" fill="#bb9af7" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">☾  CLAUDE</text>
+<text x="133.6" y="223.0" fill="#7b82a3" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
+<path d="M20.2 228.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M935.8 228.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M20.2 247.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#bb9af7"/>
+<path d="M935.8 247.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<text x="58.0" y="261.0" fill="#c0caf5" textLength="428.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app started with</text>
+<text x="494.8" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
+<text x="570.4" y="261.0" fill="#c0caf5" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
+<text x="788.8" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
+<text x="889.6" y="261.0" fill="#c0caf5" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
+<path d="M20.2 266.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#bb9af7"/>
+<path d="M935.8 266.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<text x="58.0" y="280.0" fill="#c0caf5" textLength="663.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports two functions that return "Hello, name!" and "Bye, name" strings.</text>
+<path d="M20.2 285.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M935.8 285.0v19.2" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M24.4 313.5h907.4" stroke="#292e42" stroke-width="1.3"/>
+<path d="M20.2 303.8V309.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#292e42" stroke-width="1.3" fill="none"/>
+<rect x="24.4" y="323.0" width="92.8" height="19.4" fill="#7aa2f7"/>
+<rect x="116.8" y="323.0" width="67.6" height="19.4" fill="#7dcfff"/>
+<rect x="184.0" y="323.0" width="151.6" height="19.4" fill="#292e42"/>
+<path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#7aa2f7"/>
+<path d="M116.8 323.0L125.2 332.5L116.8 342.0Z" fill="#7aa2f7"/>
+<path d="M184.0 323.0L192.4 332.5L184.0 342.0Z" fill="#7dcfff"/>
+<path d="M335.2 323.0A8.4 9.5 0 0 1 335.2 342.0Z" fill="#292e42"/>
+<text x="32.8" y="337.0" fill="#16161e" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">☾ Arrived</text>
+<text x="133.6" y="337.0" fill="#16161e" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 4s</text>
+<text x="200.8" y="337.0" fill="#c0caf5" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.09 · 2 tools</text>
+<rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#7aa2f7"/>
+<rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#bb9af7"/>
+<rect x="209.2" y="361.0" width="101.2" height="19.4" fill="#7dcfff"/>
+<rect x="310.0" y="361.0" width="126.4" height="19.4" fill="#414868"/>
+<rect x="436.0" y="361.0" width="193.6" height="19.4" fill="#292e42"/>
+<rect x="629.2" y="361.0" width="185.2" height="19.4" fill="#16161e"/>
+<path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#7aa2f7"/>
+<path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#7aa2f7"/>
+<path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#bb9af7"/>
+<path d="M310.0 361.0L318.4 370.5L310.0 380.0Z" fill="#7dcfff"/>
+<path d="M436.0 361.0L444.4 370.5L436.0 380.0Z" fill="#414868"/>
+<path d="M629.2 361.0L637.6 370.5L629.2 380.0Z" fill="#292e42"/>
+<path d="M814.0 361.0A8.4 9.5 0 0 1 814.0 380.0Z" fill="#16161e"/>
+<text x="32.8" y="375.0" fill="#16161e" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">☾</text>
+<text x="66.4" y="375.0" fill="#16161e" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
+<text x="226.0" y="375.0" fill="#16161e" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main ●3</text>
+<text x="326.8" y="375.0" fill="#c0caf5" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ▰▱▱▱▱ 4%</text>
+<text x="452.8" y="375.0" fill="#c0caf5" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ▰▰▱▱▱ 42% (2h11m)</text>
+<text x="646.0" y="375.0" fill="#c0caf5" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ▰▱▱▱▱ 23% (3d4h)</text>
+<text x="830.8" y="375.0" fill="#7b82a3" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
+<text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
+<path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
+<text x="16.0" y="432.0" fill="#c0caf5" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
+<path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
+</g>
+<g class="frame" style="animation-delay:3s">
+<rect width="956" height="472" rx="12" fill="#1e1e2e"/>
+<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#cdd6f4" opacity=".08"/>
+<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
+<text x="478" y="20" fill="#cdd6f4" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · catppuccin-mocha</text>
+<path d="M24.4 47.5h907.4" stroke="#45475a" stroke-width="1.3"/>
+<path d="M20.2 57.2V51.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M931.4 47.5H931.6a4.2 4.2 0 0 1 4.2 4.2V57.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<rect x="32.8" y="57.0" width="25.6" height="19.4" fill="#45475a"/>
+<path d="M20.2 57.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M935.8 57.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="71.0" fill="#89b4fa" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
+<text x="108.4" y="71.0" fill="#82869e" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">19:06</text>
+<path d="M20.2 76.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M935.8 76.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<text x="66.4" y="90.0" fill="#cdd6f4" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
+<path d="M24.4 104.5h907.4" stroke="#45475a" stroke-width="1.3"/>
+<path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M24.4 123.5h143.0" stroke="#45475a" stroke-width="1.3"/>
+<path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M167.0 123.5H167.2a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M20.2 133.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M171.4 133.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M20.2 152.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M171.4 152.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
+<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">2</text>
+<text x="108.4" y="166.0" fill="#999999" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">files</text>
+<path d="M24.4 180.5h143.0" stroke="#45475a" stroke-width="1.3"/>
+<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M167.0 180.5H167.2a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M24.4 199.5h907.4" stroke="#45475a" stroke-width="1.3"/>
+<path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<rect x="32.8" y="209.0" width="25.6" height="19.4" fill="#45475a"/>
+<path d="M20.2 209.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M935.8 209.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="223.0" fill="#cba6f7" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">♡  CLAUDE</text>
+<text x="133.6" y="223.0" fill="#82869e" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
+<path d="M20.2 228.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M935.8 228.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M20.2 247.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#cba6f7"/>
+<path d="M935.8 247.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<text x="58.0" y="261.0" fill="#cdd6f4" textLength="428.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app started with</text>
+<text x="494.8" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
+<text x="570.4" y="261.0" fill="#cdd6f4" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
+<text x="788.8" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
+<text x="889.6" y="261.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
+<path d="M20.2 266.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#cba6f7"/>
+<path d="M935.8 266.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<text x="58.0" y="280.0" fill="#cdd6f4" textLength="663.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports two functions that return "Hello, name!" and "Bye, name" strings.</text>
+<path d="M20.2 285.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M935.8 285.0v19.2" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M24.4 313.5h907.4" stroke="#45475a" stroke-width="1.3"/>
+<path d="M20.2 303.8V309.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#45475a" stroke-width="1.3" fill="none"/>
+<rect x="24.4" y="323.0" width="84.4" height="19.4" fill="#cba6f7"/>
+<rect x="108.4" y="323.0" width="67.6" height="19.4" fill="#89b4fa"/>
+<rect x="175.6" y="323.0" width="151.6" height="19.4" fill="#313244"/>
+<path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#cba6f7"/>
+<path d="M108.4 323.0L116.8 332.5L108.4 342.0Z" fill="#cba6f7"/>
+<path d="M175.6 323.0L184.0 332.5L175.6 342.0Z" fill="#89b4fa"/>
+<path d="M326.8 323.0A8.4 9.5 0 0 1 326.8 342.0Z" fill="#313244"/>
+<text x="32.8" y="337.0" fill="#11111b" font-weight="700" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">♡ Purred</text>
+<text x="125.2" y="337.0" fill="#11111b" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 4s</text>
+<text x="192.4" y="337.0" fill="#cdd6f4" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.09 · 2 tools</text>
+<rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#cba6f7"/>
+<rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#b4befe"/>
+<rect x="209.2" y="361.0" width="101.2" height="19.4" fill="#89b4fa"/>
+<rect x="310.0" y="361.0" width="126.4" height="19.4" fill="#45475a"/>
+<rect x="436.0" y="361.0" width="193.6" height="19.4" fill="#313244"/>
+<rect x="629.2" y="361.0" width="185.2" height="19.4" fill="#181825"/>
+<path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#cba6f7"/>
+<path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#cba6f7"/>
+<path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#b4befe"/>
+<path d="M310.0 361.0L318.4 370.5L310.0 380.0Z" fill="#89b4fa"/>
+<path d="M436.0 361.0L444.4 370.5L436.0 380.0Z" fill="#45475a"/>
+<path d="M629.2 361.0L637.6 370.5L629.2 380.0Z" fill="#313244"/>
+<path d="M814.0 361.0A8.4 9.5 0 0 1 814.0 380.0Z" fill="#181825"/>
+<text x="32.8" y="375.0" fill="#11111b" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">♡</text>
+<text x="66.4" y="375.0" fill="#11111b" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
+<text x="226.0" y="375.0" fill="#11111b" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main ●3</text>
+<text x="326.8" y="375.0" fill="#cdd6f4" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ●○○○○ 4%</text>
+<text x="452.8" y="375.0" fill="#cdd6f4" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ●●○○○ 42% (2h13m)</text>
+<text x="646.0" y="375.0" fill="#cdd6f4" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ●○○○○ 23% (3d4h)</text>
+<text x="830.8" y="375.0" fill="#82869e" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
+<text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
+<path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
+<text x="16.0" y="432.0" fill="#cdd6f4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
+<path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
+</g>
+<g class="frame" style="animation-delay:6s">
+<rect width="956" height="472" rx="12" fill="#282a36"/>
+<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#f8f8f2" opacity=".08"/>
+<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
+<text x="478" y="20" fill="#f8f8f2" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · dracula</text>
+<path d="M24.4 47.5h907.4" stroke="#44475a" stroke-width="1.3"/>
+<path d="M20.2 57.2V51.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M931.4 47.5H931.6a4.2 4.2 0 0 1 4.2 4.2V57.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<rect x="32.8" y="57.0" width="25.6" height="19.4" fill="#44475a"/>
+<path d="M20.2 57.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M935.8 57.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="71.0" fill="#8be9fd" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
+<text x="108.4" y="71.0" fill="#8591b8" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">19:06</text>
+<path d="M20.2 76.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M935.8 76.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<text x="66.4" y="90.0" fill="#f8f8f2" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
+<path d="M24.4 104.5h907.4" stroke="#44475a" stroke-width="1.3"/>
+<path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M24.4 123.5h143.0" stroke="#44475a" stroke-width="1.3"/>
+<path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M167.0 123.5H167.2a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M20.2 133.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M171.4 133.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M20.2 152.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M171.4 152.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
+<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">2</text>
+<text x="108.4" y="166.0" fill="#999999" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">files</text>
+<path d="M24.4 180.5h143.0" stroke="#44475a" stroke-width="1.3"/>
+<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M167.0 180.5H167.2a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M24.4 199.5h907.4" stroke="#44475a" stroke-width="1.3"/>
+<path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<rect x="32.8" y="209.0" width="25.6" height="19.4" fill="#44475a"/>
+<path d="M20.2 209.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M935.8 209.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="223.0" fill="#bd93f9" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">☽  CLAUDE</text>
+<text x="133.6" y="223.0" fill="#8591b8" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
+<path d="M20.2 228.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M935.8 228.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M20.2 247.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#bd93f9"/>
+<path d="M935.8 247.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<text x="58.0" y="261.0" fill="#f8f8f2" textLength="428.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app started with</text>
+<text x="494.8" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
+<text x="570.4" y="261.0" fill="#f8f8f2" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
+<text x="788.8" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
+<text x="889.6" y="261.0" fill="#f8f8f2" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
+<path d="M20.2 266.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#bd93f9"/>
+<path d="M935.8 266.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<text x="58.0" y="280.0" fill="#f8f8f2" textLength="663.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports two functions that return "Hello, name!" and "Bye, name" strings.</text>
+<path d="M20.2 285.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M935.8 285.0v19.2" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M24.4 313.5h907.4" stroke="#44475a" stroke-width="1.3"/>
+<path d="M20.2 303.8V309.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#44475a" stroke-width="1.3" fill="none"/>
+<rect x="24.4" y="323.0" width="84.4" height="19.4" fill="#bd93f9"/>
+<rect x="108.4" y="323.0" width="67.6" height="19.4" fill="#8be9fd"/>
+<rect x="175.6" y="323.0" width="151.6" height="19.4" fill="#343746"/>
+<path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#bd93f9"/>
+<path d="M108.4 323.0L116.8 332.5L108.4 342.0Z" fill="#bd93f9"/>
+<path d="M175.6 323.0L184.0 332.5L175.6 342.0Z" fill="#8be9fd"/>
+<path d="M326.8 323.0A8.4 9.5 0 0 1 326.8 342.0Z" fill="#343746"/>
+<text x="32.8" y="337.0" fill="#21222c" font-weight="700" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">☽ Bitten</text>
+<text x="125.2" y="337.0" fill="#21222c" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 4s</text>
+<text x="192.4" y="337.0" fill="#f8f8f2" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.09 · 2 tools</text>
+<rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#bd93f9"/>
+<rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#ff79c6"/>
+<rect x="209.2" y="361.0" width="101.2" height="19.4" fill="#8be9fd"/>
+<rect x="310.0" y="361.0" width="126.4" height="19.4" fill="#44475a"/>
+<rect x="436.0" y="361.0" width="193.6" height="19.4" fill="#343746"/>
+<rect x="629.2" y="361.0" width="185.2" height="19.4" fill="#21222c"/>
+<path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#bd93f9"/>
+<path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#bd93f9"/>
+<path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#ff79c6"/>
+<path d="M310.0 361.0L318.4 370.5L310.0 380.0Z" fill="#8be9fd"/>
+<path d="M436.0 361.0L444.4 370.5L436.0 380.0Z" fill="#44475a"/>
+<path d="M629.2 361.0L637.6 370.5L629.2 380.0Z" fill="#343746"/>
+<path d="M814.0 361.0A8.4 9.5 0 0 1 814.0 380.0Z" fill="#21222c"/>
+<text x="32.8" y="375.0" fill="#21222c" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">☽</text>
+<text x="66.4" y="375.0" fill="#21222c" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
+<text x="226.0" y="375.0" fill="#21222c" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main ●3</text>
+<text x="326.8" y="375.0" fill="#f8f8f2" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ■□□□□ 4%</text>
+<text x="452.8" y="375.0" fill="#f8f8f2" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ■■□□□ 42% (2h13m)</text>
+<text x="646.0" y="375.0" fill="#f8f8f2" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ■□□□□ 23% (3d4h)</text>
+<text x="830.8" y="375.0" fill="#8591b8" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
+<text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
+<path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
+<text x="16.0" y="432.0" fill="#f8f8f2" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
+<path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
+</g>
+<g class="frame" style="animation-delay:9s">
 <rect width="956" height="472" rx="12" fill="#1a1213"/>
 <path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#f1e9da" opacity=".08"/>
 <circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
@@ -17,26 +299,26 @@
 <path d="M20.2 57.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <path d="M935.8 57.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <text x="41.2" y="71.0" fill="#ffd166" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
-<text x="108.4" y="71.0" fill="#8a7f6e" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">12:57</text>
+<text x="108.4" y="71.0" fill="#8a7f6e" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">19:06</text>
 <path d="M20.2 76.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <path d="M935.8 76.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <text x="66.4" y="90.0" fill="#f1e9da" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
 <path d="M24.4 104.5h907.4" stroke="#7a1f2b" stroke-width="1.3"/>
 <path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<path d="M24.4 123.5h134.6" stroke="#7a1f2b" stroke-width="1.3"/>
+<path d="M24.4 123.5h143.0" stroke="#7a1f2b" stroke-width="1.3"/>
 <path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<path d="M158.6 123.5H158.8a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
+<path d="M167.0 123.5H167.2a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <path d="M20.2 133.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<path d="M163.0 133.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
+<path d="M171.4 133.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <path d="M20.2 152.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<path d="M163.0 152.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
+<path d="M171.4 152.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
-<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">1</text>
-<text x="108.4" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">file</text>
-<path d="M24.4 180.5h134.6" stroke="#7a1f2b" stroke-width="1.3"/>
+<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">2</text>
+<text x="108.4" y="166.0" fill="#999999" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">files</text>
+<path d="M24.4 180.5h143.0" stroke="#7a1f2b" stroke-width="1.3"/>
 <path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<path d="M158.6 180.5H158.8a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
+<path d="M167.0 180.5H167.2a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <path d="M24.4 199.5h907.4" stroke="#7a1f2b" stroke-width="1.3"/>
 <path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
@@ -50,19 +332,15 @@
 <path d="M20.2 247.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#e5604d"/>
 <path d="M935.8 247.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="261.0" fill="#f1e9da" textLength="436.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app, started with</text>
-<text x="503.2" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
-<text x="578.8" y="261.0" fill="#f1e9da" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
-<text x="797.2" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
-<text x="898.0" y="261.0" fill="#f1e9da" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
+<text x="58.0" y="261.0" fill="#f1e9da" textLength="428.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app started with</text>
+<text x="494.8" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
+<text x="570.4" y="261.0" fill="#f1e9da" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
+<text x="788.8" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
+<text x="889.6" y="261.0" fill="#f1e9da" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
 <path d="M20.2 266.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#e5604d"/>
 <path d="M935.8 266.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="280.0" fill="#f1e9da" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports</text>
-<text x="175.6" y="280.0" fill="#b1b9f9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">greet</text>
-<text x="226.0" y="280.0" fill="#f1e9da" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">and</text>
-<text x="259.6" y="280.0" fill="#b1b9f9" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">bye</text>
-<text x="293.2" y="280.0" fill="#f1e9da" textLength="520.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">functions that return "Hello, name!" and "Bye, name" messages.</text>
+<text x="58.0" y="280.0" fill="#f1e9da" textLength="663.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports two functions that return "Hello, name!" and "Bye, name" strings.</text>
 <path d="M20.2 285.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <path d="M935.8 285.0v19.2" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <path d="M24.4 313.5h907.4" stroke="#7a1f2b" stroke-width="1.3"/>
@@ -70,42 +348,134 @@
 <path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#7a1f2b" stroke-width="1.3" fill="none"/>
 <rect x="24.4" y="323.0" width="50.8" height="19.4" fill="#ffd166"/>
 <rect x="74.8" y="323.0" width="67.6" height="19.4" fill="#e5604d"/>
-<rect x="142.0" y="323.0" width="143.2" height="19.4" fill="#7a1f2b"/>
+<rect x="142.0" y="323.0" width="151.6" height="19.4" fill="#7a1f2b"/>
 <path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#ffd166"/>
 <path d="M74.8 323.0L83.2 332.5L74.8 342.0Z" fill="#ffd166"/>
 <path d="M142.0 323.0L150.4 332.5L142.0 342.0Z" fill="#e5604d"/>
-<path d="M284.8 323.0A8.4 9.5 0 0 1 284.8 342.0Z" fill="#7a1f2b"/>
+<path d="M293.2 323.0A8.4 9.5 0 0 1 293.2 342.0Z" fill="#7a1f2b"/>
 <text x="32.8" y="337.0" fill="#2b1d0e" font-weight="700" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◆ KO</text>
-<text x="91.6" y="337.0" fill="#1f0a05" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 5s</text>
-<text x="158.8" y="337.0" fill="#fff5eb" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12 · 1 tool</text>
+<text x="91.6" y="337.0" fill="#1f0a05" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 4s</text>
+<text x="158.8" y="337.0" fill="#fff5eb" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.09 · 2 tools</text>
 <rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#ffd166"/>
 <rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#f4a259"/>
-<rect x="209.2" y="361.0" width="76.0" height="19.4" fill="#e5604d"/>
-<rect x="284.8" y="361.0" width="126.4" height="19.4" fill="#b8323f"/>
-<rect x="410.8" y="361.0" width="193.6" height="19.4" fill="#7a1f2b"/>
-<rect x="604.0" y="361.0" width="252.4" height="19.4" fill="#4a1520"/>
+<rect x="209.2" y="361.0" width="101.2" height="19.4" fill="#e5604d"/>
+<rect x="310.0" y="361.0" width="126.4" height="19.4" fill="#b8323f"/>
+<rect x="436.0" y="361.0" width="193.6" height="19.4" fill="#7a1f2b"/>
+<rect x="629.2" y="361.0" width="185.2" height="19.4" fill="#4a1520"/>
 <path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#ffd166"/>
 <path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#ffd166"/>
 <path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#f4a259"/>
-<path d="M284.8 361.0L293.2 370.5L284.8 380.0Z" fill="#e5604d"/>
-<path d="M410.8 361.0L419.2 370.5L410.8 380.0Z" fill="#b8323f"/>
-<path d="M604.0 361.0L612.4 370.5L604.0 380.0Z" fill="#7a1f2b"/>
-<path d="M788.8 361.0L797.2 370.5L788.8 380.0Z" fill="#4a1520"/>
-<path d="M856.0 361.0A8.4 9.5 0 0 1 856.0 380.0Z" fill="#4a1520"/>
+<path d="M310.0 361.0L318.4 370.5L310.0 380.0Z" fill="#e5604d"/>
+<path d="M436.0 361.0L444.4 370.5L436.0 380.0Z" fill="#b8323f"/>
+<path d="M629.2 361.0L637.6 370.5L629.2 380.0Z" fill="#7a1f2b"/>
+<path d="M814.0 361.0A8.4 9.5 0 0 1 814.0 380.0Z" fill="#4a1520"/>
 <text x="32.8" y="375.0" fill="#2b1d0e" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◆</text>
 <text x="66.4" y="375.0" fill="#2b1d0e" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
-<text x="226.0" y="375.0" fill="#1f0a05" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
-<text x="301.6" y="375.0" fill="#fff5eb" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ■□□□□ 4%</text>
-<text x="427.6" y="375.0" fill="#fff5eb" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ■■□□□ 42% (2h11m)</text>
-<text x="620.8" y="375.0" fill="#ffd166" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ■□□□□ 23% (3d4h)</text>
-<text x="805.6" y="375.0" fill="#ffd166" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
-<text x="872.8" y="375.0" fill="#8a7f6e" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
+<text x="226.0" y="375.0" fill="#1f0a05" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main ●3</text>
+<text x="326.8" y="375.0" fill="#fff5eb" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ■□□□□ 4%</text>
+<text x="452.8" y="375.0" fill="#fff5eb" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ■■□□□ 42% (2h13m)</text>
+<text x="646.0" y="375.0" fill="#ffd166" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ■□□□□ 23% (3d4h)</text>
+<text x="830.8" y="375.0" fill="#8a7f6e" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
 <text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
 <path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
 <text x="16.0" y="432.0" fill="#f1e9da" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
 <path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
 </g>
-<g class="frame" style="animation-delay:3s">
+<g class="frame" style="animation-delay:12s">
+<rect width="956" height="472" rx="12" fill="#282828"/>
+<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#ebdbb2" opacity=".08"/>
+<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
+<text x="478" y="20" fill="#ebdbb2" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · gruvbox</text>
+<path d="M24.4 47.5h907.4" stroke="#504945" stroke-width="1.3"/>
+<path d="M20.2 57.2V51.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M931.4 47.5H931.6a4.2 4.2 0 0 1 4.2 4.2V57.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<rect x="32.8" y="57.0" width="25.6" height="19.4" fill="#504945"/>
+<path d="M20.2 57.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M935.8 57.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="71.0" fill="#83a598" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
+<text x="108.4" y="71.0" fill="#9b8d7f" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">19:06</text>
+<path d="M20.2 76.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M935.8 76.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<text x="66.4" y="90.0" fill="#ebdbb2" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
+<path d="M24.4 104.5h907.4" stroke="#504945" stroke-width="1.3"/>
+<path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M24.4 123.5h143.0" stroke="#504945" stroke-width="1.3"/>
+<path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M167.0 123.5H167.2a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M20.2 133.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M171.4 133.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M20.2 152.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M171.4 152.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
+<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">2</text>
+<text x="108.4" y="166.0" fill="#999999" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">files</text>
+<path d="M24.4 180.5h143.0" stroke="#504945" stroke-width="1.3"/>
+<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M167.0 180.5H167.2a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M24.4 199.5h907.4" stroke="#504945" stroke-width="1.3"/>
+<path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<rect x="32.8" y="209.0" width="25.6" height="19.4" fill="#504945"/>
+<path d="M20.2 209.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M935.8 209.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="223.0" fill="#fe8019" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">♫  CLAUDE</text>
+<text x="133.6" y="223.0" fill="#9b8d7f" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
+<path d="M20.2 228.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M935.8 228.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M20.2 247.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#fe8019"/>
+<path d="M935.8 247.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<text x="58.0" y="261.0" fill="#ebdbb2" textLength="428.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app started with</text>
+<text x="494.8" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
+<text x="570.4" y="261.0" fill="#ebdbb2" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
+<text x="788.8" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
+<text x="889.6" y="261.0" fill="#ebdbb2" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
+<path d="M20.2 266.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#fe8019"/>
+<path d="M935.8 266.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<text x="58.0" y="280.0" fill="#ebdbb2" textLength="663.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports two functions that return "Hello, name!" and "Bye, name" strings.</text>
+<path d="M20.2 285.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M935.8 285.0v19.2" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M24.4 313.5h907.4" stroke="#504945" stroke-width="1.3"/>
+<path d="M20.2 303.8V309.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#504945" stroke-width="1.3" fill="none"/>
+<path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#504945" stroke-width="1.3" fill="none"/>
+<rect x="24.4" y="323.0" width="92.8" height="19.4" fill="#fabd2f"/>
+<rect x="116.8" y="323.0" width="67.6" height="19.4" fill="#8ec07c"/>
+<rect x="184.0" y="323.0" width="151.6" height="19.4" fill="#3c3836"/>
+<path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#fabd2f"/>
+<path d="M116.8 323.0L125.2 332.5L116.8 342.0Z" fill="#fabd2f"/>
+<path d="M184.0 323.0L192.4 332.5L184.0 342.0Z" fill="#8ec07c"/>
+<path d="M335.2 323.0A8.4 9.5 0 0 1 335.2 342.0Z" fill="#3c3836"/>
+<text x="32.8" y="337.0" fill="#282828" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">♫ Grooved</text>
+<text x="133.6" y="337.0" fill="#282828" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 4s</text>
+<text x="200.8" y="337.0" fill="#fbf1c7" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.09 · 2 tools</text>
+<rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#fabd2f"/>
+<rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#fe8019"/>
+<rect x="209.2" y="361.0" width="101.2" height="19.4" fill="#8ec07c"/>
+<rect x="310.0" y="361.0" width="126.4" height="19.4" fill="#504945"/>
+<rect x="436.0" y="361.0" width="193.6" height="19.4" fill="#3c3836"/>
+<rect x="629.2" y="361.0" width="185.2" height="19.4" fill="#32302f"/>
+<path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#fabd2f"/>
+<path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#fabd2f"/>
+<path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#fe8019"/>
+<path d="M310.0 361.0L318.4 370.5L310.0 380.0Z" fill="#8ec07c"/>
+<path d="M436.0 361.0L444.4 370.5L436.0 380.0Z" fill="#504945"/>
+<path d="M629.2 361.0L637.6 370.5L629.2 380.0Z" fill="#3c3836"/>
+<path d="M814.0 361.0A8.4 9.5 0 0 1 814.0 380.0Z" fill="#32302f"/>
+<text x="32.8" y="375.0" fill="#282828" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">♫</text>
+<text x="66.4" y="375.0" fill="#282828" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
+<text x="226.0" y="375.0" fill="#282828" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main ●3</text>
+<text x="326.8" y="375.0" fill="#fbf1c7" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ■□□□□ 4%</text>
+<text x="452.8" y="375.0" fill="#fbf1c7" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ■■□□□ 42% (2h12m)</text>
+<text x="646.0" y="375.0" fill="#fbf1c7" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ■□□□□ 23% (3d4h)</text>
+<text x="830.8" y="375.0" fill="#9b8d7f" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
+<text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
+<path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
+<text x="16.0" y="432.0" fill="#ebdbb2" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
+<path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
+</g>
+<g class="frame" style="animation-delay:15s">
 <rect width="956" height="472" rx="12" fill="#1a1226"/>
 <path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#f0e6ff" opacity=".08"/>
 <circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
@@ -117,26 +487,26 @@
 <path d="M20.2 57.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <path d="M935.8 57.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <text x="41.2" y="71.0" fill="#36f9f6" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
-<text x="108.4" y="71.0" fill="#8b7ca6" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">12:57</text>
+<text x="108.4" y="71.0" fill="#8b7ca6" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">19:06</text>
 <path d="M20.2 76.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <path d="M935.8 76.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <text x="66.4" y="90.0" fill="#f0e6ff" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
 <path d="M24.4 104.5h907.4" stroke="#3b2a52" stroke-width="1.3"/>
 <path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
-<path d="M24.4 123.5h134.6" stroke="#3b2a52" stroke-width="1.3"/>
+<path d="M24.4 123.5h143.0" stroke="#3b2a52" stroke-width="1.3"/>
 <path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
-<path d="M158.6 123.5H158.8a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
+<path d="M167.0 123.5H167.2a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <path d="M20.2 133.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
-<path d="M163.0 133.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
+<path d="M171.4 133.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <path d="M20.2 152.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
-<path d="M163.0 152.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
+<path d="M171.4 152.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
-<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">1</text>
-<text x="108.4" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">file</text>
-<path d="M24.4 180.5h134.6" stroke="#3b2a52" stroke-width="1.3"/>
+<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">2</text>
+<text x="108.4" y="166.0" fill="#999999" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">files</text>
+<path d="M24.4 180.5h143.0" stroke="#3b2a52" stroke-width="1.3"/>
 <path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
-<path d="M158.6 180.5H158.8a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
+<path d="M167.0 180.5H167.2a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <path d="M24.4 199.5h907.4" stroke="#3b2a52" stroke-width="1.3"/>
 <path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
@@ -150,19 +520,15 @@
 <path d="M20.2 247.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#ff6ac1"/>
 <path d="M935.8 247.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="261.0" fill="#f0e6ff" textLength="436.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app, started with</text>
-<text x="503.2" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
-<text x="578.8" y="261.0" fill="#f0e6ff" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
-<text x="797.2" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
-<text x="898.0" y="261.0" fill="#f0e6ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
+<text x="58.0" y="261.0" fill="#f0e6ff" textLength="428.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app started with</text>
+<text x="494.8" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
+<text x="570.4" y="261.0" fill="#f0e6ff" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
+<text x="788.8" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
+<text x="889.6" y="261.0" fill="#f0e6ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
 <path d="M20.2 266.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#ff6ac1"/>
 <path d="M935.8 266.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="280.0" fill="#f0e6ff" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports</text>
-<text x="175.6" y="280.0" fill="#b1b9f9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">greet</text>
-<text x="226.0" y="280.0" fill="#f0e6ff" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">and</text>
-<text x="259.6" y="280.0" fill="#b1b9f9" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">bye</text>
-<text x="293.2" y="280.0" fill="#f0e6ff" textLength="520.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">functions that return "Hello, name!" and "Bye, name" messages.</text>
+<text x="58.0" y="280.0" fill="#f0e6ff" textLength="663.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports two functions that return "Hello, name!" and "Bye, name" strings.</text>
 <path d="M20.2 285.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <path d="M935.8 285.0v19.2" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <path d="M24.4 313.5h907.4" stroke="#3b2a52" stroke-width="1.3"/>
@@ -170,42 +536,234 @@
 <path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#3b2a52" stroke-width="1.3" fill="none"/>
 <rect x="24.4" y="323.0" width="101.2" height="19.4" fill="#fede5d"/>
 <rect x="125.2" y="323.0" width="67.6" height="19.4" fill="#ff6ac1"/>
-<rect x="192.4" y="323.0" width="143.2" height="19.4" fill="#6e3fa3"/>
+<rect x="192.4" y="323.0" width="151.6" height="19.4" fill="#6e3fa3"/>
 <path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#fede5d"/>
 <path d="M125.2 323.0L133.6 332.5L125.2 342.0Z" fill="#fede5d"/>
 <path d="M192.4 323.0L200.8 332.5L192.4 342.0Z" fill="#ff6ac1"/>
-<path d="M335.2 323.0A8.4 9.5 0 0 1 335.2 342.0Z" fill="#6e3fa3"/>
+<path d="M343.6 323.0A8.4 9.5 0 0 1 343.6 342.0Z" fill="#6e3fa3"/>
 <text x="32.8" y="337.0" fill="#241b2f" font-weight="700" textLength="84.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◢ Fade out</text>
-<text x="142.0" y="337.0" fill="#241b2f" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 5s</text>
-<text x="209.2" y="337.0" fill="#ffffff" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12 · 1 tool</text>
+<text x="142.0" y="337.0" fill="#241b2f" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 4s</text>
+<text x="209.2" y="337.0" fill="#ffffff" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.09 · 2 tools</text>
 <rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#fede5d"/>
 <rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#ff9e64"/>
-<rect x="209.2" y="361.0" width="76.0" height="19.4" fill="#ff6ac1"/>
-<rect x="284.8" y="361.0" width="126.4" height="19.4" fill="#a83cc9"/>
-<rect x="410.8" y="361.0" width="193.6" height="19.4" fill="#6e3fa3"/>
-<rect x="604.0" y="361.0" width="252.4" height="19.4" fill="#2a1b3d"/>
+<rect x="209.2" y="361.0" width="101.2" height="19.4" fill="#ff6ac1"/>
+<rect x="310.0" y="361.0" width="126.4" height="19.4" fill="#a83cc9"/>
+<rect x="436.0" y="361.0" width="193.6" height="19.4" fill="#6e3fa3"/>
+<rect x="629.2" y="361.0" width="185.2" height="19.4" fill="#2a1b3d"/>
 <path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#fede5d"/>
 <path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#fede5d"/>
 <path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#ff9e64"/>
-<path d="M284.8 361.0L293.2 370.5L284.8 380.0Z" fill="#ff6ac1"/>
-<path d="M410.8 361.0L419.2 370.5L410.8 380.0Z" fill="#a83cc9"/>
-<path d="M604.0 361.0L612.4 370.5L604.0 380.0Z" fill="#6e3fa3"/>
-<path d="M788.8 361.0L797.2 370.5L788.8 380.0Z" fill="#2a1b3d"/>
-<path d="M856.0 361.0A8.4 9.5 0 0 1 856.0 380.0Z" fill="#2a1b3d"/>
+<path d="M310.0 361.0L318.4 370.5L310.0 380.0Z" fill="#ff6ac1"/>
+<path d="M436.0 361.0L444.4 370.5L436.0 380.0Z" fill="#a83cc9"/>
+<path d="M629.2 361.0L637.6 370.5L629.2 380.0Z" fill="#6e3fa3"/>
+<path d="M814.0 361.0A8.4 9.5 0 0 1 814.0 380.0Z" fill="#2a1b3d"/>
 <text x="32.8" y="375.0" fill="#241b2f" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◢</text>
 <text x="66.4" y="375.0" fill="#241b2f" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
-<text x="226.0" y="375.0" fill="#241b2f" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
-<text x="301.6" y="375.0" fill="#ffffff" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ▰▱▱▱▱ 4%</text>
-<text x="427.6" y="375.0" fill="#ffffff" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ▰▰▱▱▱ 42% (2h13m)</text>
-<text x="620.8" y="375.0" fill="#fede5d" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ▰▱▱▱▱ 23% (3d4h)</text>
-<text x="805.6" y="375.0" fill="#fede5d" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
-<text x="872.8" y="375.0" fill="#8b7ca6" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
+<text x="226.0" y="375.0" fill="#241b2f" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main ●3</text>
+<text x="326.8" y="375.0" fill="#ffffff" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ▰▱▱▱▱ 4%</text>
+<text x="452.8" y="375.0" fill="#ffffff" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ▰▰▱▱▱ 42% (2h12m)</text>
+<text x="646.0" y="375.0" fill="#fede5d" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ▰▱▱▱▱ 23% (3d4h)</text>
+<text x="830.8" y="375.0" fill="#8b7ca6" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
 <text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
 <path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
 <text x="16.0" y="432.0" fill="#f0e6ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
 <path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
 </g>
-<g class="frame" style="animation-delay:6s">
+<g class="frame" style="animation-delay:18s">
+<rect width="956" height="472" rx="12" fill="#191724"/>
+<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#e0def4" opacity=".08"/>
+<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
+<text x="478" y="20" fill="#e0def4" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · rose-pine</text>
+<path d="M24.4 47.5h907.4" stroke="#403d52" stroke-width="1.3"/>
+<path d="M20.2 57.2V51.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M931.4 47.5H931.6a4.2 4.2 0 0 1 4.2 4.2V57.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<rect x="32.8" y="57.0" width="25.6" height="19.4" fill="#403d52"/>
+<path d="M20.2 57.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M935.8 57.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="71.0" fill="#9ccfd8" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
+<text x="108.4" y="71.0" fill="#827f97" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">19:06</text>
+<path d="M20.2 76.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M935.8 76.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<text x="66.4" y="90.0" fill="#e0def4" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
+<path d="M24.4 104.5h907.4" stroke="#403d52" stroke-width="1.3"/>
+<path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M24.4 123.5h143.0" stroke="#403d52" stroke-width="1.3"/>
+<path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M167.0 123.5H167.2a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M20.2 133.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M171.4 133.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M20.2 152.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M171.4 152.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
+<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">2</text>
+<text x="108.4" y="166.0" fill="#999999" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">files</text>
+<path d="M24.4 180.5h143.0" stroke="#403d52" stroke-width="1.3"/>
+<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M167.0 180.5H167.2a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M24.4 199.5h907.4" stroke="#403d52" stroke-width="1.3"/>
+<path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<rect x="32.8" y="209.0" width="25.6" height="19.4" fill="#403d52"/>
+<path d="M20.2 209.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M935.8 209.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="223.0" fill="#ebbcba" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✾  CLAUDE</text>
+<text x="133.6" y="223.0" fill="#827f97" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
+<path d="M20.2 228.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M935.8 228.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M20.2 247.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#ebbcba"/>
+<path d="M935.8 247.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<text x="58.0" y="261.0" fill="#e0def4" textLength="428.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app started with</text>
+<text x="494.8" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
+<text x="570.4" y="261.0" fill="#e0def4" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
+<text x="788.8" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
+<text x="889.6" y="261.0" fill="#e0def4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
+<path d="M20.2 266.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#ebbcba"/>
+<path d="M935.8 266.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<text x="58.0" y="280.0" fill="#e0def4" textLength="663.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports two functions that return "Hello, name!" and "Bye, name" strings.</text>
+<path d="M20.2 285.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M935.8 285.0v19.2" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M24.4 313.5h907.4" stroke="#403d52" stroke-width="1.3"/>
+<path d="M20.2 303.8V309.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#403d52" stroke-width="1.3" fill="none"/>
+<rect x="24.4" y="323.0" width="92.8" height="19.4" fill="#ebbcba"/>
+<rect x="116.8" y="323.0" width="67.6" height="19.4" fill="#9ccfd8"/>
+<rect x="184.0" y="323.0" width="151.6" height="19.4" fill="#26233a"/>
+<path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#ebbcba"/>
+<path d="M116.8 323.0L125.2 332.5L116.8 342.0Z" fill="#ebbcba"/>
+<path d="M184.0 323.0L192.4 332.5L184.0 342.0Z" fill="#9ccfd8"/>
+<path d="M335.2 323.0A8.4 9.5 0 0 1 335.2 342.0Z" fill="#26233a"/>
+<text x="32.8" y="337.0" fill="#191724" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✾ Bloomed</text>
+<text x="133.6" y="337.0" fill="#191724" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 4s</text>
+<text x="200.8" y="337.0" fill="#e0def4" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.09 · 2 tools</text>
+<rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#ebbcba"/>
+<rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#c4a7e7"/>
+<rect x="209.2" y="361.0" width="101.2" height="19.4" fill="#9ccfd8"/>
+<rect x="310.0" y="361.0" width="126.4" height="19.4" fill="#403d52"/>
+<rect x="436.0" y="361.0" width="193.6" height="19.4" fill="#26233a"/>
+<rect x="629.2" y="361.0" width="185.2" height="19.4" fill="#1f1d2e"/>
+<path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#ebbcba"/>
+<path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#ebbcba"/>
+<path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#c4a7e7"/>
+<path d="M310.0 361.0L318.4 370.5L310.0 380.0Z" fill="#9ccfd8"/>
+<path d="M436.0 361.0L444.4 370.5L436.0 380.0Z" fill="#403d52"/>
+<path d="M629.2 361.0L637.6 370.5L629.2 380.0Z" fill="#26233a"/>
+<path d="M814.0 361.0A8.4 9.5 0 0 1 814.0 380.0Z" fill="#1f1d2e"/>
+<text x="32.8" y="375.0" fill="#191724" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✾</text>
+<text x="66.4" y="375.0" fill="#191724" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
+<text x="226.0" y="375.0" fill="#191724" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main ●3</text>
+<text x="326.8" y="375.0" fill="#e0def4" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ●○○○○ 4%</text>
+<text x="452.8" y="375.0" fill="#e0def4" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ●●○○○ 42% (2h12m)</text>
+<text x="646.0" y="375.0" fill="#e0def4" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ●○○○○ 23% (3d4h)</text>
+<text x="830.8" y="375.0" fill="#827f97" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
+<text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
+<path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
+<text x="16.0" y="432.0" fill="#e0def4" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
+<path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
+</g>
+<g class="frame" style="animation-delay:21s">
+<rect width="956" height="472" rx="12" fill="#2e3440"/>
+<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#d8dee9" opacity=".08"/>
+<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
+<text x="478" y="20" fill="#d8dee9" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · nord</text>
+<path d="M24.4 47.5h907.4" stroke="#434c5e" stroke-width="1.3"/>
+<path d="M20.2 57.2V51.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M931.4 47.5H931.6a4.2 4.2 0 0 1 4.2 4.2V57.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<rect x="32.8" y="57.0" width="25.6" height="19.4" fill="#434c5e"/>
+<path d="M20.2 57.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M935.8 57.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="71.0" fill="#81a1c1" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
+<text x="108.4" y="71.0" fill="#949cae" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">19:06</text>
+<path d="M20.2 76.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M935.8 76.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<text x="66.4" y="90.0" fill="#d8dee9" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
+<path d="M24.4 104.5h907.4" stroke="#434c5e" stroke-width="1.3"/>
+<path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M24.4 123.5h143.0" stroke="#434c5e" stroke-width="1.3"/>
+<path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M167.0 123.5H167.2a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M20.2 133.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M171.4 133.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M20.2 152.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M171.4 152.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
+<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">2</text>
+<text x="108.4" y="166.0" fill="#999999" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">files</text>
+<path d="M24.4 180.5h143.0" stroke="#434c5e" stroke-width="1.3"/>
+<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M167.0 180.5H167.2a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M24.4 199.5h907.4" stroke="#434c5e" stroke-width="1.3"/>
+<path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<rect x="32.8" y="209.0" width="25.6" height="19.4" fill="#434c5e"/>
+<path d="M20.2 209.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M935.8 209.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<text x="41.2" y="223.0" fill="#88c0d0" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❆  CLAUDE</text>
+<text x="133.6" y="223.0" fill="#949cae" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
+<path d="M20.2 228.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M935.8 228.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M20.2 247.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#88c0d0"/>
+<path d="M935.8 247.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<text x="58.0" y="261.0" fill="#d8dee9" textLength="428.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app started with</text>
+<text x="494.8" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
+<text x="570.4" y="261.0" fill="#d8dee9" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
+<text x="788.8" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
+<text x="889.6" y="261.0" fill="#d8dee9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
+<path d="M20.2 266.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#88c0d0"/>
+<path d="M935.8 266.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<text x="58.0" y="280.0" fill="#d8dee9" textLength="663.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports two functions that return "Hello, name!" and "Bye, name" strings.</text>
+<path d="M20.2 285.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M935.8 285.0v19.2" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M24.4 313.5h907.4" stroke="#434c5e" stroke-width="1.3"/>
+<path d="M20.2 303.8V309.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#434c5e" stroke-width="1.3" fill="none"/>
+<rect x="24.4" y="323.0" width="92.8" height="19.4" fill="#88c0d0"/>
+<rect x="116.8" y="323.0" width="67.6" height="19.4" fill="#81a1c1"/>
+<rect x="184.0" y="323.0" width="151.6" height="19.4" fill="#434c5e"/>
+<path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#88c0d0"/>
+<path d="M116.8 323.0L125.2 332.5L116.8 342.0Z" fill="#88c0d0"/>
+<path d="M184.0 323.0L192.4 332.5L184.0 342.0Z" fill="#81a1c1"/>
+<path d="M335.2 323.0A8.4 9.5 0 0 1 335.2 342.0Z" fill="#434c5e"/>
+<text x="32.8" y="337.0" fill="#2e3440" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❆ Settled</text>
+<text x="133.6" y="337.0" fill="#2e3440" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 4s</text>
+<text x="200.8" y="337.0" fill="#eceff4" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.09 · 2 tools</text>
+<rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#88c0d0"/>
+<rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#8fbcbb"/>
+<rect x="209.2" y="361.0" width="101.2" height="19.4" fill="#81a1c1"/>
+<rect x="310.0" y="361.0" width="126.4" height="19.4" fill="#4c566a"/>
+<rect x="436.0" y="361.0" width="193.6" height="19.4" fill="#434c5e"/>
+<rect x="629.2" y="361.0" width="185.2" height="19.4" fill="#3b4252"/>
+<path d="M368.8 370.5h33.8" stroke="#eceff4" stroke-width="1.3"/>
+<path d="M494.8 370.5h25.4" stroke="#eceff4" stroke-width="1.3"/>
+<path d="M679.6 370.5h33.8" stroke="#eceff4" stroke-width="1.3"/>
+<path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#88c0d0"/>
+<path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#88c0d0"/>
+<path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#8fbcbb"/>
+<path d="M310.0 361.0L318.4 370.5L310.0 380.0Z" fill="#81a1c1"/>
+<path d="M436.0 361.0L444.4 370.5L436.0 380.0Z" fill="#4c566a"/>
+<path d="M629.2 361.0L637.6 370.5L629.2 380.0Z" fill="#434c5e"/>
+<path d="M814.0 361.0A8.4 9.5 0 0 1 814.0 380.0Z" fill="#3b4252"/>
+<text x="32.8" y="375.0" fill="#2e3440" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❆</text>
+<text x="66.4" y="375.0" fill="#2e3440" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
+<text x="226.0" y="375.0" fill="#2e3440" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main ●3</text>
+<text x="326.8" y="375.0" fill="#eceff4" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ━</text>
+<text x="410.8" y="375.0" fill="#eceff4" textLength="16.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">4%</text>
+<text x="452.8" y="375.0" fill="#eceff4" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ━━</text>
+<text x="528.4" y="375.0" fill="#eceff4" textLength="92.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">42% (2h12m)</text>
+<text x="646.0" y="375.0" fill="#eceff4" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ━</text>
+<text x="721.6" y="375.0" fill="#eceff4" textLength="84.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">23% (3d4h)</text>
+<text x="830.8" y="375.0" fill="#949cae" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
+<text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
+<path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
+<text x="16.0" y="432.0" fill="#d8dee9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
+<path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
+</g>
+<g class="frame" style="animation-delay:24s">
 <rect width="956" height="472" rx="12" fill="#08050f"/>
 <path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#ece2ff" opacity=".08"/>
 <circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
@@ -217,26 +775,26 @@
 <path d="M20.2 57.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
 <path d="M935.8 57.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
 <text x="41.2" y="71.0" fill="#67e8f9" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
-<text x="108.4" y="71.0" fill="#7d7391" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">12:57</text>
+<text x="108.4" y="71.0" fill="#7d7391" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">19:06</text>
 <path d="M20.2 76.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
 <path d="M935.8 76.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
 <text x="66.4" y="90.0" fill="#ece2ff" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
 <path d="M24.4 104.5h907.4" stroke="#251640" stroke-width="1.3"/>
 <path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#251640" stroke-width="1.3" fill="none"/>
 <path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#251640" stroke-width="1.3" fill="none"/>
-<path d="M24.4 123.5h134.6" stroke="#251640" stroke-width="1.3"/>
+<path d="M24.4 123.5h143.0" stroke="#251640" stroke-width="1.3"/>
 <path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#251640" stroke-width="1.3" fill="none"/>
-<path d="M158.6 123.5H158.8a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#251640" stroke-width="1.3" fill="none"/>
+<path d="M167.0 123.5H167.2a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#251640" stroke-width="1.3" fill="none"/>
 <path d="M20.2 133.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
-<path d="M163.0 133.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
+<path d="M171.4 133.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
 <path d="M20.2 152.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
-<path d="M163.0 152.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
+<path d="M171.4 152.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
 <text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
-<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">1</text>
-<text x="108.4" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">file</text>
-<path d="M24.4 180.5h134.6" stroke="#251640" stroke-width="1.3"/>
+<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">2</text>
+<text x="108.4" y="166.0" fill="#999999" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">files</text>
+<path d="M24.4 180.5h143.0" stroke="#251640" stroke-width="1.3"/>
 <path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#251640" stroke-width="1.3" fill="none"/>
-<path d="M158.6 180.5H158.8a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#251640" stroke-width="1.3" fill="none"/>
+<path d="M167.0 180.5H167.2a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#251640" stroke-width="1.3" fill="none"/>
 <path d="M24.4 199.5h907.4" stroke="#251640" stroke-width="1.3"/>
 <path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#251640" stroke-width="1.3" fill="none"/>
 <path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#251640" stroke-width="1.3" fill="none"/>
@@ -250,19 +808,15 @@
 <path d="M20.2 247.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
 <rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#c084fc"/>
 <path d="M935.8 247.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="261.0" fill="#ece2ff" textLength="436.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app, started with</text>
-<text x="503.2" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
-<text x="578.8" y="261.0" fill="#ece2ff" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
-<text x="797.2" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
-<text x="898.0" y="261.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
+<text x="58.0" y="261.0" fill="#ece2ff" textLength="428.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app started with</text>
+<text x="494.8" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
+<text x="570.4" y="261.0" fill="#ece2ff" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
+<text x="788.8" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
+<text x="889.6" y="261.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
 <path d="M20.2 266.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
 <rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#c084fc"/>
 <path d="M935.8 266.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="280.0" fill="#ece2ff" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports</text>
-<text x="175.6" y="280.0" fill="#b1b9f9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">greet</text>
-<text x="226.0" y="280.0" fill="#ece2ff" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">and</text>
-<text x="259.6" y="280.0" fill="#b1b9f9" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">bye</text>
-<text x="293.2" y="280.0" fill="#ece2ff" textLength="520.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">functions that return "Hello, name!" and "Bye, name" messages.</text>
+<text x="58.0" y="280.0" fill="#ece2ff" textLength="663.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports two functions that return "Hello, name!" and "Bye, name" strings.</text>
 <path d="M20.2 285.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
 <path d="M935.8 285.0v19.2" stroke="#251640" stroke-width="1.3" fill="none"/>
 <path d="M24.4 313.5h907.4" stroke="#251640" stroke-width="1.3"/>
@@ -270,645 +824,37 @@
 <path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#251640" stroke-width="1.3" fill="none"/>
 <rect x="24.4" y="323.0" width="84.4" height="19.4" fill="#7e22ce"/>
 <rect x="108.4" y="323.0" width="67.6" height="19.4" fill="#251640"/>
-<rect x="175.6" y="323.0" width="143.2" height="19.4" fill="#180e2b"/>
+<rect x="175.6" y="323.0" width="151.6" height="19.4" fill="#180e2b"/>
 <path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#7e22ce"/>
 <path d="M108.4 323.0L116.8 332.5L108.4 342.0Z" fill="#7e22ce"/>
 <path d="M175.6 323.0L184.0 332.5L175.6 342.0Z" fill="#251640"/>
-<path d="M318.4 323.0A8.4 9.5 0 0 1 318.4 342.0Z" fill="#180e2b"/>
+<path d="M326.8 323.0A8.4 9.5 0 0 1 326.8 342.0Z" fill="#180e2b"/>
 <text x="32.8" y="337.0" fill="#ffffff" font-weight="700" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✧ Landed</text>
-<text x="125.2" y="337.0" fill="#e6c6ff" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 5s</text>
-<text x="192.4" y="337.0" fill="#cc99ff" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12 · 1 tool</text>
+<text x="125.2" y="337.0" fill="#e6c6ff" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 4s</text>
+<text x="192.4" y="337.0" fill="#cc99ff" textLength="126.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.09 · 2 tools</text>
 <rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#7e22ce"/>
 <rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#2d1b4e"/>
-<rect x="209.2" y="361.0" width="76.0" height="19.4" fill="#251640"/>
-<rect x="284.8" y="361.0" width="126.4" height="19.4" fill="#1e1235"/>
-<rect x="410.8" y="361.0" width="193.6" height="19.4" fill="#180e2b"/>
-<rect x="604.0" y="361.0" width="252.4" height="19.4" fill="#0d0718"/>
+<rect x="209.2" y="361.0" width="101.2" height="19.4" fill="#251640"/>
+<rect x="310.0" y="361.0" width="126.4" height="19.4" fill="#1e1235"/>
+<rect x="436.0" y="361.0" width="193.6" height="19.4" fill="#180e2b"/>
+<rect x="629.2" y="361.0" width="185.2" height="19.4" fill="#0d0718"/>
 <path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#7e22ce"/>
 <path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#7e22ce"/>
 <path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#2d1b4e"/>
-<path d="M284.8 361.0L293.2 370.5L284.8 380.0Z" fill="#251640"/>
-<path d="M410.8 361.0L419.2 370.5L410.8 380.0Z" fill="#1e1235"/>
-<path d="M604.0 361.0L612.4 370.5L604.0 380.0Z" fill="#180e2b"/>
-<path d="M788.8 361.0L797.2 370.5L788.8 380.0Z" fill="#0d0718"/>
-<path d="M856.0 361.0A8.4 9.5 0 0 1 856.0 380.0Z" fill="#0d0718"/>
+<path d="M310.0 361.0L318.4 370.5L310.0 380.0Z" fill="#251640"/>
+<path d="M436.0 361.0L444.4 370.5L436.0 380.0Z" fill="#1e1235"/>
+<path d="M629.2 361.0L637.6 370.5L629.2 380.0Z" fill="#180e2b"/>
+<path d="M814.0 361.0A8.4 9.5 0 0 1 814.0 380.0Z" fill="#0d0718"/>
 <text x="32.8" y="375.0" fill="#ffffff" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✧</text>
 <text x="66.4" y="375.0" fill="#f0d9ff" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
-<text x="226.0" y="375.0" fill="#e6c6ff" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
-<text x="301.6" y="375.0" fill="#d9b0ff" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ▰▱▱▱▱ 4%</text>
-<text x="427.6" y="375.0" fill="#cc99ff" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ▰▰▱▱▱ 42% (2h13m)</text>
-<text x="620.8" y="375.0" fill="#f472b6" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ▰▱▱▱▱ 23% (3d4h)</text>
-<text x="805.6" y="375.0" fill="#f472b6" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
-<text x="872.8" y="375.0" fill="#7d7391" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
+<text x="226.0" y="375.0" fill="#e6c6ff" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main ●3</text>
+<text x="326.8" y="375.0" fill="#d9b0ff" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ▰▱▱▱▱ 4%</text>
+<text x="452.8" y="375.0" fill="#cc99ff" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ▰▰▱▱▱ 42% (2h12m)</text>
+<text x="646.0" y="375.0" fill="#f472b6" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ▰▱▱▱▱ 23% (3d4h)</text>
+<text x="830.8" y="375.0" fill="#7d7391" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
 <text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
 <path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
 <text x="16.0" y="432.0" fill="#ece2ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
-<path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
-</g>
-<g class="frame" style="animation-delay:9s">
-<rect width="956" height="472" rx="12" fill="#0b1220"/>
-<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#c9d1d9" opacity=".08"/>
-<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
-<text x="478" y="20" fill="#c9d1d9" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · midnight</text>
-<path d="M24.4 47.5h907.4" stroke="#24324d" stroke-width="1.3"/>
-<path d="M20.2 57.2V51.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M931.4 47.5H931.6a4.2 4.2 0 0 1 4.2 4.2V57.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<rect x="32.8" y="57.0" width="25.6" height="19.4" fill="#24324d"/>
-<path d="M20.2 57.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M935.8 57.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="71.0" fill="#6ea8fe" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
-<text x="108.4" y="71.0" fill="#8b949e" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">12:57</text>
-<path d="M20.2 76.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M935.8 76.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<text x="66.4" y="90.0" fill="#c9d1d9" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
-<path d="M24.4 104.5h907.4" stroke="#24324d" stroke-width="1.3"/>
-<path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M24.4 123.5h134.6" stroke="#24324d" stroke-width="1.3"/>
-<path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M158.6 123.5H158.8a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M20.2 133.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M163.0 133.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M20.2 152.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M163.0 152.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
-<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">1</text>
-<text x="108.4" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">file</text>
-<path d="M24.4 180.5h134.6" stroke="#24324d" stroke-width="1.3"/>
-<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M158.6 180.5H158.8a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M24.4 199.5h907.4" stroke="#24324d" stroke-width="1.3"/>
-<path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<rect x="32.8" y="209.0" width="25.6" height="19.4" fill="#24324d"/>
-<path d="M20.2 209.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M935.8 209.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="223.0" fill="#f0883e" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✻  CLAUDE</text>
-<text x="133.6" y="223.0" fill="#8b949e" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
-<path d="M20.2 228.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M935.8 228.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M20.2 247.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#f0883e"/>
-<path d="M935.8 247.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="261.0" fill="#c9d1d9" textLength="436.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app, started with</text>
-<text x="503.2" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
-<text x="578.8" y="261.0" fill="#c9d1d9" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
-<text x="797.2" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
-<text x="898.0" y="261.0" fill="#c9d1d9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
-<path d="M20.2 266.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#f0883e"/>
-<path d="M935.8 266.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="280.0" fill="#c9d1d9" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports</text>
-<text x="175.6" y="280.0" fill="#b1b9f9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">greet</text>
-<text x="226.0" y="280.0" fill="#c9d1d9" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">and</text>
-<text x="259.6" y="280.0" fill="#b1b9f9" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">bye</text>
-<text x="293.2" y="280.0" fill="#c9d1d9" textLength="520.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">functions that return "Hello, name!" and "Bye, name" messages.</text>
-<path d="M20.2 285.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M935.8 285.0v19.2" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M24.4 313.5h907.4" stroke="#24324d" stroke-width="1.3"/>
-<path d="M20.2 303.8V309.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#24324d" stroke-width="1.3" fill="none"/>
-<rect x="24.4" y="323.0" width="67.6" height="19.4" fill="#f0883e"/>
-<rect x="91.6" y="323.0" width="67.6" height="19.4" fill="#26385a"/>
-<rect x="158.8" y="323.0" width="143.2" height="19.4" fill="#19253d"/>
-<path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#f0883e"/>
-<path d="M91.6 323.0L100.0 332.5L91.6 342.0Z" fill="#f0883e"/>
-<path d="M158.8 323.0L167.2 332.5L158.8 342.0Z" fill="#26385a"/>
-<path d="M301.6 323.0A8.4 9.5 0 0 1 301.6 342.0Z" fill="#19253d"/>
-<text x="32.8" y="337.0" fill="#0b1220" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✻ Done</text>
-<text x="108.4" y="337.0" fill="#e6edf3" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 5s</text>
-<text x="175.6" y="337.0" fill="#c9d1d9" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12 · 1 tool</text>
-<rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#f0883e"/>
-<rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#2f4468"/>
-<rect x="209.2" y="361.0" width="76.0" height="19.4" fill="#26385a"/>
-<rect x="284.8" y="361.0" width="126.4" height="19.4" fill="#1f2d4a"/>
-<rect x="410.8" y="361.0" width="193.6" height="19.4" fill="#19253d"/>
-<rect x="604.0" y="361.0" width="252.4" height="19.4" fill="#141e33"/>
-<path d="M343.6 370.5h33.8" stroke="#c9d1d9" stroke-width="1.3"/>
-<path d="M469.6 370.5h25.4" stroke="#c9d1d9" stroke-width="1.3"/>
-<path d="M654.4 370.5h33.8" stroke="#3fb950" stroke-width="1.3"/>
-<path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#f0883e"/>
-<path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#f0883e"/>
-<path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#2f4468"/>
-<path d="M284.8 361.0L293.2 370.5L284.8 380.0Z" fill="#26385a"/>
-<path d="M410.8 361.0L419.2 370.5L410.8 380.0Z" fill="#1f2d4a"/>
-<path d="M604.0 361.0L612.4 370.5L604.0 380.0Z" fill="#19253d"/>
-<path d="M788.8 361.0L797.2 370.5L788.8 380.0Z" fill="#141e33"/>
-<path d="M856.0 361.0A8.4 9.5 0 0 1 856.0 380.0Z" fill="#141e33"/>
-<text x="32.8" y="375.0" fill="#0b1220" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">✻</text>
-<text x="66.4" y="375.0" fill="#e6edf3" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
-<text x="226.0" y="375.0" fill="#e6edf3" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
-<text x="301.6" y="375.0" fill="#c9d1d9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ━</text>
-<text x="385.6" y="375.0" fill="#c9d1d9" textLength="16.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">4%</text>
-<text x="427.6" y="375.0" fill="#c9d1d9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ━━</text>
-<text x="503.2" y="375.0" fill="#c9d1d9" textLength="92.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">42% (2h13m)</text>
-<text x="620.8" y="375.0" fill="#3fb950" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ━</text>
-<text x="696.4" y="375.0" fill="#3fb950" textLength="84.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">23% (3d4h)</text>
-<text x="805.6" y="375.0" fill="#3fb950" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
-<text x="872.8" y="375.0" fill="#8b949e" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
-<text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
-<path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
-<text x="16.0" y="432.0" fill="#c9d1d9" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
-<path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
-</g>
-<g class="frame" style="animation-delay:12s">
-<rect width="956" height="472" rx="12" fill="#020b10"/>
-<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#d4f1f7" opacity=".08"/>
-<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
-<text x="478" y="20" fill="#d4f1f7" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · abyss</text>
-<path d="M24.4 47.5h907.4" stroke="#072835" stroke-width="1.3"/>
-<path d="M20.2 57.2V51.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M931.4 47.5H931.6a4.2 4.2 0 0 1 4.2 4.2V57.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<rect x="32.8" y="57.0" width="25.6" height="19.4" fill="#072835"/>
-<path d="M20.2 57.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M935.8 57.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="71.0" fill="#7aa2f7" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
-<text x="108.4" y="71.0" fill="#617d86" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">12:57</text>
-<path d="M20.2 76.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M935.8 76.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<text x="66.4" y="90.0" fill="#d4f1f7" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
-<path d="M24.4 104.5h907.4" stroke="#072835" stroke-width="1.3"/>
-<path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M24.4 123.5h134.6" stroke="#072835" stroke-width="1.3"/>
-<path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M158.6 123.5H158.8a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M20.2 133.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M163.0 133.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M20.2 152.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M163.0 152.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
-<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">1</text>
-<text x="108.4" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">file</text>
-<path d="M24.4 180.5h134.6" stroke="#072835" stroke-width="1.3"/>
-<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M158.6 180.5H158.8a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M24.4 199.5h907.4" stroke="#072835" stroke-width="1.3"/>
-<path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<rect x="32.8" y="209.0" width="25.6" height="19.4" fill="#072835"/>
-<path d="M20.2 209.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M935.8 209.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="223.0" fill="#2ec4b6" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◉  CLAUDE</text>
-<text x="133.6" y="223.0" fill="#617d86" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
-<path d="M20.2 228.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M935.8 228.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M20.2 247.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#2ec4b6"/>
-<path d="M935.8 247.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="261.0" fill="#d4f1f7" textLength="436.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app, started with</text>
-<text x="503.2" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
-<text x="578.8" y="261.0" fill="#d4f1f7" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
-<text x="797.2" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
-<text x="898.0" y="261.0" fill="#d4f1f7" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
-<path d="M20.2 266.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#2ec4b6"/>
-<path d="M935.8 266.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="280.0" fill="#d4f1f7" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports</text>
-<text x="175.6" y="280.0" fill="#b1b9f9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">greet</text>
-<text x="226.0" y="280.0" fill="#d4f1f7" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">and</text>
-<text x="259.6" y="280.0" fill="#b1b9f9" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">bye</text>
-<text x="293.2" y="280.0" fill="#d4f1f7" textLength="520.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">functions that return "Hello, name!" and "Bye, name" messages.</text>
-<path d="M20.2 285.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M935.8 285.0v19.2" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M24.4 313.5h907.4" stroke="#072835" stroke-width="1.3"/>
-<path d="M20.2 303.8V309.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#072835" stroke-width="1.3" fill="none"/>
-<path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#072835" stroke-width="1.3" fill="none"/>
-<rect x="24.4" y="323.0" width="118.0" height="19.4" fill="#0e6e7a"/>
-<rect x="142.0" y="323.0" width="67.6" height="19.4" fill="#093240"/>
-<rect x="209.2" y="323.0" width="143.2" height="19.4" fill="#061f2b"/>
-<path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#0e6e7a"/>
-<path d="M142.0 323.0L150.4 332.5L142.0 342.0Z" fill="#0e6e7a"/>
-<path d="M209.2 323.0L217.6 332.5L209.2 342.0Z" fill="#093240"/>
-<path d="M352.0 323.0A8.4 9.5 0 0 1 352.0 342.0Z" fill="#061f2b"/>
-<text x="32.8" y="337.0" fill="#ffffff" font-weight="700" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◉ Resurfaced</text>
-<text x="158.8" y="337.0" fill="#9ee8f7" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 5s</text>
-<text x="226.0" y="337.0" fill="#5fd0e6" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12 · 1 tool</text>
-<rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#0e6e7a"/>
-<rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#0b3d4a"/>
-<rect x="209.2" y="361.0" width="76.0" height="19.4" fill="#093240"/>
-<rect x="284.8" y="361.0" width="126.4" height="19.4" fill="#072835"/>
-<rect x="410.8" y="361.0" width="193.6" height="19.4" fill="#061f2b"/>
-<rect x="604.0" y="361.0" width="252.4" height="19.4" fill="#031117"/>
-<path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#0e6e7a"/>
-<path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#0e6e7a"/>
-<path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#0b3d4a"/>
-<path d="M284.8 361.0L293.2 370.5L284.8 380.0Z" fill="#093240"/>
-<path d="M410.8 361.0L419.2 370.5L410.8 380.0Z" fill="#072835"/>
-<path d="M604.0 361.0L612.4 370.5L604.0 380.0Z" fill="#061f2b"/>
-<path d="M788.8 361.0L797.2 370.5L788.8 380.0Z" fill="#031117"/>
-<path d="M856.0 361.0A8.4 9.5 0 0 1 856.0 380.0Z" fill="#031117"/>
-<text x="32.8" y="375.0" fill="#ffffff" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◉</text>
-<text x="66.4" y="375.0" fill="#b8f2ff" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
-<text x="226.0" y="375.0" fill="#9ee8f7" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
-<text x="301.6" y="375.0" fill="#7fdcef" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ▮▯▯▯▯ 4%</text>
-<text x="427.6" y="375.0" fill="#5fd0e6" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ▮▮▯▯▯ 42% (2h12m)</text>
-<text x="620.8" y="375.0" fill="#2ec4b6" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ▮▯▯▯▯ 23% (3d4h)</text>
-<text x="805.6" y="375.0" fill="#2ec4b6" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
-<text x="872.8" y="375.0" fill="#617d86" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
-<text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
-<path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
-<text x="16.0" y="432.0" fill="#d4f1f7" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
-<path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
-</g>
-<g class="frame" style="animation-delay:15s">
-<rect width="956" height="472" rx="12" fill="#24161e"/>
-<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#fbe4ec" opacity=".08"/>
-<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
-<text x="478" y="20" fill="#fbe4ec" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · sakura</text>
-<path d="M24.4 47.5h907.4" stroke="#7a4161" stroke-width="1.3"/>
-<path d="M20.2 57.2V51.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M931.4 47.5H931.6a4.2 4.2 0 0 1 4.2 4.2V57.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<rect x="32.8" y="57.0" width="25.6" height="19.4" fill="#7a4161"/>
-<path d="M20.2 57.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M935.8 57.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="71.0" fill="#bde0fe" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
-<text x="108.4" y="71.0" fill="#9a8c98" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">12:57</text>
-<path d="M20.2 76.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M935.8 76.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<text x="66.4" y="90.0" fill="#fbe4ec" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
-<path d="M24.4 104.5h907.4" stroke="#7a4161" stroke-width="1.3"/>
-<path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M24.4 123.5h134.6" stroke="#7a4161" stroke-width="1.3"/>
-<path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M158.6 123.5H158.8a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M20.2 133.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M163.0 133.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M20.2 152.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M163.0 152.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
-<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">1</text>
-<text x="108.4" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">file</text>
-<path d="M24.4 180.5h134.6" stroke="#7a4161" stroke-width="1.3"/>
-<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M158.6 180.5H158.8a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M24.4 199.5h907.4" stroke="#7a4161" stroke-width="1.3"/>
-<path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<rect x="32.8" y="209.0" width="25.6" height="19.4" fill="#7a4161"/>
-<path d="M20.2 209.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M935.8 209.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="223.0" fill="#ffb3cc" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❀  CLAUDE</text>
-<text x="133.6" y="223.0" fill="#9a8c98" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
-<path d="M20.2 228.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M935.8 228.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M20.2 247.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#ffb3cc"/>
-<path d="M935.8 247.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="261.0" fill="#fbe4ec" textLength="436.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app, started with</text>
-<text x="503.2" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
-<text x="578.8" y="261.0" fill="#fbe4ec" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
-<text x="797.2" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
-<text x="898.0" y="261.0" fill="#fbe4ec" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
-<path d="M20.2 266.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#ffb3cc"/>
-<path d="M935.8 266.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="280.0" fill="#fbe4ec" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports</text>
-<text x="175.6" y="280.0" fill="#b1b9f9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">greet</text>
-<text x="226.0" y="280.0" fill="#fbe4ec" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">and</text>
-<text x="259.6" y="280.0" fill="#b1b9f9" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">bye</text>
-<text x="293.2" y="280.0" fill="#fbe4ec" textLength="520.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">functions that return "Hello, name!" and "Bye, name" messages.</text>
-<path d="M20.2 285.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M935.8 285.0v19.2" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M24.4 313.5h907.4" stroke="#7a4161" stroke-width="1.3"/>
-<path d="M20.2 303.8V309.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#7a4161" stroke-width="1.3" fill="none"/>
-<rect x="24.4" y="323.0" width="92.8" height="19.4" fill="#ffd6e5"/>
-<rect x="116.8" y="323.0" width="67.6" height="19.4" fill="#f28ab2"/>
-<rect x="184.0" y="323.0" width="143.2" height="19.4" fill="#7a4161"/>
-<path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#ffd6e5"/>
-<path d="M116.8 323.0L125.2 332.5L116.8 342.0Z" fill="#ffd6e5"/>
-<path d="M184.0 323.0L192.4 332.5L184.0 342.0Z" fill="#f28ab2"/>
-<path d="M326.8 323.0A8.4 9.5 0 0 1 326.8 342.0Z" fill="#7a4161"/>
-<text x="32.8" y="337.0" fill="#4a1f33" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❀ Bloomed</text>
-<text x="133.6" y="337.0" fill="#2b0f1d" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 5s</text>
-<text x="200.8" y="337.0" fill="#ffe4ef" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12 · 1 tool</text>
-<rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#ffd6e5"/>
-<rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#ffb3cc"/>
-<rect x="209.2" y="361.0" width="76.0" height="19.4" fill="#f28ab2"/>
-<rect x="284.8" y="361.0" width="126.4" height="19.4" fill="#b04a7a"/>
-<rect x="410.8" y="361.0" width="193.6" height="19.4" fill="#7a4161"/>
-<rect x="604.0" y="361.0" width="252.4" height="19.4" fill="#3d2433"/>
-<path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#ffd6e5"/>
-<path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#ffd6e5"/>
-<path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#ffb3cc"/>
-<path d="M284.8 361.0L293.2 370.5L284.8 380.0Z" fill="#f28ab2"/>
-<path d="M410.8 361.0L419.2 370.5L410.8 380.0Z" fill="#b04a7a"/>
-<path d="M604.0 361.0L612.4 370.5L604.0 380.0Z" fill="#7a4161"/>
-<path d="M788.8 361.0L797.2 370.5L788.8 380.0Z" fill="#3d2433"/>
-<path d="M856.0 361.0A8.4 9.5 0 0 1 856.0 380.0Z" fill="#3d2433"/>
-<text x="32.8" y="375.0" fill="#4a1f33" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❀</text>
-<text x="66.4" y="375.0" fill="#4a1f33" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
-<text x="226.0" y="375.0" fill="#2b0f1d" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
-<text x="301.6" y="375.0" fill="#ffffff" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ●○○○○ 4%</text>
-<text x="427.6" y="375.0" fill="#ffe4ef" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ●●○○○ 42% (2h12m)</text>
-<text x="620.8" y="375.0" fill="#ffb3cc" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ●○○○○ 23% (3d4h)</text>
-<text x="805.6" y="375.0" fill="#ffb3cc" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
-<text x="872.8" y="375.0" fill="#9a8c98" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
-<text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
-<path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
-<text x="16.0" y="432.0" fill="#fbe4ec" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
-<path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
-</g>
-<g class="frame" style="animation-delay:18s">
-<rect width="956" height="472" rx="12" fill="#04100b"/>
-<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#d8f3e6" opacity=".08"/>
-<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
-<text x="478" y="20" fill="#d8f3e6" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · emerald</text>
-<path d="M24.4 47.5h907.4" stroke="#0c3326" stroke-width="1.3"/>
-<path d="M20.2 57.2V51.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M931.4 47.5H931.6a4.2 4.2 0 0 1 4.2 4.2V57.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<rect x="32.8" y="57.0" width="25.6" height="19.4" fill="#0c3326"/>
-<path d="M20.2 57.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M935.8 57.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="71.0" fill="#fbbf24" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
-<text x="108.4" y="71.0" fill="#698277" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">12:57</text>
-<path d="M20.2 76.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M935.8 76.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<text x="66.4" y="90.0" fill="#d8f3e6" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
-<path d="M24.4 104.5h907.4" stroke="#0c3326" stroke-width="1.3"/>
-<path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M24.4 123.5h134.6" stroke="#0c3326" stroke-width="1.3"/>
-<path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M158.6 123.5H158.8a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M20.2 133.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M163.0 133.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M20.2 152.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M163.0 152.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
-<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">1</text>
-<text x="108.4" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">file</text>
-<path d="M24.4 180.5h134.6" stroke="#0c3326" stroke-width="1.3"/>
-<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M158.6 180.5H158.8a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M24.4 199.5h907.4" stroke="#0c3326" stroke-width="1.3"/>
-<path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<rect x="32.8" y="209.0" width="25.6" height="19.4" fill="#0c3326"/>
-<path d="M20.2 209.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M935.8 209.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="223.0" fill="#34d399" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❖  CLAUDE</text>
-<text x="133.6" y="223.0" fill="#698277" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
-<path d="M20.2 228.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M935.8 228.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M20.2 247.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#34d399"/>
-<path d="M935.8 247.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="261.0" fill="#d8f3e6" textLength="436.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app, started with</text>
-<text x="503.2" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
-<text x="578.8" y="261.0" fill="#d8f3e6" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
-<text x="797.2" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
-<text x="898.0" y="261.0" fill="#d8f3e6" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
-<path d="M20.2 266.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#34d399"/>
-<path d="M935.8 266.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="280.0" fill="#d8f3e6" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports</text>
-<text x="175.6" y="280.0" fill="#b1b9f9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">greet</text>
-<text x="226.0" y="280.0" fill="#d8f3e6" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">and</text>
-<text x="259.6" y="280.0" fill="#b1b9f9" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">bye</text>
-<text x="293.2" y="280.0" fill="#d8f3e6" textLength="520.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">functions that return "Hello, name!" and "Bye, name" messages.</text>
-<path d="M20.2 285.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M935.8 285.0v19.2" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M24.4 313.5h907.4" stroke="#0c3326" stroke-width="1.3"/>
-<path d="M20.2 303.8V309.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#0c3326" stroke-width="1.3" fill="none"/>
-<rect x="24.4" y="323.0" width="76.0" height="19.4" fill="#047857"/>
-<rect x="100.0" y="323.0" width="67.6" height="19.4" fill="#0c3326"/>
-<rect x="167.2" y="323.0" width="143.2" height="19.4" fill="#082219"/>
-<path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#047857"/>
-<path d="M100.0 323.0L108.4 332.5L100.0 342.0Z" fill="#047857"/>
-<path d="M167.2 323.0L175.6 332.5L167.2 342.0Z" fill="#0c3326"/>
-<path d="M310.0 323.0A8.4 9.5 0 0 1 310.0 342.0Z" fill="#082219"/>
-<text x="32.8" y="337.0" fill="#ffffff" font-weight="700" textLength="58.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❖ Mined</text>
-<text x="116.8" y="337.0" fill="#a8f0cc" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 5s</text>
-<text x="184.0" y="337.0" fill="#6ddba4" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12 · 1 tool</text>
-<rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#047857"/>
-<rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#0f3d2e"/>
-<rect x="209.2" y="361.0" width="76.0" height="19.4" fill="#0c3326"/>
-<rect x="284.8" y="361.0" width="126.4" height="19.4" fill="#0a2a1f"/>
-<rect x="410.8" y="361.0" width="193.6" height="19.4" fill="#082219"/>
-<rect x="604.0" y="361.0" width="252.4" height="19.4" fill="#051610"/>
-<path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#047857"/>
-<path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#047857"/>
-<path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#0f3d2e"/>
-<path d="M284.8 361.0L293.2 370.5L284.8 380.0Z" fill="#0c3326"/>
-<path d="M410.8 361.0L419.2 370.5L410.8 380.0Z" fill="#0a2a1f"/>
-<path d="M604.0 361.0L612.4 370.5L604.0 380.0Z" fill="#082219"/>
-<path d="M788.8 361.0L797.2 370.5L788.8 380.0Z" fill="#051610"/>
-<path d="M856.0 361.0A8.4 9.5 0 0 1 856.0 380.0Z" fill="#051610"/>
-<text x="32.8" y="375.0" fill="#ffffff" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❖</text>
-<text x="66.4" y="375.0" fill="#c7f9e0" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
-<text x="226.0" y="375.0" fill="#a8f0cc" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
-<text x="301.6" y="375.0" fill="#8ae6b8" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ■□□□□ 4%</text>
-<text x="427.6" y="375.0" fill="#6ddba4" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ■■□□□ 42% (2h12m)</text>
-<text x="620.8" y="375.0" fill="#34d399" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ■□□□□ 23% (3d4h)</text>
-<text x="805.6" y="375.0" fill="#34d399" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
-<text x="872.8" y="375.0" fill="#698277" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
-<text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
-<path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
-<text x="16.0" y="432.0" fill="#d8f3e6" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
-<path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
-</g>
-<g class="frame" style="animation-delay:21s">
-<rect width="956" height="472" rx="12" fill="#0d0221"/>
-<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#e6e6ff" opacity=".08"/>
-<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
-<text x="478" y="20" fill="#e6e6ff" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · neon</text>
-<path d="M24.4 47.5h907.4" stroke="#3f37c9" stroke-width="1.3"/>
-<path d="M20.2 57.2V51.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M931.4 47.5H931.6a4.2 4.2 0 0 1 4.2 4.2V57.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<rect x="32.8" y="57.0" width="25.6" height="19.4" fill="#3f37c9"/>
-<path d="M20.2 57.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M935.8 57.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="71.0" fill="#4cc9f0" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
-<text x="108.4" y="71.0" fill="#7d70a3" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">12:57</text>
-<path d="M20.2 76.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M935.8 76.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<text x="66.4" y="90.0" fill="#e6e6ff" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
-<path d="M24.4 104.5h907.4" stroke="#3f37c9" stroke-width="1.3"/>
-<path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M24.4 123.5h134.6" stroke="#3f37c9" stroke-width="1.3"/>
-<path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M158.6 123.5H158.8a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M20.2 133.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M163.0 133.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M20.2 152.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M163.0 152.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
-<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">1</text>
-<text x="108.4" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">file</text>
-<path d="M24.4 180.5h134.6" stroke="#3f37c9" stroke-width="1.3"/>
-<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M158.6 180.5H158.8a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M24.4 199.5h907.4" stroke="#3f37c9" stroke-width="1.3"/>
-<path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<rect x="32.8" y="209.0" width="25.6" height="19.4" fill="#3f37c9"/>
-<path d="M20.2 209.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M935.8 209.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="223.0" fill="#f72585" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⟡  CLAUDE</text>
-<text x="133.6" y="223.0" fill="#7d70a3" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
-<path d="M20.2 228.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M935.8 228.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M20.2 247.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#f72585"/>
-<path d="M935.8 247.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="261.0" fill="#e6e6ff" textLength="436.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app, started with</text>
-<text x="503.2" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
-<text x="578.8" y="261.0" fill="#e6e6ff" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
-<text x="797.2" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
-<text x="898.0" y="261.0" fill="#e6e6ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
-<path d="M20.2 266.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#f72585"/>
-<path d="M935.8 266.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="280.0" fill="#e6e6ff" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports</text>
-<text x="175.6" y="280.0" fill="#b1b9f9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">greet</text>
-<text x="226.0" y="280.0" fill="#e6e6ff" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">and</text>
-<text x="259.6" y="280.0" fill="#b1b9f9" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">bye</text>
-<text x="293.2" y="280.0" fill="#e6e6ff" textLength="520.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">functions that return "Hello, name!" and "Bye, name" messages.</text>
-<path d="M20.2 285.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M935.8 285.0v19.2" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M24.4 313.5h907.4" stroke="#3f37c9" stroke-width="1.3"/>
-<path d="M20.2 303.8V309.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#3f37c9" stroke-width="1.3" fill="none"/>
-<rect x="24.4" y="323.0" width="109.6" height="19.4" fill="#f72585"/>
-<rect x="133.6" y="323.0" width="76.0" height="19.4" fill="#7209b7"/>
-<rect x="209.2" y="323.0" width="143.2" height="19.4" fill="#4895ef"/>
-<path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#f72585"/>
-<path d="M133.6 323.0L142.0 332.5L133.6 342.0Z" fill="#f72585"/>
-<path d="M209.2 323.0L217.6 332.5L209.2 342.0Z" fill="#7209b7"/>
-<path d="M352.0 323.0A8.4 9.5 0 0 1 352.0 342.0Z" fill="#4895ef"/>
-<text x="32.8" y="337.0" fill="#0b0221" font-weight="700" textLength="92.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⟡ Jacked in</text>
-<text x="150.4" y="337.0" fill="#ffffff" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">for 5s</text>
-<text x="226.0" y="337.0" fill="#0b0221" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12 · 1 tool</text>
-<rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#f72585"/>
-<rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#b5179e"/>
-<rect x="209.2" y="361.0" width="76.0" height="19.4" fill="#7209b7"/>
-<rect x="284.8" y="361.0" width="126.4" height="19.4" fill="#3f37c9"/>
-<rect x="410.8" y="361.0" width="193.6" height="19.4" fill="#4895ef"/>
-<rect x="604.0" y="361.0" width="252.4" height="19.4" fill="#4cc9f0"/>
-<path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#f72585"/>
-<path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#f72585"/>
-<path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#b5179e"/>
-<path d="M284.8 361.0L293.2 370.5L284.8 380.0Z" fill="#7209b7"/>
-<path d="M410.8 361.0L419.2 370.5L410.8 380.0Z" fill="#3f37c9"/>
-<path d="M604.0 361.0L612.4 370.5L604.0 380.0Z" fill="#4895ef"/>
-<path d="M788.8 361.0L797.2 370.5L788.8 380.0Z" fill="#4cc9f0"/>
-<path d="M856.0 361.0A8.4 9.5 0 0 1 856.0 380.0Z" fill="#4cc9f0"/>
-<text x="32.8" y="375.0" fill="#0b0221" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⟡</text>
-<text x="66.4" y="375.0" fill="#ffffff" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
-<text x="226.0" y="375.0" fill="#ffffff" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
-<text x="301.6" y="375.0" fill="#ffffff" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ▰▱▱▱▱ 4%</text>
-<text x="427.6" y="375.0" fill="#0b0221" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ▰▰▱▱▱ 42% (2h12m)</text>
-<text x="620.8" y="375.0" fill="#0b0221" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ▰▱▱▱▱ 23% (3d4h)</text>
-<text x="805.6" y="375.0" fill="#0b0221" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
-<text x="872.8" y="375.0" fill="#7d70a3" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
-<text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
-<path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
-<text x="16.0" y="432.0" fill="#e6e6ff" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
-<path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
-</g>
-<g class="frame" style="animation-delay:24s">
-<rect width="956" height="472" rx="12" fill="#04122b"/>
-<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#d6f3fa" opacity=".08"/>
-<circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
-<text x="478" y="20" fill="#d6f3fa" opacity=".6" text-anchor="middle" font-size="12">claude · cc-skins · ocean</text>
-<path d="M24.4 47.5h907.4" stroke="#023e8a" stroke-width="1.3"/>
-<path d="M20.2 57.2V51.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M931.4 47.5H931.6a4.2 4.2 0 0 1 4.2 4.2V57.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<rect x="32.8" y="57.0" width="25.6" height="19.4" fill="#023e8a"/>
-<path d="M20.2 57.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M935.8 57.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="71.0" fill="#90e0ef" font-weight="700" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯  You</text>
-<text x="108.4" y="71.0" fill="#6c8ea0" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">12:57</text>
-<path d="M20.2 76.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M935.8 76.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<text x="66.4" y="90.0" fill="#d6f3fa" textLength="697.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read src/greet.js and README.md, then tell me in one sentence what this project is.</text>
-<path d="M24.4 104.5h907.4" stroke="#023e8a" stroke-width="1.3"/>
-<path d="M20.2 94.8V100.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M931.4 104.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V94.8" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M24.4 123.5h134.6" stroke="#023e8a" stroke-width="1.3"/>
-<path d="M20.2 133.2V127.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M158.6 123.5H158.8a4.2 4.2 0 0 1 4.2 4.2V133.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M20.2 133.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M163.0 133.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M20.2 152.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M163.0 152.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<text x="49.6" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Read</text>
-<text x="91.6" y="166.0" fill="#999999" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">1</text>
-<text x="108.4" y="166.0" fill="#999999" textLength="33.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">file</text>
-<path d="M24.4 180.5h134.6" stroke="#023e8a" stroke-width="1.3"/>
-<path d="M20.2 170.8V176.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M158.6 180.5H158.8a4.2 4.2 0 0 0 4.2 -4.2V170.8" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M24.4 199.5h907.4" stroke="#023e8a" stroke-width="1.3"/>
-<path d="M20.2 209.2V203.7a4.2 4.2 0 0 1 4.2 -4.2H24.6" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M931.4 199.5H931.6a4.2 4.2 0 0 1 4.2 4.2V209.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<rect x="32.8" y="209.0" width="25.6" height="19.4" fill="#023e8a"/>
-<path d="M20.2 209.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M935.8 209.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<text x="41.2" y="223.0" fill="#ff8c69" font-weight="700" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≈  CLAUDE</text>
-<text x="133.6" y="223.0" fill="#6c8ea0" textLength="67.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5</text>
-<path d="M20.2 228.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M935.8 228.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M20.2 247.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="247.0" width="2.4" height="19.2" fill="#ff8c69"/>
-<path d="M935.8 247.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="261.0" fill="#d6f3fa" textLength="436.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">acme-web is a small JavaScript web app, started with</text>
-<text x="503.2" y="261.0" fill="#b1b9f9" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">npm start</text>
-<text x="578.8" y="261.0" fill="#d6f3fa" textLength="210.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">; so far its only code is</text>
-<text x="797.2" y="261.0" fill="#b1b9f9" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">src/greet.js</text>
-<text x="898.0" y="261.0" fill="#d6f3fa" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">,</text>
-<path d="M20.2 266.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<rect x="42.2" y="266.0" width="2.4" height="19.2" fill="#ff8c69"/>
-<path d="M935.8 266.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<text x="58.0" y="280.0" fill="#d6f3fa" textLength="109.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">which exports</text>
-<text x="175.6" y="280.0" fill="#b1b9f9" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">greet</text>
-<text x="226.0" y="280.0" fill="#d6f3fa" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">and</text>
-<text x="259.6" y="280.0" fill="#b1b9f9" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">bye</text>
-<text x="293.2" y="280.0" fill="#d6f3fa" textLength="520.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">functions that return "Hello, name!" and "Bye, name" messages.</text>
-<path d="M20.2 285.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M935.8 285.0v19.2" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M24.4 313.5h907.4" stroke="#023e8a" stroke-width="1.3"/>
-<path d="M20.2 303.8V309.3a4.2 4.2 0 0 0 4.2 4.2H24.6" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<path d="M931.4 313.5H931.6a4.2 4.2 0 0 0 4.2 -4.2V303.8" stroke="#023e8a" stroke-width="1.3" fill="none"/>
-<rect x="24.4" y="323.0" width="101.2" height="19.4" fill="#ff8c69"/>
-<rect x="125.2" y="323.0" width="67.6" height="19.4" fill="#48cae4"/>
-<rect x="192.4" y="323.0" width="143.2" height="19.4" fill="#023e8a"/>
-<path d="M24.4 323.0A8.4 9.5 0 0 0 24.4 342.0Z" fill="#ff8c69"/>
-<path d="M125.2 323.0L133.6 332.5L125.2 342.0Z" fill="#ff8c69"/>
-<path d="M192.4 323.0L200.8 332.5L192.4 342.0Z" fill="#48cae4"/>
-<path d="M335.2 323.0A8.4 9.5 0 0 1 335.2 342.0Z" fill="#023e8a"/>
-<text x="32.8" y="337.0" fill="#1a0b05" font-weight="700" textLength="84.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≈ Surfaced</text>
-<text x="142.0" y="337.0" fill="#03045e" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">in 5s</text>
-<text x="209.2" y="337.0" fill="#caf0f8" textLength="117.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12 · 1 tool</text>
-<rect x="24.4" y="361.0" width="25.6" height="19.4" fill="#ff8c69"/>
-<rect x="49.6" y="361.0" width="160.0" height="19.4" fill="#90e0ef"/>
-<rect x="209.2" y="361.0" width="76.0" height="19.4" fill="#48cae4"/>
-<rect x="284.8" y="361.0" width="126.4" height="19.4" fill="#0077b6"/>
-<rect x="410.8" y="361.0" width="193.6" height="19.4" fill="#023e8a"/>
-<rect x="604.0" y="361.0" width="252.4" height="19.4" fill="#03045e"/>
-<path d="M24.4 361.0A8.4 9.5 0 0 0 24.4 380.0Z" fill="#ff8c69"/>
-<path d="M49.6 361.0L58.0 370.5L49.6 380.0Z" fill="#ff8c69"/>
-<path d="M209.2 361.0L217.6 370.5L209.2 380.0Z" fill="#90e0ef"/>
-<path d="M284.8 361.0L293.2 370.5L284.8 380.0Z" fill="#48cae4"/>
-<path d="M410.8 361.0L419.2 370.5L410.8 380.0Z" fill="#0077b6"/>
-<path d="M604.0 361.0L612.4 370.5L604.0 380.0Z" fill="#023e8a"/>
-<path d="M788.8 361.0L797.2 370.5L788.8 380.0Z" fill="#03045e"/>
-<path d="M856.0 361.0A8.4 9.5 0 0 1 856.0 380.0Z" fill="#03045e"/>
-<text x="32.8" y="375.0" fill="#1a0b05" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≈</text>
-<text x="66.4" y="375.0" fill="#03045e" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
-<text x="226.0" y="375.0" fill="#03045e" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
-<text x="301.6" y="375.0" fill="#ffffff" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ▮▯▯▯▯ 4%</text>
-<text x="427.6" y="375.0" fill="#caf0f8" textLength="168.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ▮▮▯▯▯ 42% (2h12m)</text>
-<text x="620.8" y="375.0" fill="#90e0ef" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ▮▯▯▯▯ 23% (3d4h)</text>
-<text x="805.6" y="375.0" fill="#90e0ef" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
-<text x="872.8" y="375.0" fill="#6c8ea0" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
-<text x="906.4" y="375.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
-<path d="M16.0 408.5h924.2" stroke="#888888" stroke-width="1.3"/>
-<text x="16.0" y="432.0" fill="#d6f3fa" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">❯</text>
 <path d="M16.0 446.5h924.2" stroke="#888888" stroke-width="1.3"/>
 </g>
 </svg>

@@ -1,6 +1,6 @@
 """Turns the screens capture.py saved into the README's pictures:
 
-- docs/hero.svg: the chat, its turn line and the bar, fading through ten skins
+- docs/hero.svg: the chat, its turn line and the bar, fading through the skins plan.py names
 - docs/screens/<pane>.svg: each pane, cut to the pane
 - docs/screens/bar-header.svg, bar-alerts.svg, bar-extras.svg: the quiet header, the bar at 72 % and 91 %, every extra on
 - docs/social-preview.svg (and .png, where rsvg-convert is installed): GitHub's link preview
@@ -12,15 +12,15 @@ from collections import Counter
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from to_svg import ROOT, render
+from plan import FRAMES_SKIN, HERO, PANES_SKIN
 
 SHOTS = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else '.work/shots')
 DOCS = os.path.join(ROOT, 'docs')
-HERO = ['ring', 'synthwave', 'nebula', 'midnight', 'abyss', 'sakura', 'emerald', 'neon', 'ocean']
-PANES = [('picker', 'panes', 'nebula', '/skin'), ('model', 'panes', 'nebula', '/skin model'),
-         ('settings', 'panes', 'nebula', '/skin bar'), ('alerts', 'panes', 'nebula', '/skin alerts'),
-         ('dashboard', 'panes', 'nebula', '/skin usage'), ('builder', 'panes', 'nebula', '/skin create'),
-         ('builder-colors', 'panes', 'nebula', '/skin color'),
-         ('changes', 'frames', 'ring', '/skin changes')]
+PANES = [('picker', 'panes', PANES_SKIN, '/skin'), ('model', 'panes', PANES_SKIN, '/skin model'),
+         ('settings', 'panes', PANES_SKIN, '/skin bar'), ('alerts', 'panes', PANES_SKIN, '/skin alerts'),
+         ('dashboard', 'panes', PANES_SKIN, '/skin usage'), ('builder', 'panes', PANES_SKIN, '/skin create'),
+         ('builder-colors', 'panes', PANES_SKIN, '/skin color'),
+         ('changes', 'frames', FRAMES_SKIN, '/skin changes')]
 
 
 def load(run, name):
@@ -77,20 +77,20 @@ for name, run, skin, title in PANES:
     write(os.path.join(DOCS, 'screens', f'{name}.svg'),
           render(shot, skin, None, (pane_left(shot), shot['cols']), (), title, trim=True))
 
-for name, run, shot_name, skin, title in [('bar-header', 'frames', 'header', 'ring', '/skin bar header'),
-                                          ('bar-alerts', 'frames', 'hot', 'ring', 'a limit at 72 % and one at 91 %'),
-                                          ('bar-extras', 'panes', 'extras', 'nebula', 'every extra on')]:
+for name, run, shot_name, skin, title in [('bar-header', 'frames', 'header', FRAMES_SKIN, '/skin bar header'),
+                                          ('bar-alerts', 'frames', 'hot', FRAMES_SKIN, 'a limit at 72 % and one at 91 %'),
+                                          ('bar-extras', 'panes', 'extras', PANES_SKIN, 'every extra on')]:
     shot = load(run, shot_name)
     y = bar_row(shot)
     write(os.path.join(DOCS, 'screens', f'{name}.svg'), render(shot, skin, (y, y + 1), None, (), title))
 
 # the social preview: the banner over Claude's reply, its turn line and the bar
-ring = load('frames', 'frame-ring')
-reply = next(y for y, line in enumerate(lines(ring)) if 'CLAUDE' in line) - 1
-social = [y for y in rows if y >= reply and y <= bar_row(ring)]
+first = load('frames', f'frame-{FRAMES_SKIN}')
+reply = next(y for y, line in enumerate(lines(first)) if 'CLAUDE' in line) - 1
+social = [y for y in rows if y >= reply and y <= bar_row(first)]
 svg_path = os.path.join(DOCS, 'social-preview.svg')
 subprocess.run([sys.executable, os.path.join(os.path.dirname(__file__), 'social.py'),
-                os.path.join(SHOTS, 'frames', 'frame-ring.json'), 'ring', svg_path,
+                os.path.join(SHOTS, 'frames', f'frame-{FRAMES_SKIN}.json'), FRAMES_SKIN, svg_path,
                 '--rows', f'{social[0]}:{social[-1] + 1}',
                 '--drop', ','.join(str(y) for y in set(range(social[0], social[-1] + 1)) - set(social))], check=True)
 if shutil.which('rsvg-convert'):

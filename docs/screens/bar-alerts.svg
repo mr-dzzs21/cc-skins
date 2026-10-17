@@ -1,30 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="956" height="73" viewBox="0 0 956 73" font-family="'JetBrains Mono','SF Mono','Cascadia Code',Menlo,Consolas,'DejaVu Sans Mono',monospace" font-size="14" role="img" aria-label="a limit at 72 % and one at 91 %">
-<rect width="956" height="73" rx="12" fill="#1a1213"/>
-<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#f1e9da" opacity=".08"/>
+<rect width="956" height="73" rx="12" fill="#1a1b26"/>
+<path d="M0 12a12 12 0 0 1 12-12h932a12 12 0 0 1 12 12v18H0Z" fill="#c0caf5" opacity=".08"/>
 <circle cx="20" cy="15" r="5.5" fill="#ff5f57"/><circle cx="38" cy="15" r="5.5" fill="#febc2e"/><circle cx="56" cy="15" r="5.5" fill="#28c840"/>
-<text x="478" y="20" fill="#f1e9da" opacity=".6" text-anchor="middle" font-size="12">a limit at 72 % and one at 91 %</text>
-<rect x="24.4" y="38.0" width="25.6" height="19.4" fill="#ffd166"/>
-<rect x="49.6" y="38.0" width="160.0" height="19.4" fill="#f4a259"/>
-<rect x="209.2" y="38.0" width="76.0" height="19.4" fill="#e5604d"/>
-<rect x="284.8" y="38.0" width="126.4" height="19.4" fill="#b8323f"/>
-<rect x="410.8" y="38.0" width="176.8" height="19.4" fill="#ffe45e"/>
-<rect x="587.2" y="38.0" width="185.2" height="19.4" fill="#ffffff"/>
-<rect x="772.0" y="38.0" width="67.6" height="19.4" fill="#4a1520"/>
-<path d="M24.4 38.0A8.4 9.5 0 0 0 24.4 57.0Z" fill="#ffd166"/>
-<path d="M49.6 38.0L58.0 47.5L49.6 57.0Z" fill="#ffd166"/>
-<path d="M209.2 38.0L217.6 47.5L209.2 57.0Z" fill="#f4a259"/>
-<path d="M284.8 38.0L293.2 47.5L284.8 57.0Z" fill="#e5604d"/>
-<path d="M410.8 38.0L419.2 47.5L410.8 57.0Z" fill="#b8323f"/>
-<path d="M587.2 38.0L595.6 47.5L587.2 57.0Z" fill="#ffe45e"/>
-<path d="M772.0 38.0L780.4 47.5L772.0 57.0Z" fill="#ffffff"/>
-<path d="M839.2 38.0A8.4 9.5 0 0 1 839.2 57.0Z" fill="#4a1520"/>
-<text x="32.8" y="52.0" fill="#2b1d0e" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">◆</text>
-<text x="66.4" y="52.0" fill="#2b1d0e" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
-<text x="226.0" y="52.0" fill="#1f0a05" textLength="50.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main</text>
-<text x="301.6" y="52.0" fill="#fff5eb" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ■□□□□ 4%</text>
-<text x="427.6" y="52.0" fill="#2b1d0e" textLength="151.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ■■■■□ 72% (48m)</text>
-<text x="604.0" y="52.0" fill="#c1121f" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ■■■■■ 91% (1d6h)</text>
-<text x="788.8" y="52.0" fill="#ffd166" font-weight="700" textLength="42.0" lengthAdjust="spacingAndGlyphs" xml:space="preserve">$0.12</text>
-<text x="856.0" y="52.0" fill="#8a7f6e" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
+<text x="478" y="20" fill="#c0caf5" opacity=".6" text-anchor="middle" font-size="12">a limit at 72 % and one at 91 %</text>
+<rect x="24.4" y="38.0" width="25.6" height="19.4" fill="#7aa2f7"/>
+<rect x="49.6" y="38.0" width="160.0" height="19.4" fill="#bb9af7"/>
+<rect x="209.2" y="38.0" width="101.2" height="19.4" fill="#7dcfff"/>
+<rect x="310.0" y="38.0" width="126.4" height="19.4" fill="#414868"/>
+<rect x="436.0" y="38.0" width="176.8" height="19.4" fill="#e0af68"/>
+<rect x="612.4" y="38.0" width="185.2" height="19.4" fill="#f7768e"/>
+<path d="M24.4 38.0A8.4 9.5 0 0 0 24.4 57.0Z" fill="#7aa2f7"/>
+<path d="M49.6 38.0L58.0 47.5L49.6 57.0Z" fill="#7aa2f7"/>
+<path d="M209.2 38.0L217.6 47.5L209.2 57.0Z" fill="#bb9af7"/>
+<path d="M310.0 38.0L318.4 47.5L310.0 57.0Z" fill="#7dcfff"/>
+<path d="M436.0 38.0L444.4 47.5L436.0 57.0Z" fill="#414868"/>
+<path d="M612.4 38.0L620.8 47.5L612.4 57.0Z" fill="#e0af68"/>
+<path d="M797.2 38.0A8.4 9.5 0 0 1 797.2 57.0Z" fill="#f7768e"/>
+<text x="32.8" y="52.0" fill="#16161e" font-weight="700" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">☾</text>
+<text x="66.4" y="52.0" fill="#16161e" font-weight="700" textLength="134.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">Opus 5.5 · xhigh</text>
+<text x="226.0" y="52.0" fill="#16161e" textLength="75.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">⎇ main ●3</text>
+<text x="326.8" y="52.0" fill="#c0caf5" textLength="100.8" lengthAdjust="spacingAndGlyphs" xml:space="preserve">ctx ▰▱▱▱▱ 4%</text>
+<text x="452.8" y="52.0" fill="#16161e" textLength="151.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">5h ▰▰▰▰▱ 72% (48m)</text>
+<text x="629.2" y="52.0" fill="#16161e" textLength="159.6" lengthAdjust="spacingAndGlyphs" xml:space="preserve">7d ▰▰▰▰▰ 91% (1d6h)</text>
+<text x="814.0" y="52.0" fill="#7b82a3" textLength="8.4" lengthAdjust="spacingAndGlyphs" xml:space="preserve">≡</text>
 <text x="906.4" y="52.0" fill="#999999" textLength="25.2" lengthAdjust="spacingAndGlyphs" xml:space="preserve">[-]</text>
 </svg>

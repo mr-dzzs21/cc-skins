@@ -18,6 +18,8 @@ and the limit windows show calm sample figures (42 % and 23 %, then 72 % and
 import glob, json, os, shutil, subprocess, sys, tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+from plan import FRAMES_SKIN, HERO, PANES_SKIN, hotkey
 OUT = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else '.work/shots')
 ONLY = sys.argv[2:]  # run names to record again (panes, frames); none: both
 STORES = glob.glob(os.path.expanduser('~/.claude/plugins/store/cc-skins_*.json'))
@@ -33,9 +35,6 @@ HOT = {'limitReading': {'rateLimits': [
     {'kind': 'five_hour', 'percentUsed': 72, 'resetsInHours': 0.8},
     {'kind': 'seven_day', 'percentUsed': 91, 'resetsInHours': 30.5}]}}
 EXTRAS = ['gitStatus', 'contextTokens', 'burnRate', 'session', 'clock', 'version']
-# the picker's keys for the skins the hero shows
-FRAMES = [('synthwave', '6'), ('nebula', 'i'), ('midnight', '1'), ('abyss', 'e'), ('sakura', '8'),
-          ('emerald', 'f'), ('neon', '3'), ('ocean', '7'), ('ring', '5')]
 
 
 def command(text, settle=2.5):
@@ -58,7 +57,8 @@ def panes():
     # every extra on (the reset countdowns off, for room), once the session is past the cost per hour's five minutes
     for text in ['/skin hide resets'] + [f'/skin show {item}' for item in EXTRAS]:
         steps += command(text, 2)
-    steps += [['wait', 200], ['shot', 'extras']]
+    # calm limits again: any session on this machine that gets a reply in the meantime stores its real ones
+    steps += [['wait', 134], ['seed', STORE, CALM], ['wait', 66], ['shot', 'extras']]
     # a copy of the skin with two pieces colored, then the builder's bar colors for it
     for text in ['/skin color model blue', '/skin color clock red', '/skin color']:
         steps += command(text, 2.5)
@@ -66,8 +66,10 @@ def panes():
 
 
 def frames():
-    steps = ask() + [['shot', 'frame-ring']]
-    for skin, key in FRAMES:
+    steps = ask() + [['shot', f'frame-{FRAMES_SKIN}']]
+    # each hero skin picked in the picker by its key (twice: preview, then pick), then back for the last shots
+    for skin in HERO[1:] + [FRAMES_SKIN]:
+        key = hotkey(skin)
         steps += command('/skin', 2) + [['send', key], ['wait', 1.2], ['send', key], ['wait', 6], ['shot', f'frame-{skin}']]
     steps += command('/skin changes', 3) + [['shot', 'changes'], ['key', 'esc'], ['wait', 1.5]]
     steps += command('/skin bar header', 2) + [['wait', 5], ['shot', 'header']] + command('/skin bar powerline', 2)
@@ -104,7 +106,8 @@ shutil.copyfile(STORE, backup)
 root = tempfile.mkdtemp(prefix='cc-skins-demo-')
 try:
     repo = demo_repo(root)
-    for skin, cols, rows, steps, name in [('nebula', 150, 46, panes(), 'panes'), ('ring', 110, 32, frames(), 'frames')]:
+    # 60 rows: the picker's 40 skins, their headings and its preview all show (and every hotkey with them)
+    for skin, cols, rows, steps, name in [(PANES_SKIN, 150, 60, panes(), 'panes'), (FRAMES_SKIN, 110, 60, frames(), 'frames')]:
         if ONLY and name not in ONLY:
             continue
         data = json.load(open(backup))  # each run starts from your settings, not the last run's

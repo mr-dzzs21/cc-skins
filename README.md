@@ -70,7 +70,7 @@ No account, no API key, no network: everything comes from Claude Code itself.
 
 <table>
 <tr>
-<td width="55%"><img src="docs/screens/picker.svg" alt="The skin picker: every skin with its color swatches, grouped Vivid, Dark and Light, and a live preview of the skin under the cursor" width="100%"></td>
+<td width="55%"><img src="docs/screens/picker.svg" alt="The skin picker: every skin with its color swatches, grouped Vivid, Dark, Light and Popular themes, and a live preview of the skin under the cursor" width="100%"></td>
 <td>
 
 ### Pick a skin
