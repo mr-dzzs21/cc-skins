@@ -143,6 +143,13 @@ const COMMAND_FAILED = `Something went wrong in cc-skins. /${COMMAND} doctor sho
 /** An environment variable's value as read, or null where it is unset or unreadable. */
 const envValue = (value: unknown): string | null => (typeof value === 'string' && value !== '' ? value : null)
 
+/** What Claude Desktop sets CLAUDE_CODE_ENTRYPOINT to in the sessions it starts. */
+const DESKTOP_ENTRYPOINT = 'claude-desktop'
+
+/** Whether this session runs in Claude Desktop, whose font has neither powerline arrows nor Nerd Font icons. */
+const isDesktopSession = async ($: EngineInterface): Promise<boolean> =>
+  (await $.env.get('CLAUDE_CODE_ENTRYPOINT').then(envValue, () => null)) === DESKTOP_ENTRYPOINT
+
 /** What `/skin doctor` reports, read fresh. */
 const readDoctorFacts = async ($: EngineInterface): Promise<DoctorFacts> => {
   const usage = await read($, usageAtom)
@@ -180,6 +187,7 @@ const readDoctorFacts = async ($: EngineInterface): Promise<DoctorFacts> => {
     isGitStatusOn: !hidden.includes('gitStatus'),
     gitError: await read($, gitErrorAtom),
     isStoreOk,
+    isDesktop: await isDesktopSession($),
   }
 }
 
@@ -888,11 +896,15 @@ let toolsThisTurn = 0
 let costAtTurnStart: number | null = null
 
 /**
- * The glyphs to start with before the person picks: Windows Terminal's own
- * font has the powerline arrows but no Nerd Font icons, so Windows starts
+ * The glyphs to start with before the person picks: Claude Desktop's font has
+ * neither the powerline arrows nor the icons, so Desktop starts plain; Windows
+ * Terminal's own font has the arrows but no Nerd Font icons, so Windows starts
  * with the arrows and words; elsewhere, with the icons.
  */
 const defaultGlyphs = async ($: EngineInterface): Promise<Glyphs> => {
+  if (await isDesktopSession($)) {
+    return 'plain'
+  }
   try {
     return (await $.env.get('OS')) === 'Windows_NT' ? 'powerline' : 'nerd'
   } catch {

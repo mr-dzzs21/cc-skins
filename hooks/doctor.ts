@@ -1,5 +1,5 @@
 /** This release of cc-skins; check_assets.py checks it is the manifest's version. */
-export const CC_SKINS_VERSION = '0.20.0'
+export const CC_SKINS_VERSION = '0.20.1'
 
 /** The oldest Claude Code cc-skins works on: the tests pass from here (CI runs them on it and on the newest). */
 export const MIN_CLAUDE_CODE = '2.1.295'
@@ -51,6 +51,8 @@ export type DoctorFacts = {
   isGitStatusOn: boolean
   gitError: string | null
   isStoreOk: boolean
+  /** Whether this runs in Claude Desktop, whose font has neither powerline arrows nor Nerd Font icons. */
+  isDesktop: boolean
 }
 
 /** What a reading of `facts` suggests doing, most pressing first. */
@@ -65,10 +67,14 @@ export const doctorHints = (facts: DoctorFacts): string[] => {
   if (facts.isHudHidden) {
     hints.push('The bar is hidden: /skin hud on shows it.')
   }
-  if (facts.glyphs === 'nerd' && facts.os === 'Windows') {
+  if (facts.isDesktop && facts.glyphs !== 'plain') {
+    hints.push("Claude Desktop's font has no powerline arrows or Nerd Font icons; boxes in the bar: /skin glyphs plain.")
+  }
+  if (!facts.isDesktop && facts.glyphs === 'nerd' && facts.os === 'Windows') {
     hints.push('Icons need a Nerd Font set in the terminal; boxes or question marks in the bar: /skin glyphs powerline.')
   }
-  if (facts.colorTerm === null) {
+  // Claude Desktop draws the bar's colors itself, whatever COLORTERM says
+  if (!facts.isDesktop && facts.colorTerm === null) {
     hints.push('The terminal does not say it draws 24-bit color (COLORTERM): colors may come out close but not exact.')
   }
   if (facts.isGitStatusOn && facts.gitError !== null) {
@@ -89,7 +95,9 @@ export const doctorReport = (facts: DoctorFacts): string => {
     facts.claudeCode === null
       ? `unknown (${MIN_CLAUDE_CODE} or newer needed)`
       : `${facts.claudeCode} ${isOlder(facts.claudeCode, MIN_CLAUDE_CODE) ? `✗ too old, ${MIN_CLAUDE_CODE} or newer needed` : '✓'}`
-  const system = [facts.os ?? 'macOS or Linux', facts.terminal, facts.colorTerm].filter(part => part !== null).join(' · ')
+  const system = [facts.os ?? 'macOS or Linux', facts.isDesktop ? 'Claude Desktop' : facts.terminal, facts.colorTerm]
+    .filter(part => part !== null)
+    .join(' · ')
   const look = [
     `${facts.skin} (${facts.isOwnSkin ? 'yours' : 'built in'})`,
     `icons ${facts.glyphs}`,
