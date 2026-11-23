@@ -14,7 +14,7 @@ Check that the plugin is on: `claude plugin list` should list `cc-skins@cc-skins
 
 ## Boxes or question marks where icons should be
 
-Your font has no Nerd Font icons: `/skin glyphs powerline` keeps the arrows and uses short words for the icons (fonts with Powerline symbols, such as Cascadia Code), `/skin glyphs plain` works with any font. Or install a Nerd Font (MesloLGS NF, or CaskaydiaCove Nerd Font on Windows), set it in your terminal and run `/skin glyphs nerd`.
+In Claude Desktop, `/skin glyphs plain`: its font has neither the arrows nor the icons, so the bar starts plain there until you pick. In a terminal, your font has no Nerd Font icons: `/skin glyphs powerline` keeps the arrows and uses short words for the icons (fonts with Powerline symbols, such as Cascadia Code), `/skin glyphs plain` works with any font. Or install a Nerd Font (MesloLGS NF, or CaskaydiaCove Nerd Font on Windows), set it in your terminal and run `/skin glyphs nerd`.
 
 ## The limits are behind, or show `~`
 

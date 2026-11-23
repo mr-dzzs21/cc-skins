@@ -1808,10 +1808,16 @@ describe('picker keys and clicks', () => {
 })
 
 describe('glyphs to start with', () => {
-  for (const [os, expected] of [['Windows_NT', 'powerline'], [undefined, 'nerd']] as const) {
-    test(`with nothing picked, ${os ?? 'macOS and Linux'} starts with ${expected} glyphs`, async ($, on) => {
+  const DESKTOP = 'claude-desktop'
+  for (const [where, env, expected] of [
+    ['Windows', { OS: 'Windows_NT' }, 'powerline'],
+    ['macOS and Linux', {}, 'nerd'],
+    ['Claude Desktop on Windows', { OS: 'Windows_NT', CLAUDE_CODE_ENTRYPOINT: DESKTOP }, 'plain'],
+    ['Claude Desktop on macOS', { CLAUDE_CODE_ENTRYPOINT: DESKTOP }, 'plain'],
+  ] as const) {
+    test(`with nothing picked, ${where} starts with ${expected} glyphs`, async ($, on) => {
       mock.store(on)
-      mock.env(on, os === undefined ? {} : { OS: os })
+      mock.env(on, env)
       const clock = mock.clock(on, { now: 0 })
       on('session.id', () => ({ value: 'new' }))
       on('command.register', ($, e) => ({ value: { command: e.name } }))
@@ -1821,15 +1827,15 @@ describe('glyphs to start with', () => {
       await $.session.end({ reason: 'resume', sessionId: 'old', resume: { id: 'old' } })
       await clock.advance(200)
       const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
-      expect((await band.find({ type: 'Text', text: /ctx/ })) !== undefined).toBe(expected === 'powerline')
-      expect((await band.find({ type: 'Text', text: /\ue0b0|\ue0b4/ })) !== undefined).toBe(true)
+      expect((await band.find({ type: 'Text', text: /ctx/ })) !== undefined).toBe(expected !== 'nerd')
+      expect((await band.find({ type: 'Text', text: /\ue0b0|\ue0b4/ })) !== undefined).toBe(expected !== 'plain')
       await band.unmount()
     })
   }
 
-  test('a pick outlasts the default', async ($, on) => {
-    mock.store(on, { glyphs: 'nerd' })
-    mock.env(on, { OS: 'Windows_NT' })
+  test('on Claude Desktop the bar draws no glyph its font lacks', async ($, on) => {
+    mock.store(on)
+    mock.env(on, { OS: 'Windows_NT', CLAUDE_CODE_ENTRYPOINT: DESKTOP })
     const clock = mock.clock(on, { now: 0 })
     on('session.id', () => ({ value: 'new' }))
     on('command.register', ($, e) => ({ value: { command: e.name } }))
@@ -1838,9 +1844,46 @@ describe('glyphs to start with', () => {
     on('session.usage', () => ({ value: { startedAt: 0, rateLimits: [], context: { window: 200_000, percent: 34, tokens: 68_000 } } }) as never)
     await $.session.end({ reason: 'resume', sessionId: 'old', resume: { id: 'old' } })
     await clock.advance(200)
-    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
-    expect(await band.find({ type: 'Text', text: /ctx/ })).toBeUndefined()
+    const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'desktop', component: 'AbovePrompt', props: bandProps(140) })
+    const drawn = JSON.stringify(await band.drawn())
     await band.unmount()
+    expect(/[\ue000-\uf8ff]/u.test(drawn)).toBe(false)
+  })
+
+  for (const [where, env] of [
+    ['Windows', { OS: 'Windows_NT' }],
+    ['Claude Desktop', { OS: 'Windows_NT', CLAUDE_CODE_ENTRYPOINT: DESKTOP }],
+  ] as const) {
+    test(`on ${where} a pick outlasts the default`, async ($, on) => {
+      mock.store(on, { glyphs: 'nerd' })
+      mock.env(on, env)
+      const clock = mock.clock(on, { now: 0 })
+      on('session.id', () => ({ value: 'new' }))
+      on('command.register', ($, e) => ({ value: { command: e.name } }))
+      on('session.end', ($, e) => ({ sessionId: e.sessionId }))
+      on('session.model', () => ({ value: 'claude-opus-5-5' }))
+      on('session.usage', () => ({ value: { startedAt: 0, rateLimits: [], context: { window: 200_000, percent: 34, tokens: 68_000 } } }) as never)
+      await $.session.end({ reason: 'resume', sessionId: 'old', resume: { id: 'old' } })
+      await clock.advance(200)
+      const band = await $.ui.mount({ plugin: 'cc-skins', surface: 'terminal', component: 'AbovePrompt', props: bandProps(140) })
+      expect(await band.find({ type: 'Text', text: /ctx/ })).toBeUndefined()
+      await band.unmount()
+    })
+  }
+
+  test('/skin doctor on Claude Desktop names it and points arrows to /skin glyphs plain', async ($, on) => {
+    mock.store(on, { glyphs: 'powerline' })
+    mock.env(on, { OS: 'Windows_NT', CLAUDE_CODE_ENTRYPOINT: DESKTOP })
+    on('ui.toast', () => ({ value: undefined }))
+    on('command.register', ($, e) => ({ value: { command: e.name } }))
+    on('session.id', () => ({ value: 's1' }))
+    on('session.version', () => ({ value: { version: '2.1.299', versionBase: '2.1.299', buildTime: '' } }) as never)
+    on('session.start', ($, e) => ({ cwd: e.cwd }))
+    await $.session.start({ cwd: '/repo', surface: 'desktop', isInteractive: true })
+    const report = (await runSkin($, 'doctor')).text ?? ''
+    expect(report).toContain('System       Windows · Claude Desktop')
+    expect(report).toContain('/skin glyphs plain')
+    expect(report).not.toContain('/skin glyphs powerline')
   })
 })
 
@@ -2472,6 +2515,7 @@ describe('doctor', () => {
     isGitStatusOn: false,
     gitError: null,
     isStoreOk: true,
+    isDesktop: false,
   }
 
   test('versions compare by their numbers', () => {
@@ -2519,6 +2563,19 @@ describe('doctor', () => {
     expect(hints.join('\n')).toContain('git: not found')
     expect(hints.join('\n')).toContain('/skin limits')
     expect(hints).toHaveLength(7)
+  })
+
+  test('on Claude Desktop, arrows or icons come with /skin glyphs plain, and no terminal advice', () => {
+    for (const glyphs of ['powerline', 'nerd']) {
+      const hints = doctorHints({ ...FACTS, os: 'Windows', terminal: null, colorTerm: null, isDesktop: true, glyphs }).join('\n')
+      expect(hints).toContain('/skin glyphs plain')
+      expect(hints).not.toContain('/skin glyphs powerline')
+      expect(hints).not.toContain('24-bit color')
+    }
+    expect(doctorHints({ ...FACTS, os: 'Windows', terminal: null, colorTerm: null, isDesktop: true, glyphs: 'plain' })).toHaveLength(0)
+    expect(doctorReport({ ...FACTS, os: 'Windows', terminal: null, colorTerm: null, isDesktop: true, glyphs: 'plain' })).toContain(
+      'System       Windows · Claude Desktop',
+    )
   })
 })
 

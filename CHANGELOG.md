@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.20.1
+
+- **No more boxes in Claude Desktop's bar.** Desktop's font has neither the powerline arrows nor the Nerd Font icons, so the bar drew a colored box at each edge there. In Claude Desktop the bar now starts plain until you pick; a pick you made stays.
+- `/skin doctor` names Claude Desktop, points boxes there to `/skin glyphs plain`, and gives Desktop no terminal font or COLORTERM advice.
+- Tests start the bar in Desktop on Windows and macOS and check it draws no glyph that font lacks.
+
 ## 0.20.0
 
 - **Fourteen popular themes as skins:** Catppuccin Mocha and Latte, Tokyo Night, Dracula, Nord, Gruvbox, Rosé Pine and Rosé Pine Dawn, One Dark, Solarized Dark and Light, Everforest, Kanagawa and Monokai. Each in its theme's own palette, with its own spinner and turn-line words, a `/theme` color theme and Ghostty and iTerm2 schemes. Forty skins in all.

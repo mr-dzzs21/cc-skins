@@ -1,6 +1,6 @@
 {
   "name": "cc-skins",
-  "version": "0.20.0",
+  "version": "0.20.1",
   "description": "Skins, a usage bar and quick controls for Claude Code: 40 looks (Catppuccin, Tokyo Night, Dracula, Nord and more) plus your own, model and effort, context and limits, cost, alerts and a usage dashboard.",
   "author": {
     "name": "mr-dzzs21",
