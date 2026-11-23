@@ -51,6 +51,7 @@ const runSkin = ($: Engine, args: string) =>
 
 const bandProps = (bodyColumns: number) => ({
   hasSurvey: false,
+  isCollapsed: false,
   isWorking: false,
   maxRows: 6,
   bodyColumns,
@@ -704,7 +705,7 @@ describe('preview', () => {
 
   test('moving the focus previews that skin in the picker and the bar; a pick ends it', async ($, on) => {
     mock.store(on)
-    on('ui.focus', () => ({}))
+    on('ui.focus', { plugin: 'cc-skins' }, () => ({}))
     on('ui.close', () => ({ value: undefined }))
     on('ui.toast', () => ({ value: undefined }))
 
@@ -735,7 +736,7 @@ describe('preview', () => {
 
   test('the focus on something else leaves the preview as it was', async ($, on) => {
     mock.store(on)
-    on('ui.focus', () => ({}))
+    on('ui.focus', { plugin: 'cc-skins' }, () => ({}))
 
     await runSkin($, 'show skinName')
     await focusRow($, 'ocean')
